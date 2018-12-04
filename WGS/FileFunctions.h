@@ -471,7 +471,12 @@ int Read_depth_IN(parameter *para, depth *inDepth){
         cerr << "open total samples File IN File error: " << (para->inFile2) << endl;
         return  0;
     }
-    
+    string outDepth =(para -> outFile)+".depth.passed.gz";
+    ogzstream OUT ((outDepth).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outDepth << endl;
+        return  0;
+    }
     // prepare the total sample list
     vector< string > sampleVetor;
     while(!allSample.eof())
@@ -526,23 +531,30 @@ int Read_depth_IN(parameter *para, depth *inDepth){
             dep.push_back(pos);
             sumDepth += pos;
         }
-        
+        double mind = para->minDepth ;
+        double maxd = para->maxDepth ;
+        if(sumDepth> mind & sumDepth < maxd){
+             OUT << "rs" << inf[0] << "_" << inf[1] << "\n";
+        }else{
+            continue;
+        }
 //        cout << sumDepth << endl;
         
-        dep.push_back(sumDepth);
-        map <string,map <int, vector <int> > >  :: iterator it = depthList.find(inf[0]);
-        int pos = atoi(inf[1].c_str());
-        if (it == depthList.end()){
-            map <int, vector <int> > DD;
-            DD[pos] = dep;
-            depthList.insert(map <string,map <int,vector <int> > > ::value_type(inf[0],DD));
-//            cout << dep[dep.size()-1] << endl;
-        }else{
-//            cout << dep[dep.size()-1] << endl;
-            (it -> second).insert(map <int, vector <int> >  :: value_type(pos,dep)) ;
-        }
+//        dep.push_back(sumDepth);
+//        map <string,map <int, vector <int> > >  :: iterator it = depthList.find(inf[0]);
+//        int pos = atoi(inf[1].c_str());
+//        if (it == depthList.end()){
+//            map <int, vector <int> > DD;
+//            DD[pos] = dep;
+//            depthList.insert(map <string,map <int,vector <int> > > ::value_type(inf[0],DD));
+////            cout << dep[dep.size()-1] << endl;
+//        }else{
+////            cout << dep[dep.size()-1] << endl;
+//            (it -> second).insert(map <int, vector <int> >  :: value_type(pos,dep)) ;
+//        }
     }
-    (inDepth->depthList) = depthList;
+    OUT.close();
+//    (inDepth->depthList) = depthList;
     return 1;
 }
 
