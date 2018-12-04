@@ -40,7 +40,7 @@ int main(int argc, char * argv[]) {
         }else if((para -> model) == "depth"){
             cout << "reading.." << endl;
             Read_depth_IN(para,inDepth);
-            outDepthFile(para,inDepth);
+//            outDepthFile(para,inDepth);
         }
     }
     
