@@ -38,8 +38,14 @@ int main(int argc, char * argv[]) {
         }else if((para -> model) == "vcf"){
             Read_VCF_IN(para, inVCF);
         }else if((para -> model) == "depth"){
-            cout << "reading.." << endl;
-            Read_depth_IN(para,inDepth);
+            
+            if((para->type)=="site"){
+                cout << "get Site.." << endl;
+                Read_depth_IN(para,inDepth);
+            }else if((para->type) == "toBed"){
+                toBed(para);
+            }
+            
 //            outDepthFile(para,inDepth);
         }
     }

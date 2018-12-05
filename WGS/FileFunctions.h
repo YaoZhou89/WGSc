@@ -590,4 +590,57 @@ inline int outDepthFile(parameter *para, depth *inDepth){
     OUT.close();
     return 1;
 }
+
+int toBed (parameter *para){
+    cout << "toBed..." << endl;
+    igzstream DepthIN ((para->inFile).c_str(),ifstream::in);
+    if (DepthIN.fail())
+    {
+        cerr << "open depth File IN File error: " << (para->inFile) << endl;
+        return  0;
+    }
+    string outDepth = (para -> outFile)+".bed";
+    ofstream OUT ;
+    OUT.open(outDepth.c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outDepth << endl;
+        return  0;
+    }
+    vector<string> inf ;
+    int begin = 0;
+    int end = 0;
+    bool start = true;
+    int pre = 0;
+    string chr;
+    while(!DepthIN.eof()){
+        string line;
+        getline(DepthIN,line);
+        if (line.length() <= 0  )  { continue  ; }
+        inf.clear();
+        split(line,inf,"_");
+        chr = inf[0].substr(2);
+        if(start) {
+            begin = atoi(inf[1].c_str()) - 1 ;
+            pre = begin;
+            start = false;
+        }
+        end = atoi(inf[1].c_str());
+        if((end - pre) > 20){
+            int len = (pre -begin );
+            if( len > 150){
+                OUT << chr << "\t" << begin << "\t" << pre << "\t" << len << "\n";
+            }
+            start = true;
+        }
+        pre = end;
+    }
+    if(!start){
+        int len = (end - begin);
+        if(len > 150){
+            OUT << chr << "\t" << begin << "\t" << end << "\t" << len << "\n";
+        }
+    }
+    OUT.close();
+    return 1;
+}
 #endif /* FileFunctions_h */

@@ -27,7 +27,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
         string flag = argv[i] ;
         flag=replace_all(flag,"--","");
 //        cout << flag << endl;
-        if (flag  == "InVCF" ||  flag  == "i")
+        if (flag  == "InVCF" ||  flag  == "i" || flag == "inFile")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
@@ -52,7 +52,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> subPop = argv[i];
         }
-        else if (flag  ==  "outFile" ||  flag  == "o" )
+        else if (flag  ==  "outFile" ||  flag  == "o" || flag == "out")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
