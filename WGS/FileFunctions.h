@@ -645,7 +645,12 @@ int toBed (parameter *para){
 }
 int changePos(parameter *para){
     cout << "Change file chromosome position..." << endl;
-    igzstream inFile ((para->inFile).c_str(),ifstream::in);
+    string input =(para->inFile);
+    string ext;
+    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
+    //
+    if (ext == "gz"){
+    igzstream inFile (input.c_str(),ifstream::in);
     if (inFile.fail())
     {
         cerr << "open File IN error: " << (para->inFile) << endl;
@@ -658,10 +663,8 @@ int changePos(parameter *para){
     }
     string outFile =(para -> outFile);
 //    ofstream OUT ((outFile).c_str());
-    string ext;
-    ext = outFile.substr(outFile.rfind('.') ==string::npos ? outFile.length() : outFile.rfind('.') + 1);
 //    cout << ext << endl;
-    if (ext == "gz"){
+   
         ogzstream OUT ((outFile).c_str());
         if((!OUT.good())){
             cerr << "open OUT File error: " << outFile << endl;
@@ -706,6 +709,18 @@ int changePos(parameter *para){
         inFile.close();
         OUT.close();
     }else{
+        ifstream inFile (input.c_str());
+        if (inFile.fail())
+        {
+            cerr << "open File IN error: " << (para->inFile) << endl;
+            return  0;
+        }
+        ifstream posFile(para->inFile2);
+        if((!posFile.good())){
+            cerr << "open pos File error: " << para->inFile2 << endl;
+            return  0;
+        }
+        string outFile =(para -> outFile);
         ofstream  OUT((outFile).c_str());
         if((!OUT.good())){
             cerr << "open OUT File error: " << outFile << endl;
@@ -721,11 +736,13 @@ int changePos(parameter *para){
         }
         posFile.close();
         string header = (para->headerC);
-        int lh = header.length() - 1;
+        int lh = header.length();
         bool isBed = para->isBed;
         while (!inFile.eof()){
             chr.clear();
             getline(inFile, line);
+//            cout << "testing ..." << endl;
+//            cout << line.substr(0,3) << endl;
             if((line.substr(0,lh) == header)) {
                 OUT << line << "\n";
             }else {
