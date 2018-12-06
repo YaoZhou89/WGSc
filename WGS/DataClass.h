@@ -31,6 +31,8 @@ public:
     double depthSD;
     int size;
     bool isBed;
+    string headerC;
+    set<int> pos; // used for change chromosome pos;
     parameter()
     {
         inFile = "";
@@ -48,6 +50,8 @@ public:
         type = "qualityFilter";
         logFile = outFile + ".log";
         isBed = false;
+        pos;
+        headerC = "#";
     }
 };
 

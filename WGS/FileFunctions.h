@@ -643,4 +643,64 @@ int toBed (parameter *para){
     OUT.close();
     return 1;
 }
+int changePos(parameter *para){
+    cout << "Change file chromosome position..." << endl;
+    igzstream inFile ((para->inFile).c_str(),ifstream::in);
+    if (inFile.fail())
+    {
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    ifstream posFile(para->inFile2);
+    if((!posFile.good())){
+        cerr << "open pos File error: " << para->inFile2 << endl;
+        return  0;
+    }
+    string outFile =(para -> outFile);
+    ogzstream OUT ((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    map<string, vector<string>> pos ;
+    string line;
+    vector <string> chr;
+    while (getline(posFile,line)){
+        chr.clear();
+        split(line,chr,"\t");
+        pos.insert(map <string, vector<string>> :: value_type(chr[0],chr));
+    }
+    posFile.close();
+    string header = (para->headerC);
+    int lh = header.length() - 1;
+    bool isBed = para->isBed;
+    while (!inFile.eof()){
+        chr.clear();
+        getline(inFile, line);
+        if((line.substr(0,lh) == header)) {
+            OUT << line << "\n";
+        }else {
+            chr.clear();
+            if(line.size()  < 1) {continue ;};
+            split(line,chr,"\t");
+            int lchr = chr.size();
+            vector<string> info = pos[chr[0]];
+            set<int> posChange = (para->pos);
+            OUT << info[3];
+            for (int iil = 1; iil < lchr; iil ++){
+                OUT << "\t";
+                if(posChange.count(iil) == 1){
+                    OUT << (atoi(chr[iil].c_str()) + atoi(info[4].c_str()));
+                }else{
+                    OUT << chr[iil];
+                }
+            }
+        }
+        OUT << "\n";
+    }
+    inFile.close();
+    OUT.close();
+    
+    return 1;
+}
 #endif /* FileFunctions_h */

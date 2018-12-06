@@ -123,6 +123,20 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             para -> size = atoi(argv[i]);
         }else if (flag == "isBed"){
             para ->isBed = true ;
+        }else if (flag == "header"){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> headerC = argv[i];
+        }else if (flag == "pos"){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            vector<string> p;
+            split(argv[i], p, " ");
+            set<int> po;
+            for (int j = 0; j < p.size(); j ++){
+                po.insert(atoi(p[j].c_str()));
+            }
+            (para->pos) = po;
         }
         
         else if (flag == "help"  ||  flag == "h")

@@ -45,8 +45,11 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "toBed"){
                 toBed(para);
             }
-            
 //            outDepthFile(para,inDepth);
+        }else if ((para->model) == "pos"){
+            if ((para->type) == "changePos"){
+                changePos(para);
+            }
         }
     }
     
