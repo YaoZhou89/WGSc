@@ -131,7 +131,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             vector<string> p;
-            split(argv[i], p, " ");
+            split(argv[i], p, ",");
             set<int> po;
             for (int j = 0; j < p.size(); j ++){
                 po.insert(atoi(p[j].c_str()));
