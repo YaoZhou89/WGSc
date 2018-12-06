@@ -27,7 +27,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
         string flag = argv[i] ;
         flag=replace_all(flag,"--","");
 //        cout << flag << endl;
-        if (flag  == "InVCF" ||  flag  == "i" || flag == "inFile")
+        if (flag  == "InVCF" ||  flag  == "i" || flag == "inFile" || flag == "file")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
@@ -117,11 +117,12 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> maxDepth = atof(argv[i]);
-        }else if (flag == "size")
-        {
+        }else if (flag == "size"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);
+        }else if (flag == "isBed"){
+            para ->isBed = true ;
         }
         
         else if (flag == "help"  ||  flag == "h")

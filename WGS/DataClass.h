@@ -30,7 +30,7 @@ public:
     double maxDepth;
     double depthSD;
     int size;
-  
+    bool isBed;
     parameter()
     {
         inFile = "";
@@ -47,6 +47,7 @@ public:
         model = "vcf";
         type = "qualityFilter";
         logFile = outFile + ".log";
+        isBed = false;
     }
 };
 
