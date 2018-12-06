@@ -12,6 +12,7 @@
 #include <vector>
 
 using namespace std;
+typedef long int  lint ;
 
 inline void  LogLackArg( string  flag )
 {

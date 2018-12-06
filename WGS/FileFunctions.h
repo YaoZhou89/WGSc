@@ -744,19 +744,19 @@ int changePos(parameter *para){
 //            cout << "testing ..." << endl;
 //            cout << line.substr(0,3) << endl;
             if((line.substr(0,lh) == header)) {
-                OUT << line << "\n";
+                OUT << line ;
             }else {
                 chr.clear();
                 if(line.size()  < 1) {continue ;};
                 split(line,chr,"\t");
-                int lchr = chr.size();
+                lint lchr = chr.size();
                 vector<string> info = pos[chr[0]];
                 set<int> posChange = (para->pos);
                 OUT << info[3];
                 for (int iil = 1; iil < lchr; iil ++){
                     OUT << "\t";
                     if(posChange.count(iil) == 1){
-                        OUT << (atoi(chr[iil].c_str()) + atoi(info[4].c_str()));
+                        OUT << (atoi(chr[iil].c_str()) + stoi(info[4].c_str()));
                     }else{
                         OUT << chr[iil];
                     }
