@@ -770,20 +770,25 @@ int changePos(parameter *para){
     }
     return 1;
 }
+
 int count(parameter *para){
     string input =(para->inFile);
-    string ext;
-    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
-    //
+//    string ext;
+//    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
+//    //
     igzstream inFile (input.c_str(),ifstream::in);
     if (inFile.fail()){
         cerr << "open File IN error: " << (para->inFile) << endl;
         return  0;
     }
     int line = 0;
+    string l;
     while (!inFile.eof()){
+        getline(inFile,l,'\n');
         line++;
+        if( line > 10000) break;
     }
+    inFile.close();
     cout << line << endl;
     return 1;
 }

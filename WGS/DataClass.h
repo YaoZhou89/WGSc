@@ -46,7 +46,7 @@ public:
         ReadPosRankSum = -8;
         BSQRankSum  = 0.0;
         SOR = 3.0;
-        model = "vcf";
+        model = "wc";
         type = "qualityFilter";
         logFile = outFile + ".log";
         isBed = false;
