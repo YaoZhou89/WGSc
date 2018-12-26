@@ -1,6 +1,6 @@
 # WGSc
 ## installation:
-    git clone 
+    git clone https://github.com/YaoZhou89/WGSc.git
     sh compile.sh
     
 ### count the line for a gz file
