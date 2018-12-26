@@ -53,8 +53,12 @@ int main(int argc, char * argv[]) {
             }
         }else if((para->model) == "wc"){
             count(para);
-        }else if((para->model) == "merge"){
-            
+        }else if((para->model) == "file"){
+            if ((para->type) == "merge"){
+                mergeDepth(para);
+            }else if((para -> type)=="random"){
+                randChoose(para);
+            }
         }
     }
     

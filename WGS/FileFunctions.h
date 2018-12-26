@@ -834,5 +834,32 @@ int mergeDepth(parameter *para){
     OUT.close();
     return 1;
 }
+int randChoose(parameter *para){
+    double r = 0.0001;
+    string input1 = (para->inFile);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    
+    string l;
+    while(!f1.eof()){
+        getline(f1,l);
+        if(rand()<r){
+            OUT << l;
+        }
+    }
+    f1.close();
+    OUT.close();
+    return 1;
+}
     
 #endif /* FileFunctions_h */
