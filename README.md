@@ -5,5 +5,5 @@
 #### for linux users, could run:
     sh compile.sh
 ## 2. Functions   
-### 2.1 count the line for a gz file
+### 2.1 count the line for a .gz file (gzip compressed)
     WGS --model wc --file depth.1.txt.gz
