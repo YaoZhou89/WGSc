@@ -652,18 +652,17 @@ int changePos(parameter *para){
     ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
     //
     if (ext == "gz"){
-    igzstream inFile (input.c_str(),ifstream::in);
-    if (inFile.fail())
-    {
-        cerr << "open File IN error: " << (para->inFile) << endl;
-        return  0;
-    }
-    ifstream posFile(para->inFile2.c_str());
-    if((!posFile.good())){
-        cerr << "open pos File error: " << para->inFile2 << endl;
-        return  0;
-    }
-    string outFile =(para -> outFile);
+        igzstream inFile (input.c_str(),ifstream::in);
+        if (inFile.fail()){
+            cerr << "open File IN error: " << (para->inFile) << endl;
+            return  0;
+        }
+        ifstream posFile(para->inFile2);
+        if((!posFile.good())){
+            cerr << "open pos File error: " << para->inFile2 << endl;
+            return  0;
+        }
+        string outFile =(para -> outFile);
 //    ofstream OUT ((outFile).c_str());
 //    cout << ext << endl;
    
@@ -769,9 +768,24 @@ int changePos(parameter *para){
         inFile.close();
         OUT.close();
     }
-
-    
-    
     return 1;
 }
+int count(parameter *para){
+    string input =(para->inFile);
+    string ext;
+    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
+    //
+    igzstream inFile (input.c_str(),ifstream::in);
+    if (inFile.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    int line = 0;
+    while (!inFile.eof()){
+        line++;
+    }
+    cout << line << endl;
+    return 1;
+}
+    
 #endif /* FileFunctions_h */

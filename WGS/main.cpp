@@ -38,7 +38,6 @@ int main(int argc, char * argv[]) {
         }else if((para -> model) == "vcf"){
             Read_VCF_IN(para, inVCF);
         }else if((para -> model) == "depth"){
-            
             if((para->type)=="site"){
                 cout << "get Site.." << endl;
                 Read_depth_IN(para,inDepth);
@@ -50,6 +49,8 @@ int main(int argc, char * argv[]) {
             if ((para->type) == "changePos"){
                 changePos(para);
             }
+        }else if((para->model) == "wc"){
+            count(para);
         }
     }
     
