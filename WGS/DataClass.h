@@ -30,6 +30,7 @@ public:
     double maxDepth;
     double depthSD;
     int size;
+    double r;
     bool isBed;
     string headerC;
     set<int> pos; // used for change chromosome pos;
@@ -52,6 +53,7 @@ public:
         isBed = false;
         pos;
         headerC = "#";
+        r = 0.0001;
     }
 };
 
