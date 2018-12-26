@@ -35,7 +35,7 @@ int Read_VCF_IN(parameter *para, vcf *inVCF)
         }else if ( line[0] == '#' && line[1] != '#' ){
             header.push_back(line);
             inf.clear();
-            split(line,inf," \t");
+            split(line,inf,"\t");
             if  ( inf[0]  != "#CHROM"){
                 continue  ;
             }
@@ -781,6 +781,8 @@ int count(parameter *para){
         cerr << "open File IN error: " << (para->inFile) << endl;
         return  0;
     }
+    
+    
     int line = 0;
     string l;
     while (!inFile.eof()){
@@ -790,6 +792,46 @@ int count(parameter *para){
     }
     inFile.close();
     cout << line << endl;
+    return 1;
+}
+int mergeDepth(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    igzstream f2 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    
+    string l1, l2;
+    vector < string >  ll2;
+    
+    while(!f1.eof()){
+        getline(f1,l1);
+        getline(f2,l2);
+        ll2.clear();
+        split(l2,ll2,"\t");
+        OUT << l1;
+        for(int i = 2; i < ll2.size(); i++){
+            OUT << ll2[i];
+        }
+        OUT << "\n";
+    }
+    f1.close();
+    f2.close();
+    OUT.close();
     return 1;
 }
     

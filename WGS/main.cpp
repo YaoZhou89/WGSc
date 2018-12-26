@@ -43,6 +43,8 @@ int main(int argc, char * argv[]) {
                 Read_depth_IN(para,inDepth);
             }else if((para->type) == "toBed"){
                 toBed(para);
+            }else if ((para->type) == "merge"){
+                mergeDepth(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){
@@ -51,6 +53,8 @@ int main(int argc, char * argv[]) {
             }
         }else if((para->model) == "wc"){
             count(para);
+        }else if((para->model) == "merge"){
+            
         }
     }
     
