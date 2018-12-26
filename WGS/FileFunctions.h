@@ -825,6 +825,7 @@ int mergeDepth(parameter *para){
         split(l2,ll2,"\t");
         OUT << l1;
         for(int i = 2; i < ll2.size(); i++){
+            OUT << "\t";
             OUT << ll2[i];
         }
         OUT << "\n";
@@ -855,6 +856,7 @@ int randChoose(parameter *para){
         getline(f1,l);
         if(rand()/ double(RAND_MAX) < r){
             OUT << l;
+            OUT << "\n";
         }
     }
     f1.close();
