@@ -658,7 +658,7 @@ int changePos(parameter *para){
         cerr << "open File IN error: " << (para->inFile) << endl;
         return  0;
     }
-    ifstream posFile(para->inFile2);
+    ifstream posFile(para->inFile2.c_str());
     if((!posFile.good())){
         cerr << "open pos File error: " << para->inFile2 << endl;
         return  0;
