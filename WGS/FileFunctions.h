@@ -853,7 +853,7 @@ int randChoose(parameter *para){
     string l;
     while(!f1.eof()){
         getline(f1,l);
-        if(rand()<r){
+        if(rand()/ double(RAND_MAX) < r){
             OUT << l;
         }
     }
