@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C54EC79221B617EF00B474F1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54EC79121B617EF00B474F1 /* main.cpp */; };
+		C54EC79A21B617FE00B474F1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C54EC79921B617FE00B474F1 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,15 @@
 /* Begin PBXFileReference section */
 		C54EC78E21B617EF00B474F1 /* WGS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WGS; sourceTree = BUILT_PRODUCTS_DIR; };
 		C54EC79121B617EF00B474F1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C54EC79921B617FE00B474F1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		C54EC79B21B6185E00B474F1 /* DataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataClass.h; sourceTree = "<group>"; };
+		C54EC79C21B61C6800B474F1 /* baseFunctions.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = baseFunctions.h; sourceTree = "<group>"; };
+		C54EC79D21B61D2D00B474F1 /* help.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = help.h; sourceTree = "<group>"; };
+		C54EC79F21B6239D00B474F1 /* initialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = initialization.h; sourceTree = "<group>"; };
+		C54EC7A021B6282000B474F1 /* checkers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checkers.h; sourceTree = "<group>"; };
+		C54EC7A421B62A6D00B474F1 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		C54EC7A521B62D6C00B474F1 /* HeaderIns.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeaderIns.h; sourceTree = "<group>"; };
+		C54EC7A621B63E9100B474F1 /* FileFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54EC79A21B617FE00B474F1 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +54,7 @@
 			children = (
 				C54EC79021B617EF00B474F1 /* WGS */,
 				C54EC78F21B617EF00B474F1 /* Products */,
+				C54EC79821B617FE00B474F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +69,25 @@
 		C54EC79021B617EF00B474F1 /* WGS */ = {
 			isa = PBXGroup;
 			children = (
+				C54EC7A421B62A6D00B474F1 /* include */,
 				C54EC79121B617EF00B474F1 /* main.cpp */,
+				C54EC79F21B6239D00B474F1 /* initialization.h */,
+				C54EC7A021B6282000B474F1 /* checkers.h */,
+				C54EC79D21B61D2D00B474F1 /* help.h */,
+				C54EC79B21B6185E00B474F1 /* DataClass.h */,
+				C54EC79C21B61C6800B474F1 /* baseFunctions.h */,
+				C54EC7A621B63E9100B474F1 /* FileFunctions.h */,
+				C54EC7A521B62D6C00B474F1 /* HeaderIns.h */,
 			);
 			path = WGS;
+			sourceTree = "<group>";
+		};
+		C54EC79821B617FE00B474F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C54EC79921B617FE00B474F1 /* libz.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -16,7 +16,7 @@
 int main(int argc, char * argv[]) {
     std::clock_t start;
     double duration;
-    
+   
     start = std::clock();
     
     /* Your algorithm here */

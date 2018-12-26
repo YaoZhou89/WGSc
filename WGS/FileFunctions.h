@@ -514,7 +514,7 @@ int Read_depth_IN(parameter *para, depth *inDepth){
     int subSize = sampleSite.size();
     
 //    cout << subSize << endl;
-    
+    int passedSNP = 0;
     while(!DepthIN.eof()){
         string line;
         getline(DepthIN,line);
@@ -534,7 +534,8 @@ int Read_depth_IN(parameter *para, depth *inDepth){
         double mind = para->minDepth ;
         double maxd = para->maxDepth ;
         if(sumDepth> mind & sumDepth < maxd){
-             OUT << "rs" << inf[0] << "_" << inf[1] << "\n";
+            passedSNP++;
+            OUT << "rs" << inf[0] << "_" << inf[1] << "\n";
         }else{
             continue;
         }
@@ -554,6 +555,7 @@ int Read_depth_IN(parameter *para, depth *inDepth){
 //        }
     }
     OUT.close();
+    cout << "Passed SNP is: " << passedSNP << endl;
 //    (inDepth->depthList) = depthList;
     return 1;
 }
