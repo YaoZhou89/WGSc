@@ -14,10 +14,10 @@
 #include "checkers.h"
 #include "FileFunctions.h"
 int main(int argc, char * argv[]) {
-    std::clock_t start;
+    clock_t start;
     double duration;
    
-    start = std::clock();
+    start = clock();
     
     /* Your algorithm here */
     
@@ -53,7 +53,7 @@ int main(int argc, char * argv[]) {
         }
     }
     
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-    std::cout<<"Finished in "<< duration <<" sec " << '\n';
+    duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
+    cout<<"Finished in "<< duration <<" sec " << '\n';
     return 0;
 }
