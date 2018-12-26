@@ -786,7 +786,7 @@ int count(parameter *para){
     while (!inFile.eof()){
         getline(inFile,l,'\n');
         line++;
-        if( line > 10000) break;
+//        if( line > 10000) break;
     }
     inFile.close();
     cout << line << endl;
