@@ -826,9 +826,9 @@ int mergeDepth(parameter *para){
         OUT << l1;
         
         for(int i = 2; i < ll2.size(); i++){
-        
             OUT << " \t";
             OUT << ll2[i];
+            cout << ll2[i] <<endl;
         }
         OUT << "\n";
     }
