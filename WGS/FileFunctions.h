@@ -821,14 +821,16 @@ int mergeDepth(parameter *para){
     while(!f1.eof()&&!f2.eof()){
         getline(f1,l1);
         getline(f2,l2);
-        ll2.clear();
-        split(l2,ll2,"\t");
+//        ll2.clear();
+//        split(l2,ll2,"\t");
         OUT << l1;
+        OUT << "\t";
+        OUT << l2;
 //        cout << ll2.size() <<endl;
-        for(int i = 2; i < ll2.size(); i++){
-            OUT << "\t";
-            OUT << ll2[i];
-        }
+//        for(int i = 2; i < ll2.size(); i++){
+//            OUT << "\t";
+//            OUT << ll2[i];
+//        }
         OUT << "\n";
     }
     cout << ll2.size()  << endl;
