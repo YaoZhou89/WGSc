@@ -824,11 +824,11 @@ int mergeDepth(parameter *para){
         ll2.clear();
         split(l2,ll2,"\t");
         OUT << l1;
-        
+        cout << ll2.size() <<endl;
         for(int i = 2; i < ll2.size(); i++){
             OUT << " \t";
             OUT << ll2[i];
-//            cout << ll2[i] <<endl;
+            
         }
         OUT << "\n";
     }
