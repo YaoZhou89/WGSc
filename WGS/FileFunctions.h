@@ -798,7 +798,7 @@ int mergeDepth(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
     igzstream f1 (input1.c_str(),ifstream::in);
-    igzstream f2 (input1.c_str(),ifstream::in);
+    igzstream f2 (input2.c_str(),ifstream::in);
     if(f1.fail()){
         cerr << "open File IN error: " << input1 << endl;
         return 0;
@@ -824,11 +824,10 @@ int mergeDepth(parameter *para){
         ll2.clear();
         split(l2,ll2,"\t");
         OUT << l1;
-        cout << ll2.size() <<endl;
+//        cout << ll2.size() <<endl;
         for(int i = 2; i < ll2.size(); i++){
-            OUT << " \t";
+            OUT << "\t";
             OUT << ll2[i];
-            
         }
         OUT << "\n";
     }
