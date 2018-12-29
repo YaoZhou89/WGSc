@@ -867,7 +867,7 @@ int filterDepth3(parameter *para){
 //    cout << input2 << endl;
 //    cout << input3 << endl;
     string outFile =(para -> outFile);
-    ogzstream  OUT((outFile).c_str());
+    ofstream  OUT((outFile).c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
         return  0;
@@ -946,7 +946,7 @@ int filterDepth2(parameter *para){
     }
     
     string outFile =(para -> outFile);
-    ogzstream  OUT((outFile).c_str());
+    ofstream  OUT((outFile).c_str());
     ofstream log((para->outFile+".log").c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
