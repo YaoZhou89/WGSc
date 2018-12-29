@@ -47,6 +47,12 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> inFile2 = argv[i];
         }
+        else if (flag  == "inFile3" || flag == "file3" || flag == "i3")
+        {
+            if(i + 1 == argc) {LogLackArg(flag); return 0;}
+            i++;
+            para -> inFile3 = argv[i];
+        }
         else if (flag  == "subPop"  ||  flag  == "s" )
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
@@ -118,7 +124,13 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> maxDepth = atof(argv[i]);
-        }else if (flag == "size"){
+        }else if (flag == "depthSD")
+        {
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> depthSD = atof(argv[i]);
+        }
+        else if (flag == "size"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);

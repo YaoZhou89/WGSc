@@ -847,7 +847,7 @@ int mergeDepth(parameter *para){
 int filterDepth3(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
-    string input3 = (para -> bedFile);
+    string input3 = (para -> inFile3);
     igzstream f1 (input1.c_str(),ifstream::in);
     igzstream f2 (input2.c_str(),ifstream::in);
     igzstream f3 (input3.c_str(),ifstream::in);
@@ -863,17 +863,24 @@ int filterDepth3(parameter *para){
         cerr << "open File IN error: " << input3 << endl;
         return 0;
     }
+//    cout << input1 << endl;
+//    cout << input2 << endl;
+//    cout << input3 << endl;
     string outFile =(para -> outFile);
     ogzstream  OUT((outFile).c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
         return  0;
     }
-    
+    ofstream log((para->outFile+".log").c_str());
+    if((!log.good())){
+        cerr << "open log File error" << endl;
+        return  0;
+    }
     string l1, l2,l3;
     vector < string >  ll1,ll2,ll3;
     vector <double> ll;
-    
+    int j = 0;
     while(!f1.eof()&&!f2.eof()&&!f3.eof()){
         getline(f1,l1);
         getline(f2,l2);
@@ -881,26 +888,46 @@ int filterDepth3(parameter *para){
         ll1.clear();
         ll2.clear();
         ll3.clear();
+        ll.clear();
         split(l1, ll1,"\t");
         split(l2, ll2,"\t");
         split(l3, ll3,"\t");
-        for_each(ll1.begin(), ll1.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
-        for_each(ll2.begin(), ll2.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
-        for_each(ll3.begin(), ll3.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
-        if(depthTest(ll,para->a,para->b)){
-            cout << l1;
-            cout << "\t";
-            cout << l2;
-            cout << "\t";
-            cout << l3;
+
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+        for(int i = 2, len = ll2.size(); i < len ; ++i){
+           ll.push_back(string2Double(ll2[i]));
+        }
+        for(int i = 2, len = ll3.size(); i < len ; ++i){
+           ll.push_back(string2Double(ll3[i]));
+        }
+        
+//        cout << ll.size() << endl;
+//        for(int a = 250; a < 272;a++){
+//            cout<< ll[a] << "\t";
+//        }
+//        cout << "\n" << endl;
+        bool pass =depthTest(ll,para->a,para->b,para->minDepth,para-> maxDepth,para->depthSD);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
             OUT << "\n";
         }
+//        if(lineNum % 100 ==0){
+//            cout << lineNum << endl;
+//        }
+        
     }
-    //    cout << ll2.size()  << endl;
+    cout << para->logFile << endl;
+    log << "passed sites is: " << j ;
     f1.close();
     f2.close();
     f3.close();
     OUT.close();
+    log.close();
     return 1;
 }
 
@@ -917,40 +944,54 @@ int filterDepth2(parameter *para){
         cerr << "open File IN error: " << input2 << endl;
         return 0;
     }
+    
     string outFile =(para -> outFile);
     ogzstream  OUT((outFile).c_str());
+    ofstream log((para->outFile+".log").c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    if((!log.good())){
+        cerr << "open log File error" << endl;
         return  0;
     }
     
     string l1, l2;
     vector < string >  ll1,ll2;
     vector <double> ll;
-    
+    int j = 0;
     while(!f1.eof()&&!f2.eof()){
         getline(f1,l1);
         getline(f2,l2);
         ll1.clear();
         ll2.clear();
+        ll.clear();
         split(l1, ll1,"\t");
         split(l2, ll2,"\t");
-        for_each(ll1.begin(), ll1.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
-        for_each(ll2.begin(), ll2.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
-        if(depthTest(ll,para->a,para->b)){
-            cout << l1;
-            cout << "\t";
-            cout << l2;
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+        for(int i = 2, len = ll2.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll2[i]));
+        }
+        bool pass =depthTest(ll,para->a,para->b,para->minDepth,para-> maxDepth,para->depthSD);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
             OUT << "\n";
         }
     }
-    //    cout << ll2.size()  << endl;
+    
+    log << "passed sites is: " << j  ;
     f1.close();
     f2.close();
     OUT.close();
+    log.close();
     return 1;
 }
-
 int randChoose(parameter *para){
     double r = 0.00001;
     string input1 = (para->inFile);

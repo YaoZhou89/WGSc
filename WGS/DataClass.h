@@ -16,6 +16,7 @@ public:
     string outFile;
     string bedFile;
     string inFile2;
+    string inFile3;
     string model;
     string type;
     string subPop;
@@ -40,6 +41,7 @@ public:
     {
         inFile = "";
         inFile2 = "";
+        inFile3 = "";
         outFile = "";
         subPop = "";
         bedFile = "";
@@ -51,7 +53,7 @@ public:
         SOR = 3.0;
         model = "wc";
         type = "qualityFilter";
-        logFile = outFile + ".log";
+        logFile = "";
         isBed = false;
         pos;
         headerC = "#";

@@ -53,21 +53,37 @@ inline void split(const string& str,vector<string>& tokens,  const string& delim
         pos = str.find_first_of(delimiters, lastPos);
     }
 }
-inline bool depthTest(vector<double>  dep, const double  a, const double  b){
+inline bool depthTest(vector<double>  dep, const double  a, const double  b,double minDepth,double maxDepth, double depthSD){
     bool pass = false;
     double sum = 0.0, mean, standardDeviation = 0.0;
     int len = dep.size();
-    for(int i = 0; i < len - 1; ++i){
+    for(int i = 0; i < len ; ++i){
         sum += dep[i];
     }
+    if(sum < minDepth || sum > maxDepth){
+        return false;
+    }
     mean = sum/len;
-    for(int i = 0; i < len-1; ++i){
+    for(int i = 0; i < len ; ++i){
         standardDeviation += pow(dep[i] - mean, 2);
     }
-    if((a + b*standardDeviation)>sum) pass = true;
+    standardDeviation = sqrt(standardDeviation/(len-1));
+    if(standardDeviation > depthSD){
+        return false;
+    }
+//    cout << "sum is: " << sum << endl;
+//    cout << "a is: " << a << endl;
+//    cout << "b is: " << b << endl;
+//    
+    if((a + b*sum)>standardDeviation) pass = true;
     return pass;
 }
 
-
+inline double string2Double(std::string const& s){
+        std::istringstream iss(s);
+        double value;
+        if (!(iss >> value)) throw std::runtime_error("invalid int");
+        return value;
+}
 
 #endif /* baseFunctions_h */
