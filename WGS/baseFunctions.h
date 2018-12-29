@@ -68,7 +68,7 @@ inline bool depthTest(vector<double>  dep, const double  a, const double  b,doub
         standardDeviation += pow(dep[i] - mean, 2);
     }
     standardDeviation = sqrt(standardDeviation/(len-1));
-    if(standardDeviation > depthSD){
+    if(standardDeviation > depthSD | standardDeviation < 1.1){
         return false;
     }
 //    cout << "sum is: " << sum << endl;
