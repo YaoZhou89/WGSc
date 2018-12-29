@@ -860,9 +860,10 @@ int randChoose(parameter *para){
     }
     
     string l;
+    double ra = 1 /double(RAND_MAX) ;
     while(!f1.eof()){
         getline(f1,l);
-        if(rand()/ double(RAND_MAX) < r){
+        if(rand() * ra < r){
             OUT << l;
             OUT << "\n";
         }
