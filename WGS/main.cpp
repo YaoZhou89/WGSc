@@ -55,6 +55,10 @@ int main(int argc, char * argv[]) {
                 mergeDepth(para);
             }else if((para -> type)=="random"){
                 randChoose(para);
+            }else if((para -> type)=="merge3"){
+                filterDepth3(para);
+            }else if((para -> type)=="merge2"){
+                filterDepth2(para);
             }
         }
     }
