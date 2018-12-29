@@ -844,7 +844,7 @@ int mergeDepth(parameter *para){
     return 1;
 }
 int randChoose(parameter *para){
-    double r = 0.0001;
+    double r = (para->r);
     string input1 = (para->inFile);
     igzstream f1 (input1.c_str(),ifstream::in);
     if(f1.fail()){
