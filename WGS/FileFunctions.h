@@ -853,7 +853,7 @@ int randChoose(parameter *para){
     }
     
     string outFile =(para -> outFile);
-    ogzstream  OUT((outFile).c_str());
+    ofstream  OUT((outFile).c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
         return  0;
