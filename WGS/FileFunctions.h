@@ -797,8 +797,10 @@ int count(parameter *para){
 int mergeDepth(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
+//    string input3 = (para -> bedFile);
     igzstream f1 (input1.c_str(),ifstream::in);
     igzstream f2 (input2.c_str(),ifstream::in);
+//    igzstream f3 (input3.c_str(),ifstream::in);
     if(f1.fail()){
         cerr << "open File IN error: " << input1 << endl;
         return 0;
@@ -807,9 +809,13 @@ int mergeDepth(parameter *para){
         cerr << "open File IN error: " << input2 << endl;
         return 0;
     }
+//    if(f2.fail()){
+//        cerr << "open File IN error: " << input2 << endl;
+//        return 0;
+//    }
     
     string outFile =(para -> outFile);
-    ofstream  OUT((outFile).c_str());
+    ogzstream  OUT((outFile).c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
         return  0;
@@ -821,19 +827,17 @@ int mergeDepth(parameter *para){
     while(!f1.eof()&&!f2.eof()){
         getline(f1,l1);
         getline(f2,l2);
-//        ll2.clear();
-//        split(l2,ll2,"\t");
         OUT << l1;
         OUT << "\t";
         OUT << l2;
 //        cout << ll2.size() <<endl;
-//        for(int i = 2; i < ll2.size(); i++){
-//            OUT << "\t";
-//            OUT << ll2[i];
-//        }
+        for(int i = 2; i < ll2.size(); i++){
+            OUT << "\t";
+            OUT << ll2[i];
+        }
         OUT << "\n";
     }
-    cout << ll2.size()  << endl;
+//    cout << ll2.size()  << endl;
     f1.close();
     f2.close();
     OUT.close();
@@ -849,7 +853,7 @@ int randChoose(parameter *para){
     }
     
     string outFile =(para -> outFile);
-    ofstream  OUT((outFile).c_str());
+    ogzstream  OUT((outFile).c_str());
     if((!OUT.good())){
         cerr << "open OUT File error: " << outFile << endl;
         return  0;

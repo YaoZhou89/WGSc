@@ -24,6 +24,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
 //            cerr << "command option error! please check." << endl;
 //            return 0;
 //        }
+        
         string flag = argv[i] ;
         flag=replace_all(flag,"--","");
 //        cout << flag << endl;

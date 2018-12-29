@@ -19,9 +19,6 @@ int main(int argc, char * argv[]) {
    
     start = clock();
     
-    /* Your algorithm here */
-    
-    
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
