@@ -843,6 +843,114 @@ int mergeDepth(parameter *para){
     OUT.close();
     return 1;
 }
+
+int filterDepth3(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    string input3 = (para -> bedFile);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    igzstream f3 (input3.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    if(f3.fail()){
+        cerr << "open File IN error: " << input3 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ogzstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    
+    string l1, l2,l3;
+    vector < string >  ll1,ll2,ll3;
+    vector <double> ll;
+    
+    while(!f1.eof()&&!f2.eof()&&!f3.eof()){
+        getline(f1,l1);
+        getline(f2,l2);
+        getline(f3,l3);
+        ll1.clear();
+        ll2.clear();
+        ll3.clear();
+        split(l1, ll1,"\t");
+        split(l2, ll2,"\t");
+        split(l3, ll3,"\t");
+        for_each(ll1.begin(), ll1.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
+        for_each(ll2.begin(), ll2.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
+        for_each(ll3.begin(), ll3.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
+        if(depthTest(ll,para->a,para->b)){
+            cout << l1;
+            cout << "\t";
+            cout << l2;
+            cout << "\t";
+            cout << l3;
+            OUT << "\n";
+        }
+    }
+    //    cout << ll2.size()  << endl;
+    f1.close();
+    f2.close();
+    f3.close();
+    OUT.close();
+    return 1;
+}
+
+int filterDepth2(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ogzstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    
+    string l1, l2;
+    vector < string >  ll1,ll2;
+    vector <double> ll;
+    
+    while(!f1.eof()&&!f2.eof()){
+        getline(f1,l1);
+        getline(f2,l2);
+        ll1.clear();
+        ll2.clear();
+        split(l1, ll1,"\t");
+        split(l2, ll2,"\t");
+        for_each(ll1.begin(), ll1.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
+        for_each(ll2.begin(), ll2.end(), [&ll](const string &ele) { ll.push_back(stod(ele)); });
+        if(depthTest(ll,para->a,para->b)){
+            cout << l1;
+            cout << "\t";
+            cout << l2;
+            OUT << "\n";
+        }
+    }
+    //    cout << ll2.size()  << endl;
+    f1.close();
+    f2.close();
+    OUT.close();
+    return 1;
+}
+
 int randChoose(parameter *para){
     double r = 0.00001;
     string input1 = (para->inFile);

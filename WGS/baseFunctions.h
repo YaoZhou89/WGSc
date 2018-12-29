@@ -53,7 +53,20 @@ inline void split(const string& str,vector<string>& tokens,  const string& delim
         pos = str.find_first_of(delimiters, lastPos);
     }
 }
-
+inline bool depthTest(vector<double>  dep, const double  a, const double  b){
+    bool pass = false;
+    double sum = 0.0, mean, standardDeviation = 0.0;
+    int len = dep.size();
+    for(int i = 0; i < len - 1; ++i){
+        sum += dep[i];
+    }
+    mean = sum/len;
+    for(int i = 0; i < len-1; ++i){
+        standardDeviation += pow(dep[i] - mean, 2);
+    }
+    if((a + b*standardDeviation)>sum) pass = true;
+    return pass;
+}
 
 
 

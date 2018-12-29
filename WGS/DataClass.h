@@ -29,6 +29,8 @@ public:
     double minDepth;
     double maxDepth;
     double depthSD;
+    double a;
+    double b; // y = a + bx
     int size;
     double r;
     bool isBed;
@@ -54,6 +56,8 @@ public:
         pos;
         headerC = "#";
         r = 0.0001;
+        a = 0.0;
+        b = 0.0;
     }
 };
 

@@ -122,6 +122,14 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);
+        }else if (flag == "a"){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> a = atof(argv[i]);
+        }else if (flag == "b"){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> b = atof(argv[i]);
         }else if (flag == "r"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
