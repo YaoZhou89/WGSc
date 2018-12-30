@@ -1021,5 +1021,51 @@ int randChoose(parameter *para){
     OUT.close();
     return 1;
 }
-    
+
+int intersectFile(parameter *para){
+    /* Object: intersect file, if the position in File2 are also contained in File1
+     output the content in file2
+     */
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    igzstream f2 (input2.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ogzstream  OUT((outFile).c_str());
+    set < string > pos;
+    string l1;
+    vector<string> ll1;
+    while(!f1.eof()){
+        getline(f1, l1);
+        ll1.clear();
+        split(l1,ll1,"\t");
+        pos.insert(ll1[1]);
+    }
+    f1.close();
+    while(!f2.eof()){
+        getline(f2, l1);
+        if(l1[0] == '#'){
+            OUT << l1;
+            OUT << "\n";
+        }else{
+            ll1.clear();
+            split(l1, ll1,"\t");
+            if(pos.count(ll1[0])==1){
+                OUT << l1;
+                OUT << "\n";
+            }
+        }
+    }
+    f2.close();
+    OUT.close();
+    return 1;
+}
 #endif /* FileFunctions_h */

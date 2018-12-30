@@ -59,6 +59,8 @@ int main(int argc, char * argv[]) {
                 filterDepth3(para);
             }else if((para -> type)=="merge2"){
                 filterDepth2(para);
+            }else if((para->type) == "intersect"){
+                intersectFile(para);
             }
         }
     }
