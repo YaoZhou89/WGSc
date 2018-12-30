@@ -39,7 +39,7 @@ int main(int argc, char * argv[]) {
                 cout << "get Site.." << endl;
                 Read_depth_IN(para,inDepth);
             }else if((para->type) == "toBed"){
-                toBed(para);
+                toBedold(para);
             }else if ((para->type) == "merge"){
                 mergeDepth(para);
             }
@@ -61,6 +61,8 @@ int main(int argc, char * argv[]) {
                 filterDepth2(para);
             }else if((para->type) == "intersect"){
                 intersectFile(para);
+            }else if ((para->type) == "getPos"){
+                getPos(para);
             }
         }
     }

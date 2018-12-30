@@ -35,6 +35,7 @@ public:
     int size;
     double r;
     bool isBed;
+    bool recode;
     string headerC;
     set<int> pos; // used for change chromosome pos;
     parameter()
@@ -56,7 +57,9 @@ public:
         logFile = "";
         isBed = false;
         pos;
+        size = 1000000;
         headerC = "#";
+        recode = false;
         r = 0.0001;
         a = 0.0;
         b = 0.0;

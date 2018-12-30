@@ -593,7 +593,7 @@ inline int outDepthFile(parameter *para, depth *inDepth){
     return 1;
 }
 
-int toBed (parameter *para){
+int toBedold (parameter *para){
     cout << "toBed..." << endl;
     igzstream DepthIN ((para->inFile).c_str(),ifstream::in);
     if (DepthIN.fail())
@@ -643,6 +643,29 @@ int toBed (parameter *para){
         }
     }
     OUT.close();
+    return 1;
+}
+int Depth2Bed(parameter *para){
+    int binSize = para->size;
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    string line;
+    vector < string > ll;
+    int start = 0;
+    int count = 0;
+    int BinRound = 1;
+    while(!inF.eof()){
+        getline(inF, line);
+        ll.clear();
+        split(line,ll,"\t");
+        
+        while(string2Double(ll[1]) < BinRound*binSize){
+            
+        }
+    }
     return 1;
 }
 int changePos(parameter *para){
@@ -1064,8 +1087,10 @@ int intersectFile(parameter *para){
             split(l1, ll1,"\t");
             if(pos.count(ll1[1])==1){
                 ++lineNum;
-                OUT << l1;
-                OUT << "\n";
+                if(para->recode){
+                    OUT << l1;
+                    OUT << "\n";
+                }
             }
         }
     }
@@ -1073,6 +1098,42 @@ int intersectFile(parameter *para){
     log.close();
     f2.close();
     OUT.close();
+    return 1;
+}
+int getPos(parameter *para){
+    string input1 = (para->inFile);
+    string output2 = (para->inFile2);
+    string output = (para->outFile);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    ofstream outf (output.c_str());
+    if(outf.fail()){
+        cerr << "open File IN error: " << output << endl;
+        return 0;
+    }
+    ofstream outf2 (output2.c_str());
+    if(outf.fail()){
+        cerr << "open File IN error: " << output2 << endl;
+        return 0;
+    }
+    string line;
+    vector <string> ll;
+    outf << "Chr\t" << "Pos\t" << "Ref\t" << "Alt\n";
+    while(!f1.eof()){
+        getline(f1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        outf << ll[0] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+        outf2 << ll[0] << "\t" << ll[1] << "\n";
+    }
+    f1.close();
+    outf.close();
+    outf2.close();
     return 1;
 }
 #endif /* FileFunctions_h */
