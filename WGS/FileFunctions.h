@@ -1058,7 +1058,7 @@ int intersectFile(parameter *para){
         }else{
             ll1.clear();
             split(l1, ll1,"\t");
-            if(pos.count(ll1[0])==1){
+            if(pos.count(ll1[1])==1){
                 OUT << l1;
                 OUT << "\n";
             }
