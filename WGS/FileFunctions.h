@@ -1040,6 +1040,9 @@ int intersectFile(parameter *para){
     }
     string outFile =(para -> outFile);
     ogzstream  OUT((outFile).c_str());
+    
+    string logFile =(para -> outFile) + ".log";
+    ofstream log ((logFile).c_str());
     set < string > pos;
     string l1;
     vector<string> ll1;
@@ -1050,6 +1053,7 @@ int intersectFile(parameter *para){
         pos.insert(ll1[1]);
     }
     f1.close();
+    int lineNum = 0;
     while(!f2.eof()){
         getline(f2, l1);
         if(l1[0] == '#'){
@@ -1059,11 +1063,14 @@ int intersectFile(parameter *para){
             ll1.clear();
             split(l1, ll1,"\t");
             if(pos.count(ll1[1])==1){
+                ++lineNum;
                 OUT << l1;
                 OUT << "\n";
             }
         }
     }
+    log << "SNP number is: " << lineNum << "\N";
+    log.close();
     f2.close();
     OUT.close();
     return 1;
