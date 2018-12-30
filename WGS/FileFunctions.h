@@ -1069,7 +1069,7 @@ int intersectFile(parameter *para){
             }
         }
     }
-    log << "SNP number is: " << lineNum << "\N";
+    log << "SNP number is: " << lineNum << "\n";
     log.close();
     f2.close();
     OUT.close();
