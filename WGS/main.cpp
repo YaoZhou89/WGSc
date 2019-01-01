@@ -38,7 +38,6 @@ int main(int argc, char * argv[]) {
             }else if((para->type)=="toFasta"){
                 
             }else if((para->type) == "calibrate"){
-                cout << "calling.." << endl;
                 calibarate(para);
             }
             
