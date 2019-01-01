@@ -60,7 +60,7 @@ public:
         size = 1000000;
         headerC = "#";
         recode = false;
-        r = 0.0001;
+        r = 0.01;
         a = 0.0;
         b = 0.0;
     }
