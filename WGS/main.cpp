@@ -33,7 +33,14 @@ int main(int argc, char * argv[]) {
         if ((para -> model).empty()){
             cerr << "model should be specified! Please check" << endl; ;
         }else if((para -> model) == "vcf"){
-            Read_VCF_IN(para, inVCF);
+            if((para->type)==""){
+                Read_VCF_IN(para, inVCF);
+            }else if((para->type)=="toFasta"){
+                
+            }else if((para->type) == "calibrate"){
+                calibarate(para);
+            }
+            
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
                 cout << "get Site.." << endl;

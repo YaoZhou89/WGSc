@@ -1136,4 +1136,38 @@ int getPos(parameter *para){
     outf2.close();
     return 1;
 }
+int calibarate(parameter *para){
+    string input1 = (para->inFile);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    vector <string> taxa ;
+    vector <string> ll;
+    string line;
+    string outfile = (para->outFile);
+    ogzstream OUT (outfile.c_str());
+    if(OUT.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    while(!f1.eof()){
+        getline(f1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') {
+            OUT << line ;
+            OUT << "\n";
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[ll.size()-1][0] == '.'){
+            continue;
+        }
+        OUT << line ;
+        OUT << "\n";
+    }
+    
+    return 1;
+}
 #endif /* FileFunctions_h */
