@@ -1152,22 +1152,25 @@ int calibarate(parameter *para){
         cerr << "Open File out error" << outfile << endl;
         return 0;
     }
+    int passed = 0;
     while(!f1.eof()){
         getline(f1,line);
         if(line.length()<1) continue;
         if(line[0]=='#') {
             OUT << line ;
             OUT << "\n";
+            continue;
         };
         ll.clear();
         split(line,ll,"\t");
         if(ll[ll.size()-1][0] == '.'){
             continue;
         }
+        ++passed;
         OUT << line ;
         OUT << "\n";
     }
-    
+    cout << "passed number is: " << passed << endl;
     return 1;
 }
 #endif /* FileFunctions_h */
