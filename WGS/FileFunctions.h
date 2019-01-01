@@ -1033,6 +1033,7 @@ int randChoose(parameter *para){
     
     string l;
     double ra = 1 /double(RAND_MAX) ;
+    int chosed = 0;
     while(!f1.eof()){
         getline(f1,l);
         if(l.length()<1) continue;
@@ -1044,10 +1045,12 @@ int randChoose(parameter *para){
         if(rand() * ra < r){
             OUT << l;
             OUT << "\n";
+            ++chosed;
         }
     }
     f1.close();
     OUT.close();
+    cout << "chosen number is: " << chosed << endl;
     return 1;
 }
 
@@ -1177,6 +1180,8 @@ int calibarate(parameter *para){
         OUT << "\n";
     }
     cout << "passed number is: " << passed << endl;
+    OUT.close();
+    f1.close();
     return 1;
 }
 #endif /* FileFunctions_h */
