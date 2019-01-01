@@ -1016,7 +1016,7 @@ int filterDepth2(parameter *para){
     return 1;
 }
 int randChoose(parameter *para){
-    double r = 0.00001;
+    double r = (para->r);
     string input1 = (para->inFile);
     igzstream f1 (input1.c_str(),ifstream::in);
     if(f1.fail()){
@@ -1035,6 +1035,12 @@ int randChoose(parameter *para){
     double ra = 1 /double(RAND_MAX) ;
     while(!f1.eof()){
         getline(f1,l);
+        if(l.length()<1) continue;
+        if(l[0]=='#') {
+            OUT << l ;
+            OUT << "\n";
+            continue;
+        };
         if(rand() * ra < r){
             OUT << l;
             OUT << "\n";
