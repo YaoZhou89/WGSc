@@ -680,6 +680,8 @@ int Depth2Bed(parameter *para){
         ++count;
         
     }
+    inF.close();
+    ouf.close();
     return 1;
 }
 
