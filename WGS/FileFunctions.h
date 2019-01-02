@@ -709,14 +709,15 @@ int pi2bed(parameter *para){
     string line;
     vector < string > ll;
     lint startPos = 1;
-    lint count = 0;
     int BinRound = 1;
     lint endPos = 1;
     map<string,int> binNum;
     while(!inbed.eof()){
         getline(inbed,line);
-        if(line.length() < 1) continue;
+        if(line.length() < 3) continue;
+        
         ll.clear();
+        split(line,ll,"\t");
         binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
     }
    
