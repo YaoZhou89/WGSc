@@ -670,7 +670,7 @@ int Depth2Bed(parameter *para){
         split(line,ll,"\t");
         startPos = string2Int(ll[1]);
         
-        while(string2Int(ll[1]) > BinRound*binSize - 1){
+        while(string2Int(ll[1]) > BinRound*binSize){
             endPos = BinRound*binSize;
             startPos = (BinRound-1)*binSize +1;
             ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
@@ -678,7 +678,11 @@ int Depth2Bed(parameter *para){
             count = 0;
         }
         ++count;
-        
+    }
+    if(count > 0){
+        endPos = string2Int(ll[1])+1;
+        startPos = (BinRound-1)*binSize +1;
+        ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
     }
     inF.close();
     ouf.close();
