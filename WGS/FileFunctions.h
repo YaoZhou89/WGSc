@@ -721,7 +721,7 @@ int pi2bed(parameter *para){
         binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
     }
     cout << ll[0]+"_"+ll[1] << endl;
-    cout << binNum.size() << endl;
+    cout << binNum["9_453000001"] << endl;
     map<string,int>::iterator it;
     double pi = 0.0;
     while(!inF.eof()){
