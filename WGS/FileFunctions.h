@@ -737,6 +737,7 @@ int pi2bed(parameter *para){
             it = binNum.find(ll[0]+"_"+to_string(startPos));
             if(it != binNum.end()){
                 int n = binNum[ll[0]+"_"+to_string(startPos)];
+                cout << pi << endl;
                 if(n==0) continue;
                 cout << pi << endl;
                 ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
