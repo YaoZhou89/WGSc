@@ -735,6 +735,7 @@ int pi2bed(parameter *para){
             startPos = (BinRound-1)*binSize +1;
             cout << ll[0]+"_"+to_string(startPos) << endl;
             it = binNum.find(ll[0]+"_"+to_string(startPos));
+            ++BinRound;
             if(it != binNum.end()){
                 int n = binNum[ll[0]+"_"+to_string(startPos)];
                 cout << pi << endl;
@@ -743,7 +744,6 @@ int pi2bed(parameter *para){
                 ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
                 pi = 0;
             }
-             ++BinRound;
         }
         pi += string2Double(ll[2]);
     }
