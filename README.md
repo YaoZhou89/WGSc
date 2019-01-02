@@ -14,8 +14,10 @@
     WGS --model vcf --type calibrate --file chr1.vcf.gz --out chr1.cal.vcf.gz
 ### 2.4 change the position from numeric to chr1
     WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
-### 
-### 
+### 2.5 Change the bam site depth to bed file;
+    WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
+### 2.6 estimate diversity 
+    WGS --model diversity --type window-pi --file chr1.vcf.gz --windowSize 1000000 --out chr1.window.pi
 ### 
 ### 
 ### 
