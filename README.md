@@ -16,7 +16,8 @@
     WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
 ### 2.5 Change the bam site depth to bed file;
     WGS --model depth --type toBed --file chr1.txt --out chr1.bed
-### 
+### 2.6 estimate diversity 
+    WGS --model vcf --type pi --file chr1.site.pi --file2 chr1.bed --out chr1.window.pi
 ### 
 ### 
 ### 
