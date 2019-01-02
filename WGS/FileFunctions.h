@@ -744,7 +744,7 @@ int pi2bed(parameter *para){
                 pi = 0;
             }
         }
-        cout << ll[2] << endl;
+        if(ll[2]=="-nan") ll[2] = '0';
         pi += string2Double(ll[2]);
     }
     if(pi > 0){
