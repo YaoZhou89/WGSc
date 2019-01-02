@@ -672,8 +672,7 @@ int Depth2Bed(parameter *para){
         
         while(string2Int(ll[1]) > BinRound*binSize - 1){
             endPos = BinRound*binSize;
-            startPos = (BinRound-1)*binSize;
-            if(startPos==0) startPos = 1;
+            startPos = (BinRound-1)*binSize +1;
             ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
             ++BinRound;
             count = 0;
