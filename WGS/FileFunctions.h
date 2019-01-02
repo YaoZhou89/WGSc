@@ -725,9 +725,10 @@ int pi2bed(parameter *para){
     while(!inF.eof()){
         getline(inF, line);
         if(line.length()<1) continue;
+        if(line[0]=='C') continue;
         ll.clear();
         split(line,ll,"\t");
-        cout << ll[1] << endl;
+//        cout << ll[1] << endl;
         startPos = string2Int(ll[1]);
        
         while(string2Int(ll[1]) > BinRound*binSize){
