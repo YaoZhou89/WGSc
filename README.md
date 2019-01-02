@@ -17,7 +17,7 @@
 ### 2.5 Change the bam site depth to bed file;
     WGS --model depth --type toBed --file chr1.txt --out chr1.bed
 ### 2.6 estimate diversity 
-    WGS --model diversity --type window-pi --file chr1.site.pi --windowSize 1000000 --out chr1.window.pi
+    WGS --model diversity --type window-pi --file chr1.vcf.gz --windowSize 1000000 --out chr1.window.pi
 ### 
 ### 
 ### 
