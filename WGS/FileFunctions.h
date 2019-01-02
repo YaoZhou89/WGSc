@@ -747,10 +747,14 @@ int pi2bed(parameter *para){
         }
         pi += string2Double(ll[2]);
     }
-    if(count > 0){
+    if(pi > 0){
         endPos = string2Int(ll[1])+1;
         startPos = (BinRound-1)*binSize +1;
-        ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
+        int n = binNum[ll[0]+"_"+to_string(startPos)];
+        if(n!=0) {
+             ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+        }
+       
     }
     inF.close();
     ouf.close();
