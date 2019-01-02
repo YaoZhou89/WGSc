@@ -96,7 +96,6 @@ inline string Int2String(int const& s){
     std::string out_string;
     std::stringstream ss;
     if (!(ss << s)) throw std::runtime_error("invalid int");
-    
     out_string = ss.str();
     return out_string;
 }
