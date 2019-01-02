@@ -86,9 +86,9 @@ inline double string2Double(std::string const& s){
         return value;
 }
 
-inline double string2Int(std::string const& s){
+inline lint string2Int(std::string const& s){
     std::istringstream iss(s);
-    int value;
+    lint value;
     if (!(iss >> value)) throw std::runtime_error("invalid int");
     return value;
 }

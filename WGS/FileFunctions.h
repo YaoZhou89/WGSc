@@ -660,10 +660,10 @@ int Depth2Bed(parameter *para){
     }
     string line;
     vector < string > ll;
-    int startPos = 1;
+    lint startPos = 1;
     int count = 0;
     int BinRound = 1;
-    int endPos = 1;
+    lint endPos = 1;
     while(!inF.eof()){
         getline(inF, line);
         ll.clear();
