@@ -130,7 +130,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> depthSD = atof(argv[i]);
         }
-        else if (flag == "size"){
+        else if (flag == "size"||  flag  == "binSize" || flag == "windowSize"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);

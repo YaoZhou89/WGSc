@@ -689,7 +689,72 @@ int Depth2Bed(parameter *para){
     ouf.close();
     return 1;
 }
+int pi2bed(parameter *para){
+    int binSize = para->size;
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    igzstream inbed ((para->inFile2).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    if(inbed.fail()){
+        cerr << "Open file error: " << (para->inFile2) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string line;
+    vector < string > ll;
+    lint startPos = 1;
+    lint count = 0;
+    int BinRound = 1;
+    lint endPos = 1;
+    map<string,int> binNum;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
+    }
+    map<string,int>::iterator it;
+    double pi = 0.0;
+    while(!inF.eof()){
+        getline(inF, line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        startPos = string2Int(ll[1]);
+        
+        while(string2Int(ll[1]) > BinRound*binSize){
+            endPos = BinRound*binSize;
+            startPos = (BinRound-1)*binSize +1;
+            it = binNum.find(ll[0]+"_"+to_string(startPos));
+            if(it != binNum.end()){
+                int n = binNum[ll[0]+"_"+to_string(startPos)];
+                if(n==0) continue;
+                ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+                ++BinRound;
+                pi = 0;
+            }
+        }
+        pi += string2Double(ll[2]);
+    }
+    if(count > 0){
+        endPos = string2Int(ll[1])+1;
+        startPos = (BinRound-1)*binSize +1;
+        ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
+    }
+    inF.close();
+    ouf.close();
+    return 1;
+}
 
+int pi(parameter *para){
+    return 1;
+}
 int changePos(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
