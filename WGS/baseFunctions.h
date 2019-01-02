@@ -92,5 +92,11 @@ inline lint string2Int(std::string const& s){
     if (!(iss >> value)) throw std::runtime_error("invalid int");
     return value;
 }
-
+inline string Int2String(int const& s){
+    std::string out_string;
+    std::stringstream ss;
+    ss << s;
+    out_string = ss.str();
+    return out_string;
+}
 #endif /* baseFunctions_h */
