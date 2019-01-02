@@ -666,6 +666,7 @@ int Depth2Bed(parameter *para){
     lint endPos = 1;
     while(!inF.eof()){
         getline(inF, line);
+        if(line.length()<1) continue;
         ll.clear();
         split(line,ll,"\t");
         startPos = string2Int(ll[1]);
