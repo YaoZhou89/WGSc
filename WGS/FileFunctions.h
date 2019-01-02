@@ -719,7 +719,7 @@ int pi2bed(parameter *para){
         ll.clear();
         binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
     }
-    
+    cout << Int2String(startPos) << endl;
     map<string,int>::iterator it;
     double pi = 0.0;
     while(!inF.eof()){
@@ -732,7 +732,7 @@ int pi2bed(parameter *para){
         while(string2Int(ll[1]) > BinRound*binSize){
             endPos = BinRound*binSize;
             startPos = (BinRound-1)*binSize +1;
-            cout << Int2String(startPos) << endl;
+            
             it = binNum.find(ll[0]+"_"+to_string(startPos));
             if(it != binNum.end()){
                 int n = binNum[ll[0]+"_"+to_string(startPos)];
