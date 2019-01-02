@@ -739,11 +739,12 @@ int pi2bed(parameter *para){
             if(it != binNum.end()){
                 int n = binNum[ll[0]+"_"+to_string(startPos)];
                 if(n == 0) continue;
-                cout << binNum[ll[0]+"_"+to_string(startPos)] << endl;
+                
                 ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
                 pi = 0;
             }
         }
+        cout << ll[2] << endl;
         pi += string2Double(ll[2]);
     }
     if(pi > 0){
