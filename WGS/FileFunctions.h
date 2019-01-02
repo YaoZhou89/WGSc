@@ -645,6 +645,7 @@ int toBedold (parameter *para){
     OUT.close();
     return 1;
 }
+
 int Depth2Bed(parameter *para){
     int binSize = para->size;
     igzstream inF ((para->inFile).c_str(),ifstream::in);
@@ -652,22 +653,37 @@ int Depth2Bed(parameter *para){
         cerr << "Open file error: " << (para->inFile) << endl;
         return 0;
     }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
     string line;
     vector < string > ll;
-    int start = 0;
+    int startPos = 1;
     int count = 0;
     int BinRound = 1;
+    int endPos = 1;
     while(!inF.eof()){
         getline(inF, line);
         ll.clear();
         split(line,ll,"\t");
+        startPos = string2Int(ll[1]);
         
-        while(string2Double(ll[1]) < BinRound*binSize){
-            
+        while(string2Int(ll[1]) > BinRound*binSize - 1){
+            endPos = BinRound*binSize;
+            startPos = (BinRound-1)*binSize;
+            if(startPos==0) startPos = 1;
+            ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << count << "\n" ;
+            ++BinRound;
+            count = 0;
         }
+        ++count;
+        
     }
     return 1;
 }
+
 int changePos(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
@@ -1182,6 +1198,12 @@ int calibarate(parameter *para){
     cout << "passed number is: " << passed << endl;
     OUT.close();
     f1.close();
+    return 1;
+}
+int toFasta(parameter *para){
+    string inFile1 = (para->inFile);
+    string outFile = (para->outFile);
+    
     return 1;
 }
 #endif /* FileFunctions_h */

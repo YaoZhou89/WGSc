@@ -46,7 +46,7 @@ int main(int argc, char * argv[]) {
                 cout << "get Site.." << endl;
                 Read_depth_IN(para,inDepth);
             }else if((para->type) == "toBed"){
-                toBedold(para);
+                Depth2Bed(para);
             }else if ((para->type) == "merge"){
                 mergeDepth(para);
             }

@@ -82,8 +82,15 @@ inline bool depthTest(vector<double>  dep, const double  a, const double  b,doub
 inline double string2Double(std::string const& s){
         std::istringstream iss(s);
         double value;
-        if (!(iss >> value)) throw std::runtime_error("invalid int");
+        if (!(iss >> value)) throw std::runtime_error("invalid double");
         return value;
+}
+
+inline double string2Int(std::string const& s){
+    std::istringstream iss(s);
+    int value;
+    if (!(iss >> value)) throw std::runtime_error("invalid int");
+    return value;
 }
 
 #endif /* baseFunctions_h */
