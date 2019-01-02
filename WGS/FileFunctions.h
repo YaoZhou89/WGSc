@@ -727,8 +727,9 @@ int pi2bed(parameter *para){
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll,"\t");
-        startPos = string2Int(ll[1]);
         cout << startPos << endl;
+        startPos = string2Int(ll[1]);
+       
         while(string2Int(ll[1]) > BinRound*binSize){
             endPos = BinRound*binSize;
             startPos = (BinRound-1)*binSize +1;
