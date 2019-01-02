@@ -730,26 +730,22 @@ int pi2bed(parameter *para){
         if(line[0]=='C') continue;
         ll.clear();
         split(line,ll,"\t");
-//        cout << ll[1] << endl;
-        startPos = string2Int(ll[1]);
-       
         while(string2Int(ll[1]) > BinRound*binSize){
             endPos = BinRound*binSize;
             startPos = (BinRound-1)*binSize +1;
-            
             it = binNum.find(ll[0]+"_"+to_string(startPos));
             if(it != binNum.end()){
                 int n = binNum[ll[0]+"_"+to_string(startPos)];
                 if(n==0) continue;
                 ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
-                ++BinRound;
                 pi = 0;
             }
+             ++BinRound;
         }
         pi += string2Double(ll[2]);
     }
     if(pi > 0){
-        endPos = string2Int(ll[1])+1;
+        endPos = string2Int(ll[1]);
         startPos = (BinRound-1)*binSize +1;
         int n = binNum[ll[0]+"_"+to_string(startPos)];
         if(n!=0) {
