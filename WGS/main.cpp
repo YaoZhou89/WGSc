@@ -71,6 +71,10 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "getPos"){
                 getPos(para);
             }
+        }else if((para->model) == "diversity"){
+            if((para->type)=="bedPi"){
+                pi2bed(para);
+            }
         }
     }
     
