@@ -1369,10 +1369,10 @@ int getV8(parameter *para){
             for(int i = 0 ; i < ll1.size(); ++i){
                 name.insert(std::pair<string, int>(ll1[i],i));
             }
-            ouf << line1 << "\n" << endl;
+            ouf << line1 << "\n" ;
             break;
         }else{
-            ouf << line1 << "\n" << endl;
+            ouf << line1 << "\n";
         }
     }
     while(!inf2.eof()){
@@ -1395,6 +1395,7 @@ int getV8(parameter *para){
     for(int i = 0 ; i < replace_pos.size(); ++i){
         cout << replace_pos[i] << endl;
     }
+    vector <string> geno;
     while(!inf1.eof() && !inf2.eof()){
         getline(inf1,line1);
         getline(inf2, line2);
@@ -1406,8 +1407,18 @@ int getV8(parameter *para){
             cerr << "input files are not mactch!" << endl;
             return 0;
         }
-        for (int i = 0 ; i < ll2.size(); ++i){
+        
+        for (int i = 9 ; i < ll2.size(); ++i){
             if(replace_pos[i]<0) continue;
+            
+            if(ll2[i][0] == '.'){
+                ll2[i] = "./.";
+            }else{
+                geno.clear();
+                split(ll2[i],geno,":");
+                ll2[i] = geno[0]+":"+geno[1]+":"+geno[6];
+            }
+            
             ll1[replace_pos[i]] = ll2[i];
         }
         for (int i = 0; i < ll1.size() - 1; ++i){
