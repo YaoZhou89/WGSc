@@ -1399,6 +1399,8 @@ int getV8(parameter *para){
     while(!inf1.eof() && !inf2.eof()){
         getline(inf1,line1);
         getline(inf2, line2);
+        if(line1.length()<1) continue;
+        if(line2.length()<1) continue;
         ll1.clear();
         ll2.clear();
         split(line1,ll1,"\t");
