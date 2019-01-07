@@ -798,17 +798,20 @@ int pi(parameter *para){
         split(line,ll,"\t");
         for(int i = 0; i< samplePos.size() ;++i){
             if(ll[samplePos[i]][0] == '0' && ll[samplePos[i]][2] == '0'){
-                ++a;
+                a += 2;
+                sampleSize++;
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
-                ++b;
+                b += 2;
+                sampleSize++;
             }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
-                a +=0.5;
-                b +=0.5;
+                a += 1;
+                b += 1;
+                sampleSize++;
             }else{
                 continue;
             }
         }
-        double pi = 2*(a*b)/((a+b)*(a+b-1));
+        double pi = 2*(a*b)/(sampleSize*(sampleSize-1));
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
