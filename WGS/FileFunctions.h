@@ -802,7 +802,7 @@ int pi(parameter *para){
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
                 ++b;
             }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
-                a +=0.5
+                a +=0.5;
                 b +=0.5;
             }else{
                 continue;
