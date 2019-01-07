@@ -1402,7 +1402,7 @@ int getV8(parameter *para){
         ll2.clear();
         split(line1,ll1,"\t");
         split(line2,ll2,"\t");
-        if(ll1[1]!=ll2[2]) {
+        if(ll1[1]!=ll2[1]) {
             cerr << "input files are not mactch!" << endl;
             return 0;
         }
