@@ -777,7 +777,7 @@ int pi(parameter *para){
 //                    cout<<*it<<endl;
 //    }
     while(!inF.eof()){
-        double a = 0, b= 0;
+        double a = 0, b= 0,c=0;
         int sampleSize = 0;
         getline(inF,line);
         if(line[0]=='#' && line[1]=='#') continue;
@@ -798,20 +798,19 @@ int pi(parameter *para){
         split(line,ll,"\t");
         for(int i = 0; i< samplePos.size() ;++i){
             if(ll[samplePos[i]][0] == '0' && ll[samplePos[i]][2] == '0'){
-                a += 2;
+                ++a;
                 sampleSize++;
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
-                b += 2;
+                ++b;
                 sampleSize++;
             }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
-                a += 1;
-                b += 1;
+                c++;
                 sampleSize++;
             }else{
                 continue;
             }
         }
-        double pi = 2*(a*b)/(sampleSize*(sampleSize-1));
+        double pi = 2*((a*b)+(a*c)+(b*c))/(sampleSize*(sampleSize-1));
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
