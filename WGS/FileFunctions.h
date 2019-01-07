@@ -803,9 +803,9 @@ int pi(parameter *para){
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
                 ++b;
                 sampleSize++;
-            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
-                c++;
-                sampleSize++;
+//            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
+//                ++c;
+//                sampleSize++;
             }else{
                 continue;
             }
