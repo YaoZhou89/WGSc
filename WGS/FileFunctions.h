@@ -772,10 +772,10 @@ int pi(parameter *para){
         Samples.insert(line);
     }
     subFile.close();
-    set<string>::iterator it;
-    for(it = Samples.begin() ; it != Samples.end() ; ++it){
-                    cout<<*it<<endl;
-    }
+//    set<string>::iterator it;
+//    for(it = Samples.begin() ; it != Samples.end() ; ++it){
+//                    cout<<*it<<endl;
+//    }
     while(!inF.eof()){
         double a = 0, b= 0;
         getline(inF,line);
@@ -787,7 +787,7 @@ int pi(parameter *para){
             for(int i = 9; i < ll.size(); ++i){
                 if(Samples.count(ll[i])==1) {
                     samplePos.push_back(i);
-                    cout << ll[i] << endl;
+//                    cout << ll[i] << endl;
                 }
             }
             continue;
@@ -804,7 +804,7 @@ int pi(parameter *para){
                 continue;
             }
         }
-        double pi = 2*(a*b*1.0)/((a+b-1)*1.0);
+        double pi = 2*(a*b*1.0)/((a+b)*(a+b-1)*1.0);
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
