@@ -1382,8 +1382,9 @@ int getV8(parameter *para){
             split(line2,ll2,"\t");
             for (int i = 0; i < ll2.size(); ++i){
                 if(name.count(ll2[i]) < 1){
-                    cerr << "Names in file2 are not present in file1:" << ll2[i] << endl;
-                    return 0;
+//                    cerr << "Names in file2 are not present in file1:" << ll2[i] << endl;
+                    replace_pos.push_back(-1);
+//                    return 0;
                 }else{
                     replace_pos.push_back(name[ll2[i]]);
                 }
@@ -1406,6 +1407,7 @@ int getV8(parameter *para){
             return 0;
         }
         for (int i = 0 ; i < ll2.size(); ++i){
+            if(replace_pos[i]<0) continue;
             ll1[replace_pos[i]] = ll2[i];
         }
         for (int i = 0; i < ll1.size() - 1; ++i){

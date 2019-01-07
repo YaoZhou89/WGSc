@@ -44,7 +44,6 @@ int main(int argc, char * argv[]) {
                 getV8(para);
             }
             
-            
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
                 cout << "get Site.." << endl;
