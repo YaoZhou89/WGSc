@@ -1415,10 +1415,8 @@ int getV8(parameter *para){
             }else{
                 geno.clear();
                 split(ll2[i],geno,":");
-                if(geno.size()!=6){
-                    ll2[i] = "./.";
-                }
-//                ll2[i] = geno[0]+":"+geno[1]+":"+geno[6];
+                
+                ll2[i] = geno[0]+":"+geno[1]+":"+geno[geno.size()-1];
             }
             
             ll1[replace_pos[i]] = ll2[i];
