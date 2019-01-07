@@ -739,7 +739,6 @@ int pi2bed(parameter *para){
         if(n!=0) {
              ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
         }
-       
     }
     inF.close();
     ouf.close();
@@ -790,6 +789,7 @@ int pi(parameter *para){
                     samplePos.push_back(i);
                     cout << ll[i] << endl;
                 }
+            }
             continue;
         }
         if(line.length()<1) continue;
@@ -805,8 +805,6 @@ int pi(parameter *para){
             }
         }
         double pi = 2*(a*b*1.0)/((a+b-1)*1.0);
-//        cout << "a is: " << a << endl;
-//        cout << "b is: " << b << endl;
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
