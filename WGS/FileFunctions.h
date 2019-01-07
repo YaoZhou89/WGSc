@@ -749,8 +749,13 @@ int pi2bed(parameter *para){
 int pi(parameter *para){
     //site pi
     igzstream inF ((para->inFile).c_str(),ifstream::in);
+    igzstream subFile ((para->inFile2).c_str(),ifstream::in);
     if(inF.fail()){
         cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    if(subFile.fail()){
+        cerr << "Open file error: " << (para->inFile2) << endl;
         return 0;
     }
     ofstream ouf ((para -> outFile).c_str());
@@ -761,22 +766,36 @@ int pi(parameter *para){
     string line;
     vector < string > ll;
     int a = 0, b= 0;
+    set <string> Samples;
+    vector<int> samplePos;
+    while(!subFile.eof()){
+        getline(subFile,line);
+        if(line.length()<1) continue;
+        Samples.insert(line);
+    }
+    subFile.close();
     while(!inF.eof()){
         getline(inF,line);
-        if(line[0]=='#') continue;
+        if(line[0]=='#' && line[1]=='#') continue;
+        if(line[0] == '#' && line[1] == 'C'){
+            split(line,ll,"\t");
+            for(int i = 9; i < ll.size(); ++i){
+                if(Samples.count(ll[i])==1) samplePos.push_back(i);
+            }
+        }
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll,"\t");
-        for(int i = 9; i<ll.size();++i){
-            if(ll[0]=="0" && ll[2] == "0"){
+        for(int i = 0; i< samplePos.size() ;++i){
+            if(ll[samplePos[i]][0] == '0' && ll[samplePos[i]][2] == '0'){
                 ++a;
-            }else if(ll[0]=="1" && ll[2] == "b"){
+            }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
                 ++b;
             }else{
                 continue;
             }
         }
-        double pi = (a*b*1.0)/((a+b-1)*1.0);
+        double pi = 2*(a*b*1.0)/((a+b-1)*1.0);
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
