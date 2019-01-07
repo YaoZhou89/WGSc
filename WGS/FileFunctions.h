@@ -765,7 +765,6 @@ int pi(parameter *para){
     }
     string line;
     vector < string > ll;
-    
     set <string> Samples;
     vector<int> samplePos;
     while(!subFile.eof()){
@@ -774,15 +773,19 @@ int pi(parameter *para){
         Samples.insert(line);
     }
     subFile.close();
+    set<int>::iterator it;
+    for(it = Samples.begin() ; iter != Samples.end() ; ++it){
+                    cout<<*it<<endl;
+    }
     while(!inF.eof()){
         double a = 0, b= 0;
         getline(inF,line);
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0] == '#' && line[1] == 'C'){
+//            set<int>::iterator it;
             ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size(); ++i){
-                
                 if(Samples.count(ll[i])==1) {
                     samplePos.push_back(i);
                     cout << ll[i] << endl;
@@ -802,8 +805,8 @@ int pi(parameter *para){
             }
         }
         double pi = 2*(a*b*1.0)/((a+b-1)*1.0);
-        cout << "a is: " << a << endl;
-        cout << "b is: " << b << endl;
+//        cout << "a is: " << a << endl;
+//        cout << "b is: " << b << endl;
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
