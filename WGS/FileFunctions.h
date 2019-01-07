@@ -1404,6 +1404,8 @@ int getV8(parameter *para){
         split(line1,ll1,"\t");
         split(line2,ll2,"\t");
         if(ll1[1]!=ll2[1]) {
+            cout << "file1 is: " << ll1[1] << endl;
+            cout << "file2 is: " << ll2[1] << endl;
             cerr << "input files are not mactch!" << endl;
             return 0;
         }
