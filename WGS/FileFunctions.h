@@ -69,53 +69,37 @@ int Read_VCF_IN(parameter *para, vcf *inVCF)
     vector<char>  genotype ;
     vector<BaseType>  genotypeVE ;
     
-//    if (para->TF2){
-//
-//            while(!VCFIN.eof())
-//            {
-//                string  line ;
-//                getline(VCFIN,line);
-//                if (line.length()<=0)  { continue  ; }
-//
-//                istringstream isoneLine (line,istringstream::in);
-//                for (int iik=0 ; iik<Asample ; iik++)
-//                {
-//                    isoneLine >> inf[iik];
-//                }
-//                Base_len=inf[3].length();
-//                Alt.clear();
-//                split(inf[4],Alt,",");
-//
-//                for (int ii=0 ; ii<Alt.size() ;ii++)
-//                {
-//                    if (Alt[ii].length()>Base_len)
-//                    {
-//                        Base_len=Alt[ii].length();
-//                    }
-//                }
-//
-//                if (Base_len>1)
-//                {
-//                    BadIndelSite++;
-//                    continue ;
-//                }
-//
-//                map <char,int > Count ;
-//                Het_count=0;
-//                Miss_count=0;
-//
-//                for (int jj=9 ; jj< Asample ;jj++ )
-//                {
-//                    Btmp.clear();
-//                    split(inf[jj], Btmp,":");
-//                    string Genotype=Btmp[0];
-//                    if (  Genotype[0] == '.' )
-//                    {
-//                        Miss_count++ ;
-//                    }
-//                    else
-//                    {
-//                        if  (Genotype[0] != Genotype[2] )
+//    while(!VCFIN.eof()){
+//        string  line ;
+//        getline(VCFIN,line);
+//        if (line.length()<=0)  { continue  ; }
+//        istringstream isoneLine (line,istringstream::in);
+//        for (int iik=0 ; iik<Asample ; iik++){
+//            isoneLine >> inf[iik];
+//        }
+//        Base_len=inf[3].length();
+//        Alt.clear();
+//        split(inf[4],Alt,",");
+//        for (int ii=0 ; ii<Alt.size() ;ii++){
+//            if (Alt[ii].length()>Base_len){
+//                Base_len=Alt[ii].length();
+//            }
+//        }
+//        if (Base_len>1){
+//            BadIndelSite++;
+//            continue ;
+//        }
+//        map <char,int > Count ;
+//        Het_count=0;
+//        Miss_count=0;
+//        for (int jj=9 ; jj< Asample ;jj++ ){
+//            Btmp.clear();
+//            split(inf[jj], Btmp,":");
+//            string Genotype=Btmp[0];
+//            if ( Genotype[0] == '.' ){
+//                Miss_count++ ;
+//            } else{
+//              if  (Genotype[0] != Genotype[2] )
 //                        {
 //                            Het_count++;
 //                        }
@@ -448,7 +432,7 @@ int Read_VCF_IN(parameter *para, vcf *inVCF)
 //        {
 //            cout<<"Warning skip non bi-allelic(Singleton/ThreeMulti allelic) site, and total skip allelic sites number is :"<<BadSite<<endl;
 //        }
-//
+
         return 1;
 }
 
@@ -720,6 +704,7 @@ int pi2bed(parameter *para){
         split(line,ll,"\t");
         binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
     }
+    inbed.close();
 //    cout << ll[0]+"_"+ll[1] << endl;
 //    cout << binNum["9_453000001"] << endl;
     map<string,int>::iterator it;
@@ -762,6 +747,72 @@ int pi2bed(parameter *para){
 }
 
 int pi(parameter *para){
+    int binSize = para->size;
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    igzstream inbed ((para->inFile2).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    if(inbed.fail()){
+        cerr << "Open file error: " << (para->inFile2) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string line;
+    vector < string > ll;
+    lint startPos = 1;
+    int BinRound = 1;
+    lint endPos = 1;
+    map<string,int> binNum;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length() < 3) continue;
+        
+        ll.clear();
+        split(line,ll,"\t");
+        binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
+    }
+    inbed.close();
+    map<string,int>::iterator it;
+    double pi = 0.0;
+    vector <int> allele_count[2];
+    while(!inF.eof()){
+        getline(inF, line);
+        if(line.length()<1) continue;
+        if(line[0]=='C') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        while(string2Int(ll[1]) > BinRound*binSize){
+            endPos = BinRound*binSize;
+            startPos = (BinRound-1)*binSize +1;
+            it = binNum.find(ll[0] + "_" + to_string(startPos));
+            ++BinRound;
+            if(it != binNum.end()){
+                int n = binNum[ll[0]+"_"+to_string(startPos)];
+                if(n == 0) continue;
+                ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+                pi = 0;
+            }
+        }
+        if(ll[2]=="-nan") ll[2] = '0';
+        pi += string2Double(ll[2]);
+    }
+    if(pi > 0){
+        endPos = string2Int(ll[1]);
+        startPos = (BinRound-1)*binSize +1;
+        int n = binNum[ll[0]+"_"+to_string(startPos)];
+        if(n!=0) {
+            ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+        }
+        
+    }
+    inF.close();
+    ouf.close();
     return 1;
 }
 int changePos(parameter *para){
@@ -1283,6 +1334,88 @@ int calibarate(parameter *para){
 int toFasta(parameter *para){
     string inFile1 = (para->inFile);
     string outFile = (para->outFile);
+    
+    return 1;
+}
+
+int getV8(parameter *para){
+    string inFile1 = (para -> inFile); // file of scanned
+    string inFile2 = (para -> inFile2); // file of V7
+    igzstream inf1 (inFile1.c_str(),fstream::in);
+    igzstream inf2 (inFile2.c_str(),fstream::in);
+    if(inf1.fail()){
+        cerr << "Couldn't open file: " << inFile1 << endl;
+    }
+    if(inf2.fail()){
+        cerr << "Couldn't open file: " << inFile2 << endl;
+        return 0;
+    }
+    string outFile = (para->outFile);
+    ogzstream ouf (outFile.c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open file: " << outFile << endl;
+        return 0;
+    }
+    string line1;
+    string line2;
+    vector <string> ll1, ll2;
+    map <string,int> name;
+    vector<int> replace_pos;
+    while(!inf1.eof()){
+        getline(inf1, line1);
+        if(line1[0]=='#' && line1[1] == 'C') {
+            ll1.clear();
+            split(line1,ll1,"\t");
+            for(int i = 0 ; i < ll1.size(); ++i){
+                name.insert(std::pair<string, int>(ll1[i],i));
+            }
+            ouf << line1 << "\n" << endl;
+            break;
+        }else{
+            ouf << line1 << "\n" << endl;
+        }
+    }
+    while(!inf2.eof()){
+        getline(inf2,line2);
+        if(line2[0]=='#' && line2[1] == 'C') {
+            ll2.clear();
+            split(line2,ll2,"\t");
+            for (int i = 0; i < ll2.size(); ++i){
+                if(name.count(ll2[i]) < 1){
+                    cerr << "Names in file2 are not present in file1:" << ll2[i] << endl;
+                    return 0;
+                }else{
+                    replace_pos.push_back(name[ll2[i]]);
+                }
+            }
+            break;
+        }
+    }
+    for(int i = 0 ; i < replace_pos.size(); ++i){
+        cout << replace_pos[i] << endl;
+    }
+    while(!inf1.eof() && !inf2.eof()){
+        getline(inf1,line1);
+        getline(inf2, line2);
+        ll1.clear();
+        ll2.clear();
+        split(line1,ll1,"\t");
+        split(line2,ll2,"\t");
+        if(ll1[1]!=ll2[2]) {
+            cerr << "input files are not mactch!" << endl;
+            return 0;
+        }
+        for (int i = 0 ; i < ll2.size(); ++i){
+            ll1[replace_pos[i]] = ll2[i];
+        }
+        for (int i = 0; i < ll1.size() - 1; ++i){
+            ouf << ll1[i] << "\t" ;
+        }
+        ouf << ll1[ll1.size()-1] << "\n";
+    }
+    inf1.close();
+    inf2.close();
+    ouf.close();
     
     return 1;
 }
