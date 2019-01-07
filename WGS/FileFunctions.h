@@ -1351,7 +1351,7 @@ int getV8(parameter *para){
         return 0;
     }
     string outFile = (para->outFile);
-    ogzstream ouf (outFile.c_str());
+    ofstream ouf (outFile.c_str());
     if(ouf.fail()){
         cerr << "Couldn't open file: " << outFile << endl;
         return 0;
@@ -1392,9 +1392,9 @@ int getV8(parameter *para){
             break;
         }
     }
-    for(int i = 0 ; i < replace_pos.size(); ++i){
-        cout << replace_pos[i] << endl;
-    }
+//    for(int i = 0 ; i < replace_pos.size(); ++i){
+//        cout << replace_pos[i] << endl;
+//    }
     vector <string> geno;
     while(!inf1.eof() && !inf2.eof()){
         getline(inf1,line1);
