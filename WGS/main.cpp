@@ -40,6 +40,7 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "calibrate"){
                 calibarate(para);
             }else if((para->type)=="toV8"){
+                cout << "toV8..." << endl;
                 getV8(para);
             }
             

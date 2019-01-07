@@ -1340,7 +1340,7 @@ int toFasta(parameter *para){
 
 int getV8(parameter *para){
     string inFile1 = (para -> inFile); // file of scanned
-    string inFile2 = (para -> inFile2); // file of V7
+    string inFile2 = (para -> inFile2); // file of V6
     igzstream inf1 (inFile1.c_str(),fstream::in);
     igzstream inf2 (inFile2.c_str(),fstream::in);
     if(inf1.fail()){
