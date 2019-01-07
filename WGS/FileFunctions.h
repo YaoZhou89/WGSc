@@ -778,6 +778,7 @@ int pi(parameter *para){
 //    }
     while(!inF.eof()){
         double a = 0, b= 0;
+        int sampleSize = 0;
         getline(inF,line);
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0] == '#' && line[1] == 'C'){
@@ -800,11 +801,14 @@ int pi(parameter *para){
                 ++a;
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
                 ++b;
+            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
+                a +=0.5
+                b +=0.5;
             }else{
                 continue;
             }
         }
-        double pi = 2*(a*b*1.0)/((a+b)*(a+b-1)*1.0);
+        double pi = 2*(a*b)/((a+b)*(a+b-1));
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
