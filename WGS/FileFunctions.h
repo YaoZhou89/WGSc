@@ -773,8 +773,8 @@ int pi(parameter *para){
         Samples.insert(line);
     }
     subFile.close();
-    set<int>::iterator it;
-    for(it = Samples.begin() ; iter != Samples.end() ; ++it){
+    set<string>::iterator it;
+    for(it = Samples.begin() ; it != Samples.end() ; ++it){
                     cout<<*it<<endl;
     }
     while(!inF.eof()){
