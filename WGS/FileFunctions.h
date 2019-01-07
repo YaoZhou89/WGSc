@@ -810,7 +810,7 @@ int pi(parameter *para){
                 continue;
             }
         }
-        double pi = 2*((a*b)+(a*c)+(b*c))/(sampleSize*(sampleSize-1));
+        double pi = ((a*(b+c))+((a+b)*c)+(b*(a+c)))/(sampleSize*(sampleSize-1));
         ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
