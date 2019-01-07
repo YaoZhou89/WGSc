@@ -782,9 +782,11 @@ int pi(parameter *para){
             ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size(); ++i){
-                cout << ll[i] << endl;
-                if(Samples.count(ll[i])==1) samplePos.push_back(i);
-            }
+                
+                if(Samples.count(ll[i])==1) {
+                    samplePos.push_back(i);
+                    cout << ll[i] << endl;
+                }
             continue;
         }
         if(line.length()<1) continue;
