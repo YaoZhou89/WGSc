@@ -39,7 +39,10 @@ int main(int argc, char * argv[]) {
                 
             }else if((para->type) == "calibrate"){
                 calibarate(para);
+            }else if((para->type)=="toV8"){
+                getV8(para);
             }
+            
             
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
