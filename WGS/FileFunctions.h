@@ -765,7 +765,7 @@ int pi(parameter *para){
     }
     string line;
     vector < string > ll;
-    int a = 0, b= 0;
+    
     set <string> Samples;
     vector<int> samplePos;
     while(!subFile.eof()){
@@ -775,13 +775,16 @@ int pi(parameter *para){
     }
     subFile.close();
     while(!inF.eof()){
+        double a = 0, b= 0;
         getline(inF,line);
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0] == '#' && line[1] == 'C'){
+            ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size(); ++i){
                 if(Samples.count(ll[i])==1) samplePos.push_back(i);
             }
+            continue;
         }
         if(line.length()<1) continue;
         ll.clear();
