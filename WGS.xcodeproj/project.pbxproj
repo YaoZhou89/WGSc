@@ -35,6 +35,7 @@
 		C54EC7A421B62A6D00B474F1 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		C54EC7A521B62D6C00B474F1 /* HeaderIns.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeaderIns.h; sourceTree = "<group>"; };
 		C54EC7A621B63E9100B474F1 /* FileFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileFunctions.h; sourceTree = "<group>"; };
+		C5F3C43421E37B9600B6A515 /* dataConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataConvert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +73,7 @@
 				C54EC7A421B62A6D00B474F1 /* include */,
 				C54EC79121B617EF00B474F1 /* main.cpp */,
 				C54EC79F21B6239D00B474F1 /* initialization.h */,
+				C5F3C43421E37B9600B6A515 /* dataConvert.h */,
 				C54EC7A021B6282000B474F1 /* checkers.h */,
 				C54EC79D21B61D2D00B474F1 /* help.h */,
 				C54EC79B21B6185E00B474F1 /* DataClass.h */,

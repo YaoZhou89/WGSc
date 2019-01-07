@@ -13,6 +13,7 @@
 #include "initialization.h"
 #include "checkers.h"
 #include "FileFunctions.h"
+#include "dataConvert.h"
 int main(int argc, char * argv[]) {
     clock_t start;
     double duration;
@@ -44,6 +45,8 @@ int main(int argc, char * argv[]) {
                 getV8(para);
             }else if ((para->type)=="site-pi"){
                 pi(para);
+            }else if((para->type) == "vcf2sNMF"){
+                vcf2sNMF(para);
             }
             
         }else if((para -> model) == "depth"){
