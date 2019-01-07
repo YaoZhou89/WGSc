@@ -42,6 +42,8 @@ int main(int argc, char * argv[]) {
             }else if((para->type)=="toV8"){
                 cout << "toV8..." << endl;
                 getV8(para);
+            }else if ((para->type)=="site-pi"){
+                pi(para);
             }
             
         }else if((para -> model) == "depth"){

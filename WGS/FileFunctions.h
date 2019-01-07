@@ -747,15 +747,10 @@ int pi2bed(parameter *para){
 }
 
 int pi(parameter *para){
-    int binSize = para->size;
+    //site pi
     igzstream inF ((para->inFile).c_str(),ifstream::in);
-    igzstream inbed ((para->inFile2).c_str(),ifstream::in);
     if(inF.fail()){
         cerr << "Open file error: " << (para->inFile) << endl;
-        return 0;
-    }
-    if(inbed.fail()){
-        cerr << "Open file error: " << (para->inFile2) << endl;
         return 0;
     }
     ofstream ouf ((para -> outFile).c_str());
@@ -765,51 +760,24 @@ int pi(parameter *para){
     }
     string line;
     vector < string > ll;
-    lint startPos = 1;
-    int BinRound = 1;
-    lint endPos = 1;
-    map<string,int> binNum;
-    while(!inbed.eof()){
-        getline(inbed,line);
-        if(line.length() < 3) continue;
-        
-        ll.clear();
-        split(line,ll,"\t");
-        binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
-    }
-    inbed.close();
-    map<string,int>::iterator it;
-    double pi = 0.0;
-    vector <int> allele_count[2];
+    int a = 0, b= 0;
     while(!inF.eof()){
-        getline(inF, line);
+        getline(inF,line);
+        if(line[0]=='#') continue;
         if(line.length()<1) continue;
-        if(line[0]=='C') continue;
         ll.clear();
         split(line,ll,"\t");
-        while(string2Int(ll[1]) > BinRound*binSize){
-            endPos = BinRound*binSize;
-            startPos = (BinRound-1)*binSize +1;
-            it = binNum.find(ll[0] + "_" + to_string(startPos));
-            ++BinRound;
-            if(it != binNum.end()){
-                int n = binNum[ll[0]+"_"+to_string(startPos)];
-                if(n == 0) continue;
-                ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
-                pi = 0;
+        for(int i = 9; i<ll.size();++i){
+            if(ll[0]=="0" && ll[2] == "0"){
+                ++a;
+            }else if(ll[0]=="1" && ll[2] == "b"){
+                ++b;
+            }else{
+                continue;
             }
         }
-        if(ll[2]=="-nan") ll[2] = '0';
-        pi += string2Double(ll[2]);
-    }
-    if(pi > 0){
-        endPos = string2Int(ll[1]);
-        startPos = (BinRound-1)*binSize +1;
-        int n = binNum[ll[0]+"_"+to_string(startPos)];
-        if(n!=0) {
-            ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
-        }
-        
+        double pi = (a*b*1.0)/((a+b-1)*1.0);
+        ouf << ll[0] << "\t" << ll[1] << "\t" << pi << endl;
     }
     inF.close();
     ouf.close();
