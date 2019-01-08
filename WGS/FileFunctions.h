@@ -1324,6 +1324,9 @@ int calibarate(parameter *para){
         if(ll[ll.size()-1][0] == '.'){
             continue;
         }
+        if(ll[ll.size()-1][0] == '0'){
+            continue;
+        }
         ++passed;
         OUT << line ;
         OUT << "\n";

@@ -13,8 +13,16 @@ using namespace std;
 
 int vcf2sNMF(parameter *para){
     string infs = (para->inFile);
+    string infs2 = (para->subPop);
     string oufs = (para -> outFile);
     igzstream inf (infs.c_str(),ifstream::in);
+    igzstream subPop (infs2.c_str(),ifstream::in);
+    if(infs2!=""){
+        if(subPop.fail()){
+            cerr << "Can't open subPopulation file!" << endl;
+            return 0;
+        }
+    }
     ofstream ouf (oufs.c_str());
     if(inf.fail()){
         cerr << "open inFile error! " << endl;
@@ -26,6 +34,13 @@ int vcf2sNMF(parameter *para){
     }
     string line;
     vector <string> ll;
+    set <string> subNames;
+    while(!subPop.eof()){
+        getline(subPop,line);
+        if(line.length()<1) continue;
+        subNames.insert(line);
+    }
+    subPop.close();
     while(!inf.eof()){
         getline(inf,line);
         if(line[0] == '#') continue;
