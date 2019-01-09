@@ -1336,6 +1336,62 @@ int calibarate(parameter *para){
     f1.close();
     return 1;
 }
+
+int calibarate2(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File2 IN error: " << input2 << endl;
+        return 0;
+    }
+    vector <string> taxa ;
+    vector <string> ll;
+    string line;
+    string outfile = (para->outFile);
+    ogzstream OUT (outfile.c_str());
+    if(OUT.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    set <string> pos;
+    while(!f2.eof()){
+        getline(f2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        pos.insert(ll[0]);
+    }
+    int passed = 0;
+    while(!f1.eof()){
+        getline(f1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') {
+            OUT << line ;
+            OUT << "\t" << "barley";
+            OUT << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll.size()<2) continue;
+        if(pos.count(ll[1])!=1) continue;
+        ++passed;
+        OUT << line ;
+        OUT << "\t" << "1/1:0,10:0,0,100";
+        OUT << "\n";
+    }
+    cout << "passed number is: " << passed << endl;
+    OUT.close();
+    f1.close();
+    return 1;
+}
+
 int toFasta(parameter *para){
     string inFile1 = (para->inFile);
     string outFile = (para->outFile);
