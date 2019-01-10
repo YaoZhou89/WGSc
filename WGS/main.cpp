@@ -50,7 +50,6 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "vcf2sNMF"){
                 vcf2sNMF(para);
             }
-            
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
                 cout << "get Site.." << endl;
@@ -84,6 +83,10 @@ int main(int argc, char * argv[]) {
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
                 pi2bed(para);
+            }
+        }else if((para -> model) == "structure"){
+            if((para -> type) == "Q2CLUMPP"){
+                Q2CLUMPP(para);
             }
         }
     }

@@ -1494,7 +1494,35 @@ int getV8(parameter *para){
     inf1.close();
     inf2.close();
     ouf.close();
-    
     return 1;
 }
+
+int Q2CLUMPP(parameter *para){
+    string inFile = (para ->inFile);
+    ifstream inf ((inFile.c_str()),fstream::in);
+    if(!inf.eof()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0;
+    }
+    string outFile = (para ->outFile);
+    ofstream ouf (outFile.c_str());
+    string line;
+    vector <string> ll;
+    int i = 1;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," ");
+        ouf << i << "\t" << i << "\t" << "(x)\t1\t:";
+        for (int j = 0; j < ll.size(); ++j){
+            ouf << "\t" << ll[j];
+        }
+        ouf << endl;
+    }
+    inf.close();
+    ouf.close();
+    return 1;
+}
+
 #endif /* FileFunctions_h */
