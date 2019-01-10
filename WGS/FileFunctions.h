@@ -1518,6 +1518,7 @@ int Q2CLUMPP(parameter *para){
         for (int j = 0; j < ll.size(); ++j){
             ouf << "\t" << ll[j];
         }
+        ++i;
         ouf << endl;
     }
     inf.close();
