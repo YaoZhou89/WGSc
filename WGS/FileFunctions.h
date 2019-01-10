@@ -1500,7 +1500,7 @@ int getV8(parameter *para){
 int Q2CLUMPP(parameter *para){
     string inFile = (para ->inFile);
     igzstream inf ((inFile.c_str()),fstream::in);
-    if(!inf.eof()){
+    if(!inf.fail()){
         cerr << "Couldn't open inFile" << endl;
         return 0;
     }
