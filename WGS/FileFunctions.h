@@ -1575,7 +1575,9 @@ int getHeader(parameter *para){
                 ouf << order << "\t";
                 ouf << ll[i] << endl;
             }
+            break;
         }
+       
     }
     inf.close();
     ouf.close();
