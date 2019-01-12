@@ -1544,10 +1544,11 @@ int CLUMPP2R(parameter *para){
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll," \t");
-        for (int i = 0; i < ll.size(); ++i){
-            cout << ll[i] << endl;
+        ouf << ll[5];
+        for (int i = 6; i < ll.size(); ++i){
+            ouf << "\t" << ll[i] ;
         }
-        break;
+        ouf << endl;
     }
     inf.close();
     ouf.close();
