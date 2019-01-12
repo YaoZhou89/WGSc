@@ -1583,5 +1583,24 @@ int getHeader(parameter *para){
     ouf.close();
     return 1;
 }
-
+int changePhy (parameter *para){
+    string inFile = (para->inFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    string line;
+    vector <string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        ouf << line <<endl;
+    }
+    inf.close();
+    ouf.close();
+    return 1;
+}
 #endif /* FileFunctions_h */

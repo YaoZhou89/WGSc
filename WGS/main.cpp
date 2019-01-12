@@ -92,6 +92,10 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "CLUMPP2R"){
                 CLUMPP2R(para);
             }
+        }else if((para->model) == "tree"){
+            if((para->type) == "phy"){
+                changePhy(para);
+            }
         }
     }
     
