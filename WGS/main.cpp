@@ -49,6 +49,8 @@ int main(int argc, char * argv[]) {
                 pi(para);
             }else if((para->type) == "vcf2sNMF"){
                 vcf2sNMF(para);
+            }else if ((para->type) == "getHeader"){
+                getHeader(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
