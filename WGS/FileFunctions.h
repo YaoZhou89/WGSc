@@ -1525,6 +1525,34 @@ int Q2CLUMPP(parameter *para){
     ouf.close();
     return 1;
 }
+int CLUMPP2R(parameter *para){
+    string inFile = (para->inFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't opne outFile" << endl;
+        return 1;
+    }
+    string line;
+    vector <string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        for (int i = 0; i < ll.size(); ++i){
+            cout << ll[i] << endl;
+        }
+        break;
+    }
+    inf.close();
+    ouf.close();
+    return 1;
+}
 int getHeader(parameter *para){
     string inFile = (para->inFile);
     igzstream   inf ((inFile.c_str()),fstream::in);

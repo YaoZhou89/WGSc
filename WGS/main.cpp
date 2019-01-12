@@ -89,6 +89,8 @@ int main(int argc, char * argv[]) {
         }else if((para -> model) == "structure"){
             if((para -> type) == "Q2CLUMPP"){
                 Q2CLUMPP(para);
+            }else if((para->type) == "CLUMPP2R"){
+                CLUMPP2R(para);
             }
         }
     }
