@@ -1525,5 +1525,32 @@ int Q2CLUMPP(parameter *para){
     ouf.close();
     return 1;
 }
+int getHeader(parameter *para){
+    string inFile = (para->inFile);
+    igzstream   inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    string line;
+    vector <string> ll;
+    int order = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#' && line[1] == 'C'){
+            split(line, ll,"\t");
+            for (int i = 9 ; i < ll.size(); ++i){
+                ++order;
+                ouf << order << "\t";
+                ouf << ll[i] << endl;
+            }
+        }
+    }
+    inf.close();
+    ouf.close();
+    return 1;
+}
 
 #endif /* FileFunctions_h */
