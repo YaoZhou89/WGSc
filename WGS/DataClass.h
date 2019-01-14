@@ -112,4 +112,11 @@ public:
         depthList;
     }
 };
+class cds {
+public:
+    map < string ,map <string,vector < vector <int> >>> CDS; // cds_map(gene_map(transcript_vector(pos_vecotrlength)))
+    cds(){
+        
+    }
+}
 #endif /* DataClass_h */

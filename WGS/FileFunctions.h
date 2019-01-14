@@ -858,7 +858,7 @@ int changePos(parameter *para){
         while (!inFile.eof()){
             chr.clear();
             getline(inFile, line);
-            if((line.substr(0,lh) == header)) {
+            if((line.substr(0,lh) == header) | line[0] == '#') {
                 OUT << line << "\n";
             }else {
                 chr.clear();
@@ -1601,6 +1601,24 @@ int changePhy (parameter *para){
     }
     inf.close();
     ouf.close();
+    return 1;
+}
+int fasta2Phylip(parameter *para){
+    string inFile = (para->inFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    string line;
+    vector <string> ll;
+    vector <string> names;
+    vector <string> seqs;
+    return 1;
+}
+int readCDS(parameter *para){
+    
     return 1;
 }
 #endif /* FileFunctions_h */
