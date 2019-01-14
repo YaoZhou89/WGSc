@@ -859,7 +859,7 @@ int changePos(parameter *para){
             chr.clear();
             getline(inFile, line);
             if((line.substr(0,lh) == header) | line[0] == '#') {
-                OUT << line << "\n";
+                OUT << line ;
             }else {
                 chr.clear();
                 if(line.size()  < 1) {continue ;};
