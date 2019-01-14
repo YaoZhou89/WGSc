@@ -118,5 +118,5 @@ public:
     cds(){
         
     }
-}
+};
 #endif /* DataClass_h */
