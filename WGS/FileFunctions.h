@@ -1231,19 +1231,21 @@ int intersectFile(parameter *para){
         getline(f1, l1);
         ll1.clear();
         split(l1,ll1,"\t");
-        pos.insert(ll1[1]);
+        pos.insert(ll1[0]+"_"+ll1[1]);
     }
     f1.close();
     int lineNum = 0;
     while(!f2.eof()){
         getline(f2, l1);
         if(l1[0] == '#'){
-            OUT << l1;
-            OUT << "\n";
+            if(para->recode){
+                OUT << l1;
+                OUT << "\n";
+            }
         }else{
             ll1.clear();
             split(l1, ll1,"\t");
-            if(pos.count(ll1[1])==1){
+            if(pos.count(ll1[0]+"_"+ll1[1])==1){
                 ++lineNum;
                 if(para->recode){
                     OUT << l1;
