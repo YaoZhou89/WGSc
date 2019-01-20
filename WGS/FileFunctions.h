@@ -1770,7 +1770,7 @@ int getMaximum(parameter *para){
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll," \t");
-        if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN") continue;
+        if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN"||ll[pos1]=="-nan"||ll[pos1] == "nan") continue;
         value.push_back(string2Double(ll[pos1]));
     }
     sort(value.begin(),value.end());
