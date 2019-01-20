@@ -1764,13 +1764,13 @@ int getMaximum(parameter *para){
     vector<string> ll;
     set<int> pos = (para->pos);
     int pos1 = *pos.begin();
-    vector<int> value;
+    vector<double> value;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll," \t");
-        if(ll[pos1]=="inf") continue;
+        if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN") continue;
         value.push_back(string2Double(ll[pos1]));
     }
     sort(value.begin(),value.end());
