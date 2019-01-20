@@ -65,6 +65,8 @@ int main(int argc, char * argv[]) {
         }else if ((para->model) == "pos"){
             if ((para->type) == "changePos"){
                 changePos(para);
+            }else if((para->type) =="change2num"){
+                chr2num(para);
             }
         }else if((para->model) == "wc"){
             count(para);
@@ -81,6 +83,8 @@ int main(int argc, char * argv[]) {
                 intersectFile(para);
             }else if ((para->type) == "getPos"){
                 getPos(para);
+            }else if((para->type) =="getMax"){
+                getMaximum(para);
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){

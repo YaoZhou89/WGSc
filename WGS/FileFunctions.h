@@ -943,6 +943,132 @@ int changePos(parameter *para){
     return 1;
 }
 
+int chr2num(parameter *para){
+    cout << "Change file chromosome position..." << endl;
+    string input =(para->inFile);
+    string ext;
+    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
+    //
+    if (ext == "gz"){
+        igzstream inFile (input.c_str(),ifstream::in);
+        if (inFile.fail()){
+            cerr << "open File IN error: " << (para->inFile) << endl;
+            return  0;
+        }
+        ifstream posFile(para->inFile2);
+        if((!posFile.good())){
+            cerr << "open pos File error: " << para->inFile2 << endl;
+            return  0;
+        }
+        string outFile =(para -> outFile);
+        //    ofstream OUT ((outFile).c_str());
+        //    cout << ext << endl;
+        
+        ogzstream OUT ((outFile).c_str());
+        if((!OUT.good())){
+            cerr << "open OUT File error: " << outFile << endl;
+            return  0;
+        }
+        map<string, vector<string>> pos ;
+        string line;
+        vector <string> chr;
+        while (getline(posFile,line)){
+            chr.clear();
+            split(line,chr,"\t");
+            pos.insert(map <string, vector<string>> :: value_type(chr[0],chr));
+        }
+        posFile.close();
+        string header = (para->headerC);
+        int lh = header.length() - 1;
+        bool isBed = para->isBed;
+        while (!inFile.eof()){
+            chr.clear();
+            getline(inFile, line);
+            if((line.substr(0,lh) == header) | line[0] == '#') {
+                OUT << line ;
+            }else {
+                chr.clear();
+                if(line.size()  < 1) {continue ;};
+                split(line,chr,"\t");
+                int lchr = chr.size();
+                vector<string> info = pos[chr[0]];
+                set<int> posChange = (para->pos);
+                OUT << info[3];
+                for (int iil = 1; iil < lchr; iil ++){
+                    OUT << "\t";
+                    if(posChange.count(iil) == 1){
+                        OUT << (atoi(chr[iil].c_str()) + atoi(info[4].c_str()));
+                    }else{
+                        OUT << chr[iil];
+                    }
+                }
+            }
+            OUT << "\n";
+        }
+        inFile.close();
+        OUT.close();
+    }else{
+        ifstream inFile (input.c_str());
+        if (inFile.fail())
+        {
+            cerr << "open File IN error: " << (para->inFile) << endl;
+            return  0;
+        }
+        ifstream posFile(para->inFile2);
+        if((!posFile.good())){
+            cerr << "open pos File error: " << para->inFile2 << endl;
+            return  0;
+        }
+        string outFile =(para -> outFile);
+        ofstream  OUT((outFile).c_str());
+        if((!OUT.good())){
+            cerr << "open OUT File error: " << outFile << endl;
+            return  0;
+        }
+        map<string, vector<string>> pos ;
+        string line;
+        vector <string> chr;
+        while (getline(posFile,line)){
+            chr.clear();
+            split(line,chr,"\t");
+            pos.insert(map <string, vector<string>> :: value_type(chr[0],chr));
+        }
+        posFile.close();
+        string header = (para->headerC);
+        int lh = header.length();
+        bool isBed = para->isBed;
+        while (!inFile.eof()){
+            chr.clear();
+            getline(inFile, line);
+            //            cout << "testing ..." << endl;
+            //            cout << line.substr(0,3) << endl;
+            if((line.substr(0,lh) == header)) {
+                OUT << line ;
+            }else {
+                chr.clear();
+                if(line.size()  < 1) {continue ;};
+                split(line,chr,"\t");
+                lint lchr = chr.size();
+                vector<string> info = pos[chr[0]];
+                set<int> posChange = (para->pos);
+                OUT << info[3];
+                for (int iil = 1; iil < lchr; iil ++){
+                    OUT << "\t";
+                    if(posChange.count(iil) == 1){
+                        OUT << (atoi(chr[iil].c_str()) + stoi(info[4].c_str()));
+                    }else{
+                        OUT << chr[iil];
+                    }
+                }
+            }
+            OUT << "\n";
+        }
+        inFile.close();
+        OUT.close();
+    }
+    return 1;
+}
+
 int count(parameter *para){
     string input =(para->inFile);
 //    string ext;
@@ -1623,6 +1749,35 @@ int fasta2Phylip(parameter *para){
 }
 int readCDS(parameter *para){
     
+    return 1;
+}
+int getMaximum(parameter *para){
+    double m = 0;
+    string inFile = (para->inFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<int> pos = (para->pos);
+    int pos1 = *pos.begin();
+    vector<int> value;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[pos1]=="inf") continue;
+        value.push_back(string2Double(ll[pos1]));
+    }
+    sort(value.begin(),value.end()); // Ascending order
+    int c95 = value.size()*0.95;
+    ouf << value[0]<<"\t"<<value[c95]<<"\t"<<value[value.size()-1];
+    inf.close();
+    ouf.close();
     return 1;
 }
 #endif /* FileFunctions_h */
