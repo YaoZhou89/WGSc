@@ -85,6 +85,8 @@ int main(int argc, char * argv[]) {
                 getPos(para);
             }else if((para->type) =="getMax"){
                 getMaximum(para);
+            }else if((para->type) =="pwpd"){
+                pwpd(para);
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){

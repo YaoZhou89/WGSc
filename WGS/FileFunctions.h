@@ -1782,4 +1782,50 @@ int getMaximum(parameter *para){
     ouf.close();
     return 1;
 }
+int pwpd(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    igzstream inf2  ((inFile2.c_str()),fstream::in);
+    ofstream ouf ((outFile.c_str()));
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    if(inf2.fail()){
+        cerr << "Couldn't open inFile2" << endl;
+        return 0 ;
+    }
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0 ;
+    }
+    string line,line2;
+    vector<string> ll,ll2;
+    string header = (para->headerC);
+    int lh = header.length();
+    while(!inf.eof()&&!inf2.eof()){
+        getline(inf,line);
+        getline(inf2,line2);
+        if(line.length()<1) continue;
+        if(line2.length()<1) continue;
+        if((line.substr(0,lh) == header)) {
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        ll2.clear();
+        split(line,ll," \t");
+        split(line2,ll2," \t");
+        
+        double pwd = string2Double(ll[3])/(string2Double(ll2[3])+0.000000001);
+//        if(ll2[3]=="0") pwd = 10;
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << pwd << "\n";
+    }
+    inf.close();
+    inf2.close();
+    ouf.close();
+    return 1;
+}
 #endif /* FileFunctions_h */
