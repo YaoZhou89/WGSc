@@ -1773,7 +1773,7 @@ int getMaximum(parameter *para){
         if(ll[pos1]=="inf") continue;
         value.push_back(string2Double(ll[pos1]));
     }
-    sort(value.begin(),value.end()); // Ascending order
+    sort(value.begin(),value.end());
     int c95 = value.size()*0.95;
     ouf << value[0]<<"\t"<<value[c95]<<"\t"<<value[value.size()-1];
     inf.close();
