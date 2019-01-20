@@ -1776,7 +1776,7 @@ int getMaximum(parameter *para){
     sort(value.begin(),value.end());
     int c95 = value.size()*0.95;
     int c99 = value.size()*0.99;
-    ouf << value[0]<<"\t"<<value[c95]<<"\t"<<value[c99]<<"\t"<<value[value.size()-1];
+    ouf << value[0]<<"\t"<<value[c95]<<"\t"<<value[c99]<<"\t"<<value[value.size()-1]<<"\n";
     inf.close();
     ouf.close();
     return 1;
