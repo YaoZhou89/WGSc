@@ -7,7 +7,7 @@ all:
 
 ./bin/WGS: ./WGS/main.c
 	mkdir -p bin
-	$(CC) $(CFLAGS) ./WGS/main.c -o ./bin/WGS
+	$(CC) $(CFLAGS) ./WGS/main.cpp -o ./bin/WGS
 
 test:
 
