@@ -109,6 +109,6 @@ inline double avg ( vector<double>& v )
         return_value += v[i];
     }
     
-    return ( return_value / size);
+    return ( return_value / n);
 }
 #endif /* baseFunctions_h */
