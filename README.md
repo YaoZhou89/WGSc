@@ -4,7 +4,10 @@
 #### For mac users:
     open the project directly, and add the libz.tbz in the linked Frameworks and libraries
 #### For linux users:
-    sh compile.sh
+    cd WGSc
+    make
+the executable WGS is now at bin folder. You can just add the bin folder into environment.
+   
 ## 2. Functions   
 ### 2.1 count lines for a .gz file (gzip compressed)
     WGS --model wc --file depth.1.txt.gz
