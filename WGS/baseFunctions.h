@@ -148,7 +148,7 @@ inline bool depthFilter(vector<double>& dep,map <int,vector<double>>& depth_min_
     double sdv = snp_sum_sd[1];
     if(depth_min_max.count(sum) == 0) return false;
     vector <double> sim_sd_m = depth_min_max[sum];
-    double max_sd = sim_sd_m[1];
+    double max_sd = sim_sd_m[1]*1.1;
     double min_sd = sim_sd_m[0];
     if(sdv > max_sd || sdv < min_sd ) pass = false;
     return pass;

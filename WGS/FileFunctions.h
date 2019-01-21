@@ -1452,7 +1452,6 @@ int filterDepth_bySimulation2(parameter *para){
         cerr << "open File IN error: " << input2 << endl;
         return 0;
     }
-    
     string outFile =(para -> outFile);
     ofstream  OUT((outFile).c_str());
     ofstream log((para->outFile+".log").c_str());
@@ -1489,9 +1488,9 @@ int filterDepth_bySimulation2(parameter *para){
             cout << "simulation process: start" << endl;
             dmm = depth_min_max (ll.size(),mean);
             first = false;
-            cout << dmm[400][1] << endl;
-            cout << dmm[400][0]<< endl;
-            cout << "simulation process: end" << endl;
+//            cout << dmm[400][1] << endl;
+//            cout << dmm[400][0]<< endl;
+//            cout << "simulation process: end" << endl;
         }
         bool pass = depthFilter(ll,dmm);
         if(pass){
