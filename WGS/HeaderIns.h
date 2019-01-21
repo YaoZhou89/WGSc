@@ -22,4 +22,5 @@
 #include <zlib.h>
 #include "./include/gzstream/gzstream.c"
 #include <algorithm>
+#include <functional>
 #endif /* HeaderIns_h */

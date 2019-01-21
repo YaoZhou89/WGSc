@@ -8,7 +8,7 @@
 
 #ifndef FileFunctions_h
 #define FileFunctions_h
-
+using namespace std;
 int Read_VCF_IN(parameter *para, vcf *inVCF)
 {
     
@@ -1770,6 +1770,7 @@ int getMaximum(parameter *para){
     set<int> pos = (para->pos);
     int pos1 = *pos.begin();
     vector<double> value;
+   
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
@@ -1779,10 +1780,11 @@ int getMaximum(parameter *para){
         value.push_back(string2Double(ll[pos1]));
     }
     sort(value.begin(),value.end());
+    double mean = avg(value);
     int c95 = value.size()*0.95;
     int c99 = value.size()*0.99;
     int c999 = value.size()*0.999;
-    ouf << value[0]<<"\t"<<value[c95]<<"\t"<<value[c99]<<"\t"<<value[c999]<<"\t"<<value[value.size()-1]<<"\n";
+    ouf << mean << "\t" << value[c95] << "\t" << value[c99] << "\t" << value[c999] << "\t" << value[value.size()-1] << "\n";
     inf.close();
     ouf.close();
     return 1;
@@ -1810,6 +1812,7 @@ int pwpd(parameter *para){
     vector<string> ll,ll2;
     string header = (para->headerC);
     int lh = header.length();
+   
     while(!inf.eof()&&!inf2.eof()){
         getline(inf,line);
         getline(inf2,line2);

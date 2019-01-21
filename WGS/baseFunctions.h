@@ -99,4 +99,16 @@ inline string Int2String(int const& s){
     out_string = ss.str();
     return out_string;
 }
+inline double avg ( vector<double>& v )
+{
+    double return_value = 0.0;
+    int n = v.size();
+    
+    for ( int i=0; i < n; i++)
+    {
+        return_value += v[i];
+    }
+    
+    return ( return_value / size);
+}
 #endif /* baseFunctions_h */
