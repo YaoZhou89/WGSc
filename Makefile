@@ -1,4 +1,4 @@
-CC=gcc
+CC=g++
 RM=rm
 MAKE=make
 CFLAGS=-std=c++11 -lz
