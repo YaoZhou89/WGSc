@@ -11,5 +11,5 @@ all:
 
 test:
 
-clean: ./bin/crisflash
+clean: ./bin/WGS
 	$(RM) ./bin/WGS
