@@ -51,6 +51,8 @@ int main(int argc, char * argv[]) {
                 vcf2sNMF(para);
             }else if ((para->type) == "getHeader"){
                 getHeader(para);
+            }else if((para->type) == "depthFilter"){
+                
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -79,6 +81,11 @@ int main(int argc, char * argv[]) {
                 filterDepth3(para);
             }else if((para -> type)=="merge2"){
                 filterDepth2(para);
+            }else if((para -> type)=="filterBySim3"){
+                filterDepth_bySimulation3(para);
+            }else if((para -> type)=="filterBySim2"){
+//                cout <<"testing..."<<endl;
+                filterDepth_bySimulation2(para);
             }else if((para->type) == "intersect"){
                 intersectFile(para);
             }else if ((para->type) == "getPos"){

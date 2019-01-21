@@ -78,6 +78,81 @@ inline bool depthTest(vector<double>  dep, const double  a, const double  b,doub
     if((a + b*sum)>standardDeviation) pass = true;
     return pass;
 }
+inline vector <double> rpois(const int& rep, const double& mean,int s){
+    vector <double> result;
+    default_random_engine generator(s);
+//    generator.seed(time(0));
+//    cout << "mean value is: " << (int)mean << endl;
+    poisson_distribution<int> distribution(mean);
+    for (int i = 0; i < rep; ++i){
+        
+        result.push_back(distribution(generator));
+        
+    }
+//    cout << result[0] << endl;
+    return result;
+}
+
+inline vector <double> sum_sd(vector<double> &v){
+    vector <double> result;
+    double sum = std::accumulate(v.begin(), v.end(),0.0);
+//    cout << "sum is: " << sum << endl;
+    double mean = sum / v.size();
+    double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+    double stdev = std::sqrt(sq_sum / v.size() - mean * mean);
+    result.push_back(sum);
+    result.push_back(stdev);
+    return result;
+}
+inline map <int,vector<double>> depth_min_max(const int& sampleSize, const double& mean){
+    // step1: randomly generate a vector with total depth and sd;
+    map <int,vector<double>> depth_sd;
+    vector <double> de;
+//    cout << "mean input is: " << mean << endl;
+    for (int i = 0; i < 1000000; ++i){
+        de.clear();
+        vector<double> rp = rpois(sampleSize, mean,rand());
+        vector <double> re = sum_sd(rp);
+        if(depth_sd.count((int)re[0])==1){
+            de = depth_sd[(int)re[0]];
+        }
+//        cout << "sum is: " << re[0] << " ;sd is: " << re[1] << endl;
+        de.push_back(re[1]);
+        depth_sd[(int)re[0]] = de;
+        
+    }
+    
+    map <int,vector<double>>::iterator it;
+    map <int,vector<double>> depth_min_max;
+    de.clear();
+//    cout << "depth_sd size is: " << depth_sd.size() << endl;
+    for (it=depth_sd.begin();it != depth_sd.end();it++){
+        de = it->second;
+        double sd_min = *min_element(de.begin(),de.end());
+        double sd_max = *max_element(de.begin(),de.end());
+        vector <double> sdm(2);
+        sdm[0] = sd_min;
+        sdm[1] = sd_max;
+        depth_min_max[it->first] = sdm;
+//        cout << "total depth is: " << it->first << endl;
+//        cout << "min,max sd is: " << sd_min <<"; " << sd_max << endl;
+    }
+//    cout << "size is: " << depth_min_max.size() << endl;
+    return depth_min_max;
+}
+
+inline bool depthFilter(vector<double>& dep,map <int,vector<double>>& depth_min_max){
+    bool pass = true;
+    vector <double> snp_sum_sd = sum_sd(dep);
+    int sum = snp_sum_sd[0];
+    double sdv = snp_sum_sd[1];
+    if(depth_min_max.count(sum) == 0) return false;
+    vector <double> sim_sd_m = depth_min_max[sum];
+    double max_sd = sim_sd_m[1];
+    double min_sd = sim_sd_m[0];
+    if(sdv > max_sd || sdv < min_sd ) pass = false;
+    return pass;
+}
 
 inline double string2Double(std::string const& s){
         std::istringstream iss(s);

@@ -1211,7 +1211,7 @@ int filterDepth3(parameter *para){
 //            cout<< ll[a] << "\t";
 //        }
 //        cout << "\n" << endl;
-        bool pass =depthTest(ll,para->a,para->b,para->minDepth,para-> maxDepth,para->depthSD);
+        bool pass = depthTest(ll,para->a,para->b,para->minDepth,para-> maxDepth,para->depthSD);
         if(pass){
             j++;
             OUT << ll1[0];
@@ -1223,6 +1223,90 @@ int filterDepth3(parameter *para){
 //            cout << lineNum << endl;
 //        }
         
+    }
+    cout << para->logFile << endl;
+    log << "passed sites is: " << j ;
+    f1.close();
+    f2.close();
+    f3.close();
+    OUT.close();
+    log.close();
+    return 1;
+}
+
+int filterDepth_bySimulation3(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    string input3 = (para -> inFile3);
+    double mean = (para -> mean);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    igzstream f3 (input3.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    if(f3.fail()){
+        cerr << "open File IN error: " << input3 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    ofstream log((para->outFile+".log").c_str());
+    if((!log.good())){
+        cerr << "open log File error" << endl;
+        return  0;
+    }
+    string l1, l2,l3;
+    vector < string >  ll1,ll2,ll3;
+    vector <double> ll;
+    int j = 0;
+    map <int,vector<double>> dmm ;
+    bool first = true;
+    while(!f1.eof()&&!f2.eof()&&!f3.eof()){
+        getline(f1,l1);
+        getline(f2,l2);
+        getline(f3,l3);
+        ll1.clear();
+        ll2.clear();
+        ll3.clear();
+        ll.clear();
+        split(l1, ll1,"\t");
+        split(l2, ll2,"\t");
+        split(l3, ll3,"\t");
+        
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+        for(int i = 2, len = ll2.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll2[i]));
+        }
+        for(int i = 2, len = ll3.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll3[i]));
+        }
+        if(first){
+            cout << "simulation process: start" <<endl;
+            dmm = depth_min_max (ll.size(),mean);
+            first = false;
+            cout << "simulation process: end" <<endl;
+        }
+        bool pass = depthFilter(ll,dmm);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
+            OUT << "\n";
+        }
     }
     cout << para->logFile << endl;
     log << "passed sites is: " << j ;
@@ -1279,6 +1363,78 @@ int filterDepth2(parameter *para){
             ll.push_back(string2Double(ll2[i]));
         }
         bool pass =depthTest(ll,para->a,para->b,para->minDepth,para-> maxDepth,para->depthSD);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
+            OUT << "\n";
+        }
+    }
+    
+    log << "passed sites is: " << j  ;
+    f1.close();
+    f2.close();
+    OUT.close();
+    log.close();
+    return 1;
+}
+int filterDepth_bySimulation2(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    double mean = (para->mean);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    ofstream log((para->outFile+".log").c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    if((!log.good())){
+        cerr << "open log File error" << endl;
+        return  0;
+    }
+    
+    string l1, l2;
+    vector < string >  ll1,ll2;
+    vector <double> ll;
+    int j = 0;
+    map <int,vector<double>> dmm ;
+    bool first = true;
+    while(!f1.eof()&&!f2.eof()){
+        getline(f1,l1);
+        getline(f2,l2);
+        ll1.clear();
+        ll2.clear();
+        ll.clear();
+        split(l1, ll1,"\t");
+        split(l2, ll2,"\t");
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+        for(int i = 2, len = ll2.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll2[i]));
+        }
+        if(first){
+            cout << "simulation process: start" << endl;
+            dmm = depth_min_max (ll.size(),mean);
+            first = false;
+            cout << dmm[400][1] << endl;
+            cout << dmm[400][0]<< endl;
+            cout << "simulation process: end" << endl;
+        }
+        bool pass = depthFilter(ll,dmm);
         if(pass){
             j++;
             OUT << ll1[0];

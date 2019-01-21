@@ -23,4 +23,5 @@
 #include "./include/gzstream/gzstream.c"
 #include <algorithm>
 #include <functional>
+#include <random>
 #endif /* HeaderIns_h */

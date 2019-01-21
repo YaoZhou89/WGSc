@@ -36,6 +36,7 @@ public:
     double r;
     bool isBed;
     bool recode;
+    double mean;
     string headerC;
     set<int> pos; // used for change chromosome pos;
     parameter()
@@ -60,6 +61,7 @@ public:
         size = 1000000;
         headerC = "#";
         recode = false;
+        mean = 0.0;
         r = 0.01;
         a = 0.0;
         b = 0.0;
