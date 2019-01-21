@@ -727,8 +727,12 @@ int pi2bed(parameter *para){
             ++BinRound;
             if(it != binNum.end()){
                 int n = binNum[ll[0] + "_" + to_string(startPos)];
-                if(n == 0) continue;
-                ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+                if(n == 0) {
+                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << 0 << "\n" ;
+                }else{
+                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+                }
+                
                 pi = 0;
             }
             prePos = current_pos;
