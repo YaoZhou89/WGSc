@@ -6,11 +6,10 @@ all:
 	$(MAKE) --no-print-directory ./bin/WGS
 
 ./bin/WGS: ./WGS/main.c
-        mkdir -p bin
-        $(CC) $(CFLAGS) ./WGS/main.c -o ./bin/WGS
-
+	mkdir -p bin
+	$(CC) $(CFLAGS) ./WGS/main.c -o ./bin/WGS
 
 test:
 
 clean: ./bin/crisflash
-        $(RM) ./bin/WGS
+	$(RM) ./bin/WGS
