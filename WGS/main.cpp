@@ -83,6 +83,8 @@ int main(int argc, char * argv[]) {
                 filterDepth2(para);
             }else if((para -> type)=="filterBySim3"){
                 filterDepth_bySimulation3(para);
+            }else if((para -> type)=="filterBySim"){
+                filterDepth_bySimulation(para);
             }else if((para -> type)=="filterBySim2"){
 //                cout <<"testing..."<<endl;
                 filterDepth_bySimulation2(para);

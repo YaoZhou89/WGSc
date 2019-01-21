@@ -1317,7 +1317,66 @@ int filterDepth_bySimulation3(parameter *para){
     log.close();
     return 1;
 }
-
+int filterDepth_bySimulation(parameter *para){
+    string input1 = (para->inFile);
+    double mean = (para -> mean);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    ofstream log((para->outFile+".log").c_str());
+    if((!log.good())){
+        cerr << "open log File error" << endl;
+        return  0;
+    }
+    string l1;
+    vector < string >  ll1;
+    vector <double> ll;
+    int j = 0;
+    map <int,vector<double>> dmm ;
+    bool first = true;
+    while(!f1.eof()){
+        getline(f1,l1);
+        
+        ll1.clear();
+        
+        ll.clear();
+        split(l1, ll1,"\t");
+        
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+    
+        if(first){
+            cout << "simulation process: start" <<endl;
+            dmm = depth_min_max (ll.size(),mean);
+            first = false;
+            cout << "simulation process: end" <<endl;
+        }
+        bool pass = depthFilter(ll,dmm);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
+            OUT << "\n";
+        }
+    }
+    cout << para->logFile << endl;
+    log << "passed sites is: " << j ;
+    f1.close();
+    OUT.close();
+    log.close();
+    return 1;
+}
 int filterDepth2(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
