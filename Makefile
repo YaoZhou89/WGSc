@@ -3,7 +3,7 @@ RM=rm
 MAKE=make
 CFLAGS=-std=c++11 -lz
 all:
-        $(MAKE) --no-print-directory ./bin/WGS
+	$(MAKE) --no-print-directory ./bin/WGS
 
 ./bin/WGS: ./WGS/main.c
         mkdir -p bin
