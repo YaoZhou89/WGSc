@@ -10,13 +10,16 @@
     WGS --model wc --file depth.1.txt.gz
 ### 2.2 random choose from a file
     WGS --model file --type random --file all.depth.txt.gz --out test.txt.gz --r 0.001
-### 2.3 select barley  as calibrate
+### 
+###  select barley  as calibrate
     WGS --model vcf --type calibrate --file chr1.vcf.gz --out chr1.cal.vcf.gz
-### 2.4 change the position from numeric to chr1
+###  change the position from numeric to chr1
     WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
-### 2.5 Change the bam site depth to bed file;
+### Change the bam site depth to bed file ;
     WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
-### 2.6 estimate diversity 
+### get candidate region by simulation
+    WGS  --model file --type filterBySim --file depth.A.txt --out AB3.txt --mean 3.137899
+### estimate diversity 
     WGS --model diversity --type window-pi --file chr1.vcf.gz --windowSize 1000000 --out chr1.window.pi
 ### 
 ### 
