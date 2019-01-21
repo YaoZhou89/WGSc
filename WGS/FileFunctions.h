@@ -709,27 +709,32 @@ int pi2bed(parameter *para){
 //    cout << binNum["9_453000001"] << endl;
     map<string,int>::iterator it;
     double pi = 0.0;
+    int prePos = 0;
     while(!inF.eof()){
         getline(inF, line);
         if(line.length()<1) continue;
         if(line[0]=='C') continue;
         ll.clear();
-        split(line,ll,"\t");
-        while(string2Int(ll[1]) > BinRound*binSize){
-            endPos = BinRound*binSize;
-            startPos = (BinRound-1)*binSize +1;
-           
+        split(line,ll," \t");
+        int current_pos = string2Int(ll[1]);
+        if(prePos > current_pos ) {
+            BinRound = 1;
+        }
+        while(current_pos > BinRound * binSize){
+            endPos = BinRound * binSize;
+            startPos = (BinRound-1) * binSize + 1;
             it = binNum.find(ll[0] + "_" + to_string(startPos));
             ++BinRound;
             if(it != binNum.end()){
-                int n = binNum[ll[0]+"_"+to_string(startPos)];
+                int n = binNum[ll[0] + "_" + to_string(startPos)];
                 if(n == 0) continue;
-                
                 ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
                 pi = 0;
             }
+            prePos = current_pos;
         }
-        if(ll[2]=="-nan") ll[2] = '0';
+        
+        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = '0';
         pi += string2Double(ll[2]);
     }
     if(pi > 0){
