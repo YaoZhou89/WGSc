@@ -1992,6 +1992,7 @@ int getMaximum(parameter *para){
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
+        if(line[1] == 'C') continue;
         ll.clear();
         split(line,ll," \t");
         if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN"||ll[pos1]=="-nan"||ll[pos1] == "nan") continue;
