@@ -2045,8 +2045,8 @@ int pwpd(parameter *para){
         ll2.clear();
         split(line,ll," \t");
         split(line2,ll2," \t");
-        if(string2Double(ll2[3]) == 0 ) ll2[3] = "0.0001";
-        double pwd = string2Double(ll[3])/(string2Double(ll2[3])+0.000000001);
+        if(string2Double(ll2[3]) == 0 ) ll2[3] = "0.001";
+        double pwd = string2Double(ll[3])/(string2Double(ll2[3]));
 //        if(ll2[3]=="0") pwd = 10;
         ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << pwd << "\n";
     }
