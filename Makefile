@@ -11,5 +11,5 @@ all:
 
 test:
 
-clean: ./bin/WGS
-	$(RM) ./bin/WGS
+clean: ./bin
+	$(RM) ./bin
