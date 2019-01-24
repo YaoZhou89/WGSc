@@ -153,6 +153,8 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             para -> r = atof(argv[i]);
         }else if (flag == "isBed"){
             para ->isBed = true ;
+        }else if (flag == "noNeg"){
+            para ->noNeg = true ;
         }else if (flag == "recode"){
             para ->recode = true ;
         }else if (flag == "header" || flag == "head"){

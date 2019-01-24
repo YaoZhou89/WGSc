@@ -1988,7 +1988,7 @@ int getMaximum(parameter *para){
     set<int> pos = (para->pos);
     int pos1 = *pos.begin();
     vector<double> value;
-   
+    bool Noneg = (para->noNeg);
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
@@ -1996,7 +1996,11 @@ int getMaximum(parameter *para){
         ll.clear();
         split(line,ll," \t");
         if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN"||ll[pos1]=="-nan"||ll[pos1] == "nan") continue;
-        value.push_back(string2Double(ll[pos1]));
+        if(Noneg){
+            value.push_back(string2Doubleabs(ll[pos1]));
+        }else{
+            value.push_back(string2Double(ll[pos1]));
+        }        
     }
     sort(value.begin(),value.end());
     double mean = avg(value);
