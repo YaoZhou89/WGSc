@@ -52,6 +52,11 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> inFile3 = argv[i];
+        }else if (flag  == "bedFile" || flag == "bed" || flag == "i2")
+        {
+            if(i + 1 == argc) {LogLackArg(flag); return 0;}
+            i++;
+            para -> bedFile = argv[i];
         }
         else if (flag  == "subPop"  ||  flag  == "s" )
         {
