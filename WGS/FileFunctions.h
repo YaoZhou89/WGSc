@@ -1310,7 +1310,11 @@ int filterDepth_bySimulation3(parameter *para){
             OUT << "\t";
             OUT << ll1[1];
             OUT << "\n";
-            cout << ll1[1] <<endl;
+            if(ll1[1].length()>15){
+                cout << l1 <<endl;
+                return 0;
+            }
+            
         }
     }
     cout << para->logFile << endl;
