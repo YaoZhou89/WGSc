@@ -157,7 +157,7 @@ inline bool depthFilter(vector<double>& dep,map <int,vector<double>>& depth_min_
 inline double string2Double(std::string const& s){
         std::istringstream iss(s);
         double value;
-        if (!(iss >> value)) throw std::runtime_error("invalid double");
+    if (!(iss >> value)) throw std::runtime_error("invalid double: " + s);
         return value;
 }
 

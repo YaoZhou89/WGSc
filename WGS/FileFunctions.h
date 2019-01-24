@@ -2055,4 +2055,67 @@ int pwpd(parameter *para){
     ouf.close();
     return 1;
 }
+int splitByChr(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    
+    vector<string> header;
+    vector<string> ll;
+    // read header
+    while(!inf.eof()){
+        string  line ;
+        getline(inf,line);
+        if (line.length() < 1 )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] == '#' )  {
+            header.push_back(line);
+            continue  ;
+        }else if ( line[0] == '#' && line[1] != '#' ){
+            header.push_back(line);
+            ll.clear();
+            split(line,ll,"\t");
+            if  ( ll[0]  != "#CHROM"){
+                continue  ;
+            }
+            break ;
+        }else if ( line[0] != '#' && line[1] != '#' ){
+            cerr<<"wrong Line : "<<line<<endl;
+            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
+            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
+            return  0;
+            break;
+        }
+    }
+    string chr = "0";
+    ofstream ouf ;
+    while(!inf.eof()){
+        string  line ;
+        getline(inf,line);
+        if (line.length() < 1 )  {
+            continue  ;
+        }
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]==chr){
+            ouf << line << "\n" ;
+        }else{
+            ouf.close();
+            string outname = outFile+chr;
+//            ouf ((outname.c_str()));
+//            for(int i = 0; i < header.size();i++){
+//                ouf << header[i] << "\n" ;
+//            }
+        }
+    }
+    inf.close();
+    ouf.close();
+    
+    return 1;
+}
 #endif /* FileFunctions_h */
