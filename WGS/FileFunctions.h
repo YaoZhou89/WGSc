@@ -1284,6 +1284,9 @@ int filterDepth_bySimulation3(parameter *para){
         ll2.clear();
         ll3.clear();
         ll.clear();
+        if(l1.length()<1) continue;
+        if(l2.length()<1) continue;
+        if(l3.length()<1) continue;
         split(l1, ll1," \t");
         split(l2, ll2," \t");
         split(l3, ll3," \t");
@@ -1311,7 +1314,6 @@ int filterDepth_bySimulation3(parameter *para){
             OUT << "\t";
             OUT << ll1[1];
             OUT << "\n";
-            
             
         }
     }
