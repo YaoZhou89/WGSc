@@ -2274,11 +2274,13 @@ int ct2(parameter *para){
         getline(inf1,line);
         if(line.length()<1) continue;
         g1.insert(line);
+        cout << "group1 readed!" << endl;
     }
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
         g2.insert(line);
+         cout << "group2 readed!" << endl;
     }
     vector <string> ll;
     set<int> gi1,gi2;
