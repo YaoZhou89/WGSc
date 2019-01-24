@@ -1304,13 +1304,14 @@ int filterDepth_bySimulation3(parameter *para){
             cout << "simulation process: end" <<endl;
         }
         bool pass = depthFilter(ll,dmm);
+        cout << l1 << endl;
         if(pass){
             j++;
             OUT << ll1[0];
             OUT << "\t";
             OUT << ll1[1];
             OUT << "\n";
-            cout << l1 << endl;
+            
             
         }
     }
