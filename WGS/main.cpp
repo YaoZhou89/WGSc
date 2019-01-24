@@ -53,6 +53,10 @@ int main(int argc, char * argv[]) {
                 getHeader(para);
             }else if((para->type) == "depthFilter"){
                 
+            }else if((para->type) == "ct3"){
+                ct3(para);
+            }else if((para->type) == "ct2"){
+                ct2(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

@@ -2126,4 +2126,229 @@ int splitByChr(parameter *para){
     
     return 1;
 }
+int ct3(parameter *para){
+    string inFile1 = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string inFile3 = (para->inFile3);
+    string bedFile = (para->bedFile);
+    string outFile = (para->outFile);
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    igzstream inf3 ((inFile3).c_str(),ifstream::in);
+    igzstream vcf ((bedFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    set <string> g1;
+    set <string> g2;
+    set <string> g3;
+    string line;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        g1.insert(line);
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        g2.insert(line);
+    }
+    while(!inf3.eof()){
+        getline(inf3,line);
+        if(line.length()<1) continue;
+        g3.insert(line);
+    }
+    vector <string> ll;
+    set<int> gi1,gi2,gi3;
+    int c1 = 0, c2 = 0, c3 =0, c4 = 0,c5 = 0,c6 = 0, c7 = 0;
+    while(!vcf.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#'||line[1]=='#') continue;
+        if(line[0]=='#'||line[1]=='C') {
+            ll.clear();
+            split(line,ll," \t");
+            for(int i = 9; i < ll.size(); ++i){
+                if(g1.count(ll[i])==1){
+                    gi1.insert(i);
+                }else if(g2.count(ll[i])==1){
+                    gi2.insert(i);
+                }else if(g3.count(ll[i])==1){
+                    gi3.insert(i);
+                }else{
+                    continue;
+                }
+            }
+            cout << "group1 size is: " << gi1.size() << endl;
+            cout << "group2 size is: " << gi2.size() << endl;
+            cout << "group3 size is: " << gi3.size() << endl;
+            continue;
+        };
+        ll.clear();
+        bool s1 = false,s2 = false,s3 = false;
+        int n = 0,sum = 0;
+        split(line,ll," \t");
+        for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>2 && sum > 2) s1= true;
+        
+        n = 0,sum = 0;
+        for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>2 && sum > 2) s2= true;
+        
+        n = 0,sum = 0;
+        for(set<int>::iterator it=gi3.begin() ;it!=gi3.end();it++){
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>2 && sum > 2) s3= true;
+        if(s1 && s2 && s3){
+            c1++;
+        }else
+        if(s1 && s2 && !s3){
+            c2++;
+        }else
+        if(s1 && !s2 && s3){
+            c3++;
+        }else
+        if(!s1 && s2 && s3){
+            c4++;
+        }else
+        if(s1 && !s2 && !s3){
+            c5++;
+        }else
+        if(!s1 && s2 && !s3){
+            c6++;
+        }else
+        if(!s1 && !s2 && s3){
+            c7++;
+        }else{
+            cerr << "No cater found!" << endl;
+        }
+    }
+    ouf << "c1\t" << c1 << "\n";
+    ouf << "c2\t" << c2 << "\n";
+    ouf << "c3\t" << c3 << "\n";
+    ouf << "c4\t" << c4 << "\n";
+    ouf << "c5\t" << c5 << "\n";
+    ouf << "c6\t" << c6 << "\n";
+    ouf << "c7\t" << c7 << "\n";
+    inf1.close();
+    inf2.close();
+    inf3.close();
+    vcf.close();
+    ouf.close();
+    return 1;
+}
+int ct2(parameter *para){
+    string inFile1 = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string bedFile = (para->bedFile);
+    string outFile = (para->outFile);
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    igzstream vcf ((bedFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    set <string> g1;
+    set <string> g2;
+    string line;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        g1.insert(line);
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        g2.insert(line);
+    }
+    vector <string> ll;
+    set<int> gi1,gi2;
+    int c1 = 0, c2 = 0, c3 =0;
+    while(!vcf.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#'||line[1]=='#') continue;
+        if(line[0]=='#'||line[1]=='C') {
+            ll.clear();
+            split(line,ll," \t");
+            for(int i = 9; i < ll.size(); ++i){
+                if(g1.count(ll[i])==1){
+                    gi1.insert(i);
+                }else if(g2.count(ll[i])==1){
+                    gi2.insert(i);
+                }else{
+                    continue;
+                }
+            }
+            cout << "group1 size is: " << gi1.size() << endl;
+            cout << "group2 size is: " << gi2.size() << endl;
+            continue;
+        };
+        ll.clear();
+        bool s1 = false,s2 = false;
+        int n = 0,sum = 0;
+        split(line,ll," \t");
+        for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>2 && sum > 2) s1= true;
+        
+        n = 0, sum = 0;
+        for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>2 && sum > 2) s2= true;
+        
+        
+        if(s1 && s2 ){
+            c1++;
+        }else if(s1 && !s2 ){
+            c2++;
+        }else if(!s1 && s2 ){
+            c3++;
+        }else{
+            cerr << "No cater found!" << endl;
+        }
+    }
+    ouf << "c1\t" << c1 << "\n";
+    ouf << "c2\t" << c2 << "\n";
+    ouf << "c3\t" << c3 << "\n";
+    inf1.close();
+    inf2.close();
+    inf3.close();
+    vcf.close();
+    ouf.close();
+    return 1;
+}
 #endif /* FileFunctions_h */
