@@ -2290,6 +2290,7 @@ int ct2(parameter *para){
         if(line.length()<1) continue;
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0]=='#' && line[1]=='C') {
+            cout << "headering.." << endl;
             ll.clear();
             split(line,ll," \t");
             for(int i = 9; i < ll.size(); ++i){
