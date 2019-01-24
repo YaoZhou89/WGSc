@@ -168,6 +168,14 @@ inline double string2Doubleabs(std::string const& s){
     return value;
 }
 
+inline double string2Doublepos(std::string const& s){
+    std::istringstream iss(s);
+    double value;
+    if (!(iss >> value)) throw std::runtime_error("invalid double: " + s);
+    if(value<0) value = 0;
+    return value;
+}
+
 inline lint string2Int(std::string const& s){
     std::istringstream iss(s);
     lint value;

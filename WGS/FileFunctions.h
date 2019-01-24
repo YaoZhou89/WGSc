@@ -1997,7 +1997,7 @@ int getMaximum(parameter *para){
         split(line,ll," \t");
         if(ll[pos1]=="inf"||ll[pos1]=="Inf"||ll[pos1]=="NA"||ll[pos1]=="NaN"||ll[pos1]=="-nan"||ll[pos1] == "nan") continue;
         if(Noneg){
-            value.push_back(string2Doubleabs(ll[pos1]));
+            value.push_back(string2Doublepos(ll[pos1]));
         }else{
             value.push_back(string2Double(ll[pos1]));
         }        
