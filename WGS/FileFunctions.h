@@ -2195,7 +2195,7 @@ int ct3(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>2 && sum > 2) s1= true;
+        if((2*n-sum)>1 && sum > 1) s1= true;
         
         n = 0,sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
@@ -2207,7 +2207,7 @@ int ct3(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>2 && sum > 2) s2= true;
+        if((2*n-sum)>1 && sum > 1) s2= true;
         
         n = 0,sum = 0;
         for(set<int>::iterator it=gi3.begin() ;it!=gi3.end();it++){
@@ -2219,7 +2219,7 @@ int ct3(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>2 && sum > 2) s3= true;
+        if((2*n-sum)>1 && sum > 1) s3= true;
         if(s1 && s2 && s3){
             c1++;
         }else
@@ -2319,7 +2319,7 @@ int ct2(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>2 && sum > 2) s1= true;
+        if((2*n-sum)>1 && sum > 1) s1= true;
         
         n = 0, sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
@@ -2332,7 +2332,7 @@ int ct2(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>2 && sum > 2) s2= true;
+        if((2*n-sum)>1 && sum > 1) s2= true;
         
         
         if(s1 && s2 ){
