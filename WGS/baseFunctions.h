@@ -119,7 +119,6 @@ inline map <int,vector<double>> depth_min_max(const int& sampleSize, const doubl
 //        cout << "sum is: " << re[0] << " ;sd is: " << re[1] << endl;
         de.push_back(re[1]);
         depth_sd[(int)re[0]] = de;
-        
     }
     
     map <int,vector<double>>::iterator it;

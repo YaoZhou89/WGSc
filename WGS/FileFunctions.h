@@ -1284,9 +1284,9 @@ int filterDepth_bySimulation3(parameter *para){
         ll2.clear();
         ll3.clear();
         ll.clear();
-        split(l1, ll1,"\t");
-        split(l2, ll2,"\t");
-        split(l3, ll3,"\t");
+        split(l1, ll1," \t");
+        split(l2, ll2," \t");
+        split(l3, ll3," \t");
         
         for(int i = 2, len = ll1.size(); i < len ; ++i){
             ll.push_back(string2Double(ll1[i]));
@@ -1505,7 +1505,6 @@ int filterDepth_bySimulation2(parameter *para){
             OUT << "\n";
         }
     }
-    
     log << "passed sites is: " << j  ;
     f1.close();
     f2.close();
