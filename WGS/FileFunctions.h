@@ -2162,8 +2162,8 @@ int ct3(parameter *para){
     while(!vcf.eof()){
         getline(inf1,line);
         if(line.length()<1) continue;
-        if(line[0]=='#'||line[1]=='#') continue;
-        if(line[0]=='#'||line[1]=='C') {
+        if(line[0]=='#' && line[1]=='#') continue;
+        if(line[0]=='#' && line[1]=='C') {
             ll.clear();
             split(line,ll," \t");
             for(int i = 9; i < ll.size(); ++i){
