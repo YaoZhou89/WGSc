@@ -2319,7 +2319,7 @@ int ct2(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>1 && sum > 1) s1= true;
+        if((2*n-sum)>0 && sum > 0) s1= true;
         
         n = 0, sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
@@ -2332,7 +2332,7 @@ int ct2(parameter *para){
                 sum++;
             }
         }
-        if((2*n-sum)>1 && sum > 1) s2= true;
+        if((2*n-sum)>0 && sum > 0) s2= true;
         
         
         if(s1 && s2 ){
