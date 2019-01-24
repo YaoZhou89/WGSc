@@ -2274,22 +2274,22 @@ int ct2(parameter *para){
         getline(inf1,line);
         if(line.length()<1) continue;
         g1.insert(line);
-        cout << "group1 readed!" << endl;
     }
+    cout << "group1 readed!" << endl;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
         g2.insert(line);
-         cout << "group2 readed!" << endl;
     }
+    cout << "group2 readed!" << endl;
     vector <string> ll;
     set<int> gi1,gi2;
     int c1 = 0, c2 = 0, c3 =0;
     while(!vcf.eof()){
         getline(inf1,line);
         if(line.length()<1) continue;
-        if(line[0]=='#'||line[1]=='#') continue;
-        if(line[0]=='#'||line[1]=='C') {
+        if(line[0]=='#' && line[1]=='#') continue;
+        if(line[0]=='#' && line[1]=='C') {
             ll.clear();
             split(line,ll," \t");
             for(int i = 9; i < ll.size(); ++i){
