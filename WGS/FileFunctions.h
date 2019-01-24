@@ -2324,7 +2324,7 @@ int ct2(parameter *para){
         n = 0, sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
             n++;
-            cout << *it << " found!" << endl;
+//            cout << *it << " found!" << endl;
             if(ll[*it][0]=='1'){
                 sum++;
             }
