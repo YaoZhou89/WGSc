@@ -2241,7 +2241,7 @@ int ct3(parameter *para){
         if(!s1 && !s2 && s3){
             c7++;
         }else{
-            cerr << "No cater found!" << endl;
+            c1++;
         }
     }
     ouf << "c1\t" << c1 << "\n";
@@ -2342,7 +2342,8 @@ int ct2(parameter *para){
         }else if(!s1 && s2 ){
             c3++;
         }else{
-            cerr << "No cater found! sum is: " << sum << endl;
+//            cerr << "No cater found! sum is: " << sum << endl;
+            c1++;
         }
     }
     ouf << "c1\t" << c1 << "\n";
