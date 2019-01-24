@@ -2346,7 +2346,6 @@ int ct2(parameter *para){
     ouf << "c3\t" << c3 << "\n";
     inf1.close();
     inf2.close();
-    inf3.close();
     vcf.close();
     ouf.close();
     return 1;
