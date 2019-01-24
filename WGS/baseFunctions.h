@@ -109,7 +109,7 @@ inline map <int,vector<double>> depth_min_max(const int& sampleSize, const doubl
     map <int,vector<double>> depth_sd;
     vector <double> de;
 //    cout << "mean input is: " << mean << endl;
-    for (int i = 0; i < 1000000; ++i){
+    for (int i = 0; i < 10000; ++i){
         de.clear();
         vector<double> rp = rpois(sampleSize, mean,rand());
         vector <double> re = sum_sd(rp);
