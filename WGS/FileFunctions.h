@@ -2160,7 +2160,7 @@ int ct3(parameter *para){
     set<int> gi1,gi2,gi3;
     int c1 = 0, c2 = 0, c3 =0, c4 = 0,c5 = 0,c6 = 0, c7 = 0;
     while(!vcf.eof()){
-        getline(inf1,line);
+        getline(vcf,line);
         if(line.length()<1) continue;
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0]=='#' && line[1]=='C') {
@@ -2286,7 +2286,7 @@ int ct2(parameter *para){
     set<int> gi1,gi2;
     int c1 = 0, c2 = 0, c3 =0;
     while(!vcf.eof()){
-        getline(inf1,line);
+        getline(vcf,line);
         if(line.length()<1) continue;
         if(line[0]=='#' && line[1]=='#') continue;
         if(line[0]=='#' && line[1]=='C') {
