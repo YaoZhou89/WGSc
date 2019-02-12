@@ -57,6 +57,8 @@ int main(int argc, char * argv[]) {
                 ct3(para);
             }else if((para->type) == "ct2"){
                 ct2(para);
+            }else if((para->type) == "addContig"){
+                addContig(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

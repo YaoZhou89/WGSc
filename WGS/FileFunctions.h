@@ -2355,4 +2355,34 @@ int ct2(parameter *para){
     ouf.close();
     return 1;
 }
+int addContig(parameter *para){
+    string inFile1 = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string header;
+    string line;
+    while(!inf1.eof()){
+        line.clear();
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        header.append(line);
+        header.append("\n");
+    }
+    inf1.close();
+    while(!inf2.eof()){
+        line.clear();
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#' & line[1] == 'C'){
+            ouf << header ;
+        }
+        ouf << line << "\n";
+    }
+    inf2.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */
