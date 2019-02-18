@@ -2405,6 +2405,7 @@ int subMummer4(parameter *para){
         split(line, ll," \t");
         snpPos.insert(string2Int(ll[1]));
     }
+    cout << "vcf readed!" << endl;
     bool newAlignment = true;
     string s1,s2;
     int start = 0 , end = 0;
