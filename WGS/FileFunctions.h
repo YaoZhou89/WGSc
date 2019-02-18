@@ -1728,9 +1728,11 @@ int calibarate2(parameter *para){
     while(!f1.eof()){
         getline(f1,line);
         if(line.length()<1) continue;
-        if(line[0]=='#' && line[1]=='C') {
+        if(line[0]=='#' ) {
             OUT << line ;
-            OUT << "\t" << "barley";
+            if(line[1]=='C'){
+                OUT << "\t" << "barley";
+            }
             OUT << "\n";
             continue;
         };
@@ -2381,6 +2383,63 @@ int addContig(parameter *para){
         }
         ouf << line << "\n";
     }
+    inf2.close();
+    ouf.close();
+    return 0;
+}
+int subMummer4(parameter *para){
+    string inFile1 = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set <int> snpPos;
+    vector<string> ll;
+    while(!inf1.eof()){
+        getline(inf1, line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line, ll," \t");
+        snpPos.insert(string2Int(ll[1]));
+    }
+    bool newAlignment = true;
+    string s1,s2;
+    int start = 0 , end = 0;
+    while(!inf2.eof()){
+        getline(inf2, line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line, ll," \t");
+        if(ll[1]=="BEGIN"){
+            s1.clear();
+            s2.clear();
+            newAlignment = true;
+            start = string2Int(ll[5]);
+            end = string2Int(ll[7]);
+            continue;
+        }
+        if(newAlignment){
+            s1.append(ll[1]);
+            newAlignment = false;
+            continue;
+        }else{
+            s2.append(ll[1]);
+            continue;
+        }
+        if(ll[1]=="END"){
+            for(int i = start; i < end; ++i){
+                if(snpPos.count(i)!=0){
+                    ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
+                }
+            }
+            continue;
+        }
+        
+    }
+    inf1.close();
     inf2.close();
     ouf.close();
     return 0;
