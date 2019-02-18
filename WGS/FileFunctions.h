@@ -2441,12 +2441,11 @@ int subMummer4(parameter *para){
             continue;
         }
         
-        if(ll[1]=="END"){
+        if(ll[2]=="END"){
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
                     ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
                 }
-                cout << "checkpoint4" << endl;
             }
             continue;
         }
