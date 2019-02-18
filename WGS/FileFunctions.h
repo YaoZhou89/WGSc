@@ -2420,8 +2420,10 @@ int subMummer4(parameter *para){
 //        found = line.find("^");
 //        if (found!=std::string::npos) continue;
         ll.clear();
-        
         split(line, ll," \t");
+        for(int i = 0; i < ll.length(); ++i){
+            cout << ll[i] << endl;
+        }
         if(ll[1]=="BEGIN"){
             s1.clear();
             s2.clear();
@@ -2440,14 +2442,12 @@ int subMummer4(parameter *para){
             newAlignment = true;
             continue;
         }
-        
         if(line[5]=='E'){
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
                     ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
                 }
             }
-            continue;
         }
         
     }
