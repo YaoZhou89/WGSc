@@ -2446,7 +2446,9 @@ int subMummer4(parameter *para){
             }
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
-                    ouf << i << "\t"<< ss1[i-start] <<"\t"<< ss2[i-start]<<"\n";
+                    if(ss2.substr(i-start,1)!="."){
+                        ouf << i << "\t"<< toupper(ss1[i-start]) <<"\t"<< toupper(ss2[i-start])<<"\n";
+                    }
                 }
             }
         }
