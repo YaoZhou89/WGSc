@@ -2409,7 +2409,9 @@ int subMummer4(parameter *para){
     bool newAlignment = true;
     string s1,s2;
     int start = 0 , end = 0;
+    int missingLength = 0;
 //    std::size_t found ;
+    string ss1, ss2;
     while(!inf2.eof()){
         line.clear();
         getline(inf2, line);
@@ -2430,14 +2432,18 @@ int subMummer4(parameter *para){
             newAlignment = true;
             start = string2Int(ll[5]);
             end = string2Int(ll[7]);
-//            cout << start << "\t" << end << endl;
             continue;
         }
         if(ll[1]=="END"){
-//            cout << line << endl;
+            for (int i =0; i < s1.length(); ++i){
+                if(s1[i]!='\.'){
+                    ss1 += s1[i];
+                    ss2 += s2[i];
+                }
+            }
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
-                    ouf << i << "\t"<< s1[i-start-1] <<"\t"<< s2[i-start-1]<<"\n";
+                    ouf << i << "\t"<< ss1[i-start-1] <<"\t"<< ss2[i-start-1]<<"\n";
                 }
             }
         }
