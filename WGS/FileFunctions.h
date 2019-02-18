@@ -2430,14 +2430,14 @@ int subMummer4(parameter *para){
             newAlignment = true;
             start = string2Int(ll[5]);
             end = string2Int(ll[7]);
-//            cout << start << "\t" << end << endl;
+            cout << start << "\t" << end << endl;
             continue;
         }
         if(ll[1]=="END"){
-            cout << line << endl;
+//            cout << line << endl;
             for(int i = start; i < end; ++i){
-                if(snpPos.count(i)!=0){
-                    ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
+                if(snpPos.count(i+1)!=0){
+                    ouf << i << "\t"<< s1[i-start+1] <<"\t"<< s2[i-start+1]<<"\n";
                 }
             }
         }
