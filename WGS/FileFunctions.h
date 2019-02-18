@@ -2436,7 +2436,7 @@ int subMummer4(parameter *para){
         }
         if(ll[1]=="END"){
             for (int i =0; i < s1.length(); ++i){
-                if(s1[i]!='\.'){
+                if(s1[i]!='\\.'){
                     ss1 += s1[i];
                     ss2 += s2[i];
                 }
