@@ -2416,8 +2416,8 @@ int subMummer4(parameter *para){
         if(line.length() < 1) continue;
         if(line[0]==' ') continue;
         if(line[0]=='\t') continue;
-        found = line.find("^");
-        if (found!=std::string::npos) continue;
+//        found = line.find("^");
+//        if (found!=std::string::npos) continue;
         ll.clear();
         cout << line << endl;
         split(line, ll," \t");
