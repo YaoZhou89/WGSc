@@ -2413,10 +2413,11 @@ int subMummer4(parameter *para){
         getline(inf2, line);
         if(line.length() < 1) continue;
         cout << line << endl;
+        cout << line.length()   << endl;
         ll.clear();
         split(line, ll," \t");
         if(ll[1]=="BEGIN"){
-            cout << "checkpoint1" << endl;
+//            cout << "checkpoint1" << endl;
             s1.clear();
             s2.clear();
             newAlignment = true;
@@ -2425,13 +2426,14 @@ int subMummer4(parameter *para){
             continue;
         }
         if(newAlignment){
-            cout << "checkpoint2" << endl;
+//            cout << "checkpoint2" << endl;
             s1.append(ll[1]);
             newAlignment = false;
             continue;
         }else{
-            cout << "checkpoint3" << endl;
+//            cout << "checkpoint3" << endl;
             s2.append(ll[1]);
+            newAlignment = true;
             continue;
         }
         if(ll[1]=="END"){
