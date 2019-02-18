@@ -2433,6 +2433,14 @@ int subMummer4(parameter *para){
 //            cout << start << "\t" << end << endl;
             continue;
         }
+        if(ll[5]=="END"){
+            cout << line << endl;
+            for(int i = start; i < end; ++i){
+                if(snpPos.count(i)!=0){
+                    ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
+                }
+            }
+        }
         if(newAlignment){
             s1.append(ll[1]);
             newAlignment = false;
@@ -2441,14 +2449,6 @@ int subMummer4(parameter *para){
             s2.append(ll[1]);
             newAlignment = true;
             continue;
-        }
-        if(ll[5]=="END"){
-            cout << line << endl;
-            for(int i = start; i < end; ++i){
-                if(snpPos.count(i)!=0){
-                    ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
-                }
-            }
         }
         
     }
