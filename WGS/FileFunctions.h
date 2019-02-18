@@ -2433,7 +2433,7 @@ int subMummer4(parameter *para){
 //            cout << start << "\t" << end << endl;
             continue;
         }
-        if(ll[5]=="END"){
+        if(ll[1]=="END"){
             cout << line << endl;
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
