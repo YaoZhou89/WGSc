@@ -2410,6 +2410,7 @@ int subMummer4(parameter *para){
     string s1,s2;
     int start = 0 , end = 0;
     while(!inf2.eof()){
+        line.clear();
         getline(inf2, line);
         if(line.length() < 1) continue;
         cout << line << endl;
