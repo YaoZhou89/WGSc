@@ -2412,6 +2412,7 @@ int subMummer4(parameter *para){
     while(!inf2.eof()){
         getline(inf2, line);
         if(line.length() < 1) continue;
+        cout << line << endl;
         ll.clear();
         split(line, ll," \t");
         if(ll[1]=="BEGIN"){
@@ -2434,7 +2435,6 @@ int subMummer4(parameter *para){
             continue;
         }
         if(ll[1]=="END"){
-            
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
                     ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
