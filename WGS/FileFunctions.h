@@ -2441,7 +2441,7 @@ int subMummer4(parameter *para){
             continue;
         }
         
-        if(ll[2]=="END"){
+        if(line[5]=='E'){
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
                     ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
