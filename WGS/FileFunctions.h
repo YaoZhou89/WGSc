@@ -2415,6 +2415,7 @@ int subMummer4(parameter *para){
         ll.clear();
         split(line, ll," \t");
         if(ll[1]=="BEGIN"){
+            cout << "checkpoint1" << endl;
             s1.clear();
             s2.clear();
             newAlignment = true;
@@ -2423,18 +2424,22 @@ int subMummer4(parameter *para){
             continue;
         }
         if(newAlignment){
+            cout << "checkpoint2" << endl;
             s1.append(ll[1]);
             newAlignment = false;
             continue;
         }else{
+            cout << "checkpoint3" << endl;
             s2.append(ll[1]);
             continue;
         }
         if(ll[1]=="END"){
+            
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
                     ouf << i << "\t"<< s1[i-start] <<"\t"<< s2[i-start]<<"\n";
                 }
+                cout << "checkpoint4" << endl;
             }
             continue;
         }
