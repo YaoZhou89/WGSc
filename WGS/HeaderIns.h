@@ -24,4 +24,5 @@
 #include <algorithm>
 #include <functional>
 #include <random>
+#include <regex>
 #endif /* HeaderIns_h */
