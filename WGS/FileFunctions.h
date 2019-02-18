@@ -2442,13 +2442,11 @@ int subMummer4(parameter *para){
                 if(s1.substr(i,1) != "."){
                     ss1 += s1[i];
                     ss2 += s2[i];
-                }else{
-                    cout << s1[i] << endl;
                 }
             }
             for(int i = start; i < end; ++i){
                 if(snpPos.count(i)!=0){
-                    ouf << i << "\t"<< ss1[i-start-1] <<"\t"<< ss2[i-start-1]<<"\n";
+                    ouf << i << "\t"<< ss1[i-start] <<"\t"<< ss2[i-start]<<"\n";
                 }
             }
         }
