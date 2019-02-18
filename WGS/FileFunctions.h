@@ -2420,7 +2420,7 @@ int subMummer4(parameter *para){
 //        found = line.find("^");
 //        if (found!=std::string::npos) continue;
         ll.clear();
-        cout << line << endl;
+        
         split(line, ll," \t");
         if(ll[1]=="BEGIN"){
             s1.clear();
@@ -2428,6 +2428,7 @@ int subMummer4(parameter *para){
             newAlignment = true;
             start = string2Int(ll[5]);
             end = string2Int(ll[7]);
+            cout << start << "\t" << end << endl;
             continue;
         }
         if(newAlignment){
