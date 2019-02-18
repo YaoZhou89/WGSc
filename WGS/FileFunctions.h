@@ -2439,6 +2439,7 @@ int subMummer4(parameter *para){
             ss2.clear();
             cout << s1 << endl;
             for (int i =0; i < s1.length(); ++i){
+                cout << s1.substr(i,1) << endl;
                 if(s1.substr(i,1) != "\\."){
                     ss1 += s1[i];
                     ss2 += s2[i];
