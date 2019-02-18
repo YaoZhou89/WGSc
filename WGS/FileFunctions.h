@@ -2413,8 +2413,11 @@ int subMummer4(parameter *para){
         line.clear();
         getline(inf2, line);
         if(line.length() < 1) continue;
+        if(line[0]==' ') continue;
+        if(line[0]=='\t') continue;
         cout << line << endl;
         cout << line.length()   << endl;
+        
         ll.clear();
         split(line, ll," \t");
         if(ll[1]=="BEGIN"){
