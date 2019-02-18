@@ -1728,7 +1728,7 @@ int calibarate2(parameter *para){
     while(!f1.eof()){
         getline(f1,line);
         if(line.length()<1) continue;
-        if(line[0]=='#') {
+        if(line[0]=='#' && line[1]=='C') {
             OUT << line ;
             OUT << "\t" << "barley";
             OUT << "\n";
