@@ -2441,6 +2441,8 @@ int subMummer4(parameter *para){
                 if(s1[i]=='[atgc]'){
                     ss1 += s1[i];
                     ss2 += s2[i];
+                }else{
+                    cout << s1[i] << endl;
                 }
             }
             for(int i = start; i < end; ++i){
