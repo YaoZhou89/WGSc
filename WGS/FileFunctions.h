@@ -1777,8 +1777,8 @@ int calibarate3(parameter *para){
         getline(f2,line);
         if(line.length()<1) continue;
         ll.clear();
-        split(line,ll,"\t");
-        pos.insert(std::pair<string, string>(ll[1],ll[4]));
+        split(line,ll," \t");
+        pos.insert(std::pair<string, string>(ll[0],ll[2]));
     }
     int passed = 0;
     while(!f1.eof()){
