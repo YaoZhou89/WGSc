@@ -2421,7 +2421,7 @@ int subMummer4(parameter *para){
 //        if (found!=std::string::npos) continue;
         ll.clear();
         split(line, ll," \t");
-        for(int i = 0; i < ll.length(); ++i){
+        for(int i = 0; i < ll.size(); ++i){
             cout << ll[i] << endl;
         }
         if(ll[1]=="BEGIN"){
