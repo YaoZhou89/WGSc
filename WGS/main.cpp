@@ -42,6 +42,8 @@ int main(int argc, char * argv[]) {
                 calibarate(para);
             }else if((para->type) == "calibrate2"){
                 calibarate2(para);
+            }else if((para->type) == "calibarate3"){
+                calibarate3(para);
             }else if((para->type)=="toV8"){
                 cout << "toV8..." << endl;
                 getV8(para);
