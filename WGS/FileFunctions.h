@@ -1795,18 +1795,16 @@ int calibarate3(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         if(ll.size()<2) continue;
-        if(pos[ll[1]].c_str() == ll[4]){
-            OUT << line ;
-            OUT << "\t" << "1/1:0,10:0,0,100";
-            OUT << "\n";
-            passed++;
-        }else if(pos[ll[1]].c_str() == ll[3]){
+        if(pos[ll[1]].c_str() == ll[3]){
             OUT << line ;
             OUT << "\t" << "0/0:0,10:0,0,100";
             OUT << "\n";
             passed++;
         }else{
-            continue;
+            OUT << line ;
+            OUT << "\t" << "1/1:0,10:0,0,100";
+            OUT << "\n";
+            passed++;
         }
     }
     cout << "passed number is: " << passed << endl;
