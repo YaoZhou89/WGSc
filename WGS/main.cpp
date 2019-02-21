@@ -61,6 +61,8 @@ int main(int argc, char * argv[]) {
                 ct2(para);
             }else if((para->type) == "addContig"){
                 addContig(para);
+            }else if((para -> type) == "ANC"){
+                changeAncestralAllele(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

@@ -2531,4 +2531,40 @@ int subMummer4(parameter *para){
     ouf.close();
     return 0;
 }
+int changeAncestralAllele(parameter *para){
+    string inFile1 = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+    ogzstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#'){
+            ouf << line << "\n" ;
+            continue;
+        }
+        ll.clear();
+        split(line,ll," \t");
+        ouf << ll[0];
+        for(int i = 1; i < ll.size(); ++i){
+            if(ll[i].substr(0,3)=="./."){
+                ouf << "\t" << "./.";
+            }else if (ll[i].substr(0,3)=="1/1"){
+                ouf << "\t" << "0/0";
+            }else if (ll[i].substr(0,3)=="0/1"){
+                ouf << "\t" << "0/1";
+            }else if (ll[i].substr(0,3)=="0/0"){
+                ouf << "\t" << "1/1";
+            }else{
+                ouf << "\t" << ll[i];
+            }
+        }
+        ouf << "\n";
+    }
+    inf1.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */
