@@ -72,6 +72,8 @@ int main(int argc, char * argv[]) {
                 Depth2Bed(para);
             }else if ((para->type) == "merge"){
                 mergeDepth(para);
+            }else if((para->type) == "mask"){
+                getMaskRegion(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){

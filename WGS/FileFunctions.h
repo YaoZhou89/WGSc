@@ -2564,4 +2564,35 @@ int changeAncestralAllele(parameter *para){
     ouf.close();
     return 0;
 }
+int getMaskRegion(parameter *para)
+{
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    int pos = 0,prePos = 0;
+    int start = 1;
+    int max = (para->maxLength);
+    vector<string> ll;
+    while(!inf.eof())
+    {
+        getline(inf, line);
+        if(line.length()<1) continue;
+        split(line, ll," \t");
+        pos = string2Int(ll[1]);
+        if((pos-prePos)<150){
+            prePos = pos;
+        }else{
+            ouf << ll[0] << "\t" << start << "\t" << (pos-start) << "\n";
+            start = pos + 1;
+        }
+    }
+    if(pos < max){
+        ouf << ll[0] << "\t" << start << "\t" << max << "\n";
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */

@@ -33,6 +33,7 @@ public:
     double a;
     double b; // y = a + bx
     int size;
+    int maxLength;
     double r;
     bool isBed;
     bool recode;
@@ -67,6 +68,7 @@ public:
         r = 0.01;
         a = 0.0;
         b = 0.0;
+        maxLength = 1000000000;
     }
 };
 
