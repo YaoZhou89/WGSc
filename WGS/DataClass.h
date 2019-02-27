@@ -68,7 +68,7 @@ public:
         r = 0.01;
         a = 0.0;
         b = 0.0;
-        maxLength = 1000000000;
+        maxLength = 512000000;
     }
 };
 
