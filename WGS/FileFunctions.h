@@ -699,14 +699,11 @@ int pi2bed(parameter *para){
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length() < 3) continue;
-        
         ll.clear();
         split(line,ll,"\t");
         binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
     }
     inbed.close();
-//    cout << ll[0]+"_"+ll[1] << endl;
-//    cout << binNum["9_453000001"] << endl;
     map<string,int>::iterator it;
     double pi = 0.0;
     int prePos = 0;
@@ -728,17 +725,15 @@ int pi2bed(parameter *para){
             if(it != binNum.end()){
                 int n = binNum[ll[0] + "_" + to_string(startPos)];
                 if(n == 0) {
-                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << 0 << "\n" ;
+                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << "NA" << "\n" ;
                 }else{
                     ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
                 }
-                
                 pi = 0;
             }
             prePos = current_pos;
         }
-        
-        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = '0';
+        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
         pi += string2Double(ll[2]);
     }
     if(pi > 0){
