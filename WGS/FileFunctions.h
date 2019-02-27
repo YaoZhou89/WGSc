@@ -2583,13 +2583,17 @@ int getMaskRegion(parameter *para)
         ll.clear();
         split(line, ll," \t");
         pos = string2Int(ll[1]);
-        if(isFirst) prePos = pos;
+        if(isFirst)
+        {
+            prePos = pos;
+            start = pos + 1;
+        }
         if((pos-prePos)<150){
             prePos = pos;
             isFirst = false;
         }else{
             ouf << ll[0] << "\t" << start << "\t" << pos << "\n";
-            start = pos + 1;
+            
             isFirst = true;
         }
     }
