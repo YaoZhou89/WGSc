@@ -2579,6 +2579,7 @@ int getMaskRegion(parameter *para)
     {
         getline(inf, line);
         if(line.length()<1) continue;
+        ll.clear();
         split(line, ll," \t");
         pos = string2Int(ll[1]);
         if((pos-prePos)<150){
