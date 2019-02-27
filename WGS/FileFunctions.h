@@ -2585,8 +2585,9 @@ int getMaskRegion(parameter *para)
         if((pos-prePos)<150){
             prePos = pos;
         }else{
-            ouf << ll[0] << "\t" << start << "\t" << (pos-start) << "\n";
+            ouf << ll[0] << "\t" << start << "\t" << pos << "\n";
             start = pos + 1;
+            prePos = pos;
         }
     }
     if(pos < max){
