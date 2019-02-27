@@ -707,6 +707,7 @@ int pi2bed(parameter *para){
     map<string,int>::iterator it;
     double pi = 0.0;
     int prePos = 0;
+    string chr = "c";
     while(!inF.eof()){
         getline(inF, line);
         if(line.length()<1) continue;
@@ -716,6 +717,7 @@ int pi2bed(parameter *para){
         int current_pos = string2Int(ll[1]);
         if(prePos > current_pos ) {
             BinRound = 1;
+            pi = 0;
         }
         while(current_pos > BinRound * binSize){
             endPos = BinRound * binSize;
