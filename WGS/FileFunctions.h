@@ -2575,6 +2575,7 @@ int getMaskRegion(parameter *para)
     int start = 1;
     int max = (para->maxLength);
     vector<string> ll;
+    bool isFirst = false;
     while(!inf.eof())
     {
         getline(inf, line);
@@ -2582,12 +2583,14 @@ int getMaskRegion(parameter *para)
         ll.clear();
         split(line, ll," \t");
         pos = string2Int(ll[1]);
+        if(isFirst) prePos = pos;
         if((pos-prePos)<150){
             prePos = pos;
+            isFirst = false;
         }else{
             ouf << ll[0] << "\t" << start << "\t" << pos << "\n";
             start = pos + 1;
-            prePos = pos;
+            isFirst = true;
         }
     }
     if(pos < max){
