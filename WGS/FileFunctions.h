@@ -804,11 +804,11 @@ int pi(parameter *para){
         split(line,ll,"\t");
         for(int i = 0; i< samplePos.size() ;++i){
             if(ll[samplePos[i]][0] == '0' && ll[samplePos[i]][2] == '0'){
-                ++a;
-                sampleSize++;
+                a += 2;
+                sampleSize +=2;
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
-                ++b;
-                sampleSize++;
+                b +=2 ;
+                sampleSize +=2;
 //            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
 //                ++c;
 //                sampleSize++;
