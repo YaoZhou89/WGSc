@@ -2572,7 +2572,6 @@ int getMaskRegion(parameter *para)
     ofstream ouf ((outFile).c_str());
     string line;
     int pos = 0,prePos = 0;
-    int start = 1;
     int max = (para->maxLength);
     vector<string> ll;
     bool isFirst = false;
@@ -2583,22 +2582,13 @@ int getMaskRegion(parameter *para)
         ll.clear();
         split(line, ll," \t");
         pos = string2Int(ll[1]);
-        if(isFirst)
-        {
-            prePos = pos;
-            start = pos + 1;
+        if((pos-prePos)>150){
+            ouf << ll[0] << "\t" << prePos+1 << "\t" << pos-1 << "\n";
         }
-        if((pos-prePos)<150){
-            prePos = pos;
-            isFirst = false;
-        }else{
-            ouf << ll[0] << "\t" << start << "\t" << pos << "\n";
-            
-            isFirst = true;
-        }
+        prePos = pos+1;
     }
     if(pos < max){
-        ouf << ll[0] << "\t" << start << "\t" << max << "\n";
+        ouf << ll[0] << "\t" << pos+1 << "\t" << max << "\n";
     }
     inf.close();
     ouf.close();
