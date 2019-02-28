@@ -114,6 +114,8 @@ int main(int argc, char * argv[]) {
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
                 pi2bed(para);
+            }else if((para->type) == "syn"){
+                getOri(para);
             }
         }else if((para -> model) == "structure"){
             if((para -> type) == "Q2CLUMPP"){
