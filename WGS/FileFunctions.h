@@ -673,6 +673,35 @@ int Depth2Bed(parameter *para){
     ouf.close();
     return 1;
 }
+int getOri(parameter *para){
+    igzstream inf1 ((para->inFile).c_str(),ifstream::in);
+    igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
+    ofstream ouf ((para->outFile).c_str());
+    set <string> pos;
+    vector<string> ll;
+    string line;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        pos.insert(ll[1]);
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line[0]=='C') continue;
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(pos.count(ll[1])>0){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    inf1.close();
+    inf2.close();
+    return 0;
+}
 int pi2bed(parameter *para){
     int binSize = para->size;
     igzstream inF ((para->inFile).c_str(),ifstream::in);
@@ -809,9 +838,10 @@ int pi(parameter *para){
             }else if(ll[samplePos[i]][0]== '1' && ll[samplePos[i]][2] == '1'){
                 b +=2 ;
                 sampleSize +=2;
-//            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
-//                ++c;
-//                sampleSize++;
+            }else if(ll[samplePos[i]][0]== '0' && ll[samplePos[i]][2] == '1'){
+                a++;
+                b++;
+                sampleSize +=2;
             }else{
                 continue;
             }
