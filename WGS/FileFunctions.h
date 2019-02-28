@@ -2115,6 +2115,8 @@ int pwpd(parameter *para){
         ll2.clear();
         split(line,ll," \t");
         split(line2,ll2," \t");
+        if(ll2[3] == "NA") ll2[3] = "0";
+        if(ll[3] == "NA") ll[3] = "0";
         if(string2Double(ll2[3]) == 0 ) ll2[3] = "0.001";
         double pwd = string2Double(ll[3])/(string2Double(ll2[3]));
 //        if(ll2[3]=="0") pwd = 10;
