@@ -767,7 +767,7 @@ int pi2bed(parameter *para){
         if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
         pi += string2Double(ll[2]);
     }
-    if(pi > 0){
+    if(string2Int(ll[1]) > endPos){
         endPos = string2Int(ll[1]);
         startPos = (BinRound-1)*binSize +1;
         int n = binNum[ll[0]+"_"+to_string(startPos)];
