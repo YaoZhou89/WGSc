@@ -2129,7 +2129,7 @@ int merge2vcf (parameter *para){
     }
     string line,line2;
     vector<string> ll,ll2;
-    vector<string> header;
+    string header;
     set <string> head;
     vector <int> pos;
     while(!inf.eof()){
@@ -2144,6 +2144,7 @@ int merge2vcf (parameter *para){
             for(int i = 0; i < ll.size();++i){
                 head.insert(ll[i]);
             }
+            header = line;
             break;
         }
     }
@@ -2159,15 +2160,18 @@ int merge2vcf (parameter *para){
         }
         if(line[0]=='#' && line[1] =='C')
         {
-            ll.clear();
-            split(line,ll,"\t");
-            for (int i = 0 ; i < ll.size(); ++i)
+            ll2.clear();
+            split(line,ll2,"\t");
+            ouf << header ;
+            for (int i = 0 ; i < ll2.size(); ++i)
             {
-                if(head.count(ll[i])!=1)
+                if(head.count(ll2[i])!=1)
                 {
                     pos.push_back(i);
+                    ouf << "\t" << ll2[i];
                 }
             }
+            ouf << "\n";
             break;
         }
     }
