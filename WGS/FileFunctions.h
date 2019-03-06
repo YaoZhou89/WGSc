@@ -2114,7 +2114,7 @@ int merge2vcf (parameter *para){
     string outFile = (para->outFile);
     igzstream inf ((inFile.c_str()),fstream::in);
     igzstream inf2  ((inFile2.c_str()),fstream::in);
-    ofstream ouf ((outFile.c_str()));
+    ogzstream ouf ((outFile.c_str()));
     if(inf.fail()){
         cerr << "Couldn't open inFile" << endl;
         return 0 ;
