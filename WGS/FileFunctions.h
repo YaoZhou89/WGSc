@@ -2114,7 +2114,7 @@ int merge2vcf (parameter *para){
     string outFile = (para->outFile);
     igzstream inf ((inFile.c_str()),fstream::in);
     igzstream inf2  ((inFile2.c_str()),fstream::in);
-    ogzstream ouf ((outFile.c_str()));
+    ofstream ouf ((outFile.c_str()));
     if(inf.fail()){
         cerr << "Couldn't open inFile" << endl;
         return 0 ;
@@ -2161,7 +2161,7 @@ int merge2vcf (parameter *para){
         if(line[0]=='#' && line[1] =='C')
         {
             ll2.clear();
-            split(line,ll2,"\t");
+            split(line,ll2," \t");
             ouf << header ;
             for (int i = 0 ; i < ll2.size(); ++i)
             {
@@ -2180,9 +2180,13 @@ int merge2vcf (parameter *para){
     {
         getline(inf,line);
         getline(inf2,line2);
+        if (line.length()<1) continue;
+        if(line2.length()  < 1) continue;
         ll.clear();
         ll2.clear();
         split(line2,ll2," \t");
+        split(line,ll," \t");
+        if(ll[1]!=ll2[1]) continue;
         ouf << line ;
         for (int i = 0 ; i < pos.size(); ++i){
             ouf << "\t" << ll2[pos[i]];
