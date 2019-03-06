@@ -63,6 +63,8 @@ int main(int argc, char * argv[]) {
                 addContig(para);
             }else if((para -> type) == "ANC"){
                 changeAncestralAllele(para);
+            }else if ((para->type) == "merge2vcf"){
+                merge2vcf(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
