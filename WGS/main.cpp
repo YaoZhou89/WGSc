@@ -56,9 +56,9 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "depthFilter"){
                 
             }else if((para->type) == "ct3"){
-                ct3(para);
+                ct3(para); // snps shared among three groups
             }else if((para->type) == "ct2"){
-                ct2(para);
+                ct2(para); // snps shared in two groups
             }else if((para->type) == "addContig"){
                 addContig(para);
             }else if((para -> type) == "ANC"){

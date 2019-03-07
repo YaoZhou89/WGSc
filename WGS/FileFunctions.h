@@ -2478,7 +2478,7 @@ int ct2(parameter *para){
     cout << "group2 readed!" << endl;
     vector <string> ll;
     set<int> gi1,gi2;
-    int c1 = 0, c2 = 0, c3 =0;
+    int c1 = 0, c2 = 0, c3 =0, c4 = 0;
     while(!vcf.eof()){
         getline(vcf,line);
         if(line.length()<1) continue;
@@ -2505,6 +2505,9 @@ int ct2(parameter *para){
         int n = 0,sum = 0;
         split(line,ll," \t");
         for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
+            if(ll[*it][0]=='.'){
+                continue;
+            }
             n++;
             if(ll[*it][0]=='1'){
                 sum++;
@@ -2517,8 +2520,10 @@ int ct2(parameter *para){
         
         n = 0, sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
+            if(ll[*it][0]=='.'){
+                continue;
+            }
             n++;
-//            cout << *it << " found!" << endl;
             if(ll[*it][0]=='1'){
                 sum++;
             }
@@ -2530,19 +2535,20 @@ int ct2(parameter *para){
         
         
         if(s1 && s2 ){
-            c1++;
+            c1++; // shared SNPs
         }else if(s1 && !s2 ){
-            c2++;
+            c2++; // allelic in group1 but not group2
         }else if(!s1 && s2 ){
-            c3++;
+            c3++; // allelic in group2 but not group1
         }else{
 //            cerr << "No cater found! sum is: " << sum << endl;
-            c1++;
+            c4++; // not allelic in both
         }
     }
-    ouf << "c1\t" << c1 << "\n";
-    ouf << "c2\t" << c2 << "\n";
-    ouf << "c3\t" << c3 << "\n";
+    ouf << "allelic in group1 and group2: \t" << c1 << "\n";
+    ouf << "allelic in group1: \t" << c2 << "\n";
+    ouf << "allelic in group2: \t" << c3 << "\n";
+    ouf << "non-allelic in both: \t" << c4 << "\n";
     inf1.close();
     inf2.close();
     vcf.close();
