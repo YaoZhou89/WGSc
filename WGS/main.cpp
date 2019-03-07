@@ -59,6 +59,8 @@ int main(int argc, char * argv[]) {
                 ct3(para); // snps shared among three groups
             }else if((para->type) == "ct2"){
                 ct2(para); // snps shared in two groups
+            }else if((para->type) == "ct1"){
+                ct1(para); // allelic or not
             }else if((para->type) == "addContig"){
                 addContig(para);
             }else if((para -> type) == "ANC"){
