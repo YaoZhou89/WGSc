@@ -3077,13 +3077,14 @@ int gene_count(parameter *para){
         if(line.length()<1) continue;
         if(line[0] == 'C') continue;
         ll.clear();
+        split(line,ll," \t");
         if(ll[0] != chr) continue;
         int pos = string2Int(ll[2]);
 //        cout << pos << endl;
-        cout << string2Double(ll[3]) << endl;
+//        cout << string2Double(ll[3]) << endl;
         if(string2Double(ll[3]) > threshold){
             
-            break;
+//            break;
             if(upstream.count(pos)==1)
             {
                 size_upstream ++;
