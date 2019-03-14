@@ -2834,8 +2834,8 @@ int genePi(parameter *para){
                     upstream.insert(i);
                 }
             }
-            for ( int i = start; i < end+1; ++i){
-                if(withoutIntron.count(i)==0){
+            for ( int i = start; i < end; ++i){
+                if(withoutIntron.count(i) == 0){
                     intron.insert(i);
                 }
             }
@@ -2894,7 +2894,7 @@ int genePi(parameter *para){
                 upstream.insert(i);
             }
         }
-        for ( int i = ps; i < pe+1; ++i){
+        for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
                 intron.insert(i);
             }
