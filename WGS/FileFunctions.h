@@ -2875,6 +2875,7 @@ int genePi(parameter *para){
                 withoutIntron.insert(i);
             }
         }
+        cout << "gff3 readed!" << endl;
     }
     if(withoutIntron.size() > 1) {
         if ( strand == "+"){
@@ -2903,38 +2904,73 @@ int genePi(parameter *para){
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     while(!infPi.eof()){
         getline(infPi,line);
+        if(line.length()<1) continue;
+        if(line[0]=='C') continue;
         ll.clear();
         split(line, ll," \t");
         if(ll[0]!=chr) continue;
-        int pos = string2Int(ll[ll.size()-1]);
-        if(upstream.count(pos)==1)
-        {
-            size_upstream++;
+        int pos = string2Int(ll[1]);
+        if(ll.size()==3){
+            if (ll[2] == "-nan" || ll[2] == "nan" || ll[2] == "na" || ll[2] == "NA") continue;
+            if(upstream.count(pos)==1)
+            {
+                size_upstream += string2Double(ll[2]);
+            }
+            else if(utr5.count(pos)==1)
+            {
+                size_utr5 += string2Double(ll[2]);
+            }
+            else if(cds.count(pos)==1)
+            {
+                size_cds += string2Double(ll[2]);
+            }
+            else if(intron.count(pos)==1)
+            {
+                size_intron += string2Double(ll[2]);
+            }
+            else if(utr3.count(pos)==1)
+            {
+                size_utr3 += string2Double(ll[2]);
+            }
+            else if(downstream.count(pos)==1)
+            {
+                size_downstream += string2Double(ll[2]);
+            }
+            else
+            {
+                size_intergenic += string2Double(ll[2]);
+            }
+        }else if (ll.size()==2){
+            if(upstream.count(pos)==1)
+            {
+                size_upstream ++;
+            }
+            else if(utr5.count(pos)==1)
+            {
+                size_utr5 ++;
+            }
+            else if(cds.count(pos)==1)
+            {
+                size_cds ++;
+            }
+            else if(intron.count(pos)==1)
+            {
+                size_intron ++;
+            }
+            else if(utr3.count(pos)==1)
+            {
+                size_utr3 ++;
+            }
+            else if(downstream.count(pos)==1)
+            {
+                size_downstream ++;
+            }
+            else
+            {
+                size_intergenic ++;
+            }
         }
-        else if(utr5.count(pos)==1)
-        {
-            size_utr5++;
-        }
-        else if(cds.count(pos)==1)
-        {
-            size_cds++;
-        }
-        else if(intron.count(pos)==1)
-        {
-            size_intron++;
-        }
-        else if(utr3.count(pos)==1)
-        {
-            size_utr3++;
-        }
-        else if(downstream.count(pos)==1)
-        {
-            size_downstream++;
-        }
-        else
-        {
-            size_intergenic++;
-        }
+        
     }
     ouf << "region\tsum\n";
     ouf << "intergenic\t" << size_intergenic << "\n";
