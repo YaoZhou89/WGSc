@@ -3082,6 +3082,7 @@ int gene_count(parameter *para){
         int pos = string2Int(ll[2]);
 //        cout << pos << endl;
 //        cout << string2Double(ll[3]) << endl;
+        if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
         if(string2Double(ll[3]) > threshold){
             
 //            break;
