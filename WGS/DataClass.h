@@ -34,6 +34,7 @@ public:
     double a;
     double b; // y = a + bx
     int size;
+    double threshold;
     int maxLength;
     double r;
     bool isBed;
@@ -71,6 +72,7 @@ public:
         b = 0.0;
         maxLength = 500000000;
         chr = "chr1";
+        threshold = 0;
     }
 };
 

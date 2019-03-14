@@ -122,6 +122,8 @@ int main(int argc, char * argv[]) {
                 getOri(para);
             }else if ((para -> type) =="genePi"){
                 genePi(para);
+            }else if ((para->type) == "overCount"){
+                gene_count(para);
             }
         }else if((para -> model) == "structure"){
             if((para -> type) == "Q2CLUMPP"){
