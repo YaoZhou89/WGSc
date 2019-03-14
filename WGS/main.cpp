@@ -120,6 +120,8 @@ int main(int argc, char * argv[]) {
                 pi2bed(para);
             }else if((para->type) == "syn"){
                 getOri(para);
+            }else if ((para -> type) =="genePi"){
+                genePi(para);
             }
         }else if((para -> model) == "structure"){
             if((para -> type) == "Q2CLUMPP"){
