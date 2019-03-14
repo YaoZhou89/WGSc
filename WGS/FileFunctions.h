@@ -1644,8 +1644,8 @@ int intersectFile(parameter *para){
 }
 int getPos(parameter *para){
     string input1 = (para->inFile);
-    string output2 = (para->inFile2);
-    string output = (para->outFile);
+    string output2 = (para->inFile2); // pos txt
+    string output = (para->outFile); // allele txt
     igzstream f1 (input1.c_str(),ifstream::in);
     if(f1.fail()){
         cerr << "open File IN error: " << input1 << endl;
@@ -2793,5 +2793,160 @@ int getMaskRegion(parameter *para)
     inf.close();
     ouf.close();
     return 0;
+}
+
+int genePi(parameter *para){
+    string gffFile = (para -> inFile);
+    string piFile = (para -> inFile2);
+    string outFile = (para -> outFile);
+    string chr = (para -> chr);
+    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    igzstream infPi ((piFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    set<int> utr3;
+    set<int> utr5;
+    set<int> cds;
+    set<int> intron;
+    set<int> upstream;
+    set<int> downstream;
+    string line;
+    vector<string> ll;
+    set<int> withoutIntron;
+    int start = 0, end = 0;
+    int ps = 0, pe = 0;
+    string strand = "";
+    while(!infGff.eof()){
+        getline(infGff,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[2] =='#') {
+            if ( strand == "+"){
+                for (int i = ps-2000; i < ps; ++i){
+                    upstream.insert(i);
+                }
+                for (int i = pe+1; i < pe+2000; ++i){
+                    downstream.insert(i);
+                }
+            }else{
+                for (int i = ps-2000; i < ps; ++i){
+                    downstream.insert(i);
+                }
+                for (int i = pe+1; i < pe+2000; ++i){
+                    upstream.insert(i);
+                }
+            }
+            for ( int i = ps; i < pe+1; ++i){
+                if(withoutIntron.count(i)==0){
+                    intron.insert(i);
+                }
+            }
+            withoutIntron.clear();
+            ps = 0;
+            pe = 0;
+            continue;
+        };
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0] != chr) continue;
+        
+        if(ll[2] == "gene"){
+            start = string2Int(ll[3]);
+            end = string2Int(ll[4]);
+            strand = ll[6];
+        }else if (ll[2] == "five_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                utr5.insert(i);
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "three_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                utr3.insert(i);
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "CDS"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                cds.insert(i);
+                withoutIntron.insert(i);
+            }
+        }
+    }
+    if(withoutIntron.size() > 1) {
+        if ( strand == "+"){
+            for (int i = ps-2000; i < ps; ++i){
+                upstream.insert(i);
+            }
+            for (int i = pe+1; i < pe+2000; ++i){
+                downstream.insert(i);
+            }
+        }else{
+            for (int i = ps-2000; i < ps; ++i){
+                downstream.insert(i);
+            }
+            for (int i = pe+1; i < pe+2000; ++i){
+                upstream.insert(i);
+            }
+        }
+        for ( int i = ps; i < pe+1; ++i){
+            if(withoutIntron.count(i)==0){
+                intron.insert(i);
+            }
+        }
+        withoutIntron.clear();
+    }
+    double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
+    double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
+    while(!infPi.eof()){
+        getline(infPi,line);
+        ll.clear();
+        split(line, ll," \t");
+        if(ll[0]!=chr) continue;
+        int pos = string2Int(ll[ll.size()-1]);
+        if(upstream.count(pos)==1)
+        {
+            size_upstream++;
+        }
+        else if(utr5.count(pos)==1)
+        {
+            size_utr5++;
+        }
+        else if(cds.count(pos)==1)
+        {
+            size_cds++;
+        }
+        else if(intron.count(pos)==1)
+        {
+            size_intron++;
+        }
+        else if(utr3.count(pos)==1)
+        {
+            size_utr3++;
+        }
+        else if(downstream.count(pos)==1)
+        {
+            size_downstream++;
+        }
+        else
+        {
+            size_intergenic++;
+        }
+    }
+    ouf << "region\tsum\n";
+    ouf << "intergenic\t" << size_intergenic << "\n";
+    ouf << "upstream\t" << size_upstream << "\n";
+    ouf << "five-UTR\t" << size_utr5 << "\n";
+    ouf << "exon\t" << size_cds << "\n";
+    ouf << "intron\t" << size_intron << "\n";
+    ouf << "three-UTR\t" << size_utr3 << "\n";
+    ouf << "downstream\t" << size_downstream << "\n";
+    return 0;
+    infGff.close();
+    infPi.close();
+    ouf.close();
 }
 #endif /* FileFunctions_h */

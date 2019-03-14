@@ -21,6 +21,7 @@ public:
     string type;
     string subPop;
     string logFile;
+    string chr;
     double  MQ;
     double FS;
     double MQRankSum;
@@ -69,6 +70,7 @@ public:
         a = 0.0;
         b = 0.0;
         maxLength = 500000000;
+        chr = "chr1";
     }
 };
 
