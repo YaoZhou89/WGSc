@@ -2818,7 +2818,7 @@ int genePi(parameter *para){
     while(!infGff.eof()){
         getline(infGff,line);
         if(line.length()<1) continue;
-        if(line[0]=='#' && line[2] =='#') {
+        if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
             if ( strand == "+"){
                 for (int i = ps-2000; i < ps; ++i){
                     upstream.insert(i);
@@ -2834,11 +2834,13 @@ int genePi(parameter *para){
                     upstream.insert(i);
                 }
             }
-            for ( int i = ps; i < pe+1; ++i){
+            for ( int i = start; i < end+1; ++i){
                 if(withoutIntron.count(i)==0){
                     intron.insert(i);
                 }
             }
+            start = 0;
+            end = 0;
             withoutIntron.clear();
             ps = 0;
             pe = 0;
@@ -2848,7 +2850,6 @@ int genePi(parameter *para){
         ll.clear();
         split(line,ll," \t");
         if(ll[0] != chr) continue;
-        
         if(ll[2] == "gene"){
             start = string2Int(ll[3]);
             end = string2Int(ll[4]);
@@ -2875,8 +2876,8 @@ int genePi(parameter *para){
                 withoutIntron.insert(i);
             }
         }
-        cout << "gff3 readed!" << endl;
     }
+    cout << "gff3 readed!" << endl;
     if(withoutIntron.size() > 1) {
         if ( strand == "+"){
             for (int i = ps-2000; i < ps; ++i){
