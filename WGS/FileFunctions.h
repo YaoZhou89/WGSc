@@ -2236,7 +2236,7 @@ int pwpd(parameter *para){
         split(line,ll," \t");
         split(line2,ll2," \t");
         
-        if(ll2[3] == "NA")
+        if(ll2[3] == "NA"||ll2[3] == "-nan"||ll2[3] == "nan")
         {
             ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << "NA" << "\n";
             continue;
