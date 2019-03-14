@@ -34,7 +34,7 @@ public:
     double a;
     double b; // y = a + bx
     int size;
-    double threashold;
+    double threshold;
     int maxLength;
     double r;
     bool isBed;
