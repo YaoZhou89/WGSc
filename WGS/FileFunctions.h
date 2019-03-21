@@ -3087,14 +3087,16 @@ int gene_count(parameter *para){
         }
         int size = ll.size()-1;
         if(size > 1){
-            if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA") continue;
+            if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
                 switch(genefeaturs[pos][0]){
                     case 0:
                         while ((geneList[current_order][0] - pos) < 0){
                             current_order++;
-                            cout << "currrent_order is:\t" << current_order << endl;
+                            if (current_order % 100 == 0 ){
+                                cout << "currrent_order is:\t" << current_order << endl;
+                            }
                         }
                         if((geneList[current_order][0] - pos) < 50000){
                             if(geneList[current_order][1] == 0){
@@ -3149,7 +3151,11 @@ int gene_count(parameter *para){
             switch(genefeaturs[pos][0]){
                 case 0:
                     while ((geneList[current_order][0] - pos) < 0){
+                        if (current_order % 100 == 0 ){
+                            cout << "currrent_order is:\t" << current_order << endl;
+                        }
                         current_order++;
+                       
                     }
                     if((geneList[current_order][0] - pos) < 50000){
                         if(geneList[current_order][1] == 0){
