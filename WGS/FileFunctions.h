@@ -3103,31 +3103,31 @@ int gene_count(parameter *para){
                             }
                         }
                         if((geneList[current_order][0] - pos) < 50000){
-                            if(geneList[current_order][1] == 0){
+                            if(geneList[current_order][2] == 0){
                                 size_up50 += pi;
                             }else{
                                 size_down50 += pi;
                             }
                         }else if ((geneList[current_order][0] - pos) < 20000){
-                            if(geneList[current_order][1] == 0){
+                            if(geneList[current_order][2] == 0){
                                 size_up20 += pi;
                             }else{
                                 size_down20 += pi;
                             }
                         }else if ((geneList[current_order][0] - pos) < 10000){
-                            if(geneList[current_order][1] == 0){
+                            if(geneList[current_order][2] == 0){
                                 size_up10+= pi;
                             }else{
                                 size_down10+= pi;
                             }
                         }else if ((geneList[current_order][0] - pos) < 5000){
-                            if(geneList[current_order][1] == 0){
+                            if(geneList[current_order][2] == 0){
                                 size_up5+= pi;
                             }else{
                                 size_down5+= pi;
                             }
                         }else if ((geneList[current_order][0] - pos) < 20000){
-                            if(geneList[current_order][1] == 0){
+                            if(geneList[current_order][2] == 0){
                                 size_upstream+= pi;
                             }else{
                                 size_downstream+= pi;
@@ -3165,31 +3165,31 @@ int gene_count(parameter *para){
                         current_order++;
                     }
                     if((geneList[current_order][0] - pos) < 50000){
-                        if(geneList[current_order][1] == 0){
+                        if(geneList[current_order][2] == 0){
                             size_up50++;
                         }else{
                             size_down50++;
                         }
                     }else if ((geneList[current_order][0] - pos) < 20000){
-                        if(geneList[current_order][1] == 0){
+                        if(geneList[current_order][2] == 0){
                             size_up20++;
                         }else{
                             size_down20++;
                         }
                     }else if ((geneList[current_order][0] - pos) < 10000){
-                        if(geneList[current_order][1] == 0){
+                        if(geneList[current_order][2] == 0){
                             size_up10++;
                         }else{
                             size_down10++;
                         }
                     }else if ((geneList[current_order][0] - pos) < 5000){
-                        if(geneList[current_order][1] == 0){
+                        if(geneList[current_order][2] == 0){
                             size_up5++;
                         }else{
                             size_down5++;
                         }
                     }else if ((geneList[current_order][0] - pos) < 20000){
-                        if(geneList[current_order][1] == 0){
+                        if(geneList[current_order][2] == 0){
                             size_upstream++;
                         }else{
                             size_downstream++;
@@ -3214,6 +3214,7 @@ int gene_count(parameter *para){
             }
         }
     }
+    ouf << "region\tsum\n";
     ouf << "intergenic\t" << size_intergenic << "\n";
     ouf << "upstream_20k_50k\t" << size_up50 << "\n";
     ouf << "upstream_10k_20k\t" << size_up20 << "\n";
