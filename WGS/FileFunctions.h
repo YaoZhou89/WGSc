@@ -3067,17 +3067,12 @@ int gene_count(parameter *para){
     }
     
     cout << "gff3 readed!" << endl;
-    cout << "genome spliced! " << endl;
-    
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
     double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
     int current_order = 0;
     while(!infPi.eof()){
-        if (current_order > 0 && current_order % 100 == 0){
-            cout << "current gene is:\t" << current_order+1 << endl;
-        }
         getline(infPi,line);
         if(line.length()<1) continue;
         if(line[0] == 'C') continue;
@@ -3099,6 +3094,7 @@ int gene_count(parameter *para){
                     case 0:
                         while ((geneList[current_order][0] - pos) < 0){
                             current_order++;
+                            cout << "currrent_order is:\t" << current_order << endl;
                         }
                         if((geneList[current_order][0] - pos) < 50000){
                             if(geneList[current_order][1] == 0){
