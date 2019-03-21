@@ -2991,10 +2991,11 @@ int gene_count(parameter *para){
     int start = 0, end = 0;
     int ps = 0, pe = 0;
     string strand = "";
-    int **geneList;
-    geneList = imatrix(0,20000,0,3);
-    int **genefeaturs;
-    genefeaturs = imatrix(0,500000000,0,1);
+    vector<int> startP(20000);
+    vector<int> endP(20000);
+    vector<int> strandP(20000);
+    
+    vector<int> genefeaturs(500000000);
     int gene_order = 0;
     // upstream50: 1; upstream20: 2;upstream10: 3; upstream5: 4;upstream2: 5;
     // gene: 20, 5utr: 7; cds: 8; intron: 9; 3utr: 10;
@@ -3005,7 +3006,7 @@ int gene_count(parameter *para){
         if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
             for ( int i = start; i < end; ++i){
                 if(withoutIntron.count(i) == 0){
-                    genefeaturs[i][0] = 9;
+                    genefeaturs[i] = 9;
 //                    intron.insert(i);
                 }
             }
@@ -3024,33 +3025,33 @@ int gene_count(parameter *para){
             start = string2Int(ll[3]);
             end = string2Int(ll[4]);
             strand = ll[6];
-            geneList[gene_order][0] = start;
-            geneList[gene_order][1] = end;
+            startP[gene_order] = start;
+            endP[gene_order] = end;
             if(strand == "+"){
-                geneList[gene_order][2] = 0;
+                strandP[gene_order] = 0;
             }else{
-                geneList[gene_order][2] = 1;
+                strandP[gene_order] = 1;
             }
             gene_order++;
         }else if (ll[2] == "five_prime_UTR"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                genefeaturs[i][0] = 7;
+                genefeaturs[i]= 7;
                 withoutIntron.insert(i);
             }
         }else if (ll[2] == "three_prime_UTR"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                 genefeaturs[i][0] = 10;
+                 genefeaturs[i] = 10;
                 withoutIntron.insert(i);
             }
         }else if (ll[2] == "CDS"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                 genefeaturs[i][0] = 8;
+                 genefeaturs[i] = 8;
                 withoutIntron.insert(i);
             }
         }
@@ -3059,7 +3060,7 @@ int gene_count(parameter *para){
     if(withoutIntron.size() > 1) {
         for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
-                genefeaturs[i][0] = 9;
+                genefeaturs[i] = 9;
             }
         }
         withoutIntron.clear();
@@ -3091,9 +3092,9 @@ int gene_count(parameter *para){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
-                switch(genefeaturs[pos][0]){
+                switch(startP[pos]){
                     case 0:
-                        while ((geneList[current_order][0] - pos) < 0){
+                        while ((startP[current_order] - pos) < 0){
                             if (current_order>gene_order){
                                 size_intergenic++;
                                 break;
@@ -3103,32 +3104,32 @@ int gene_count(parameter *para){
                                 cout << "currrent_order is:\t" << current_order << endl;
                             }
                         }
-                        if((geneList[current_order][0] - pos) < 2000){
-                            if(geneList[current_order][2] == 0){
+                        if((startP[current_order] - pos) < 2000){
+                            if(strandP[current_order] == 0){
                                 size_upstream += pi;
                             }else{
                                 size_downstream += pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 5000){
-                            if(geneList[current_order][2] == 0){
+                        }else if ((startP[current_order]- pos) < 5000){
+                            if(strandP[current_order] == 0){
                                 size_up5 += pi;
                             }else{
                                 size_down5 += pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 10000){
-                            if(geneList[current_order][2] == 0){
+                        }else if ((startP[current_order]- pos) < 10000){
+                            if(strandP[current_order] == 0){
                                 size_up10+= pi;
                             }else{
                                 size_down10+= pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 20000){
-                            if(geneList[current_order][2] == 0){
+                        }else if ((startP[current_order] - pos) < 20000){
+                            if(strandP[current_order]== 0){
                                 size_up20 += pi;
                             }else{
                                 size_down20 += pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 50000){
-                            if(geneList[current_order][2] == 0){
+                        }else if ((startP[current_order] - pos) < 50000){
+                            if(strandP[current_order] == 0){
                                 size_up50 += pi;
                             }else{
                                 size_down50 += pi;
@@ -3153,9 +3154,9 @@ int gene_count(parameter *para){
                 }
             }
         }else{
-            switch(genefeaturs[pos][0]){
+            switch(startP[pos]){
                 case 0:
-                    while ((geneList[current_order][0] - pos) < 0){
+                    while ((startP[current_order]- pos) < 0){
                         if (current_order % 100 == 0 ){
                             cout << "currrent_order is:\t" << current_order << endl;
                         }
@@ -3165,32 +3166,32 @@ int gene_count(parameter *para){
                         }
                         current_order++;
                     }
-                    if((geneList[current_order][0] - pos) < 2000){
-                        if(geneList[current_order][2] == 0){
+                    if((startP[current_order] - pos) < 2000){
+                        if(strandP[current_order] == 0){
                             size_upstream++;
                         }else{
                             size_downstream++;
                         }
-                    }else if ((geneList[current_order][0] - pos) < 5000){
-                        if(geneList[current_order][2] == 0){
+                    }else if ((startP[current_order]- pos) < 5000){
+                        if(strandP[current_order]== 0){
                             size_up5++;
                         }else{
                             size_down5++;
                         }
-                    }else if ((geneList[current_order][0] - pos) < 10000){
-                        if(geneList[current_order][2] == 0){
+                    }else if ((startP[current_order] - pos) < 10000){
+                        if(strandP[current_order] == 0){
                             size_up10++;
                         }else{
                             size_down10++;
                         }
-                    }else if ((geneList[current_order][0] - pos) < 20000){
-                        if(geneList[current_order][2] == 0){
+                    }else if ((startP[current_order] - pos) < 20000){
+                        if(strandP[current_order] == 0){
                             size_up20++;
                         }else{
                             size_down20++;
                         }
-                    }else if ((geneList[current_order][0] - pos) < 50000){
-                        if(geneList[current_order][2] == 0){
+                    }else if ((startP[current_order] - pos) < 50000){
+                        if(strandP[current_order] == 0){
                             size_up50++;
                         }else{
                             size_down50++;
@@ -3232,8 +3233,7 @@ int gene_count(parameter *para){
     ouf << "downstream_5k_10k\t" << size_down10 << "\n";
     ouf << "downstream_10k_20k\t" << size_down20 << "\n";
     ouf << "downstream_20k_50k\t" << size_down50 << "\n";
-    free_imatrix(geneList, 0, 50000, 0, 3);
-    free_imatrix(genefeaturs, 0, 500000000, 0, 1);
+  
     infGff.close();
     infPi.close();
     ouf.close();
