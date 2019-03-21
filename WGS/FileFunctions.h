@@ -3103,17 +3103,17 @@ int gene_count(parameter *para){
                                 cout << "currrent_order is:\t" << current_order << endl;
                             }
                         }
-                        if((geneList[current_order][0] - pos) < 50000){
+                        if((geneList[current_order][0] - pos) < 2000){
                             if(geneList[current_order][2] == 0){
-                                size_up50 += pi;
+                                size_upstream += pi;
                             }else{
-                                size_down50 += pi;
+                                size_downstream += pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 20000){
+                        }else if ((geneList[current_order][0] - pos) < 5000){
                             if(geneList[current_order][2] == 0){
-                                size_up20 += pi;
+                                size_up5 += pi;
                             }else{
-                                size_down20 += pi;
+                                size_down5 += pi;
                             }
                         }else if ((geneList[current_order][0] - pos) < 10000){
                             if(geneList[current_order][2] == 0){
@@ -3121,17 +3121,17 @@ int gene_count(parameter *para){
                             }else{
                                 size_down10+= pi;
                             }
-                        }else if ((geneList[current_order][0] - pos) < 5000){
-                            if(geneList[current_order][2] == 0){
-                                size_up5+= pi;
-                            }else{
-                                size_down5+= pi;
-                            }
                         }else if ((geneList[current_order][0] - pos) < 20000){
                             if(geneList[current_order][2] == 0){
-                                size_upstream+= pi;
+                                size_up20 += pi;
                             }else{
-                                size_downstream+= pi;
+                                size_down20 += pi;
+                            }
+                        }else if ((geneList[current_order][0] - pos) < 50000){
+                            if(geneList[current_order][2] == 0){
+                                size_up50 += pi;
+                            }else{
+                                size_down50 += pi;
                             }
                         }else{
                             size_intergenic+= pi;
@@ -3165,23 +3165,11 @@ int gene_count(parameter *para){
                         }
                         current_order++;
                     }
-                    if((geneList[current_order][0] - pos) < 50000){
+                    if((geneList[current_order][0] - pos) < 2000){
                         if(geneList[current_order][2] == 0){
-                            size_up50++;
+                            size_upstream++;
                         }else{
-                            size_down50++;
-                        }
-                    }else if ((geneList[current_order][0] - pos) < 20000){
-                        if(geneList[current_order][2] == 0){
-                            size_up20++;
-                        }else{
-                            size_down20++;
-                        }
-                    }else if ((geneList[current_order][0] - pos) < 10000){
-                        if(geneList[current_order][2] == 0){
-                            size_up10++;
-                        }else{
-                            size_down10++;
+                            size_downstream++;
                         }
                     }else if ((geneList[current_order][0] - pos) < 5000){
                         if(geneList[current_order][2] == 0){
@@ -3189,11 +3177,23 @@ int gene_count(parameter *para){
                         }else{
                             size_down5++;
                         }
+                    }else if ((geneList[current_order][0] - pos) < 10000){
+                        if(geneList[current_order][2] == 0){
+                            size_up10++;
+                        }else{
+                            size_down10++;
+                        }
                     }else if ((geneList[current_order][0] - pos) < 20000){
                         if(geneList[current_order][2] == 0){
-                            size_upstream++;
+                            size_up20++;
                         }else{
-                            size_downstream++;
+                            size_down20++;
+                        }
+                    }else if ((geneList[current_order][0] - pos) < 50000){
+                        if(geneList[current_order][2] == 0){
+                            size_up50++;
+                        }else{
+                            size_down50++;
                         }
                     }else{
                         size_intergenic++;
