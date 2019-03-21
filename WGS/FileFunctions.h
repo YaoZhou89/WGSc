@@ -3278,6 +3278,7 @@ int gene_count(parameter *para){
     double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
 
     while(!infPi.eof()){
+        
         getline(infPi,line);
         if(line.length()<1) continue;
         if(line[0] == 'C') continue;
@@ -3290,6 +3291,7 @@ int gene_count(parameter *para){
         }else{
             pos = string2Int(ll[2]);
         }
+        cout << "testing: " << *genefeaturs[pos] << endl;
         int size = ll.size()-1;
         if(size > 1){
             if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
