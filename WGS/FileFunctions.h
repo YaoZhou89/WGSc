@@ -3087,6 +3087,8 @@ int gene_count(parameter *para){
     cout << "gene num is: " << gene_order << endl;
     for (int i = 0; i < gene_order ; ++i){
         cout << "readed: " << i << endl;
+        cout << "start: " << geneList[i][0] << endl;
+        cout << "end: " << geneList[i][1] << endl;
         if (geneList[i][2] == 0){
             // upstream
             int k50 = geneList[i][0] - 50000;
