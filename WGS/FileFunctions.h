@@ -3075,7 +3075,7 @@ int gene_count(parameter *para){
     double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
     int current_order = 0;
     while(!infPi.eof()){
-        if (current_order % 100 == 0){
+        if (current_order > 0 && current_order % 100 == 0){
             cout << "current gene is:\t" << current_order+1 << endl;
         }
         getline(infPi,line);
@@ -3092,7 +3092,6 @@ int gene_count(parameter *para){
         }
         int size = ll.size()-1;
         if(size > 1){
-            
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
