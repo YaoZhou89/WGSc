@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 int checkOUT(parameter * para){
     string outFile = (para -> outFile);
     outFile = (para -> outFile) + ".gz";

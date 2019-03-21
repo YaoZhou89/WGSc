@@ -9,6 +9,7 @@
 #ifndef FileFunctions_h
 #define FileFunctions_h
 using namespace std;
+//void nrerror(char error_text[]);
 int Read_VCF_IN(parameter *para, vcf *inVCF)
 {
     
@@ -894,7 +895,7 @@ int changePos(parameter *para){
         while (!inFile.eof()){
             chr.clear();
             getline(inFile, line);
-            if((line.substr(0,lh) == header) | line[0] == '#') {
+            if((line.substr(0,lh) == header) | (line[0] == '#')) {
                 OUT << line ;
             }else {
                 chr.clear();
@@ -2877,23 +2878,7 @@ int genePi(parameter *para){
             }
         }
     }
-    cout << "gff3 readed!" << endl;
     if(withoutIntron.size() > 1) {
-        if ( strand == "+"){
-            for (int i = ps-2000; i < ps; ++i){
-                upstream.insert(i);
-            }
-            for (int i = pe+1; i < pe+2000; ++i){
-                downstream.insert(i);
-            }
-        }else{
-            for (int i = ps-2000; i < ps; ++i){
-                downstream.insert(i);
-            }
-            for (int i = pe+1; i < pe+2000; ++i){
-                upstream.insert(i);
-            }
-        }
         for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
                 intron.insert(i);
@@ -2901,8 +2886,12 @@ int genePi(parameter *para){
         }
         withoutIntron.clear();
     }
+    
+    cout << "gff3 readed!" << endl;
+    
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
-    double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
+    double size_utr3 = 0, size_downstream = 0, size_intergenic = 0;
+    
     while(!infPi.eof()){
         getline(infPi,line);
         if(line.length()<1) continue;
@@ -2986,6 +2975,7 @@ int genePi(parameter *para){
     ouf.close();
     return 0;
 }
+
 int gene_count(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);
@@ -3001,31 +2991,30 @@ int gene_count(parameter *para){
     set<int> intron;
     set<int> upstream;
     set<int> downstream;
+    set<int> up5;
+    set<int> down5;
+    set<int> up10;
+    set<int> down10;
+    set<int> up15;
+    set<int> down15;
+    set<int> up20;
+    set<int> down20;
+    set<int> up50;
+    set<int> down50;
     string line;
     vector<string> ll;
     set<int> withoutIntron;
+    set<int> geneAll;
     int start = 0, end = 0;
     int ps = 0, pe = 0;
     string strand = "";
+    int **geneList;
+    geneList = imatrix(0,50000,0,3);
+    int gene_order = 0;
     while(!infGff.eof()){
         getline(infGff,line);
         if(line.length()<1) continue;
         if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
-            if ( strand == "+"){
-                for (int i = ps-2000; i < ps; ++i){
-                    upstream.insert(i);
-                }
-                for (int i = pe+1; i < pe+2000; ++i){
-                    downstream.insert(i);
-                }
-            }else{
-                for (int i = ps-2000; i < ps; ++i){
-                    downstream.insert(i);
-                }
-                for (int i = pe+1; i < pe+2000; ++i){
-                    upstream.insert(i);
-                }
-            }
             for ( int i = start; i < end; ++i){
                 if(withoutIntron.count(i) == 0){
                     intron.insert(i);
@@ -3046,6 +3035,14 @@ int gene_count(parameter *para){
             start = string2Int(ll[3]);
             end = string2Int(ll[4]);
             strand = ll[6];
+            geneList[gene_order][0] = start;
+            geneList[gene_order][1] = end;
+            if(strand == "+"){
+                geneList[gene_order][2] = 0;
+            }else{
+                geneList[gene_order][2] = 1;
+            }
+            gene_order++;
         }else if (ll[2] == "five_prime_UTR"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
@@ -3069,9 +3066,157 @@ int gene_count(parameter *para){
             }
         }
     }
+    
+    if(withoutIntron.size() > 1) {
+        for ( int i = start; i < end; ++i){
+            if(withoutIntron.count(i)==0){
+                intron.insert(i);
+            }
+        }
+        withoutIntron.clear();
+    }
+    
     cout << "gff3 readed!" << endl;
+    
+    for (int i = 0; i < gene_order+1; ++i){
+        for (int p = geneList[i][0]; p < geneList[i][1] + 1; ++p){
+            geneAll.insert(p);
+        }
+    }
+    
+    for (int i = 0; i < gene_order ; ++i){
+        if (geneList[i][2] == 0){
+            // upstream
+            int k50 = geneList[i][0] - 50000;
+            int k20 = geneList[i][0] - 20000;
+            int k15 = geneList[i][0] - 15000;
+            int k10 = geneList[i][0] - 10000;
+            int k5 = geneList[i][0] - 5000;
+            int k2 = geneList[i][0] - 2000;
+            for (int p = k50 ; p < geneList[i][0]; ++p ){
+                if(geneAll.count(p) != 0 ) continue;
+                if ( p < k20 )
+                {
+                     up50.insert(p);
+                }
+                else if (p < k10)
+                {
+                    up20.insert(p);
+                }
+                else if (p < k5)
+                {
+                    up10.insert(p);
+                }
+                else if (p < k2)
+                {
+                    up5.insert(p);
+                }
+                else
+                {
+                    upstream.insert(p);
+                }
+            }
+            // downstream
+            int d50 = geneList[i][1] + 50000;
+            int d20 = geneList[i][1] + 20000;
+            int d15 = geneList[i][1] + 15000;
+            int d10 = geneList[i][1] + 10000;
+            int d5 = geneList[i][1] + 5000;
+            int d2 = geneList[i][1] + 2000;
+            for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
+                if(geneAll.count(p) != 0 ) continue;
+                if ( p < d2 )
+                {
+                    downstream.insert(p);
+                }
+                else if (p < d5)
+                {
+                    down5.insert(p);
+                }
+                else if (p < d10)
+                {
+                    down10.insert(p);
+                }
+                else if (p < d20)
+                {
+                    down20.insert(p);
+                }
+                else
+                {
+                    down50.insert(p);
+                }
+            }
+            
+        }else{
+            // downstream
+            for (int p = geneList[i][0] - 50000; p <geneList[i][0] - 20000; ++p ){
+                int k50 = geneList[i][0] - 50000;
+                int k20 = geneList[i][0] - 20000;
+                int k15 = geneList[i][0] - 15000;
+                int k10 = geneList[i][0] - 10000;
+                int k5 = geneList[i][0] - 5000;
+                int k2 = geneList[i][0] - 2000;
+                for (int p = k50 ; p < geneList[i][0]; ++p ){
+                    if(geneAll.count(p) != 0 ) continue;
+                    if ( p < k20 )
+                    {
+                        down50.insert(p);
+                    }
+                    else if (p < k10)
+                    {
+                        down20.insert(p);
+                    }
+                    else if (p < k5)
+                    {
+                        down10.insert(p);
+                    }
+                    else if (p < k2)
+                    {
+                        down5.insert(p);
+                    }
+                    else
+                    {
+                        downstream.insert(p);
+                    }
+                }
+            }
+            // upstream
+            int d50 = geneList[i][1] + 50000;
+            int d20 = geneList[i][1] + 20000;
+            int d15 = geneList[i][1] + 15000;
+            int d10 = geneList[i][1] + 10000;
+            int d5 = geneList[i][1] + 5000;
+            int d2 = geneList[i][1] + 2000;
+            for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
+                if(geneAll.count(p) != 0 ) continue;
+                if ( p < d2 )
+                {
+                    upstream.insert(p);
+                }
+                else if (p < d5)
+                {
+                    up5.insert(p);
+                }
+                else if (p < d10)
+                {
+                    up10.insert(p);
+                }
+                else if (p < d20)
+                {
+                    up20.insert(p);
+                }
+                else
+                {
+                    up50.insert(p);
+                }
+            }
+        }
+    }
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
+    double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
+    double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
+
     while(!infPi.eof()){
         getline(infPi,line);
         if(line.length()<1) continue;
@@ -3079,16 +3224,86 @@ int gene_count(parameter *para){
         ll.clear();
         split(line,ll," \t");
         if(ll[0] != chr) continue;
-        int pos = string2Int(ll[2]);
-//        cout << pos << endl;
-//        cout << string2Double(ll[3]) << endl;
-        if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
-        if(string2Double(ll[3]) > threshold){
-            
-//            break;
+        int pos = string2Int(ll[1]);
+        if (ll.size()<4){
+            pos = string2Int(ll[1]);
+        }else{
+            pos = string2Int(ll[2]);
+        }
+        int size = ll.size()-1;
+        if(size > 1){
+            if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
+            double pi = string2Double(ll[size]);
+            if( pi > threshold){
+                //            break;
+                if(upstream.count(pos)==1)
+                {
+                    size_upstream += pi;
+                }else if (up5.count(pos)==1){
+                    size_up5 +=pi ;
+                }else if (up10.count(pos)==1){
+                    size_up10 +=pi ;
+                }else if (up15.count(pos)==1){
+                    size_up15 +=pi ;
+                }else if (up20.count(pos)==1){
+                    size_up20 +=pi ;
+                }else if (up50.count(pos)==1){
+                    size_up50 +=pi ;
+                }
+                else if(utr5.count(pos)==1)
+                {
+                    size_utr5 += pi;
+                }
+                else if(cds.count(pos)==1)
+                {
+                    size_cds += pi;
+                }
+                else if(intron.count(pos)==1)
+                {
+                    size_intron += pi;
+                }
+                else if(utr3.count(pos)==1)
+                {
+                    size_utr3 += pi;
+                }
+                else if(downstream.count(pos)==1)
+                {
+                    size_downstream += pi;
+                }else if(down5.count(pos)==1)
+                {
+                    size_down5 += pi;
+                }else if(down10.count(pos)==1)
+                {
+                    size_down10 += pi;
+                }else if(down15.count(pos)==1)
+                {
+                    size_down15 += pi;
+                }else if(down20.count(pos)==1)
+                {
+                    size_down20 += pi;
+                }else if(down50.count(pos)==1)
+                {
+                    size_down50 += pi;
+                }
+                else
+                {
+                    size_intergenic += pi;
+                }
+            }
+        }else{
             if(upstream.count(pos)==1)
             {
                 size_upstream ++;
+            }else if (up5.count(pos)==1){
+                size_up5 ++ ;
+            }else if (up10.count(pos)==1){
+                size_up10 ++ ;
+            }else if (up15.count(pos)==1){
+                size_up15 ++ ;
+            }else if (up20.count(pos)==1){
+                size_up20 ++ ;
+            }else if (up50.count(pos)==1){
+                size_up50 ++ ;
             }
             else if(utr5.count(pos)==1)
             {
@@ -3109,6 +3324,21 @@ int gene_count(parameter *para){
             else if(downstream.count(pos)==1)
             {
                 size_downstream ++;
+            }else if(down5.count(pos)==1)
+            {
+                size_down5 ++;
+            }else if(down10.count(pos)==1)
+            {
+                size_down10 ++;
+            }else if(down15.count(pos)==1)
+            {
+                size_down15 ++;
+            }else if(down20.count(pos)==1)
+            {
+                size_down20 ++;
+            }else if(down50.count(pos)==1)
+            {
+                size_down50 ++;
             }
             else
             {
@@ -3118,12 +3348,24 @@ int gene_count(parameter *para){
     }
     ouf << "region\tsum\n";
     ouf << "intergenic\t" << size_intergenic << "\n";
-    ouf << "upstream\t" << size_upstream << "\n";
+    ouf << "upstream_20k_50k\t" << size_up50 << "\n";
+    ouf << "upstream_15k_20k\t" << size_up20 << "\n";
+    ouf << "upstream_10k_15k\t" << size_up15 << "\n";
+    ouf << "upstream_5k_10k\t" << size_up10<< "\n";
+    ouf << "upstream_2k_5k\t" << size_up5 << "\n";
+    
+    ouf << "upstream_2k\t" << size_upstream << "\n";
     ouf << "five-UTR\t" << size_utr5 << "\n";
     ouf << "exon\t" << size_cds << "\n";
     ouf << "intron\t" << size_intron << "\n";
     ouf << "three-UTR\t" << size_utr3 << "\n";
-    ouf << "downstream\t" << size_downstream << "\n";
+    ouf << "downstream_2k\t" << size_downstream << "\n";
+    ouf << "downstream_2k_5k\t" << size_down5 << "\n";
+    ouf << "downstream_5k_10k\t" << size_down10 << "\n";
+    ouf << "downstream_10k_15k\t" << size_down15 << "\n";
+    ouf << "downstream_15k_20k\t" << size_down20 << "\n";
+    ouf << "downstream_20k_50k\t" << size_down50 << "\n";
+    free_imatrix(geneList, 0, 50000, 0, 3);
     infGff.close();
     infPi.close();
     ouf.close();

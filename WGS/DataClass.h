@@ -8,8 +8,10 @@
 
 #ifndef DataClass_h
 #define DataClass_h
-
+#define NR_END 1
+#define FREE_ARG char*
 using namespace std;
+void nrerror(char error_text[]);
 class parameter {
 public:
     string inFile;
@@ -129,4 +131,35 @@ public:
         
     }
 };
+
+int **imatrix(long nrl, long nrh, long ncl, long nch)
+/* allocate a int matrix with subscript range m[nrl..nrh][ncl..nch] */
+{
+    long i, nrow=nrh-nrl+1,ncol=nch-ncl+1;
+    int **m;
+    
+    /* allocate pointers to rows */
+    m=(int **) malloc((size_t)((nrow+NR_END)*sizeof(int*)));
+    if (!m) cerr << "allocation failure 1 in matrix()" << endl;
+    m += NR_END;
+    m -= nrl;
+    /* allocate rows and set pointers to them */
+    m[nrl]=(int *) malloc((size_t)((nrow*ncol+NR_END)*sizeof(int)));
+    if (!m[nrl]) cerr << "allocation failure 2 in matrix()" << endl;
+    m[nrl] += NR_END;
+    m[nrl] -= ncl;
+    
+    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
+    
+    /* return pointer to array of pointers to rows */
+    return m;
+}
+
+void free_imatrix(int **m, long nrl, long nrh, long ncl, long nch)
+/* free an int matrix allocated by imatrix() */
+{
+    free((FREE_ARG) (m[nrl]+ncl-NR_END));
+    free((FREE_ARG) (m+nrl-NR_END));
+}
+
 #endif /* DataClass_h */
