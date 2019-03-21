@@ -3083,7 +3083,8 @@ int gene_count(parameter *para){
             geneAll.insert(p);
         }
     }
-    cout << "gene identifed, size is: " << geneAll.size() << endl;
+    cout << "gene identifed, sites size is: " << geneAll.size() << endl;
+    cout << "gene num is: " << gene_order << endl;
     for (int i = 0; i < gene_order ; ++i){
         if (geneList[i][2] == 0){
             // upstream
