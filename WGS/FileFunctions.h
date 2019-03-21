@@ -3093,6 +3093,10 @@ int gene_count(parameter *para){
                 switch(genefeaturs[pos][0]){
                     case 0:
                         while ((geneList[current_order][0] - pos) < 0){
+                            if (current_order>gene_order){
+                                size_intergenic++;
+                                break;
+                            }
                             current_order++;
                             if (current_order % 100 == 0 ){
                                 cout << "currrent_order is:\t" << current_order << endl;
@@ -3154,8 +3158,11 @@ int gene_count(parameter *para){
                         if (current_order % 100 == 0 ){
                             cout << "currrent_order is:\t" << current_order << endl;
                         }
+                        if (current_order>gene_order){
+                            size_intergenic++;
+                            break;
+                        }
                         current_order++;
-                       
                     }
                     if((geneList[current_order][0] - pos) < 50000){
                         if(geneList[current_order][1] == 0){
