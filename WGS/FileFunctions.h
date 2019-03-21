@@ -2990,21 +2990,21 @@ int gene_count(parameter *para){
     set<int> cds;
     set<int> intron;
     set<int> upstream;
-    set<int> downstream;
-    set<int> up5;
-    set<int> down5;
-    set<int> up10;
-    set<int> down10;
-    set<int> up15;
-    set<int> down15;
-    set<int> up20;
-    set<int> down20;
-    set<int> up50;
-    set<int> down50;
+//    set<int> downstream;
+//    set<int> up5;
+//    set<int> down5;
+//    set<int> up10;
+//    set<int> down10;
+//    set<int> up15;
+//    set<int> down15;
+//    set<int> up20;
+//    set<int> down20;
+//    set<int> up50;
+//    set<int> down50;
     string line;
     vector<string> ll;
     set<int> withoutIntron;
-    set<int> geneAll;
+//    set<int> geneAll;
     int start = 0, end = 0;
     int ps = 0, pe = 0;
     string strand = "";
@@ -3022,7 +3022,8 @@ int gene_count(parameter *para){
         if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
             for ( int i = start; i < end; ++i){
                 if(withoutIntron.count(i) == 0){
-                    intron.insert(i);
+                    genefeaturs[i][0] = 9;
+//                    intron.insert(i);
                 }
             }
             start = 0;
@@ -3090,7 +3091,7 @@ int gene_count(parameter *para){
             genefeaturs[p][0] = 20;
         }
     }
-    cout << "gene identifed, sites size is: " << geneAll.size() << endl;
+//    cout << "gene identifed, sites size is: " << geneAll.size() << endl;
     cout << "gene num is: " << gene_order << endl;
 //    __gnu_cxx::hash_map <int, string> feature;
 //    typedef pair <int, string> Int_Pair;
