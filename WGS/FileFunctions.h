@@ -3085,6 +3085,8 @@ int gene_count(parameter *para){
     }
     cout << "gene identifed, sites size is: " << geneAll.size() << endl;
     cout << "gene num is: " << gene_order << endl;
+    __gnu_cxx::hash_map <int, string> feature;
+    typedef pair <int, string> Int_Pair;
     for (int i = 0; i < gene_order ; ++i){
         cout << "readed: " << i << endl;
         cout << "start: " << geneList[i][0] << endl;
@@ -3101,23 +3103,28 @@ int gene_count(parameter *para){
                 if(geneAll.count(p) != 0 ) continue;
                 if ( p < k20 )
                 {
-                     up50.insert(p);
+//                     up50.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k10)
                 {
-                    up20.insert(p);
+//                    up20.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k5)
                 {
-                    up10.insert(p);
+//                    up10.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k2)
                 {
-                    up5.insert(p);
+//                    up5.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
-                    upstream.insert(p);
+//                    upstream.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
             // downstream
@@ -3131,23 +3138,28 @@ int gene_count(parameter *para){
                 if(geneAll.count(p) != 0 ) continue;
                 if ( p < d2 )
                 {
-                    downstream.insert(p);
+//                    downstream.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
-                    down5.insert(p);
+//                    down5.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
-                    down10.insert(p);
+//                    down10.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
-                    down20.insert(p);
+//                    down20.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
-                    down50.insert(p);
+//                    down50.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
             
@@ -3164,23 +3176,28 @@ int gene_count(parameter *para){
                     if(geneAll.count(p) != 0 ) continue;
                     if ( p < k20 )
                     {
-                        down50.insert(p);
+//                        down50.insert(p);
+                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k10)
                     {
-                        down20.insert(p);
+//                        down20.insert(p);
+                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k5)
                     {
-                        down10.insert(p);
+//                        down10.insert(p);
+                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k2)
                     {
-                        down5.insert(p);
+//                        down5.insert(p);
+                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else
                     {
-                        downstream.insert(p);
+//                        downstream.insert(p);
+                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                 }
             }
@@ -3195,23 +3212,28 @@ int gene_count(parameter *para){
                 if(geneAll.count(p) != 0 ) continue;
                 if ( p < d2 )
                 {
-                    upstream.insert(p);
+//                    upstream.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
-                    up5.insert(p);
+//                    up5.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
-                    up10.insert(p);
+//                    up10.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
-                    up20.insert(p);
+//                    up20.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
-                    up50.insert(p);
+//                    up50.insert(p);
+                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
         }
