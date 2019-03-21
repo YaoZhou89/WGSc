@@ -2985,22 +2985,6 @@ int gene_count(parameter *para){
     igzstream infGff ((gffFile).c_str(),ifstream::in);
     igzstream infPi ((piFile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
-    set<int> utr3;
-    set<int> utr5;
-    set<int> cds;
-    set<int> intron;
-    set<int> upstream;
-//    set<int> downstream;
-//    set<int> up5;
-//    set<int> down5;
-//    set<int> up10;
-//    set<int> down10;
-//    set<int> up15;
-//    set<int> down15;
-//    set<int> up20;
-//    set<int> down20;
-//    set<int> up50;
-//    set<int> down50;
     string line;
     vector<string> ll;
     set<int> withoutIntron;
@@ -3076,7 +3060,6 @@ int gene_count(parameter *para){
     if(withoutIntron.size() > 1) {
         for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
-//                intron.insert(i);
                 genefeaturs[i][0] = 9;
             }
         }
@@ -3084,202 +3067,17 @@ int gene_count(parameter *para){
     }
     
     cout << "gff3 readed!" << endl;
-    
-    for (int i = 0; i < gene_order; ++i){
-        for (int p = geneList[i][0]; p < geneList[i][1] + 1; ++p){
-//            geneAll.insert(p);
-            genefeaturs[p][0] = 20;
-        }
-    }
-//    cout << "gene identifed, sites size is: " << geneAll.size() << endl;
-    cout << "gene num is: " << gene_order << endl;
-//    __gnu_cxx::hash_map <int, string> feature;
-//    typedef pair <int, string> Int_Pair;
-//    for (int i = 0; i < 0 ; ++i){
-    for (int i = 0; i < gene_order ; ++i){
-//        cout << "readed: " << i << endl;
-//        cout << "start: " << geneList[i][0] << endl;
-//        cout << "end: " << geneList[i][1] << endl;
-        if (geneList[i][2] == 0){
-            // upstream
-            int k50 = geneList[i][0] - 50000;
-            int k20 = geneList[i][0] - 20000;
-            int k15 = geneList[i][0] - 15000;
-            int k10 = geneList[i][0] - 10000;
-            int k5 = geneList[i][0] - 5000;
-            int k2 = geneList[i][0] - 2000;
-            for (int p = k50 ; p < geneList[i][0]; ++p ){
-//                if(geneAll.count(p) != 0 ) continue;
-                if(genefeaturs[p][0] != 0 ) continue;
-                if ( p < k20 )
-                {
-                    genefeaturs[p][0] = 1;
-//                     up50.insert(p);
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < k10)
-                {
-//                    up20.insert(p);
-                    genefeaturs[p][0] = 2;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < k5)
-                {
-//                    up10.insert(p);
-                    genefeaturs[p][0] = 3;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < k2)
-                {
-//                    up5.insert(p);
-                    genefeaturs[p][0] = 4;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else
-                {
-//                    upstream.insert(p);
-                    genefeaturs[p][0] = 5;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-            }
-            // downstream
-            int d50 = geneList[i][1] + 50000;
-            int d20 = geneList[i][1] + 20000;
-            int d15 = geneList[i][1] + 15000;
-            int d10 = geneList[i][1] + 10000;
-            int d5 = geneList[i][1] + 5000;
-            int d2 = geneList[i][1] + 2000;
-            for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
-//                if(geneAll.count(p) != 0 ) continue;
-                if(genefeaturs[p][0] != 0 ) continue;
-                if ( p < d2 )
-                {
-//                    downstream.insert(p);
-                    genefeaturs[p][0] = 15;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d5)
-                {
-//                    down5.insert(p);
-                    genefeaturs[p][0] = 14;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d10)
-                {
-//                    down10.insert(p);
-                    genefeaturs[p][0] = 13;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d20)
-                {
-//                    down20.insert(p);
-                    genefeaturs[p][0] = 12;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else
-                {
-//                    down50.insert(p);
-                    genefeaturs[p][0] = 11;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-            }
-            
-        }else{
-            // downstream
-            for (int p = geneList[i][0] - 50000; p <geneList[i][0] - 20000; ++p ){
-                int k50 = geneList[i][0] - 50000;
-                int k20 = geneList[i][0] - 20000;
-                int k15 = geneList[i][0] - 15000;
-                int k10 = geneList[i][0] - 10000;
-                int k5 = geneList[i][0] - 5000;
-                int k2 = geneList[i][0] - 2000;
-                for (int p = k50 ; p < geneList[i][0]; ++p ){
-//                    if(geneAll.count(p) != 0 ) continue;
-                    if(genefeaturs[p][0] != 0 ) continue;
-                    if ( p < k20 )
-                    {
-//                        down50.insert(p);
-                        genefeaturs[p][0] = 11;
-//                        feature.insert ( Int_Pair ( p, "up50") );
-                    }
-                    else if (p < k10)
-                    {
-//                        down20.insert(p);
-                        genefeaturs[p][0] = 12;
-//                        feature.insert ( Int_Pair ( p, "up50") );
-                    }
-                    else if (p < k5)
-                    {
-//                        down10.insert(p);
-                        genefeaturs[p][0] = 13;
-//                        feature.insert ( Int_Pair ( p, "up50") );
-                    }
-                    else if (p < k2)
-                    {
-//                        down5.insert(p);
-                        genefeaturs[p][0] = 14;
-//                        feature.insert ( Int_Pair ( p, "up50") );
-                    }
-                    else
-                    {
-//                        downstream.insert(p);
-                        genefeaturs[p][0] = 15;
-//                        feature.insert ( Int_Pair ( p, "up50") );
-                    }
-                }
-            }
-            // upstream
-            int d50 = geneList[i][1] + 50000;
-            int d20 = geneList[i][1] + 20000;
-            int d15 = geneList[i][1] + 15000;
-            int d10 = geneList[i][1] + 10000;
-            int d5 = geneList[i][1] + 5000;
-            int d2 = geneList[i][1] + 2000;
-            for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
-//                if(geneAll.count(p) != 0 ) continue;
-                if(genefeaturs[p][0] != 0 ) continue;
-                if ( p < d2 )
-                {
-//                    upstream.insert(p);
-                    genefeaturs[p][0] = 5;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d5)
-                {
-//                    up5.insert(p);
-                    genefeaturs[p][0] = 4;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d10)
-                {
-//                    up10.insert(p);
-                    genefeaturs[p][0] = 3;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else if (p < d20)
-                {
-//                    up20.insert(p);
-                    genefeaturs[p][0] = 2;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-                else
-                {
-//                    up50.insert(p);
-                    genefeaturs[p][0] = 1;
-//                    feature.insert ( Int_Pair ( p, "up50") );
-                }
-            }
-        }
-    }
     cout << "genome spliced! " << endl;
     
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
     double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
-
+    int current_order = 0;
     while(!infPi.eof()){
-        
+        if (current_order % 100 == 0){
+            cout << "current gene is:\t" << current_order+1 << endl;
+        }
         getline(infPi,line);
         if(line.length()<1) continue;
         if(line[0] == 'C') continue;
@@ -3296,22 +3094,48 @@ int gene_count(parameter *para){
         if(size > 1){
             if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
             double pi = string2Double(ll[size]);
+           
             if( pi > threshold){
                 switch(genefeaturs[pos][0]){
-                    case 1:
-                        size_up50 +=pi ;
-                        break;
-                    case 2:
-                        size_up20 +=pi ;
-                        break;
-                    case 3:
-                        size_up10 +=pi ;
-                        break;
-                    case 4:
-                        size_up5 +=pi ;
-                        break;
-                    case 5:
-                        size_upstream +=pi ;
+                    case 0:
+                        while ((geneList[current_order][0] - pos) < 0){
+                            current_order++;
+                        }
+                        if((geneList[current_order][0] - pos) < 50000){
+                            if(geneList[current_order][1] == 0){
+                                size_up50 += pi;
+                            }else{
+                                size_down50 += pi;
+                            }
+                        }else if ((geneList[current_order][0] - pos) < 20000){
+                            if(geneList[current_order][1] == 0){
+                                size_up20 += pi;
+                            }else{
+                                size_down20 += pi;
+                            }
+                        }else if ((geneList[current_order][0] - pos) < 10000){
+                            if(geneList[current_order][1] == 0){
+                                size_up10+= pi;
+                            }else{
+                                size_down10+= pi;
+                            }
+                        }else if ((geneList[current_order][0] - pos) < 5000){
+                            if(geneList[current_order][1] == 0){
+                                size_up5+= pi;
+                            }else{
+                                size_down5+= pi;
+                            }
+                        }else if ((geneList[current_order][0] - pos) < 20000){
+                            if(geneList[current_order][1] == 0){
+                                size_upstream+= pi;
+                            }else{
+                                size_downstream+= pi;
+                            }
+                        }else{
+                            size_intergenic+= pi;
+                        }
+                    case 7:
+                        size_utr5 +=pi ;
                         break;
                     case 8:
                         size_cds +=pi ;
@@ -3322,44 +3146,51 @@ int gene_count(parameter *para){
                     case 10:
                         size_utr3 +=pi ;
                         break;
-                    case 11:
-                        size_down50 +=pi ;
-                        break;
-                    case 12:
-                        size_down20 +=pi ;
-                        break;
-                    case 13:
-                        size_down10 +=pi ;
-                        break;
-                    case 14:
-                        size_down5 +=pi ;
-                        break;
-                    case 15:
-                        size_downstream +=pi ;
-                        break;
-                    case 0:
-                        size_intergenic += pi;
-                        break;
                     default:
                         break;
                 }
             }
         }else{
             switch(genefeaturs[pos][0]){
-                case 1:
-                    size_up50 ++ ;
-                    break;
-                case 2:
-                    size_up20 ++ ;
-                    break;
-                case 3:
-                    size_up10 ++ ;
-                    break;
-                case 4:
-                    size_up5 ++ ;
-                    break;
-                case 5:
-                    size_upstream ++ ;
+                case 0:
+                    while ((geneList[current_order][0] - pos) < 0){
+                        current_order++;
+                    }
+                    if((geneList[current_order][0] - pos) < 50000){
+                        if(geneList[current_order][1] == 0){
+                            size_up50++;
+                        }else{
+                            size_down50++;
+                        }
+                    }else if ((geneList[current_order][0] - pos) < 20000){
+                        if(geneList[current_order][1] == 0){
+                            size_up20++;
+                        }else{
+                            size_down20++;
+                        }
+                    }else if ((geneList[current_order][0] - pos) < 10000){
+                        if(geneList[current_order][1] == 0){
+                            size_up10++;
+                        }else{
+                            size_down10++;
+                        }
+                    }else if ((geneList[current_order][0] - pos) < 5000){
+                        if(geneList[current_order][1] == 0){
+                            size_up5++;
+                        }else{
+                            size_down5++;
+                        }
+                    }else if ((geneList[current_order][0] - pos) < 20000){
+                        if(geneList[current_order][1] == 0){
+                            size_upstream++;
+                        }else{
+                            size_downstream++;
+                        }
+                    }else{
+                        size_intergenic++;
+                    }
+                case 7:
+                    size_utr5 ++ ;
                     break;
                 case 8:
                     size_cds ++ ;
@@ -3369,24 +3200,6 @@ int gene_count(parameter *para){
                     break;
                 case 10:
                     size_utr3 ++ ;
-                    break;
-                case 11:
-                    size_down50 ++ ;
-                    break;
-                case 12:
-                    size_down20 ++ ;
-                    break;
-                case 13:
-                    size_down10 ++ ;
-                    break;
-                case 14:
-                    size_down5 ++ ;
-                    break;
-                case 15:
-                    size_downstream ++ ;
-                    break;
-                case 0:
-                    size_intergenic ++;
                     break;
                 default:
                     break;
