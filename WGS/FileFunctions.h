@@ -3009,10 +3009,13 @@ int gene_count(parameter *para){
     int ps = 0, pe = 0;
     string strand = "";
     int **geneList;
-    geneList = imatrix(0,50000,0,3);
+    geneList = imatrix(0,20000,0,3);
     int **genefeaturs;
-    genefeaturs = imatrix(0,500000000,0,2);
+    genefeaturs = imatrix(0,500000000,0,1);
     int gene_order = 0;
+    // upstream50: 1; upstream20: 2;upstream10: 3; upstream5: 4;upstream2: 5;
+    // gene: 20, 5utr: 7; cds: 8; intron: 9; 3utr: 10;
+    // down50: 11; down20: 12; down10: 13; down5: 14; down2: 15;
     while(!infGff.eof()){
         getline(infGff,line);
         if(line.length()<1) continue;
@@ -3049,21 +3052,21 @@ int gene_count(parameter *para){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                utr5.insert(i);
+                genefeaturs[i][0] = 7;
                 withoutIntron.insert(i);
             }
         }else if (ll[2] == "three_prime_UTR"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                utr3.insert(i);
+                 genefeaturs[i][0] = 10;
                 withoutIntron.insert(i);
             }
         }else if (ll[2] == "CDS"){
             ps = string2Int(ll[3]);
             pe = string2Int(ll[4]);
             for (int i = ps; i < pe+1; ++i){
-                cds.insert(i);
+                 genefeaturs[i][0] = 8;
                 withoutIntron.insert(i);
             }
         }
@@ -3072,7 +3075,8 @@ int gene_count(parameter *para){
     if(withoutIntron.size() > 1) {
         for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
-                intron.insert(i);
+//                intron.insert(i);
+                genefeaturs[i][0] = 9;
             }
         }
         withoutIntron.clear();
@@ -3080,20 +3084,21 @@ int gene_count(parameter *para){
     
     cout << "gff3 readed!" << endl;
     
-    for (int i = 0; i < gene_order+1; ++i){
+    for (int i = 0; i < gene_order; ++i){
         for (int p = geneList[i][0]; p < geneList[i][1] + 1; ++p){
 //            geneAll.insert(p);
-            genefeaturs[p][0] = 1;
+            genefeaturs[p][0] = 20;
         }
     }
     cout << "gene identifed, sites size is: " << geneAll.size() << endl;
     cout << "gene num is: " << gene_order << endl;
-    __gnu_cxx::hash_map <int, string> feature;
-    typedef pair <int, string> Int_Pair;
-    for (int i = 0; i < gene_order ; ++i){
-        cout << "readed: " << i << endl;
-        cout << "start: " << geneList[i][0] << endl;
-        cout << "end: " << geneList[i][1] << endl;
+//    __gnu_cxx::hash_map <int, string> feature;
+//    typedef pair <int, string> Int_Pair;
+    for (int i = 0; i < 0 ; ++i){
+////    for (int i = 0; i < gene_order ; ++i){
+//        cout << "readed: " << i << endl;
+//        cout << "start: " << geneList[i][0] << endl;
+//        cout << "end: " << geneList[i][1] << endl;
         if (geneList[i][2] == 0){
             // upstream
             int k50 = geneList[i][0] - 50000;
@@ -3107,32 +3112,32 @@ int gene_count(parameter *para){
                 if(genefeaturs[p][0] != 0 ) continue;
                 if ( p < k20 )
                 {
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 1;
 //                     up50.insert(p);
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k10)
                 {
 //                    up20.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 2;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k5)
                 {
 //                    up10.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 3;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k2)
                 {
 //                    up5.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 4;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    upstream.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 5;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
@@ -3149,31 +3154,31 @@ int gene_count(parameter *para){
                 if ( p < d2 )
                 {
 //                    downstream.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 15;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
 //                    down5.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 14;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
 //                    down10.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 13;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
 //                    down20.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 12;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    down50.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 11;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
@@ -3193,31 +3198,31 @@ int gene_count(parameter *para){
                     if ( p < k20 )
                     {
 //                        down50.insert(p);
-                        genefeaturs[p][0] = 0;
+                        genefeaturs[p][0] = 11;
 //                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k10)
                     {
 //                        down20.insert(p);
-                        genefeaturs[p][0] = 0;
+                        genefeaturs[p][0] = 12;
 //                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k5)
                     {
 //                        down10.insert(p);
-                        genefeaturs[p][0] = 0;
+                        genefeaturs[p][0] = 13;
 //                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k2)
                     {
 //                        down5.insert(p);
-                        genefeaturs[p][0] = 0;
+                        genefeaturs[p][0] = 14;
 //                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else
                     {
 //                        downstream.insert(p);
-                        genefeaturs[p][0] = 0;
+                        genefeaturs[p][0] = 15;
 //                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                 }
@@ -3235,37 +3240,36 @@ int gene_count(parameter *para){
                 if ( p < d2 )
                 {
 //                    upstream.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 5;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
 //                    up5.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 4;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
 //                    up10.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 3;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
 //                    up20.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 2;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    up50.insert(p);
-                    genefeaturs[p][0] = 0;
+                    genefeaturs[p][0] = 1;
 //                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
         }
     }
-    
     cout << "genome spliced! " << endl;
     
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
@@ -3291,7 +3295,43 @@ int gene_count(parameter *para){
             if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
-                //            break;
+                switch(*genefeaturs[pos]){
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    case 10:
+                        break;
+                    case 11:
+                        break;
+                    case 12:
+                        break;
+                    case 13:
+                        break;
+                    case 14:
+                        break;
+                    case 15:
+                        break;
+                    case 0:
+                        cout << "testing..." << endl;
+                        break;
+                    default:
+                        break;
+                }
                 if(upstream.count(pos)==1)
                 {
                     size_upstream += pi;
