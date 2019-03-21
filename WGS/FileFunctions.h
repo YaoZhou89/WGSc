@@ -3092,7 +3092,7 @@ int gene_count(parameter *para){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
-                switch(startP[pos]){
+                switch(genefeaturs[pos]){
                     case 0:
                         while ((startP[current_order] - pos) < 0){
                             if (current_order>gene_order){
@@ -3154,7 +3154,7 @@ int gene_count(parameter *para){
                 }
             }
         }else{
-            switch(startP[pos]){
+            switch(genefeaturs[pos]){
                 case 0:
                     while ((startP[current_order]- pos) < 0){
                         if (current_order % 100 == 0 ){
