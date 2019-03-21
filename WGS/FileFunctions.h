@@ -3102,7 +3102,8 @@ int gene_count(parameter *para){
             int k5 = geneList[i][0] - 5000;
             int k2 = geneList[i][0] - 2000;
             for (int p = k50 ; p < geneList[i][0]; ++p ){
-                if(geneAll.count(p) != 0 ) continue;
+//                if(geneAll.count(p) != 0 ) continue;
+                if(genefeaturs[p][0] != 0 ) continue;
                 if ( p < k20 )
                 {
                     genefeaturs[p][0] = 0;
@@ -3142,7 +3143,8 @@ int gene_count(parameter *para){
             int d5 = geneList[i][1] + 5000;
             int d2 = geneList[i][1] + 2000;
             for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
-                if(geneAll.count(p) != 0 ) continue;
+//                if(geneAll.count(p) != 0 ) continue;
+                if(genefeaturs[p][0] != 0 ) continue;
                 if ( p < d2 )
                 {
 //                    downstream.insert(p);
