@@ -3010,6 +3010,8 @@ int gene_count(parameter *para){
     string strand = "";
     int **geneList;
     geneList = imatrix(0,50000,0,3);
+    int **genefeaturs;
+    genefeaturs = imatrix(0,5000000,0,1);
     int gene_order = 0;
     while(!infGff.eof()){
         getline(infGff,line);
@@ -3103,28 +3105,33 @@ int gene_count(parameter *para){
                 if(geneAll.count(p) != 0 ) continue;
                 if ( p < k20 )
                 {
+                    genefeaturs[p][0] = 0;
 //                     up50.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k10)
                 {
 //                    up20.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k5)
                 {
 //                    up10.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < k2)
                 {
 //                    up5.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    upstream.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
             // downstream
@@ -3139,27 +3146,32 @@ int gene_count(parameter *para){
                 if ( p < d2 )
                 {
 //                    downstream.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
 //                    down5.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
 //                    down10.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
 //                    down20.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    down50.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
             
@@ -3177,27 +3189,32 @@ int gene_count(parameter *para){
                     if ( p < k20 )
                     {
 //                        down50.insert(p);
-                        feature.insert ( Int_Pair ( p, "up50") );
+                        genefeaturs[p][0] = 0;
+//                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k10)
                     {
 //                        down20.insert(p);
-                        feature.insert ( Int_Pair ( p, "up50") );
+                        genefeaturs[p][0] = 0;
+//                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k5)
                     {
 //                        down10.insert(p);
-                        feature.insert ( Int_Pair ( p, "up50") );
+                        genefeaturs[p][0] = 0;
+//                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else if (p < k2)
                     {
 //                        down5.insert(p);
-                        feature.insert ( Int_Pair ( p, "up50") );
+                        genefeaturs[p][0] = 0;
+//                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                     else
                     {
 //                        downstream.insert(p);
-                        feature.insert ( Int_Pair ( p, "up50") );
+                        genefeaturs[p][0] = 0;
+//                        feature.insert ( Int_Pair ( p, "up50") );
                     }
                 }
             }
@@ -3213,27 +3230,32 @@ int gene_count(parameter *para){
                 if ( p < d2 )
                 {
 //                    upstream.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d5)
                 {
 //                    up5.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d10)
                 {
 //                    up10.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else if (p < d20)
                 {
 //                    up20.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
                 else
                 {
 //                    up50.insert(p);
-                    feature.insert ( Int_Pair ( p, "up50") );
+                    genefeaturs[p][0] = 0;
+//                    feature.insert ( Int_Pair ( p, "up50") );
                 }
             }
         }
