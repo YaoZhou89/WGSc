@@ -2988,7 +2988,6 @@ int gene_count(parameter *para){
     string line;
     vector<string> ll;
     set<int> withoutIntron;
-//    set<int> geneAll;
     int start = 0, end = 0;
     int ps = 0, pe = 0;
     string strand = "";
@@ -3067,6 +3066,8 @@ int gene_count(parameter *para){
     }
     
     cout << "gff3 readed!" << endl;
+    cout << "gene number is:\t" << gene_order << endl;
+
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
