@@ -3011,7 +3011,7 @@ int gene_count(parameter *para){
     int **geneList;
     geneList = imatrix(0,50000,0,3);
     int **genefeaturs;
-    genefeaturs = imatrix(0,5000000,0,1);
+    genefeaturs = imatrix(0,500000000,0,2);
     int gene_order = 0;
     while(!infGff.eof()){
         getline(infGff,line);
