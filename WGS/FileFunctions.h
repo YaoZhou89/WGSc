@@ -3082,7 +3082,8 @@ int gene_count(parameter *para){
     
     for (int i = 0; i < gene_order+1; ++i){
         for (int p = geneList[i][0]; p < geneList[i][1] + 1; ++p){
-            geneAll.insert(p);
+//            geneAll.insert(p);
+            genefeaturs[p][0] = 1;
         }
     }
     cout << "gene identifed, sites size is: " << geneAll.size() << endl;
@@ -3187,7 +3188,8 @@ int gene_count(parameter *para){
                 int k5 = geneList[i][0] - 5000;
                 int k2 = geneList[i][0] - 2000;
                 for (int p = k50 ; p < geneList[i][0]; ++p ){
-                    if(geneAll.count(p) != 0 ) continue;
+//                    if(geneAll.count(p) != 0 ) continue;
+                    if(genefeaturs[p][0] != 0 ) continue;
                     if ( p < k20 )
                     {
 //                        down50.insert(p);
@@ -3228,7 +3230,8 @@ int gene_count(parameter *para){
             int d5 = geneList[i][1] + 5000;
             int d2 = geneList[i][1] + 2000;
             for (int p = geneList[i][1] ; p < geneList[i][1] + 50000; ++p ){
-                if(geneAll.count(p) != 0 ) continue;
+//                if(geneAll.count(p) != 0 ) continue;
+                if(genefeaturs[p][0] != 0 ) continue;
                 if ( p < d2 )
                 {
 //                    upstream.insert(p);
