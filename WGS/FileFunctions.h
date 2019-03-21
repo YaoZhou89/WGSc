@@ -3092,9 +3092,9 @@ int gene_count(parameter *para){
         }
         int size = ll.size()-1;
         if(size > 1){
-            if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
+            
+            if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA") continue;
             double pi = string2Double(ll[size]);
-           
             if( pi > threshold){
                 switch(genefeaturs[pos][0]){
                     case 0:
