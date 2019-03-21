@@ -3094,8 +3094,8 @@ int gene_count(parameter *para){
     cout << "gene num is: " << gene_order << endl;
 //    __gnu_cxx::hash_map <int, string> feature;
 //    typedef pair <int, string> Int_Pair;
-    for (int i = 0; i < 0 ; ++i){
-////    for (int i = 0; i < gene_order ; ++i){
+//    for (int i = 0; i < 0 ; ++i){
+    for (int i = 0; i < gene_order ; ++i){
 //        cout << "readed: " << i << endl;
 //        cout << "start: " << geneList[i][0] << endl;
 //        cout << "end: " << geneList[i][1] << endl;
@@ -3291,164 +3291,110 @@ int gene_count(parameter *para){
         }else{
             pos = string2Int(ll[2]);
         }
-        cout << "testing: " << *genefeaturs[pos] << endl;
         int size = ll.size()-1;
         if(size > 1){
             if (ll[3] == "-nan" || ll[3] == "nan" || ll[3] == "na" || ll[3] == "NA") continue;
             double pi = string2Double(ll[size]);
             if( pi > threshold){
-                switch(*genefeaturs[pos]){
+                switch(genefeaturs[pos][0]){
                     case 1:
+                        size_up50 +=pi ;
                         break;
                     case 2:
+                        size_up20 +=pi ;
                         break;
                     case 3:
+                        size_up10 +=pi ;
                         break;
                     case 4:
+                        size_up5 +=pi ;
                         break;
                     case 5:
-                        break;
-                    case 6:
-                        break;
-                    case 7:
+                        size_upstream +=pi ;
                         break;
                     case 8:
+                        size_cds +=pi ;
                         break;
                     case 9:
+                        size_intron +=pi ;
                         break;
                     case 10:
+                        size_utr3 +=pi ;
                         break;
                     case 11:
+                        size_down50 +=pi ;
                         break;
                     case 12:
+                        size_down20 +=pi ;
                         break;
                     case 13:
+                        size_down10 +=pi ;
                         break;
                     case 14:
+                        size_down5 +=pi ;
                         break;
                     case 15:
+                        size_downstream +=pi ;
                         break;
                     case 0:
-                        cout << "testing..." << endl;
+                        size_intergenic += pi;
                         break;
                     default:
                         break;
                 }
-                if(upstream.count(pos)==1)
-                {
-                    size_upstream += pi;
-                }else if (up5.count(pos)==1){
-                    size_up5 +=pi ;
-                }else if (up10.count(pos)==1){
-                    size_up10 +=pi ;
-                }else if (up15.count(pos)==1){
-                    size_up15 +=pi ;
-                }else if (up20.count(pos)==1){
-                    size_up20 +=pi ;
-                }else if (up50.count(pos)==1){
-                    size_up50 +=pi ;
-                }
-                else if(utr5.count(pos)==1)
-                {
-                    size_utr5 += pi;
-                }
-                else if(cds.count(pos)==1)
-                {
-                    size_cds += pi;
-                }
-                else if(intron.count(pos)==1)
-                {
-                    size_intron += pi;
-                }
-                else if(utr3.count(pos)==1)
-                {
-                    size_utr3 += pi;
-                }
-                else if(downstream.count(pos)==1)
-                {
-                    size_downstream += pi;
-                }else if(down5.count(pos)==1)
-                {
-                    size_down5 += pi;
-                }else if(down10.count(pos)==1)
-                {
-                    size_down10 += pi;
-                }else if(down15.count(pos)==1)
-                {
-                    size_down15 += pi;
-                }else if(down20.count(pos)==1)
-                {
-                    size_down20 += pi;
-                }else if(down50.count(pos)==1)
-                {
-                    size_down50 += pi;
-                }
-                else
-                {
-                    size_intergenic += pi;
-                }
             }
         }else{
-            if(upstream.count(pos)==1)
-            {
-                size_upstream ++;
-            }else if (up5.count(pos)==1){
-                size_up5 ++ ;
-            }else if (up10.count(pos)==1){
-                size_up10 ++ ;
-            }else if (up15.count(pos)==1){
-                size_up15 ++ ;
-            }else if (up20.count(pos)==1){
-                size_up20 ++ ;
-            }else if (up50.count(pos)==1){
-                size_up50 ++ ;
-            }
-            else if(utr5.count(pos)==1)
-            {
-                size_utr5 ++;
-            }
-            else if(cds.count(pos)==1)
-            {
-                size_cds ++;
-            }
-            else if(intron.count(pos)==1)
-            {
-                size_intron ++;
-            }
-            else if(utr3.count(pos)==1)
-            {
-                size_utr3 ++;
-            }
-            else if(downstream.count(pos)==1)
-            {
-                size_downstream ++;
-            }else if(down5.count(pos)==1)
-            {
-                size_down5 ++;
-            }else if(down10.count(pos)==1)
-            {
-                size_down10 ++;
-            }else if(down15.count(pos)==1)
-            {
-                size_down15 ++;
-            }else if(down20.count(pos)==1)
-            {
-                size_down20 ++;
-            }else if(down50.count(pos)==1)
-            {
-                size_down50 ++;
-            }
-            else
-            {
-                size_intergenic ++;
+            switch(genefeaturs[pos][0]){
+                case 1:
+                    size_up50 ++ ;
+                    break;
+                case 2:
+                    size_up20 ++ ;
+                    break;
+                case 3:
+                    size_up10 ++ ;
+                    break;
+                case 4:
+                    size_up5 ++ ;
+                    break;
+                case 5:
+                    size_upstream ++ ;
+                    break;
+                case 8:
+                    size_cds ++ ;
+                    break;
+                case 9:
+                    size_intron ++ ;
+                    break;
+                case 10:
+                    size_utr3 ++ ;
+                    break;
+                case 11:
+                    size_down50 ++ ;
+                    break;
+                case 12:
+                    size_down20 ++ ;
+                    break;
+                case 13:
+                    size_down10 ++ ;
+                    break;
+                case 14:
+                    size_down5 ++ ;
+                    break;
+                case 15:
+                    size_downstream ++ ;
+                    break;
+                case 0:
+                    size_intergenic ++;
+                    break;
+                default:
+                    break;
             }
         }
     }
-    ouf << "region\tsum\n";
     ouf << "intergenic\t" << size_intergenic << "\n";
     ouf << "upstream_20k_50k\t" << size_up50 << "\n";
-    ouf << "upstream_15k_20k\t" << size_up20 << "\n";
-    ouf << "upstream_10k_15k\t" << size_up15 << "\n";
+    ouf << "upstream_10k_20k\t" << size_up20 << "\n";
     ouf << "upstream_5k_10k\t" << size_up10<< "\n";
     ouf << "upstream_2k_5k\t" << size_up5 << "\n";
     
@@ -3460,10 +3406,10 @@ int gene_count(parameter *para){
     ouf << "downstream_2k\t" << size_downstream << "\n";
     ouf << "downstream_2k_5k\t" << size_down5 << "\n";
     ouf << "downstream_5k_10k\t" << size_down10 << "\n";
-    ouf << "downstream_10k_15k\t" << size_down15 << "\n";
-    ouf << "downstream_15k_20k\t" << size_down20 << "\n";
+    ouf << "downstream_10k_20k\t" << size_down20 << "\n";
     ouf << "downstream_20k_50k\t" << size_down50 << "\n";
     free_imatrix(geneList, 0, 50000, 0, 3);
+    free_imatrix(genefeaturs, 0, 500000000, 0, 1);
     infGff.close();
     infPi.close();
     ouf.close();
