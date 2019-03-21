@@ -3083,7 +3083,7 @@ int gene_count(parameter *para){
             geneAll.insert(p);
         }
     }
-    
+    cout << "gene identifed, size is: " << geneAll.size() << endl;
     for (int i = 0; i < gene_order ; ++i){
         if (geneList[i][2] == 0){
             // upstream
@@ -3212,6 +3212,9 @@ int gene_count(parameter *para){
             }
         }
     }
+    
+    cout << "genome spliced! " << endl;
+    
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
