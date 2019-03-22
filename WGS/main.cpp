@@ -69,7 +69,7 @@ int main(int argc, char * argv[]) {
                 merge2vcf(para);
             }
             else if ((para->type) == "toXPCLR"){
-                merge2vcf(para);
+                toXPCLR(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
