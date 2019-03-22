@@ -3293,6 +3293,7 @@ int toXPCLR(parameter *para){
         if(line.length()<1) continue;
         samples.insert(line);
     }
+    cout << "group readed! group size is:\t" << samples.size() << endl;
     double** value = dmatrix(0,500000000,0,1);
     double recvalue = 0;
     while(!inrec.eof()){
@@ -3302,7 +3303,7 @@ int toXPCLR(parameter *para){
         ll.clear();
         split(line,ll," \t");
         if(ll[0]!=chr) continue;
-        double bin = string2Double(ll[4])/10000000;
+        double bin = string2Double(ll[4])/1000000;
         int begin = string2Int(ll[1]);
         int end = string2Int(ll[2])+1;
         for (int cp = begin; cp < end; ++cp ){
@@ -3316,33 +3317,36 @@ int toXPCLR(parameter *para){
         recvalue += string2Double(ll[4]);
     }
     cout << "group readed!" << endl;
-//
-//    while(!invcf.eof()){
-//        getline(invcf,line);
-//        if (line.length()<=0 )  {
-//            continue  ;
-//        }else if ( line[0] == '#' && line[1] == '#' )  {
-//            continue  ;
-//        }else if ( line[0] == '#' && line[1] != '#' ){
-//            ll.clear();
-//            split(line,ll,"\t");
-//            if  ( ll[0]  != "#CHROM"){
-//                continue  ;
-//            }else{
-//                for (int i = 9; i< ll.size();++i){
-//                    header.insert(ll[i]);
-//                }
-//            }
-//            break ;
-//        }else if ( line[0] != '#' && line[1] != '#' ){
-//            cerr<<"wrong Line : "<<line<<endl;
-//            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
-//            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
-//            return  0;
-//            break;
-//        }
-//    }
-//
+    cout << "value is: " << value[0][0] << "\t" << value[1400010][0] << endl;
+    vector<int> samplePos ;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if (line.length()<=0 )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] == '#' )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] != '#' ){
+            ll.clear();
+            split(line,ll,"\t");
+            if  ( ll[0]  != "#CHROM"){
+                continue  ;
+            }else{
+                for (int i = 9; i< ll.size();++i){
+                    if(sample.count(ll[i])==1){
+                        samplePos.push_back(i);
+                    }
+                }
+            }
+            break ;
+        }else if ( line[0] != '#' && line[1] != '#' ){
+            cerr<<"wrong Line : "<<line<<endl;
+            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
+            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
+            return  0;
+            break;
+        }
+    }
+
     return 1;
 }
 #endif /* FileFunctions_h */
