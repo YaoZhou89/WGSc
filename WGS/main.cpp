@@ -68,6 +68,9 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "merge2vcf"){
                 merge2vcf(para);
             }
+            else if ((para->type) == "toXPCLR"){
+                merge2vcf(para);
+            }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
                 cout << "get Site.." << endl;

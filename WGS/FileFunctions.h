@@ -3067,8 +3067,7 @@ int gene_count(parameter *para){
     }
     
     cout << "gff3 readed!" << endl;
-    cout << "gene number is:\t" << gene_order << endl;
-
+    cout << "gene number is:\t" << gene_order << end;
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
@@ -3137,6 +3136,40 @@ int gene_count(parameter *para){
                         }else{
                             size_intergenic+= pi;
                         }
+                        
+                        if((endP[current_order] - pos) < 2000){
+                            if(strandP[current_order] == 1){
+                                size_upstream += pi;
+                            }else{
+                                size_downstream += pi;
+                            }
+                        }else if ((endP[current_order]- pos) < 5000){
+                            if(strandP[current_order] == 1){
+                                size_up5 += pi;
+                            }else{
+                                size_down5 += pi;
+                            }
+                        }else if ((endP[current_order]- pos) < 10000){
+                            if(strandP[current_order] == 1){
+                                size_up10+= pi;
+                            }else{
+                                size_down10+= pi;
+                            }
+                        }else if ((endP[current_order] - pos) < 20000){
+                            if(strandP[current_order]== 1){
+                                size_up20 += pi;
+                            }else{
+                                size_down20 += pi;
+                            }
+                        }else if ((endP[current_order] - pos) < 50000){
+                            if(strandP[current_order] == 1){
+                                size_up50 += pi;
+                            }else{
+                                size_down50 += pi;
+                            }
+                        }else{
+                            size_intergenic+= pi;
+                        }
                     case 7:
                         size_utr5 +=pi ;
                         break;
@@ -3160,7 +3193,7 @@ int gene_count(parameter *para){
                         if (current_order % 100 == 0 ){
                             cout << "currrent_order is:\t" << current_order << endl;
                         }
-                        if (current_order>gene_order){
+                        if (current_order >= gene_order){
                             size_intergenic++;
                             break;
                         }
@@ -3238,5 +3271,78 @@ int gene_count(parameter *para){
     infPi.close();
     ouf.close();
     return 0;
+}
+int toXPCLR(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string infile3 = (para->bedFile);
+    string outfile = (para->outFile);
+    string snp = outfile+".snp";
+    string geno = outfile+".geno";
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ifstream ingroup ((infile2.c_str()),ifstream::in);
+    ifstream inrec ((infile3.c_str()),ifstream::in);
+    ofstream snpf (snp.c_str());
+    ofstream genof (geno.c_str());
+    set<string> samples;
+    string line;
+    vector<string> ll;
+    string chr = (para->chr);
+    while(!ingroup.eof()){
+        getline(ingroup,line);
+        if(line.length()<1) continue;
+        samples.insert(line);
+    }
+    double** value = dmatrix(0,500000000,0,1);
+    double recvalue = 0;
+    while(!inrec.eof()){
+        getline(inrec,line);
+        if(line.length()<1) continue;
+        if(line[0]=='c'|| line[0]=='C') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]!=chr) continue;
+        double bin = string2Double(ll[4])/10000000;
+        int begin = string2Int(ll[1]);
+        int end = string2Int(ll[2])+1;
+        for (int cp = begin; cp < end; ++cp ){
+            value[cp][0] = recvalue + bin * cp;
+        }
+        if(begin > 1 && value[0][0] == 0){
+            for (int cp = 1; cp < begin; ++cp ){
+                value[cp][0] = recvalue + 0.01/10000000 * cp;
+            }
+        }
+        recvalue += string2Double(ll[4]);
+    }
+    cout << "group readed!" << endl;
+//
+//    while(!invcf.eof()){
+//        getline(invcf,line);
+//        if (line.length()<=0 )  {
+//            continue  ;
+//        }else if ( line[0] == '#' && line[1] == '#' )  {
+//            continue  ;
+//        }else if ( line[0] == '#' && line[1] != '#' ){
+//            ll.clear();
+//            split(line,ll,"\t");
+//            if  ( ll[0]  != "#CHROM"){
+//                continue  ;
+//            }else{
+//                for (int i = 9; i< ll.size();++i){
+//                    header.insert(ll[i]);
+//                }
+//            }
+//            break ;
+//        }else if ( line[0] != '#' && line[1] != '#' ){
+//            cerr<<"wrong Line : "<<line<<endl;
+//            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
+//            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
+//            return  0;
+//            break;
+//        }
+//    }
+//
+    return 1;
 }
 #endif /* FileFunctions_h */

@@ -41,18 +41,18 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> inFile = argv[i];
         }
-        else if (flag  == "inFile2" || flag == "file2" || flag == "i2")
+        else if (flag  == "inFile2" || flag == "file2" || flag == "i2"||flag =="group1")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> inFile2 = argv[i];
         }
-        else if (flag  == "inFile3" || flag == "file3" || flag == "i3")
+        else if (flag  == "inFile3" || flag == "file3" || flag == "i3"||flag =="group2")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> inFile3 = argv[i];
-        }else if (flag  == "bedFile" || flag == "bed" || flag == "i2")
+        }else if (flag  == "bedFile" || flag == "bed" || flag == "i2"||flag =="rec")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
