@@ -3304,16 +3304,13 @@ int toXPCLR(parameter *para){
         split(line,ll," \t");
         if(ll[0]!=chr) continue;
         double bin = string2Double(ll[4])/1000000;
+        cout << "bin is:" << bin << endl;
         int begin = string2Int(ll[1]);
         int end = string2Int(ll[2])+1;
         for (int cp = begin; cp < end; ++cp ){
             value[cp][0] = recvalue + bin * cp;
         }
-        if(begin > 1 && value[0][0] == 0){
-            for (int cp = 1; cp < begin; ++cp ){
-                value[cp][0] = recvalue + 0.01/10000000 * cp;
-            }
-        }
+        
         recvalue += string2Double(ll[4]);
     }
     cout << "group readed!" << endl;

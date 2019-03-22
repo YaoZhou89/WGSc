@@ -175,7 +175,7 @@ inline double string2Doublepos(std::string const& s){
     return value;
 }
 
-inline lint string2Int(std::string const& s){
+inline int string2Int(std::string const& s){
     std::istringstream iss(s);
     lint value;
     if (!(iss >> value)) throw std::runtime_error("invalid int");
