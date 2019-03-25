@@ -3296,6 +3296,7 @@ int toXPCLR(parameter *para){
     cout << "group readed! group size is:\t" << samples.size() << endl;
     double** value = dmatrix(0,500000000,0,1);
     double recvalue = 0;
+    int previous = 0;
     while(!inrec.eof()){
         getline(inrec,line);
         if(line.length()<1) continue;
@@ -3304,13 +3305,14 @@ int toXPCLR(parameter *para){
         split(line,ll," \t");
         if(ll[0]!=chr) continue;
         double bin = string2Double(ll[4])/1000000;
+        if (bin == 0) bin = 0.001;
         cout << "bin is:" << bin << endl;
         int begin = string2Int(ll[1]);
-        int end = string2Int(ll[2])+1;
+        int end = string2Int(ll[2]);
         for (int cp = begin; cp < end; ++cp ){
-            value[cp][0] = recvalue + bin * cp;
+            value[cp][0] = recvalue + bin * (cp-previous);
         }
-        
+        previous = end;
         recvalue += string2Double(ll[4]);
     }
     cout << "group readed!" << endl;
