@@ -188,6 +188,13 @@ inline string Int2String(int const& s){
     out_string = ss.str();
     return out_string;
 }
+inline string Double2String(double const& s){
+    std::string out_string;
+    std::stringstream ss;
+    if (!(ss << s)) throw std::runtime_error("invalid string");
+    out_string = ss.str();
+    return out_string;
+}
 inline double avg ( vector<double>& v )
 {
     double return_value = 0.0;

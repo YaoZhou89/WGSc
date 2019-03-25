@@ -3294,7 +3294,7 @@ int toXPCLR(parameter *para){
         samples.insert(line);
     }
     cout << "group readed! group size is:\t" << samples.size() << endl;
-    double** value = dmatrix(0,500000000,0,1);
+    double** value = dmatrix(0,2000000,0,1);
     double recvalue = 0;
     int previous = 0;
     while(!inrec.eof()){
@@ -3371,7 +3371,7 @@ int toXPCLR(parameter *para){
         }else{
             genof << "9 9\n" ;
         }
-        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << value[string2Int(ll[1])] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << Double2String(value[string2Int(ll[1])]) << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
     ingroup.close();
