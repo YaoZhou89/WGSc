@@ -3346,8 +3346,36 @@ int toXPCLR(parameter *para){
         }
     }
     while (!invcf.eof()){
-        
+        getline(invcf,line);
+        ll.clear();
+        split(line,ll," \t");
+        for (int i = 0; i < samplePos.size()-1;++i){
+            if(ll[samplePos[i]][0]=='0'&&ll[samplePos[i]][2]=='0'){
+                genof << "0 0 " ;
+            }else if (ll[samplePos[i]][0]=='1'&&ll[samplePos[i]][2]=='1'){
+                genof << "1 1 " ;
+            }else if(ll[samplePos[i]][0]=='0'&&ll[samplePos[i]][2]=='1'){
+                genof << "0 1 " ;
+            }else{
+                genof << "9 9 " ;
+            }
+        }
+        if(ll[samplePos[samplePos.size()-1]][0]=='0'&&ll[samplePos[samplePos.size()-1]][2]=='0'){
+            genof << "0 0\n" ;
+        }else if (ll[samplePos[samplePos.size()-1]][0]=='1'&&ll[samplePos[samplePos.size()-1]][2]=='1'){
+            genof << "1 1\n" ;
+        }else if(ll[samplePos[samplePos.size()-1]][0]=='0'&&ll[samplePos[samplePos.size()-1]][2]=='1'){
+            genof << "0 1\n" ;
+        }else{
+            genof << "9 9\n" ;
+        }
+        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << value[string2Int(ll[1])] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
+    invcf.close();
+    ingroup.close();
+    inrec.close();
+    snpf.close();
+    genof.close();
     return 1;
 }
 #endif /* FileFunctions_h */
