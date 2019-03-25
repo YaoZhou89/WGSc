@@ -3315,7 +3315,6 @@ int toXPCLR(parameter *para){
         previous = end;
         recvalue += string2Double(ll[4]);
     }
-    cout << "group readed!" << endl;
     cout << "value is: " << value[0][0] << "\t" << value[1400010][0] << endl;
     vector<int> samplePos ;
     while(!invcf.eof()){
@@ -3345,6 +3344,8 @@ int toXPCLR(parameter *para){
             break;
         }
     }
+    cout << samplePos.size() << " sample detected!" << endl;
+    
     while (!invcf.eof()){
         getline(invcf,line);
         ll.clear();
