@@ -3343,7 +3343,9 @@ int toXPCLR(parameter *para){
             break;
         }
     }
-
+    while (!invcf.eof()){
+        
+    }
     return 1;
 }
 #endif /* FileFunctions_h */
