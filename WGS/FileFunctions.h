@@ -3348,6 +3348,7 @@ int toXPCLR(parameter *para){
     
     while (!invcf.eof()){
         getline(invcf,line);
+        if(line.length()<1) continue;
         ll.clear();
         split(line,ll," \t");
         for (int i = 0; i < samplePos.size()-1;++i){
