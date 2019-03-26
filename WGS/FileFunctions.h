@@ -3068,6 +3068,7 @@ int gene_count(parameter *para){
     
     cout << "gff3 readed!" << endl;
     cout << "gene number is:\t" << gene_order << end;
+    cout << "UTR number is:\t" << gene_order << end;
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
@@ -3189,10 +3190,9 @@ int gene_count(parameter *para){
                             genefeaturs[pos]= 20;
 
                         }else{
-                            size_intergenic+= pi;
-                            genefeaturs[pos]= 20;
-
+                            continue;
                         }
+                        break;
                     case 7:
                         size_utr5 +=pi ;
                         break;
@@ -3215,6 +3215,7 @@ int gene_count(parameter *para){
                     while ((startP[current_order]- pos) < 0){
                         if (current_order % 100 == 0 ){
                             cout << "currrent_order is:\t" << current_order << endl;
+                            cout << "counting..." << endl;
                         }
                         if (current_order >= gene_order){
                             size_intergenic++;
@@ -3263,6 +3264,7 @@ int gene_count(parameter *para){
                         size_intergenic++;
                         genefeaturs[pos]= 20;
                     }
+                    
                     if((endP[current_order] - pos) < 2000){
                         if(strandP[current_order] == 1){
                             size_upstream ++;
@@ -3304,9 +3306,9 @@ int gene_count(parameter *para){
                         genefeaturs[pos]= 20;
                         
                     }else{
-                        size_intergenic ++;
-                        genefeaturs[pos]= 20;
+                        continue;
                     }
+                    break;
                 case 7:
                     size_utr5 ++ ;
                     break;
