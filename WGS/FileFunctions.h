@@ -3218,7 +3218,7 @@ int gene_count(parameter *para){
                             cout << "currrent_order is:\t" << current_order << endl;
                             cout << "counting..." << endl;
                         }
-                        if (current_order > gene_order){
+                        if (current_order > gene_order - 1){
                             size_intergenic++;
                             genefeaturs[pos]= 20;
                             break;
