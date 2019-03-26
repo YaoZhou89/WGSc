@@ -3109,32 +3109,43 @@ int gene_count(parameter *para){
                             }else{
                                 size_downstream += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((startP[current_order]- pos) < 5000){
                             if(strandP[current_order] == 0){
                                 size_up5 += pi;
                             }else{
                                 size_down5 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((startP[current_order]- pos) < 10000){
                             if(strandP[current_order] == 0){
                                 size_up10+= pi;
                             }else{
                                 size_down10+= pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((startP[current_order] - pos) < 20000){
                             if(strandP[current_order]== 0){
                                 size_up20 += pi;
                             }else{
                                 size_down20 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((startP[current_order] - pos) < 50000){
                             if(strandP[current_order] == 0){
                                 size_up50 += pi;
                             }else{
                                 size_down50 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else{
                             size_intergenic+= pi;
+                            genefeaturs[pos]= 20;
                         }
                         
                         if((endP[current_order] - pos) < 2000){
@@ -3143,32 +3154,44 @@ int gene_count(parameter *para){
                             }else{
                                 size_downstream += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((endP[current_order]- pos) < 5000){
                             if(strandP[current_order] == 1){
                                 size_up5 += pi;
                             }else{
                                 size_down5 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((endP[current_order]- pos) < 10000){
                             if(strandP[current_order] == 1){
                                 size_up10+= pi;
                             }else{
                                 size_down10+= pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((endP[current_order] - pos) < 20000){
                             if(strandP[current_order]== 1){
                                 size_up20 += pi;
                             }else{
                                 size_down20 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else if ((endP[current_order] - pos) < 50000){
                             if(strandP[current_order] == 1){
                                 size_up50 += pi;
                             }else{
                                 size_down50 += pi;
                             }
+                            genefeaturs[pos]= 20;
+
                         }else{
                             size_intergenic+= pi;
+                            genefeaturs[pos]= 20;
+
                         }
                     case 7:
                         size_utr5 +=pi ;
@@ -3205,32 +3228,84 @@ int gene_count(parameter *para){
                         }else{
                             size_downstream++;
                         }
+                        genefeaturs[pos]= 20;
                     }else if ((startP[current_order]- pos) < 5000){
                         if(strandP[current_order]== 0){
                             size_up5++;
                         }else{
                             size_down5++;
                         }
+                        genefeaturs[pos]= 20;
                     }else if ((startP[current_order] - pos) < 10000){
                         if(strandP[current_order] == 0){
                             size_up10++;
                         }else{
                             size_down10++;
                         }
+                        genefeaturs[pos]= 20;
+
                     }else if ((startP[current_order] - pos) < 20000){
                         if(strandP[current_order] == 0){
                             size_up20++;
                         }else{
                             size_down20++;
                         }
+                        genefeaturs[pos]= 20;
+
                     }else if ((startP[current_order] - pos) < 50000){
                         if(strandP[current_order] == 0){
                             size_up50++;
                         }else{
                             size_down50++;
                         }
+                        genefeaturs[pos]= 20;
                     }else{
                         size_intergenic++;
+                        genefeaturs[pos]= 20;
+                    }
+                    if((endP[current_order] - pos) < 2000){
+                        if(strandP[current_order] == 1){
+                            size_upstream ++;
+                        }else{
+                            size_downstream ++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order]- pos) < 5000){
+                        if(strandP[current_order] == 1){
+                            size_up5 ++;
+                        }else{
+                            size_down5 ++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order]- pos) < 10000){
+                        if(strandP[current_order] == 1){
+                            size_up10 ++;
+                        }else{
+                            size_down10 ++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order] - pos) < 20000){
+                        if(strandP[current_order]== 1){
+                            size_up20 ++;
+                        }else{
+                            size_down20 ++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order] - pos) < 50000){
+                        if(strandP[current_order] == 1){
+                            size_up50 ++;
+                        }else{
+                            size_down50 ++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else{
+                        size_intergenic ++;
+                        genefeaturs[pos]= 20;
                     }
                 case 7:
                     size_utr5 ++ ;
