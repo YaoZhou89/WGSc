@@ -3264,7 +3264,7 @@ int gene_count(parameter *para){
                         size_intergenic++;
                         genefeaturs[pos]= 20;
                     }
-                    
+                    if( genefeaturs[pos]>0) break;
                     if((endP[current_order] - pos) < 2000){
                         if(strandP[current_order] == 1){
                             size_upstream ++;
@@ -3306,7 +3306,7 @@ int gene_count(parameter *para){
                         genefeaturs[pos]= 20;
                         
                     }else{
-                        continue;
+                        break;
                     }
                     break;
                 case 7:
