@@ -3371,7 +3371,7 @@ int toXPCLR(parameter *para){
         }else{
             genof << "9 9\n" ;
         }
-        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << value[string2Int(ll[1])][0] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t" << value[string2Int(ll[1])][0] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
     ingroup.close();
