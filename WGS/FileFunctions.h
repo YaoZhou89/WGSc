@@ -3305,13 +3305,13 @@ int toXPCLR(parameter *para){
         split(line,ll," \t");
         if(ll[0]!=chr) continue;
         double bin = string2Double(ll[4])/1000000;
-        if (bin == 0) bin = 0.001;
+        if (bin == 0) bin = 0.001/1000000;
         cout << "bin is:" << bin << endl;
         int begin = string2Int(ll[1]);
         int end = string2Int(ll[2]);
         for (int cp = begin; cp < end; ++cp ){
             value[cp][0] = recvalue + bin * (cp-previous);
-            if(value[cp][0]==value[cp-1][0]) value[cp][0] = value[cp][0] + 0.000001;
+//            if(value[cp][0]==value[cp-1][0]) value[cp][0] = value[cp][0] + 0.000001;
         }
         previous = end;
         recvalue += string2Double(ll[4]);
