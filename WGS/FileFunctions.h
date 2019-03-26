@@ -3067,8 +3067,8 @@ int gene_count(parameter *para){
     }
     
     cout << "gff3 readed!" << endl;
-    cout << "gene number is:\t" << gene_order << end;
-    cout << "UTR number is:\t" << gene_order << end;
+    cout << "gene number is:\t" << gene_order << endl;
+//    cout << "UTR number is:\t" << gene_order << endl;
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
     double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
     double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
@@ -3090,13 +3090,14 @@ int gene_count(parameter *para){
         int size = ll.size()-1;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
-            double pi = string2Double(ll[size]);
+            double pi = string2Doublepos(ll[size]);
             if( pi > threshold){
                 switch(genefeaturs[pos]){
                     case 0:
                         while ((startP[current_order] - pos) < 0){
-                            if (current_order>gene_order){
+                            if (current_order > gene_order - 1){
                                 size_intergenic++;
+                                genefeaturs[pos]= 20;
                                 break;
                             }
                             current_order++;
@@ -3146,7 +3147,7 @@ int gene_count(parameter *para){
 
                         }
                         
-                        if( genefeaturs[pos]>0) break;
+                        if( genefeaturs[pos]!=0) break;
                         
                         if((endP[current_order] - pos) < 2000){
                             if(strandP[current_order] == 1){
@@ -3191,7 +3192,6 @@ int gene_count(parameter *para){
                         }else{
                                 size_intergenic+= pi;
                                 genefeaturs[pos]= 20;
-                    
                         }
                         break;
                     case 7:
@@ -3218,8 +3218,9 @@ int gene_count(parameter *para){
                             cout << "currrent_order is:\t" << current_order << endl;
                             cout << "counting..." << endl;
                         }
-                        if (current_order >= gene_order){
+                        if (current_order > gene_order){
                             size_intergenic++;
+                            genefeaturs[pos]= 20;
                             break;
                         }
                         current_order++;
@@ -3264,7 +3265,7 @@ int gene_count(parameter *para){
                     }else{
                         
                     }
-                    if( genefeaturs[pos]>0) break;
+                    if( genefeaturs[pos] != 0) break;
                     if((endP[current_order] - pos) < 2000){
                         if(strandP[current_order] == 1){
                             size_upstream ++;
