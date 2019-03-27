@@ -159,19 +159,19 @@ int **imatrix(long nrl, long nrh, long ncl, long nch)
     return m;
 }
 
-long double **dmatrix(long nrl, long nrh, long ncl, long nch)
+ double **dmatrix(long nrl, long nrh, long ncl, long nch)
 /* allocate a int matrix with subscript range m[nrl..nrh][ncl..nch] */
 {
     long i, nrow=nrh-nrl+1,ncol=nch-ncl+1;
-    long double **m;
+     double **m;
     
     /* allocate pointers to rows */
-    m=(long double **) malloc((size_t)((nrow+NR_END)*sizeof(long double*)));
+    m=(double **) malloc((size_t)((nrow+NR_END)*sizeof(double*)));
     if (!m) cerr << "allocation failure 1 in matrix()" << endl;
     m += NR_END;
     m -= nrl;
     /* allocate rows and set pointers to them */
-    m[nrl]=(long double *) malloc((size_t)((nrow*ncol+NR_END)*sizeof(long double)));
+    m[nrl]=(double *) malloc((size_t)((nrow*ncol+NR_END)*sizeof(double)));
     if (!m[nrl]) cerr << "allocation failure 2 in matrix()" << endl;
     m[nrl] += NR_END;
     m[nrl] -= ncl;

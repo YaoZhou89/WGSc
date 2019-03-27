@@ -3372,8 +3372,8 @@ int toXPCLR(parameter *para){
         samples.insert(line);
     }
     cout << "group readed! group size is:\t" << samples.size() << endl;
-    long double** value = dmatrix(0,500000000,0,1);
-    long double recvalue = 0;
+    double** value = dmatrix(0,500000000,0,1);
+    double recvalue = 0;
     int previous = 0;
     while(!inrec.eof()){
         getline(inrec,line);
