@@ -3472,7 +3472,7 @@ int toV11(parameter *para){
         getline(invcf,line);
         if(line.length()<1) continue;
         if(line[0]=='#'){
-            ouf << line << "\n";
+            ouf << line ;
         }else{
             ll.clear();
             split(line,ll," \t");
