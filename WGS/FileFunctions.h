@@ -3480,7 +3480,7 @@ int toV11(parameter *para){
                 ouf << ll[i] << "\t";
             }
             ouf << "." ;
-            ouf << "\t" << "GT:AD:PL";
+            ouf << "\t" << "GT:AD:GL";
             for (int i = 9; i< ll.size(); ++i){
                 lll.clear();
                 split(ll[i],lll,":");
