@@ -74,7 +74,7 @@ public:
         b = 0.0;
         maxLength = 500000000;
         chr = "chr1";
-        threshold = 0;
+        threshold = -0.00001;
     }
 };
 

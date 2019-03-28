@@ -70,6 +70,8 @@ int main(int argc, char * argv[]) {
             }
             else if ((para->type) == "toXPCLR"){
                 toXPCLR(para);
+            }else if ((para->type)=="toV11"){
+                toV11(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

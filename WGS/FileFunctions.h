@@ -3082,11 +3082,11 @@ int gene_count(parameter *para){
         split(line,ll," \t");
         if(ll[0] != chr) continue;
         int pos = string2Int(ll[1]);
-        if (ll.size()<4){
+//        if (ll.size()<4){
             pos = string2Int(ll[1]);
-        }else{
-            pos = string2Int(ll[2]);
-        }
+//        }else{
+//            pos = string2Int(ll[2]);
+//        }
         int size = ll.size()-1;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
@@ -3458,5 +3458,39 @@ int toXPCLR(parameter *para){
     snpf.close();
     genof.close();
     return 1;
+}
+
+int toV11(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    vector<string> lll;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#'){
+            ouf << line << "\n";
+        }else{
+            ll.clear();
+            split(line,ll," \t");
+            for (int i = 0; i <7; ++i){
+                ouf << ll[i] << "\t";
+            }
+            ouf << "." ;
+            ouf << "\t" << "GT:AD:PL";
+            for (int i = 9; i< ll.size(); ++i){
+                lll.clear();
+                split(ll[i],lll,":");
+                ouf << "\t" << lll[0] << ":" << lll[1]<<":"<< lll[lll.size()-1];
+            }
+        }
+        ouf << "\n";
+    }
+    invcf.close();
+    ouf.close();
+    return 0;
 }
 #endif /* FileFunctions_h */
