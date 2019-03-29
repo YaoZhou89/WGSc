@@ -728,6 +728,7 @@ int pi2bed(parameter *para){
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length() < 3) continue;
+        if(line[0]=='C') continue;
         ll.clear();
         split(line,ll,"\t");
         if(ll[0] !=chr) continue;
@@ -737,7 +738,7 @@ int pi2bed(parameter *para){
         bedPos[bedPos_i][3] = string2Int(ll[3]); // number in this region
         bedPos_i++;
     }
-    cout << "bed readed! Size is:\t" << bedPos << endl;
+    cout << "bed readed! Size is:\t" << bedPos_i << endl;
     inbed.close();
     double pi = 0.0;
     int curent_bed = bedPos[0][0];
