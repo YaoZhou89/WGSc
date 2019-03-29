@@ -723,15 +723,14 @@ int pi2bed(parameter *para){
     string chr = (para->chr);
     string line;
     vector < string > ll;
-    int** bedPos = imatrix(0, 20000, 0, 4);
+    int** bedPos = imatrix(0, 200000, 0, 4);
     int bedPos_i = 0;
-    cout << "bed readed! Size is:\t" << bedPos << endl;
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length() < 3) continue;
         ll.clear();
         split(line,ll,"\t");
-        if(ll[0]!=chr) continue;
+        if(ll[0] !=chr) continue;
         bedPos[bedPos_i][0] = string2Int(ll[1]); // start pos
         bedPos[bedPos_i][1] = string2Int(ll[2]); // end pos
         bedPos[bedPos_i][2] = string2Int(ll[2]) - string2Int(ll[1]) + 1 ; // length
