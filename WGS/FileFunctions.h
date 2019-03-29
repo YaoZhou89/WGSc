@@ -720,61 +720,66 @@ int pi2bed(parameter *para){
         cerr << "Couldn't open outFile" << endl;
         return 0;
     }
+    string chr = (para->chr);
     string line;
     vector < string > ll;
-    lint startPos = 1;
-    int BinRound = 1;
-    lint endPos = 1;
-    map<string,int> binNum;
+    int** bedPos = imatrix(0, 20000, 0, 4);
+    int bedPos_i = 0;
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length() < 3) continue;
         ll.clear();
         split(line,ll,"\t");
-        binNum.insert(map <string, int> :: value_type(ll[0]+"_"+ll[1],string2Int(ll[3])));
+        if(ll[0]!=chr) continue;
+        bedPos[bedPos_i][0] = string2Int(ll[1]); // start pos
+        bedPos[bedPos_i][1] = string2Int(ll[2]); // end pos
+        bedPos[bedPos_i][2] = string2Int(ll[2]) - string2Int(ll[1]) + 1 ; // length
+        bedPos[bedPos_i][3] = string2Int(ll[3]); // number in this region
+        bedPos_i++;
     }
     inbed.close();
-    map<string,int>::iterator it;
     double pi = 0.0;
-    int prePos = 0;
-    string chr = "c";
+    int curent_bed = bedPos[0][0];
+    int startPos;
+    int endPos;
+    int n_bed_pos = 0;
     while(!inF.eof()){
         getline(inF, line);
-        if(line.length()<1) continue;
+        if(line.length() < 1) continue;
         if(line[0]=='C') continue;
         ll.clear();
         split(line,ll," \t");
+        if(ll[0]!=chr) continue;
         int current_pos = string2Int(ll[1]);
-        if(prePos > current_pos ) {
-            BinRound = 1;
-            pi = 0;
+        if (current_pos < bedPos[0][0]) {
+            cerr << "please check bedFile, the first position is too small!" << endl;
+            return 1;
         }
-        while(current_pos > BinRound * binSize){
-            endPos = BinRound * binSize;
-            startPos = (BinRound-1) * binSize + 1;
-            it = binNum.find(ll[0] + "_" + to_string(startPos));
-            ++BinRound;
-            if(it != binNum.end()){
-                int n = binNum[ll[0] + "_" + to_string(startPos)];
-                if(n == 0) {
-                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << "NA" << "\n" ;
-                }else{
-                    ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
+        if(n_bed_pos > bedPos_i){
+            break;
+        }
+        while(current_pos > curent_bed){
+            startPos = bedPos[n_bed_pos][0];
+            endPos = bedPos[n_bed_pos][1];
+            if(current_pos > endPos ){
+                ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+                n_bed_pos++;
+                if(n_bed_pos > bedPos_i){
+                    break;
                 }
                 pi = 0;
             }
-            prePos = current_pos;
+            curent_bed = bedPos[n_bed_pos][0];
         }
         if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
         pi += string2Double(ll[2]);
     }
-    if(string2Int(ll[1]) > endPos){
-        endPos = string2Int(ll[1]);
-        startPos = (BinRound-1)*binSize +1;
-        int n = binNum[ll[0]+"_"+to_string(startPos)];
-        if(n!=0) {
-             ouf << ll[0] << "\t" << startPos << "\t" << endPos << "\t" << pi/n << "\n" ;
-        }
+    while( n_bed_pos < bedPos_i){
+        startPos = bedPos[n_bed_pos][0];
+        endPos = bedPos[n_bed_pos][1];
+        ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+        n_bed_pos++;
+        pi = 0;
     }
     inF.close();
     ouf.close();
