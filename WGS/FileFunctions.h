@@ -704,7 +704,7 @@ int getOri(parameter *para){
     return 0;
 }
 int pi2bed(parameter *para){
-    int binSize = para->size;
+//    int binSize = para->size;
     igzstream inF ((para->inFile).c_str(),ifstream::in);
     igzstream inbed ((para->inFile2).c_str(),ifstream::in);
     if(inF.fail()){
