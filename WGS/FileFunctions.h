@@ -725,6 +725,7 @@ int pi2bed(parameter *para){
     vector < string > ll;
     int** bedPos = imatrix(0, 20000, 0, 4);
     int bedPos_i = 0;
+    cout << "bed readed! Size is:\t" << bedPos << endl;
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length() < 3) continue;
