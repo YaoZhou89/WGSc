@@ -727,7 +727,7 @@ int pi2bed(parameter *para){
     int bedPos_i = 0;
     while(!inbed.eof()){
         getline(inbed,line);
-        if(line.length() < 3) continue;
+        if(line.length() < 1) continue;
         if(line[0]=='C') continue;
         ll.clear();
         split(line,ll,"\t");
@@ -760,21 +760,24 @@ int pi2bed(parameter *para){
         if(n_bed_pos > bedPos_i){
             break;
         }
-        while(current_pos > curent_bed){
-            startPos = bedPos[n_bed_pos][0];
-            endPos = bedPos[n_bed_pos][1];
-            if(current_pos > endPos ){
-                ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
-                n_bed_pos++;
-                if(n_bed_pos > bedPos_i){
-                    break;
+        if(current_pos > curent_bed){
+            while(current_pos < bedPos[n_bed_pos][1]){
+                startPos = bedPos[n_bed_pos][0];
+                endPos = bedPos[n_bed_pos][1];
+                if(current_pos > endPos ){
+                    ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+                    n_bed_pos++;
+                    if(n_bed_pos > bedPos_i){
+                        break;
+                    }
+                    pi = 0;
                 }
-                pi = 0;
+                curent_bed = bedPos[n_bed_pos][0];
             }
-            curent_bed = bedPos[n_bed_pos][0];
+            if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
+            pi += string2Double(ll[2]);
         }
-        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
-        pi += string2Double(ll[2]);
+       
     }
     while( n_bed_pos < bedPos_i){
         startPos = bedPos[n_bed_pos][0];
