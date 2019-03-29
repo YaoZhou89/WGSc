@@ -760,24 +760,18 @@ int pi2bed(parameter *para){
         if(n_bed_pos > bedPos_i){
             break;
         }
-        if(current_pos > curent_bed){
-            while(current_pos < bedPos[n_bed_pos][1]){
-                startPos = bedPos[n_bed_pos][0];
-                endPos = bedPos[n_bed_pos][1];
-                if(current_pos > endPos ){
-                    ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
-                    n_bed_pos++;
-                    if(n_bed_pos > bedPos_i){
-                        break;
-                    }
-                    pi = 0;
-                }
-                curent_bed = bedPos[n_bed_pos][0];
+        while(bedPos[n_bed_pos][1] < current_pos ){
+            startPos = bedPos[n_bed_pos][0];
+            endPos = bedPos[n_bed_pos][1];
+            ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+            n_bed_pos++;
+            if(n_bed_pos > bedPos_i){
+                break;
             }
-            if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
-            pi += string2Double(ll[2]);
+            pi = 0;
         }
-       
+        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
+        pi += string2Double(ll[2]);
     }
     while( n_bed_pos < bedPos_i){
         startPos = bedPos[n_bed_pos][0];
