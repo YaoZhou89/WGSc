@@ -3565,4 +3565,51 @@ int toV11(parameter *para){
     ouf.close();
     return 0;
 }
+int toSFS(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    string c = "ACGT";
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        size_t ref = c.find(ll[3]);
+        size_t alt = c.find(ll[4]);
+        if (ref==std::string::npos||alt==std::string::npos){
+            cerr << "vcf file error!" << endl;
+            return 1;
+        }
+        vector<int> N4(4);
+        vector<int> O4(4);
+        int re = static_cast<int>(ref);
+        int al = static_cast<int>(alt);
+        for (int i = 9; i < ll.size()-1; ++i){
+            if(ll[i][0]=='0' & ll[i][2]=='0'){
+                N4[re] += 2;
+            }else if(ll[i][0]=='1' & ll[i][2]=='1'){
+                N4[al] += 2;
+            }else{
+                N4[re] ++;
+                N4[al] ++;
+            }
+        }
+        int p = ll.size()-1;
+        if(ll[p][0]=='0' & ll[p][2]=='0'){
+            N4[re] += 2;
+        }else if(ll[p][0]=='1' & ll[p][2]=='1'){
+            N4[al] += 2;
+        }else{
+            N4[re] ++;
+            N4[al] ++;
+        }
+        ouf << N4[0] << "," << N4[1] << ","<< N4[2] << ","<< N4[3] << "\t"<< O4[0] << ","<< O4[1] << ","<< O4[2]  << ","<< O4[3] << "\n";
+    }
+    return 0;
+}
 #endif /* FileFunctions_h */
