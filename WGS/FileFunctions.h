@@ -757,6 +757,7 @@ int pi2bed(parameter *para){
             cerr << "please check bedFile, the first position is too small!" << endl;
             return 1;
         }
+        if (current_pos > bedPos[bedPos_i-1][1]) continue;
         if(n_bed_pos > bedPos_i){
             break;
         }
