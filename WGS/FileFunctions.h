@@ -723,7 +723,7 @@ int pi2bed(parameter *para){
     string chr = (para->chr);
     string line;
     vector < string > ll;
-    int** bedPos = imatrix(0, 200000, 0, 4);
+    int** bedPos = imatrix(0, 500000, 0, 4);
     int bedPos_i = 0;
     while(!inbed.eof()){
         getline(inbed,line);
@@ -757,7 +757,7 @@ int pi2bed(parameter *para){
             cerr << "please check bedFile, the first position is too small!" << endl;
             return 1;
         }
-        if (current_pos > bedPos[bedPos_i-1][1]) continue;
+//        if (current_pos > bedPos[bedPos_i-1][1]) continue;
         if(n_bed_pos > bedPos_i){
             break;
         }
