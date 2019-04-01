@@ -3590,10 +3590,12 @@ int toSFS(parameter *para){
         int re = static_cast<int>(ref);
         int al = static_cast<int>(alt);
         for (int i = 9; i < ll.size()-1; ++i){
-            if(ll[i][0]=='0' && ll[i][2]=='0' ){
+            if(ll[i][0] == '0'){
                 N4[re] ++;
-            }else if (ll[i][0]=='1'&& ll[i][2]=='1'){
+            }else if (ll[i][0]=='1'){
                 N4[al] ++;
+            }else{
+                N4[re] ++;
             }
         }
         int p = ll.size()-1;
