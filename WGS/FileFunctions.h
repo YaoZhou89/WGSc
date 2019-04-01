@@ -1606,7 +1606,7 @@ int intersectFile(parameter *para){
         return 0;
     }
     string outFile =(para -> outFile);
-    ogzstream  OUT((outFile).c_str());
+    ofstream  OUT((outFile).c_str());
     
     string logFile =(para -> outFile) + ".log";
     ofstream log ((logFile).c_str());
