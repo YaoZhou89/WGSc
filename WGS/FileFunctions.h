@@ -1801,7 +1801,7 @@ int calibarate3(parameter *para){
     map <string,string> pos;
     string line;
     string outfile = (para->outFile);
-    ogzstream OUT (outfile.c_str());
+    ofstream OUT (outfile.c_str());
     if(OUT.fail()){
         cerr << "Open File out error" << outfile << endl;
         return 0;
