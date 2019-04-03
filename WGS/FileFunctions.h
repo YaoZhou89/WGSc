@@ -3606,6 +3606,20 @@ int toSFS(parameter *para){
         }
         ouf << N4[0] << "," << N4[1] << ","<< N4[2] << ","<< N4[3] << "\t"<< O4[0] << ","<< O4[1] << ","<< O4[2]  << ","<< O4[3] << "\n";
     }
+    invcf.close();
+    ouf.close();
+    return 0;
+}
+
+int getAlleleFrequency(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set<string> names = getSubgroup(para->subPop);
+//    vector<int> pos = getSubPos(names,allNames);
     return 0;
 }
 #endif /* FileFunctions_h */

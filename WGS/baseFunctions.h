@@ -207,4 +207,17 @@ inline double avg ( vector<double>& v )
     
     return ( return_value / n);
 }
+set <string> getSubgroup(string& inFile){
+    set<string> names ;
+    igzstream inf ((inFile.c_str()),ifstream::in);
+    if(inf.fail()) throw std::runtime_error("invalid subgroup files!");
+    string line;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        names.insert(line);
+    }
+    cout << "subgroup file readed! " << names.size() << " samples!" << endl;
+    return names;
+}
 #endif /* baseFunctions_h */
