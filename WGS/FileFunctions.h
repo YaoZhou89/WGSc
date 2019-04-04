@@ -3422,6 +3422,442 @@ int gene_count(parameter *para){
     ouf.close();
     return 0;
 }
+int gene_count_gene(parameter *para){
+    string gffFile = (para -> inFile);
+    string piFile = (para -> inFile2);
+    string outFile = (para -> outFile);
+    string outFile1 = outFile + ".genes";
+    string chr = (para -> chr);
+    double threshold = (para -> threshold);
+    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    igzstream infPi ((piFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    ofstream ouf1 ((outFile1).c_str());
+    string line;
+    vector<string> ll;
+    set<int> withoutIntron;
+    int start = 0, end = 0;
+    int ps = 0, pe = 0;
+    string strand = "";
+    vector<int> startP(20000);
+    vector<int> endP(20000);
+    vector<int> strandP(20000);
+    
+    vector<int> genefeaturs(500000000);
+    int gene_order = 0;
+    // upstream50: 1; upstream20: 2;upstream10: 3; upstream5: 4;upstream2: 5;
+    // gene: 20, 5utr: 7; cds: 8; intron: 9; 3utr: 10;
+    // down50: 11; down20: 12; down10: 13; down5: 14; down2: 15;
+    while(!infGff.eof()){
+        getline(infGff,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
+            for ( int i = start; i < end; ++i){
+                if(withoutIntron.count(i) == 0){
+                    genefeaturs[i] = 9;
+                    //                    intron.insert(i);
+                }
+            }
+            start = 0;
+            end = 0;
+            withoutIntron.clear();
+            ps = 0;
+            pe = 0;
+            continue;
+        };
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0] != chr) continue;
+        if(ll[2] == "gene"){
+            start = string2Int(ll[3]);
+            end = string2Int(ll[4]);
+            strand = ll[6];
+            startP[gene_order] = start;
+            endP[gene_order] = end;
+            if(strand == "+"){
+                strandP[gene_order] = 0;
+            }else{
+                strandP[gene_order] = 1;
+            }
+            gene_order++;
+        }else if (ll[2] == "five_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i]= 7;
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "three_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i] = 10;
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "CDS"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i] = 8;
+                withoutIntron.insert(i);
+            }
+        }
+    }
+    
+    if(withoutIntron.size() > 1) {
+        for ( int i = start; i < end; ++i){
+            if(withoutIntron.count(i)==0){
+                genefeaturs[i] = 9;
+            }
+        }
+        withoutIntron.clear();
+    }
+    
+    cout << "gff3 readed!" << endl;
+    cout << "gene number is:\t" << gene_order << endl;
+    int** geneMatrix = imatrix(0, gene_order + 1, 0, 16);
+    
+    //    cout << "UTR number is:\t" << gene_order << endl;
+    double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
+    double size_utr3 = 0, size_downstream = 0,size_intergenic = 0;
+    double size_up5 = 0, size_up10 = 0, size_up15 = 0, size_up20 = 0, size_up50 = 0;
+    double size_down5 = 0, size_down10 = 0, size_down15 = 0, size_down20 = 0, size_down50 = 0;
+    int current_order = 0;
+    while(!infPi.eof()){
+        getline(infPi,line);
+        if(line.length()<1) continue;
+        if(line[0] == 'C') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0] != chr) continue;
+        int pos = string2Int(ll[1]);
+        //        if (ll.size()<4){
+        pos = string2Int(ll[1]);
+        //        }else{
+        //            pos = string2Int(ll[2]);
+        //        }
+        int size = ll.size()-1;
+        if(size > 1){
+            if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
+            double pi = string2Doublepos(ll[size]);
+            if( pi > threshold){
+                switch(genefeaturs[pos]){
+                    case 0:
+                        while ((startP[current_order] - pos) < 0){
+                            if (current_order > gene_order - 1){
+                                geneMatrix[current_order][0] +=pi;
+                                size_intergenic += pi;
+                                genefeaturs[pos]= 20;
+                                break;
+                            }
+                            current_order++;
+                            if (current_order % 100 == 0 ){
+                                cout << "currrent_order is:\t" << current_order << endl;
+                            }
+                        }
+                        if((startP[current_order] - pos) < 2000){
+                            if(strandP[current_order] == 0){
+                                size_upstream += pi;
+                                geneMatrix[current_order][5] += pi;
+                            }else{
+                                size_downstream += pi;
+                                geneMatrix[current_order][10] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((startP[current_order]- pos) < 5000){
+                            if(strandP[current_order] == 0){
+                                size_up5 += pi;
+                                geneMatrix[current_order][4] += pi;
+                            }else{
+                                size_down5 += pi;
+                                geneMatrix[current_order][11] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((startP[current_order]- pos) < 10000){
+                            if(strandP[current_order] == 0){
+                                size_up10+= pi;
+                                geneMatrix[current_order][3] += pi;
+                            }else{
+                                size_down10+= pi;
+                                geneMatrix[current_order][12] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((startP[current_order] - pos) < 20000){
+                            if(strandP[current_order]== 0){
+                                size_up20 += pi;
+                                geneMatrix[current_order][2] += pi;
+                            }else{
+                                size_down20 += pi;
+                                geneMatrix[current_order][13] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((startP[current_order] - pos) < 50000){
+                            if(strandP[current_order] == 0){
+                                size_up50 += pi;
+                                geneMatrix[current_order][1] += pi;
+                            }else{
+                                size_down50 += pi;
+                                geneMatrix[current_order][14] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }
+                        
+                        if( genefeaturs[pos]!=0) break;
+                        
+                        if((endP[current_order] - pos) < 2000){
+                            if(strandP[current_order] == 1){
+                                size_upstream += pi;
+                                geneMatrix[current_order][5] += pi;
+                            }else{
+                                size_downstream += pi;
+                                geneMatrix[current_order][10] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((endP[current_order]- pos) < 5000){
+                            if(strandP[current_order] == 1){
+                                size_up5 += pi;
+                                geneMatrix[current_order][4]+=pi;
+                            }else{
+                                size_down5 += pi;
+                                geneMatrix[current_order][11]+=pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((endP[current_order]- pos) < 10000){
+                            if(strandP[current_order] == 1){
+                                size_up10+= pi;
+                                geneMatrix[current_order][3] += pi;
+                            }else{
+                                size_down10+= pi;
+                                geneMatrix[current_order][12] +=pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((endP[current_order] - pos) < 20000){
+                            if(strandP[current_order]== 1){
+                                size_up20 += pi;
+                                geneMatrix[current_order][2] += pi;
+                            }else{
+                                size_down20 += pi;
+                                geneMatrix[current_order][13] += pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else if ((endP[current_order] - pos) < 50000){
+                            if(strandP[current_order] == 1){
+                                size_up50 += pi;
+                                geneMatrix[current_order][1] +=pi;
+                            }else{
+                                size_down50 += pi;
+                                geneMatrix[current_order][14] +=pi;
+                            }
+                            genefeaturs[pos]= 20;
+                            
+                        }else{
+                            size_intergenic+= pi;
+                            geneMatrix[current_order][0] +=pi;
+                            genefeaturs[pos]= 20;
+                        }
+                        break;
+                    case 7:
+                        size_utr5 +=pi ;
+                        geneMatrix[current_order][6] +=pi;
+                        break;
+                    case 8:
+                        size_cds +=pi ;
+                        geneMatrix[current_order][7] +=pi;
+                        break;
+                    case 9:
+                        size_intron +=pi ;
+                        geneMatrix[current_order][8] +=pi;
+                        break;
+                    case 10:
+                        size_utr3 +=pi ;
+                        geneMatrix[current_order][9] +=pi;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }else{
+            switch(genefeaturs[pos]){
+                case 0:
+                    while ((startP[current_order]- pos) < 0){
+                        if (current_order % 100 == 0 ){
+                            cout << "currrent_order is:\t" << current_order << endl;
+                        }
+                        if (current_order > gene_order - 1){
+                            size_intergenic++;
+                            geneMatrix[current_order][0]++;
+                            genefeaturs[pos]= 20;
+                            break;
+                        }
+                        current_order++;
+                    }
+                    if((startP[current_order] - pos) < 2000){
+                        if(strandP[current_order] == 0){
+                            size_upstream++;
+                            geneMatrix[current_order][5]++;
+                        }else{
+                            size_downstream++;
+                            geneMatrix[current_order][10]++;
+                        }
+                        genefeaturs[pos]= 20;
+                    }else if ((startP[current_order]- pos) < 5000){
+                        if(strandP[current_order]== 0){
+                            size_up5++;
+                            geneMatrix[current_order][4]++;
+                        }else{
+                            size_down5++;
+                            geneMatrix[current_order][11]++;
+                        }
+                        genefeaturs[pos]= 20;
+                    }else if ((startP[current_order] - pos) < 10000){
+                        if(strandP[current_order] == 0){
+                            size_up10++;
+                            geneMatrix[current_order][3]++;
+                        }else{
+                            size_down10++;
+                            geneMatrix[current_order][12]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((startP[current_order] - pos) < 20000){
+                        if(strandP[current_order] == 0){
+                            size_up20++;
+                            geneMatrix[current_order][2]++;
+                        }else{
+                            size_down20++;
+                            geneMatrix[current_order][13]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((startP[current_order] - pos) < 50000){
+                        if(strandP[current_order] == 0){
+                            size_up50++;
+                            geneMatrix[current_order][1]++;
+                        }else{
+                            size_down50++;
+                            geneMatrix[current_order][14]++;
+                        }
+                        genefeaturs[pos]= 20;
+                    }else{
+                        
+                    }
+                    if( genefeaturs[pos] != 0) break;
+                    if((endP[current_order] - pos) < 2000){
+                        if(strandP[current_order] == 1){
+                            size_upstream ++;
+                            geneMatrix[current_order][5]++;
+                        }else{
+                            size_downstream ++;
+                            geneMatrix[current_order][10]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order]- pos) < 5000){
+                        if(strandP[current_order] == 1){
+                            size_up5 ++;
+                            geneMatrix[current_order][4]++;
+                        }else{
+                            size_down5 ++;
+                            geneMatrix[current_order][11]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order]- pos) < 10000){
+                        if(strandP[current_order] == 1){
+                            size_up10 ++;
+                            geneMatrix[current_order][3]++;
+                        }else{
+                            size_down10 ++;
+                            geneMatrix[current_order][12]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order] - pos) < 20000){
+                        if(strandP[current_order]== 1){
+                            size_up20 ++;
+                            geneMatrix[current_order][2]++;
+                        }else{
+                            size_down20 ++;
+                            geneMatrix[current_order][13]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else if ((endP[current_order] - pos) < 50000){
+                        if(strandP[current_order] == 1){
+                            size_up50 ++;
+                            geneMatrix[current_order][1]++;
+                        }else{
+                            size_down50 ++;
+                            geneMatrix[current_order][14]++;
+                        }
+                        genefeaturs[pos]= 20;
+                        
+                    }else{
+                        size_intergenic++;
+                        geneMatrix[current_order][0]++;
+                        genefeaturs[pos]= 20;
+                    }
+                    break;
+                case 7:
+                    size_utr5 ++ ;
+                    geneMatrix[current_order][6]++;
+                    break;
+                case 8:
+                    size_cds ++ ;
+                    geneMatrix[current_order][7]++;
+                    break;
+                case 9:
+                    size_intron ++ ;
+                    geneMatrix[current_order][8]++;
+                    break;
+                case 10:
+                    size_utr3 ++ ;
+                    geneMatrix[current_order][9]++;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    ouf << "region\tsum\n";
+    ouf << "intergenic\t" << size_intergenic << "\n";
+    ouf << "upstream_20k_50k\t" << size_up50 << "\n";
+    ouf << "upstream_10k_20k\t" << size_up20 << "\n";
+    ouf << "upstream_5k_10k\t" << size_up10<< "\n";
+    ouf << "upstream_2k_5k\t" << size_up5 << "\n";
+    
+    ouf << "upstream_2k\t" << size_upstream << "\n";
+    ouf << "five-UTR\t" << size_utr5 << "\n";
+    ouf << "exon\t" << size_cds << "\n";
+    ouf << "intron\t" << size_intron << "\n";
+    ouf << "three-UTR\t" << size_utr3 << "\n";
+    ouf << "downstream_2k\t" << size_downstream << "\n";
+    ouf << "downstream_2k_5k\t" << size_down5 << "\n";
+    ouf << "downstream_5k_10k\t" << size_down10 << "\n";
+    ouf << "downstream_10k_20k\t" << size_down20 << "\n";
+    ouf << "downstream_20k_50k\t" << size_down50 << "\n";
+    for (int i = 0; i < gene_order-1; i++){
+        for (int j = 0; j < 14; j++){
+            ouf1 << geneMatrix[i][j] << "\t";
+        }
+        ouf1 << geneMatrix[i][14] << "\n";
+    }
+    infGff.close();
+    infPi.close();
+    ouf.close();
+    ouf1.close();
+    return 0;
+}
 int toXPCLR(parameter *para){
     string infile = (para->inFile);
     string infile2 = (para->inFile2);

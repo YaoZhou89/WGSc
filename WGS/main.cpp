@@ -133,6 +133,8 @@ int main(int argc, char * argv[]) {
                 genePi(para);
             }else if ((para->type) == "overCount"){
                 gene_count(para);
+            }else if((para->type) == "CountByGene"){
+                gene_count_gene(para);
             }
         }else if((para -> model) == "structure"){
             if((para -> type) == "Q2CLUMPP"){
