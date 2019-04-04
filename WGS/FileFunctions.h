@@ -3442,7 +3442,6 @@ int gene_count_gene(parameter *para){
     vector<int> startP(20000);
     vector<int> endP(20000);
     vector<int> strandP(20000);
-    
     vector<int> genefeaturs(500000000);
     int gene_order = 0;
     // upstream50: 1; upstream20: 2;upstream10: 3; upstream5: 4;upstream2: 5;
@@ -3516,7 +3515,7 @@ int gene_count_gene(parameter *para){
     
     cout << "gff3 readed!" << endl;
     cout << "gene number is:\t" << gene_order << endl;
-    int** geneMatrix = imatrix(0, gene_order + 1, 0, 16);
+    double** geneMatrix = dmatrix(0, gene_order + 1, 0, 16);
     
     //    cout << "UTR number is:\t" << gene_order << endl;
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
