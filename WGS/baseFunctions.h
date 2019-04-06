@@ -218,6 +218,34 @@ set <string> getSubgroup(string& inFile){
         names.insert(line);
     }
     cout << "subgroup file readed! " << names.size() << " samples!" << endl;
+    inf.close();
     return names;
+}
+double MAF(vector <string> & ll, vector<int> na){
+    double maf = 0;
+    double a = 0;
+    double A = 0;
+    for (int i = 0; i < na.size(); ++i){
+        if(ll[na[i]][0]=='0'&&ll[na[i]][2]=='0'){
+            a += 2;
+        }else if(ll[na[i]][0]=='0'&&ll[na[i]][2]=='1'){
+            a++;
+            A++;
+        }else if(ll[na[i]][0]=='1'&&ll[na[i]][2]=='1'){
+            A += 2;
+        }else {
+            continue;
+        }
+    }
+    maf = a/(a+A);
+    if (maf>0.5) maf = 1 - maf;
+    return maf;
+}
+vector <int> getPos(vector <string> & ll, set<string> na){
+    vector<int> pos;
+    for(int i = 9; i<ll.size();++i){
+        if(na.count(ll[i])==1) pos.push_back(i);
+    }
+    return pos;
 }
 #endif /* baseFunctions_h */

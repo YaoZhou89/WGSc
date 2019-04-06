@@ -4057,4 +4057,59 @@ int getAlleleFrequency(parameter *para){
 //    vector<int> pos = getSubPos(names,allNames);
     return 0;
 }
+int pwFrequence(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string gf2 = (para -> inFile3);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    set<string> name2 = getSubgroup(gf2);
+    set<string> name = getSubgroup(gf1);
+    name.insert(name2.begin(), name2.end());
+    vector<int> na1;
+    vector<int> na2;
+    vector<int> na;
+    vector<string> ll;
+    double** maf = dmatrix(0,51,0,3);
+    int sum = 0;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            na2 = getPos(ll,name2);
+            na = getPos(ll,name);
+            continue;
+        }
+        double mf1 = MAF(ll,na1);
+        double mf2 = MAF(ll,na2);
+        double mf = MAF(ll,na);
+        if(mf1 > 0 && mf2 >0){
+            maf[(int)ceil(mf)][0] ++;
+            sum++;
+        }else if (mf1 > 0 && mf2 ==0){
+            maf[(int)ceil(mf)][1] ++;
+            sum++;
+        }else if (mf1 == 0 && mf2 > 0){
+            maf[(int)ceil(mf)][2] ++;
+            sum++;
+        }else{
+            continue;
+        }
+    }
+    ouf << "maf\tshared\tgroup1\tgroup2\n";
+    for(int i = 0; i < 51; ++i){
+        ouf << 0.01*i << "\t" << maf[i][0]/(sum*1.0) << "\t" << maf[i][1]/(sum*1.0) <<"\t" << maf[i][2]/(sum*1.0) << "\n";
+    }
+    invcf.close();
+    ouf.close();
+    
+    return 0;
+}
 #endif /* FileFunctions_h */
