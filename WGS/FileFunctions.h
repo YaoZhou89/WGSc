@@ -4091,13 +4091,13 @@ int pwFrequence(parameter *para){
         double mf2 = MAF(ll,na2);
         double mf = MAF(ll,na);
         if(mf1 > 0 && mf2 >0){
-            maf[(int)ceil(mf)][0] ++;
+            maf[(int)ceil(mf/0.01)][0] ++;
             sum++;
         }else if (mf1 > 0 && mf2 ==0){
-            maf[(int)ceil(mf)][1] ++;
+            maf[(int)ceil(mf/0.01)][1] ++;
             sum++;
         }else if (mf1 == 0 && mf2 > 0){
-            maf[(int)ceil(mf)][2] ++;
+            maf[(int)ceil(mf/0.01)][2] ++;
             sum++;
         }else{
             continue;
@@ -4109,7 +4109,6 @@ int pwFrequence(parameter *para){
     }
     invcf.close();
     ouf.close();
-    
     return 0;
 }
 #endif /* FileFunctions_h */
