@@ -76,6 +76,8 @@ int main(int argc, char * argv[]) {
                 toV11(para);
             }else if ((para->type) == "toSFS"){
                 toSFS(para);
+            }else if ((para->type) == "pwMAF"){
+                pwFrequence(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
