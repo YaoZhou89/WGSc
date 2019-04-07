@@ -4073,7 +4073,7 @@ int pwFrequence(parameter *para){
     vector<int> na2;
     vector<int> na;
     vector<string> ll;
-    double** maf = dmatrix(0,51,0,3);
+    double** maf = dmatrix(-1,51,-1,3);
     double sum = 0;
     cout << "0 is: " << maf[0][0] << endl;
     cout << "1 is: " << maf[1][0] << endl;
