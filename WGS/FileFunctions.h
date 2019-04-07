@@ -4067,8 +4067,8 @@ int pwFrequence(parameter *para){
     string line;
     set<string> name1 = getSubgroup(gf1);
     set<string> name2 = getSubgroup(gf2);
-    set<string> name = getSubgroup(gf1);
-    name.insert(name2.begin(), name2.end());
+//    set<string> name = getSubgroup(gf1);
+//    name.insert(name2.begin(), name2.end());
     vector<int> na1;
     vector<int> na2;
     vector<int> na;
@@ -4084,12 +4084,12 @@ int pwFrequence(parameter *para){
         if(line[0]=='#' && line[1] == 'C') {
             na1 = getPos(ll,name1);
             na2 = getPos(ll,name2);
-            na = getPos(ll,name);
+//            na = getPos(ll,name);
             continue;
         }
         double mf1 = MAF(ll,na1);
         double mf2 = MAF(ll,na2);
-        double mf = MAF(ll,na);
+        double mf = MAF(ll);
         if(mf1 > 0 && mf2 >0){
             maf[(int)ceil(mf/0.01)][0] ++;
             sum++;
