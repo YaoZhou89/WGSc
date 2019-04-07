@@ -149,9 +149,9 @@ int **imatrix(long nrl, long nrh, long ncl, long nch)
     m[nrl] += NR_END;
     m[nrl] -= ncl;
     
-    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
-    for(i=nrl+1;i<=nrh;i++){
-        for (long j = ncl;j<=nch;++j){
+//    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
+    for(i = nrl;i<nrh;i++){
+        for (long j = ncl;j < nch;++j){
             m[i][j] = 0;
         }
     }
@@ -176,9 +176,9 @@ int **imatrix(long nrl, long nrh, long ncl, long nch)
     m[nrl] += NR_END;
     m[nrl] -= ncl;
     
-    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
-    for(i=nrl+1;i<=nrh;i++){
-        for (long j = ncl;j<=nch;++j){
+//    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
+    for(i = nrl; i < nrh;i++){
+        for (long j = ncl;j < nch; ++j){
             m[i][j] = 0;
         }
     }
