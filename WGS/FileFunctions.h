@@ -4106,6 +4106,7 @@ int pwFrequence(parameter *para){
     }
     ouf << "maf\tshared\tgroup1\tgroup2\n";
     cout << "0 is: " << maf[0][0] << endl;
+    cout << "1 is: " << maf[1][0] << endl;
     cout << "sum is: " << sum << endl;
     for(int i = 0; i < 51; ++i){
         ouf << 0.01*i << "\t" << maf[i][0]/sum << "\t" << maf[i][1]/sum <<"\t" << maf[i][2]/sum << "\n";
