@@ -4076,6 +4076,7 @@ int pwFrequence(parameter *para){
     double** maf = dmatrix(0,51,0,3);
     double sum = 0;
     cout << "0 is: " << maf[0][0] << endl;
+    cout << "1 is: " << maf[1][0] << endl;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length()<1) continue;
