@@ -4074,7 +4074,7 @@ int pwFrequence(parameter *para){
     vector<int> na;
     vector<string> ll;
     double** maf = dmatrix(0,51,0,3);
-    int sum = 0;
+    double sum = 0;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length()<1) continue;
@@ -4104,8 +4104,10 @@ int pwFrequence(parameter *para){
         }
     }
     ouf << "maf\tshared\tgroup1\tgroup2\n";
+    cout << "0 is: " << maf[i][0] << endl;
+    cout << "sum is: " << sum << endl;
     for(int i = 0; i < 51; ++i){
-        ouf << 0.01*i << "\t" << maf[i][0]/(sum*1.0) << "\t" << maf[i][1]/(sum*1.0) <<"\t" << maf[i][2]/(sum*1.0) << "\n";
+        ouf << 0.01*i << "\t" << maf[i][0]/sum << "\t" << maf[i][1]/sum <<"\t" << maf[i][2]/sum << "\n";
     }
     invcf.close();
     ouf.close();
