@@ -723,7 +723,7 @@ int pi2bed(parameter *para){
     string chr = (para->chr);
     string line;
     vector < string > ll;
-    int** bedPos = imatrix(0, 500000, 0, 4);
+    int** bedPos = imatrix(-1, 500000, -1, 4);
     int bedPos_i = 0;
     while(!inbed.eof()){
         getline(inbed,line);
@@ -3515,7 +3515,7 @@ int gene_count_gene(parameter *para){
     
     cout << "gff3 readed!" << endl;
     cout << "gene number is:\t" << gene_order << endl;
-    double** geneMatrix = dmatrix(0, gene_order + 1, 0, 16);
+    double** geneMatrix = dmatrix(-1, gene_order + 1, -1, 16);
     
     //    cout << "UTR number is:\t" << gene_order << endl;
     double size_upstream = 0, size_utr5 = 0, size_cds = 0, size_intron = 0;
@@ -3879,7 +3879,7 @@ int toXPCLR(parameter *para){
         samples.insert(line);
     }
     cout << "group readed! group size is:\t" << samples.size() << endl;
-    double** value = dmatrix(0,500000000,0,1);
+    double** value = dmatrix(-1,500000000,-1,1);
     double recvalue = 0;
     int previous = 0;
     while(!inrec.eof()){
@@ -4075,8 +4075,6 @@ int pwFrequence(parameter *para){
     vector<string> ll;
     double** maf = dmatrix(-1,51,-1,3);
     double sum = 0;
-    cout << "0 is: " << maf[0][0] << endl;
-    cout << "1 is: " << maf[1][0] << endl;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length()<1) continue;
@@ -4106,9 +4104,6 @@ int pwFrequence(parameter *para){
         }
     }
     ouf << "maf\tshared\tgroup1\tgroup2\n";
-    cout << "0 is: " << maf[0][0] << endl;
-    cout << "1 is: " << maf[1][0] << endl;
-    cout << "sum is: " << sum << endl;
     for(int i = 0; i < 51; ++i){
         ouf << 0.01*i << "\t" << maf[i][0]/sum << "\t" << maf[i][1]/sum <<"\t" << maf[i][2]/sum << "\n";
     }
