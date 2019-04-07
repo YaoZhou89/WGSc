@@ -4105,7 +4105,7 @@ int pwFrequence(parameter *para){
     }
     ouf << "maf\tshared\tgroup1\tgroup2\n";
     for(int i = 0; i < 51; ++i){
-        ouf << 0.01*i << "\t" << maf[i][0]/sum << "\t" << maf[i][1]/sum <<"\t" << maf[i][2]/sum << "\n";
+        ouf << 0.01*i << "\t" << maf[i][0] << "\t" << maf[i][1] <<"\t" << maf[i][2] << "\n";
     }
     invcf.close();
     ouf.close();
