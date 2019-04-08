@@ -4084,7 +4084,7 @@ int LDmean(parameter *para){
             rsquare[l1][1] ++;
         }
     }
-    ouf << "Distance (kb)\tsum\tnumber\tmean\n";
+    ouf << "Distance(" << bin/1000 <<" kb)\tsum\tnumber\tmean\n";
     for (int i = 0; i < maxBin;++i){
         ouf << i <<"\t" << rsquare[i][0] << "\t"<< rsquare[i][1] << "\t"<< rsquare[i][0]/rsquare[i][1] << "\n";
     }
