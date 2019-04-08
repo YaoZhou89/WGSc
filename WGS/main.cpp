@@ -125,6 +125,8 @@ int main(int argc, char * argv[]) {
                 pwpd(para);
             }else if((para->type) == "mumer4"){
                 subMummer4(para);
+            }else if((para->type) == "LDmean"){
+                LDmean(para)
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
