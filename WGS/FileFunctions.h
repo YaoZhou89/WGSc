@@ -4076,7 +4076,7 @@ int LDmean(parameter *para){
             rsquare[0][0] += string2Double(ll[1]);
             rsquare[0][1] ++;
         }else{
-            int l1 = (int)ceil(string2Double(ll[1])/1000);
+            int l1 = (int)ceil(string2Double(ll[0])/1000);
             rsquare[l1][0] += string2Double(ll[1]);
             rsquare[l1][1] ++;
         }
