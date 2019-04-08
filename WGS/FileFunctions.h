@@ -4061,11 +4061,13 @@ int getAlleleFrequency(parameter *para){
 int LDmean(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
+    int bin = para->size;
     igzstream invcf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
     vector<string> ll;
-    double ** rsquare = dmatrix(-1,10001,-1,4);
+    double ** rsquare = dmatrix(-1,100001,-1,4);
+    int maxBin = 1;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length()<1) continue;
@@ -4076,13 +4078,14 @@ int LDmean(parameter *para){
             rsquare[0][0] += string2Double(ll[1]);
             rsquare[0][1] ++;
         }else{
-            int l1 = (int)ceil(string2Double(ll[0])/1000);
+            int l1 = (int)ceil(string2Double(ll[0])/bin);
+            if(l1 >= maxBin) maxBin = l1+1;
             rsquare[l1][0] += string2Double(ll[1]);
             rsquare[l1][1] ++;
         }
     }
     ouf << "Distance (kb)\tsum\tnumber\tmean\n";
-    for (int i = 0; i < 10000;++i){
+    for (int i = 0; i < maxBin;++i){
         ouf << i <<"\t" << rsquare[i][0] << "\t"<< rsquare[i][1] << "\t"<< rsquare[i][0]/rsquare[i][1] << "\n";
     }
     invcf.close();
