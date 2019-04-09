@@ -4090,9 +4090,10 @@ int toSFS(parameter *para){
         }
         vector<int> N4(4);
         vector<int> O4(4);
+        vector<int> D4(4);
         int re = static_cast<int>(ref);
         int al = static_cast<int>(alt);
-        for (int i = 9; i < ll.size()-1; ++i){
+        for (int i = 9; i < ll.size()-2; ++i){
             if(ll[i][0] == '0' & ll[i][2] == '0'){
                 N4[re] ++;
             }else if (ll[i][0]=='1' & ll[i][2] == '1'){
@@ -4101,13 +4102,19 @@ int toSFS(parameter *para){
                 continue;
             }
         }
-        int p = ll.size()-1;
+        int p = ll.size()-2;
         if(ll[p][0]=='0' && ll[p][2]=='0'){
             O4[re] ++;
         }else if(ll[p][1]=='1' && ll[p][1]=='1') {
             O4[al] ++;
         }
-        ouf << N4[0] << "," << N4[1] << ","<< N4[2] << ","<< N4[3] << "\t"<< O4[0] << ","<< O4[1] << ","<< O4[2]  << ","<< O4[3] << "\n";
+        p = ll.size()-1;
+        if(ll[p][0]=='0' && ll[p][2]=='0'){
+            D4[re] ++;
+        }else if(ll[p][1]=='1' && ll[p][1]=='1') {
+            D4[al] ++;
+        }
+        ouf << N4[0] << "," << N4[1] << ","<< N4[2] << ","<< N4[3] << "\t"<< O4[0] << ","<< O4[1] << ","<< O4[2]  << ","<< O4[3] << "\t"<< D4[0] << ","<< D4[1] << ","<< D4[2]  << ","<< D4[3]<< "\n";
     }
     invcf.close();
     ouf.close();
