@@ -4168,7 +4168,7 @@ int writeMAF(parameter *para){
         if(line[0]=='#' && line[1] == '#') continue;
         ll.clear();
         split(line,ll," \t");
-        if(line[0]=='#' && line[1] == 'C' && na1.size() > 0) {
+        if(line[0]=='#' && line[1] == 'C') {
             na1 = getPos(ll,name1);
             continue;
         }
