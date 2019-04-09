@@ -4267,7 +4267,7 @@ int getDerivedAllele(parameter *para){
         getline(invcf,line);
         if(line.length()<1) continue;
         if(line[0]=='#') {
-            ouf << line;
+            ouf << line << "\n";
             continue;
         };
         ll.clear();
