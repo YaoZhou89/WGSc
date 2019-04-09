@@ -4148,4 +4148,37 @@ int pwFrequence(parameter *para){
     ouf.close();
     return 0;
 }
+
+int writeMAF(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    //    set<string> name = getSubgroup(gf1);
+    //    name.insert(name2.begin(), name2.end());
+    vector<int> na1;
+    vector<string> ll;
+    ouf << "chr\tpos\tmaf\n";
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C' && na1.size() > 0) {
+            na1 = getPos(ll,name1);
+            continue;
+        }
+        double mf1 = MAF(ll,na1);
+        ouf << ll[0] << "\t" << ll[1] << "\t" << mf1 << "\n";
+    }
+    
+    invcf.close();
+    ouf.close();
+    return 0;
+}
+
 #endif /* FileFunctions_h */

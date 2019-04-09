@@ -78,6 +78,8 @@ int main(int argc, char * argv[]) {
                 toSFS(para);
             }else if ((para->type) == "pwMAF"){
                 pwFrequence(para);
+            }else if((para->type) =="maf"){
+                writeMAF(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
