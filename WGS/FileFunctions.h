@@ -4256,4 +4256,46 @@ int writeMAF(parameter *para){
     return 0;
 }
 
+int getDerivedAllele(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') {
+            ouf << line;
+            continue;
+        };
+        ll.clear();
+        split(line,ll," \t");
+        int size = ll.size();
+        if(ll[size-2][0] != '.' && ll[size-1][0] != '.'){
+            if(ll[size-2][0]!=ll[size-1][0]){
+                continue;
+            }else{
+                if(ll[size-2][0] == '1'){
+                    string tmp = ll[3];
+                    ll[3] = ll[4];
+                    ll[4] = tmp;
+                }
+                ouf << ll[0];
+                for(int i = 1; i < size; ++i){
+                    ouf << "\t" << ll[i];
+                }
+                ouf << "\n";
+            }
+        }else{
+            continue;
+        }
+        
+    }
+    
+    invcf.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */
