@@ -82,6 +82,8 @@ int main(int argc, char * argv[]) {
                 pwFrequence(para);
             }else if((para->type) =="maf"){
                 writeMAF(para);
+            }else if ((para->type) =="Derived"){
+                getDerivedAllele(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
