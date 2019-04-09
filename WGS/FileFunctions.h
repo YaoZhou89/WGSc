@@ -1914,6 +1914,74 @@ int calibarate4(parameter *para){
     f1.close();
     return 1;
 }
+int calibarate5(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    string name = (para->headerC);
+    igzstream f2 (input2.c_str(),ifstream::in);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    if(f2.fail()){
+        cerr << "open File2 IN error: " << input2 << endl;
+        return 0;
+    }
+    vector <string> taxa ;
+    vector <string> ll;
+    map <string,string> pos;
+    string line;
+    string outfile = (para->outFile);
+    ofstream OUT (outfile.c_str());
+    if(OUT.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    while(!f2.eof()){
+        getline(f2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        pos.insert(std::pair<string, string>(ll[0],ll[2]));
+    }
+    int passed = 0;
+    while(!f1.eof()){
+        getline(f1,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' ) {
+            OUT << line ;
+            if(line[1]=='C'){
+                OUT << "\t" << name;
+            }
+            OUT << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll.size()<2) continue;
+        if(pos[ll[1]].c_str() == ll[4]){
+            OUT << line ;
+            OUT << "\t" << "1/1:0,10:100,0,0";
+            OUT << "\n";
+            passed++;
+        }else if(pos[ll[1]].c_str() == ll[3]){
+            OUT << line ;
+            OUT << "\t" << "0/0:0,10:0,0,100";
+            OUT << "\n";
+            passed++;
+        }else{
+            OUT << line ;
+            OUT << "\t" << "./.:0,0:0,0,0";
+            OUT << "\n";
+            passed++;
+        }
+    }
+    cout << "passed number is: " << passed << endl;
+    OUT.close();
+    f1.close();
+    return 1;
+}
 int toFasta(parameter *para){
     string inFile1 = (para->inFile);
     string outFile = (para->outFile);
