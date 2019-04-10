@@ -4298,4 +4298,8 @@ int getDerivedAllele(parameter *para){
     ouf.close();
     return 0;
 }
+int cp(parameter *para){
+    
+    return 0;
+}
 #endif /* FileFunctions_h */
