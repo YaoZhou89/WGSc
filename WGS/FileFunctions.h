@@ -4313,6 +4313,9 @@ int cp(parameter *para){
     vector<int> na;
     vector<string> ll;
     vector<int> number(9);
+    for (int i=0; i <9; ++i){
+        number[i] = 0;
+    }
     int all = 0, derived = 0;
     while(!invcf.eof()){
         getline(invcf,line);
@@ -4326,6 +4329,7 @@ int cp(parameter *para){
             na2 = getPos(ll,name2);
             continue;
         }
+        if(na1.size()<1) continue;
         all++;
         double mf1 = ref(ll,na1);
         double mf2 = ref(ll,na2);
