@@ -4277,11 +4277,11 @@ int getDerivedAllele(parameter *para){
             if(ll[size-2][0]!=ll[size-1][0]){
                 continue;
             }else{
-                if(ll[size-2][0] == '1'){
-                    string tmp = ll[3];
-                    ll[3] = ll[4];
-                    ll[4] = tmp;
-                }
+//                if(ll[size-2][0] == '1'){
+//                    string tmp = ll[3];
+//                    ll[3] = ll[4];
+//                    ll[4] = tmp;
+//                }
                 ouf << ll[0];
                 for(int i = 1; i < size; ++i){
                     ouf << "\t" << ll[i];
@@ -4299,6 +4299,46 @@ int getDerivedAllele(parameter *para){
     return 0;
 }
 int cp(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string gf2 = (para -> inFile3);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    set<string> name2 = getSubgroup(gf2);
+  
+    vector<int> na1;
+    vector<int> na2;
+    vector<int> na;
+    vector<string> ll;
+    int all = 0, derived = 0;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') {
+        };
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            na2 = getPos(ll,name2);
+            continue;
+        }
+        all++;
+        double mf1 = ref(ll,na1);
+        double mf2 = ref(ll,na2);
+        char ref = ll[ll.size()-1][0];
+        if(ref == '1'){
+            mf1 = 1 - mf1;
+            mf2 = 1 - mf2;
+        }
+        if (mf1 == 0 || mf1 == 1){
+            derived++;
+        }
+    }
+    ouf << all << "\t" << derived << endl;
     
     return 0;
 }

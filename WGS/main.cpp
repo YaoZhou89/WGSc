@@ -84,6 +84,8 @@ int main(int argc, char * argv[]) {
                 writeMAF(para);
             }else if ((para->type) =="Derived"){
                 getDerivedAllele(para);
+            }else if ((para->type) == "incp"){
+                cp(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
