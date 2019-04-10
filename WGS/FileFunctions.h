@@ -4327,10 +4327,14 @@ int cp(parameter *para){
         if(line[0]=='#' && line[1] == 'C') {
             na1 = getPos(ll,name1);
             na2 = getPos(ll,name2);
-            if(na1.size()<1) break;
-            if(na2.size()<1) break;
+            if(na1.size() < 1) break;
+            if(na2.size() < 1) break;
             continue;
         }
+        
+        if(na1.size() < 1) continue;
+        if(na2.size() < 1) continue;
+        
         all++;
         double mf1 = ref(ll,na1);
         double mf2 = ref(ll,na2);
