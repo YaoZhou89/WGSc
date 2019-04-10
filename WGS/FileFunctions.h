@@ -4308,11 +4308,11 @@ int cp(parameter *para){
     string line;
     set<string> name1 = getSubgroup(gf1);
     set<string> name2 = getSubgroup(gf2);
-  
     vector<int> na1;
     vector<int> na2;
     vector<int> na;
     vector<string> ll;
+    vector<int> number(9);
     int all = 0, derived = 0;
     while(!invcf.eof()){
         getline(invcf,line);
@@ -4334,11 +4334,40 @@ int cp(parameter *para){
             mf1 = 1 - mf1;
             mf2 = 1 - mf2;
         }
-        if (mf1 == 0 || mf1 == 1){
-            derived++;
+        if (mf1 == 0){
+            if(mf2 == 0){
+                number[0]++;
+            }else if (mf2 == 1){
+                number[2]++;
+            }else{
+                number[1]++;
+            }
+        }else if (mf1 == 1){
+            if(mf2 == 0){
+                number[6]++;
+            }else if (mf2 == 1){
+                number[8]++;
+            }else{
+                number[7]++;
+            }
+        }else{
+            if(mf2 == 0){
+                number[3]++;
+            }else if (mf2 == 1){
+                number[5]++;
+            }else{
+                number[4]++;
+            }
         }
     }
-    ouf << all << "\t" << derived << endl;
+    ouf << all << "\t" << number[0] ;
+    for (int i = 1; i < 9; ++i){
+        ouf << "\t" << number[i];
+    }
+    
+    ouf << "\n";
+    invcf.close();
+    ouf.close();
     
     return 0;
 }
