@@ -4448,6 +4448,7 @@ int DiversityReduction(parameter *para){
         int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
         allC += count;
+        cout << "allC is:\t" << allC << endl;
     }
     
     for (int i = 0; i < gr2.size(); ++i){
