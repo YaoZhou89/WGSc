@@ -4439,16 +4439,19 @@ int DiversityReduction(parameter *para){
     
     vector<double> gr1(file1.size());
     vector<double> gr2(file2.size());
-    
+    int allC = 0;
+    double all1 = 0, all2 = 0;
     for (int i = 0; i < gr1.size(); ++i){
         gr1[i] = getSum(file1[i]);
-        int chr = getChr(file1[i]);
+        all1 += gr1[i];
         int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
+        allC += count;
     }
     
     for (int i = 0; i < gr2.size(); ++i){
         gr2[i] = getSum(file2[i]);
+        all2 += gr2[i];
         int count = chrSize[getChr(file1[i])-1];
         gr2[i] = gr2[i]/count;
     }
@@ -4458,8 +4461,8 @@ int DiversityReduction(parameter *para){
         int b= Random(0, gr2.size());
         ouf << gr1[a] << "\t" << gr2[b] << "\t" << (1-gr2[b]/gr1[a]) << "\n";
     }
+    ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all1/all2) << "\n";
     ouf.close();
-    
     return 1;
 }
 #endif /* FileFunctions_h */
