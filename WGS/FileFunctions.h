@@ -4417,6 +4417,7 @@ int DiversityReduction(parameter *para){
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length() < 1) continue;
+        ll.clear();
         split(line,ll," \t");
         chrSize[string2Int(ll[0])-1] = string2Int(ll[1]);
     }
