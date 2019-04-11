@@ -4443,8 +4443,9 @@ int DiversityReduction(parameter *para){
         gr1[i] = getSum(file1[i]);
         cout << "file is: " << file1[i] << endl;
         cout << "sum is: " << gr1[i] << endl;
+        int chr = getChr(file1[i]);
         int count = chrSize[getChr(file1[i])-1];
-        cout << "count is: " << count << endl;
+        cout << "chr is: " << chr << endl;
         gr1[i] = gr1[i]/count;
         cout << "group1:\t" << gr1[i] << endl;
     }
