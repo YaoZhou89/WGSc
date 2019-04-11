@@ -4391,7 +4391,7 @@ double getSum(string & infile){
         if(line[0] == 'C'||line[0]=='c') continue;
         ll.clear();
         split(line,ll," \t");
-        if(ll[2]=="inf"||ll[2] =="-inf"|| ll[2] == "NA") continue;
+        if(ll[2]== "-nan" || ll[2]== "nan" || ll[2] == "inf" || ll[2] =="-inf" || ll[2] == "NA") continue;
         sum += string2Double(ll[2]);
     }
     invcf.close();
@@ -4414,12 +4414,6 @@ int DiversityReduction(parameter *para){
     split(gf1,sub,"/");
     string folder = "" ;
     vector<int> chrSize(42);
-//
-//    for (int i = 0; i < sub.size(); ++i){
-//        folder.append(sub[i]);
-//        folder.append("/");
-//    }
-//    cout << "folder is:\t"<<folder << endl;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length() < 1) continue;
@@ -4446,19 +4440,13 @@ int DiversityReduction(parameter *para){
     vector<double> gr2(file2.size());
     
     for (int i = 0; i < gr1.size(); ++i){
-//        string inf = folder;
-//        inf.append(file1[i]);
-//
         gr1[i] = getSum(file1[i]);
-//        cout << inf << endl;
         int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
         cout << "group1:\t" << gr1[i] << endl;
     }
     
     for (int i = 0; i < gr2.size(); ++i){
-//        string inf = folder;
-//        inf.append(file2[i]);
         gr2[i] = getSum(file2[i]);
         int count = chrSize[getChr(file1[i])-1];
         gr2[i] = gr2[i]/count;
