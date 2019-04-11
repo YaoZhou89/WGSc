@@ -4380,4 +4380,97 @@ int cp(parameter *para){
     
     return 0;
 }
+double getSum(string & infile){
+    double sum =0;
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    string line;
+    vector<string> ll;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == 'C'||line[0]=='c') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[2]=="inf"||ll[2] =="-inf"|| ll[2] == "NA") continue;
+        sum += string2Double(ll[2]);
+    }
+    invcf.close();
+    return sum;
+}
+int DiversityReduction(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string gf2 = (para -> inFile3);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    igzstream g1 ((gf1.c_str()),ifstream::in);
+    igzstream g2 ((gf2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    vector<string> file1;
+    vector<string> file2;
+    vector<string> sub;
+    split(gf1,sub,"/");
+    string folder = "" ;
+    vector<int> chrSize(42);
+    for (int i = 0; i < sub.size(); ++i){
+        folder.append(sub[i]);
+        folder.append("/");
+    }
+    
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        chrSize[string2Int(ll[0])-1] = string2Int(ll[1]);
+    }
+    invcf.close();
+    
+    while(!g1.eof()){
+        getline(g1,line);
+        if(line.length() < 1) continue;
+        file1.push_back(line);
+    }
+    g1.close();
+    
+    while(!g2.eof()){
+        getline(g2,line);
+        if(line.length() < 1) continue;
+        file2.push_back(line);
+    }
+    g2.close();
+    
+    vector<double> gr1(file1.size());
+    vector<double> gr2(file2.size());
+    
+    for (int i = 0; i < gr1.size(); ++i){
+        string inf = folder;
+        inf.append(file1[i]);
+        gr1[i] = getSum(inf);
+        int count = chrSize[getChr(file1[i])-1];
+        gr1[i] = gr1[i]/count;
+        cout << "group1:\t" << gr1[i] << endl;
+    }
+    
+    for (int i = 0; i < gr2.size(); ++i){
+        string inf = folder;
+        inf.append(file2[i]);
+        gr2[i] = getSum(inf);
+        int count = chrSize[getChr(file1[i])-1];
+        gr2[i] = gr2[i]/count;
+        cout << "group2:\t" << gr2[i] << endl;
+    }
+    
+    for (int i = 0; i < 2000; ++i){
+        int a = Random(0, gr1.size());
+        int b= Random(0, gr2.size());
+        cout << "a is:\t" << a << endl;
+        cout << "b is:\t" << b << endl;
+        ouf << gr1[a] << "\t" << gr2[b] << "\t" << gr1[a]/gr2[b] << "\n";
+    }
+    ouf.close();
+    
+    return 1;
+}
 #endif /* FileFunctions_h */

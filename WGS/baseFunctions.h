@@ -307,4 +307,32 @@ vector <int> getPos(vector <string> & ll, set<string> na){
     }
     return pos;
 }
+int Random(int m, int n)
+{
+    int pos, dis;
+    srand((int)time(NULL));
+    if(m == n)
+    {
+        return m;
+    }
+    else if(m > n)
+    {
+        pos = n;
+        dis = m - n + 1;
+        return rand() % dis + pos;
+    }
+    else
+    {
+        pos = m;
+        dis = n - m + 1;
+        return rand() % dis + pos;
+    }
+}
+int getChr(string & file){
+    vector<string> ll1,ll2;
+    ll1.clear();
+    split(file,ll1,".");
+    split(ll1[0],ll2,"r");
+    return string2Int(ll2[ll2.size()-1]);
+}
 #endif /* baseFunctions_h */
