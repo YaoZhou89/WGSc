@@ -4439,7 +4439,7 @@ int DiversityReduction(parameter *para){
     
     vector<double> gr1(file1.size());
     vector<double> gr2(file2.size());
-    int allC = 0;
+    long int allC = 0;
     double all1 = 0, all2 = 0;
     for (int i = 0; i < gr1.size(); ++i){
         double tmp = getSum(file1[i]);
