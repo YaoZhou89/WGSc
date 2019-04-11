@@ -4459,6 +4459,8 @@ int DiversityReduction(parameter *para){
     for (int i = 0; i < 2000; ++i){
         int a = Random(0, gr1.size());
         int b= Random(0, gr2.size());
+        cout << "a is:\t" << a << endl;
+        cout << "b is:\t" << b << endl;
         ouf << gr1[a] << "\t" << gr2[b] << "\t" << (1-gr2[b]/gr1[a]) << "\n";
     }
     ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all1/all2) << "\n";
