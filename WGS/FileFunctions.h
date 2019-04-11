@@ -4457,8 +4457,8 @@ int DiversityReduction(parameter *para){
     }
     srand((int)time(NULL));
     for (int i = 0; i < 2000; ++i){
-        int a = Random(0, gr1.size());
-        int b= Random(0, gr2.size());
+        int a = Random(0, gr1.size()-1);
+        int b= Random(0, gr2.size()-1);
         cout << "a is:\t" << a << endl;
         cout << "b is:\t" << b << endl;
         ouf << gr1[a] << "\t" << gr2[b] << "\t" << (1-gr2[b]/gr1[a]) << "\n";
