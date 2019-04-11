@@ -310,7 +310,7 @@ vector <int> getPos(vector <string> & ll, set<string> na){
 int Random(int m, int n)
 {
     int pos, dis;
-    srand((int)time(NULL));
+//    srand((int)time(NULL));
     if(m == n)
     {
         return m;
