@@ -4418,7 +4418,7 @@ int DiversityReduction(parameter *para){
         folder.append(sub[i]);
         folder.append("/");
     }
-    
+    cout << "folder is:\t"<<folder << endl;
     while(!invcf.eof()){
         getline(invcf,line);
         if(line.length() < 1) continue;
