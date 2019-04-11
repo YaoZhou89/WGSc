@@ -4448,7 +4448,7 @@ int DiversityReduction(parameter *para){
         long int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
         allC += count;
-        cout << "allC is:\t" << allC << endl;
+//        cout << "allC is:\t" << allC << endl;
     }
     
     for (int i = 0; i < gr2.size(); ++i){
@@ -4457,19 +4457,19 @@ int DiversityReduction(parameter *para){
         all2 += tmp;
         long int count = chrSize[getChr(file1[i])-1];
         gr2[i] = gr2[i]/count;
-        cout << "all2 is: " << all2 << endl;
+//        cout << "all2 is: " << all2 << endl;
     }
     srand((int)time(NULL));
     for (int i = 0; i < 2000; ++i){
         int a = Random(0, gr1.size()-1);
         int b= Random(0, gr2.size()-1);
         if(gr2[b]>gr1[a]) {
-            ouf << gr1[a] << "\t" << gr2[b] << "\t" << 0 << "\n";
+            ouf << gr1[a] << "\t" << gr2[b] << "\t" <<  -gr1[a]/gr2[b] << "\n";
         }else{
             ouf << gr1[a] << "\t" << gr2[b] << "\t" << (1-gr2[b]/gr1[a]) << "\n";
         }
     }
-    cout << "all1 is: " << all1 << ";all2 is: " << all2 << endl;
+//    cout << "all1 is: " << all1 << ";all2 is: " << all2 << endl;
     ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all2/all1) << "\n";
     ouf.close();
     return 1;
