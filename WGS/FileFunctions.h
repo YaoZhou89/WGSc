@@ -4442,16 +4442,18 @@ int DiversityReduction(parameter *para){
     int allC = 0;
     double all1 = 0, all2 = 0;
     for (int i = 0; i < gr1.size(); ++i){
-        gr1[i] = getSum(file1[i]);
-        all1 += gr1[i];
+        double tmp = getSum(file1[i]);
+        gr1[i] = tmp;
+        all1 += tmp;
         int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
         allC += count;
     }
     
     for (int i = 0; i < gr2.size(); ++i){
-        gr2[i] = getSum(file2[i]);
-        all2 += gr2[i];
+        double tmp = getSum(file2[i]);
+        gr2[i] = tmp;
+        all2 += tmp;
         int count = chrSize[getChr(file1[i])-1];
         gr2[i] = gr2[i]/count;
     }
@@ -4461,6 +4463,7 @@ int DiversityReduction(parameter *para){
         int b= Random(0, gr2.size()-1);
         ouf << gr1[a] << "\t" << gr2[b] << "\t" << (1-gr2[b]/gr1[a]) << "\n";
     }
+    cout << "all1 is: " << all1 << ";all2 is: " << all2 << endl;
     ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all2/all1) << "\n";
     ouf.close();
     return 1;
