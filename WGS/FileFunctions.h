@@ -4466,6 +4466,7 @@ int DiversityReduction(parameter *para){
     }
     
     for (int i = 0; i < 2000; ++i){
+        srand((int)time(NULL));
         int a = Random(0, gr1.size());
         int b= Random(0, gr2.size());
         cout << "a is:\t" << a << endl;
