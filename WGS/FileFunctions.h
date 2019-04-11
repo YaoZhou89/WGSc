@@ -4381,7 +4381,7 @@ int cp(parameter *para){
     return 0;
 }
 double getSum(string & infile){
-    double sum =0;
+    double sum = 0;
     igzstream invcf ((infile.c_str()),ifstream::in);
     string line;
     vector<string> ll;
@@ -4447,7 +4447,9 @@ int DiversityReduction(parameter *para){
     for (int i = 0; i < gr1.size(); ++i){
         string inf = folder;
         inf.append(file1[i]);
+        
         gr1[i] = getSum(inf);
+        cout << inf << endl;
         int count = chrSize[getChr(file1[i])-1];
         gr1[i] = gr1[i]/count;
         cout << "group1:\t" << gr1[i] << endl;
