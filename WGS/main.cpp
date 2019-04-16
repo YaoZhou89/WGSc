@@ -137,6 +137,8 @@ int main(int argc, char * argv[]) {
                 subMummer4(para);
             }else if((para->type) == "LDmean"){
                 LDmean(para);
+            }else if ((para->type) == "gffDensity"){
+                getGffDensity(para);
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){

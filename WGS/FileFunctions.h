@@ -4542,8 +4542,9 @@ int DiversityReduction(parameter *para){
     ouf.close();
     return 1;
 }
+
 int getGffDensity(parameter *para){
-    string infile = (para->bedFile);
+    string infile = (para->inFile);
     string outfile = (para->outFile);
     int windowSize = (para->size );
     igzstream inbed ((infile.c_str()),ifstream::in);
@@ -4551,6 +4552,9 @@ int getGffDensity(parameter *para){
     string line;
     vector <string> ll;
     map<string,int> chrSize;
+    int sum = 0;
+    int prePos = 1;
+    string chr = "";
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length()<0) continue;
@@ -4561,8 +4565,27 @@ int getGffDensity(parameter *para){
             chrSize.insert(pair<string,int>(ll[1],string2Int(ll[3])));
             continue;
         };
-        
+        ll.clear();
+        split(line,ll, " \t");
+        if(ll[2] != "gene") continue;
+        if(chr != ll[0]){
+            chr = ll[0];
+            sum = 0;
+            prePos = 1;
+        }
+        int cp = string2Int(ll[3]);
+        if(cp < prePos) {
+            cerr << "please check start position!" << endl;
+            return 1;
+        }
+        while (cp > (prePos + windowSize)){
+            ouf << chr << "\t" << prePos << "\t" << prePos + windowSize << "\t" << sum << "\n";
+            sum = 0;
+            prePos += windowSize;
+        }
+        sum++;
     }
+    ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
     return 0;
 }
 #endif /* FileFunctions_h */
