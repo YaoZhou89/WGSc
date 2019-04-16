@@ -4562,6 +4562,7 @@ int getGffDensity(parameter *para){
             ll.clear();
             split(line,ll," \t");
             if(ll.size() < 4) continue;
+            cout << line << endl;
             chrSize.insert(pair<string,int>(ll[1],string2Int(ll[3])));
             continue;
         };
