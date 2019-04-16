@@ -4582,8 +4582,8 @@ int getGffDensity(parameter *para){
             cerr << "please check start position!" << endl;
             return 1;
         }
-        while (cp > (prePos + windowSize)){
-            ouf << chr << "\t" << prePos << "\t" << (prePos + windowSize) << "\t" << sum << "\n";
+        while (cp >= (prePos + windowSize)){
+            ouf << chr << "\t" << prePos << "\t" << (prePos + windowSize - 1) << "\t" << sum << "\n";
             sum = 0;
             prePos += windowSize;
         }
