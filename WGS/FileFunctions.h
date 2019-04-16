@@ -4554,7 +4554,7 @@ int getGffDensity(parameter *para){
     map<string,int> chrSize;
     int sum = 0;
     int prePos = 1;
-    string chr = "";
+    string chr = "s";
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length()<0) continue;
@@ -4570,7 +4570,7 @@ int getGffDensity(parameter *para){
         split(line,ll, " \t");
         if(ll[2] != "gene") continue;
         if(chr != ll[0]){
-            if(chr!=""){
+            if(chr!="s"){
                 ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
             }
             chr = ll[0];
