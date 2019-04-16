@@ -4589,7 +4589,6 @@ int getGffDensity(parameter *para){
         }
         sum++;
     }
-    cout << "finished!" << endl;
     ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
     inbed.close();
     ouf.close();
