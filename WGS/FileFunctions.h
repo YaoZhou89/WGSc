@@ -4080,12 +4080,6 @@ int toXPCLRsnp(parameter *para){
             split(line,ll,"\t");
             if  ( ll[0]  != "#CHROM"){
                 continue  ;
-            }else{
-                for (int i = 9; i< ll.size();++i){
-                    if(samples.count(ll[i])==1){
-                        samplePos.push_back(i);
-                    }
-                }
             }
             break ;
         }else if ( line[0] != '#' && line[1] != '#' ){
