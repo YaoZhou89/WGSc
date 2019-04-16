@@ -4034,7 +4034,92 @@ int toXPCLR(parameter *para){
     genof.close();
     return 1;
 }
-
+int toXPCLRsnp(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string infile3 = (para->bedFile);
+    string outfile = (para->outFile);
+    string snp = outfile+".snp";
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ifstream ingroup ((infile2.c_str()),ifstream::in);
+    ifstream inrec ((infile3.c_str()),ifstream::in);
+    ofstream snpf (snp.c_str());
+    set<string> samples;
+    string line;
+    vector<string> ll;
+    string chr = (para->chr);
+    while(!ingroup.eof()){
+        getline(ingroup,line);
+        if(line.length()<1) continue;
+        samples.insert(line);
+    }
+    cout << "group readed! group size is:\t" << samples.size() << endl;
+    double** value = dmatrix(-1,500000000,-1,1);
+    double recvalue = 0;
+    int previous = 0;
+    while(!inrec.eof()){
+        getline(inrec,line);
+        if(line.length()<1) continue;
+        if(line[0]=='c'|| line[0]=='C') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]!=chr) continue;
+        double bin = string2Double(ll[4])/1000000;
+        if (bin == 0) bin = 0.001/1000000;
+        cout << "bin is:" << bin << endl;
+        int begin = string2Int(ll[1]);
+        int end = string2Int(ll[2]);
+        for (int cp = begin; cp < end; ++cp ){
+            value[cp][0] = recvalue + bin * (cp-previous);
+            //            if(value[cp][0]==value[cp-1][0]) value[cp][0] = value[cp][0] + 0.000001;
+        }
+        previous = end;
+        recvalue += bin*1000000;
+    }
+    cout << "value is: " << value[0][0] << "\t" << value[1400010][0] << endl;
+    vector<int> samplePos ;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if (line.length()<=0 )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] == '#' )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] != '#' ){
+            ll.clear();
+            split(line,ll,"\t");
+            if  ( ll[0]  != "#CHROM"){
+                continue  ;
+            }else{
+                for (int i = 9; i< ll.size();++i){
+                    if(samples.count(ll[i])==1){
+                        samplePos.push_back(i);
+                    }
+                }
+            }
+            break ;
+        }else if ( line[0] != '#' && line[1] != '#' ){
+            cerr<<"wrong Line : "<<line<<endl;
+            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
+            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
+            return  0;
+            break;
+        }
+    }
+    cout << samplePos.size() << " sample detected!" << endl;
+    
+    while (!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t" << value[string2Int(ll[1])][0] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+    }
+    invcf.close();
+    ingroup.close();
+    inrec.close();
+    snpf.close();
+    return 1;
+}
 int toV11(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
@@ -4473,5 +4558,28 @@ int DiversityReduction(parameter *para){
     ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all2/all1) << "\n";
     ouf.close();
     return 1;
+}
+int getGffDensity(parameter *para){
+    string infile = (para->bedFile);
+    string outfile = (para->outFile);
+    int windowSize = (para->size );
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    map<string,int> chrSize;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length()<0) continue;
+        if(line[0] == '#' && line[1] == '0'){
+            ll.clear();
+            split(line,ll," \t");
+            if(ll.size()<3) continue;
+            chrSize.insert(pair<string,int>(ll[1],string2Int(ll[3])));
+            continue;
+        };
+        
+    }
+    return 0;
 }
 #endif /* FileFunctions_h */
