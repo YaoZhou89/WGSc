@@ -4561,7 +4561,7 @@ int getGffDensity(parameter *para){
         if(line[0] == '#' && line[1] == '0'){
             ll.clear();
             split(line,ll," \t");
-            if(ll.size()<3) continue;
+            if(ll.size() < 4) continue;
             chrSize.insert(pair<string,int>(ll[1],string2Int(ll[3])));
             continue;
         };
@@ -4579,13 +4579,16 @@ int getGffDensity(parameter *para){
             return 1;
         }
         while (cp > (prePos + windowSize)){
-            ouf << chr << "\t" << prePos << "\t" << prePos + windowSize << "\t" << sum << "\n";
+            ouf << chr << "\t" << prePos << "\t" << (prePos + windowSize) << "\t" << sum << "\n";
             sum = 0;
             prePos += windowSize;
         }
         sum++;
     }
+    cout << "finished!" << endl;
     ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
+    inbed.close();
+    ouf.close();
     return 0;
 }
 #endif /* FileFunctions_h */
