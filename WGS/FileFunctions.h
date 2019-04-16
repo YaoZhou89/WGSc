@@ -4558,7 +4558,7 @@ int getGffDensity(parameter *para){
     while(!inbed.eof()){
         getline(inbed,line);
         if(line.length()<0) continue;
-        if(line[0] == '#' && line[1] == '0'){
+        if(line[0] == '#' && line[1] == '#'){
             ll.clear();
             split(line,ll," \t");
             if(ll.size() < 4) continue;
