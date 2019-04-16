@@ -4036,23 +4036,16 @@ int toXPCLR(parameter *para){
 }
 int toXPCLRsnp(parameter *para){
     string infile = (para->inFile);
-    string infile2 = (para->inFile2);
     string infile3 = (para->bedFile);
     string outfile = (para->outFile);
     string snp = outfile+".snp";
     igzstream invcf ((infile.c_str()),ifstream::in);
-    ifstream ingroup ((infile2.c_str()),ifstream::in);
     ifstream inrec ((infile3.c_str()),ifstream::in);
     ofstream snpf (snp.c_str());
     set<string> samples;
     string line;
     vector<string> ll;
     string chr = (para->chr);
-    while(!ingroup.eof()){
-        getline(ingroup,line);
-        if(line.length()<1) continue;
-        samples.insert(line);
-    }
     cout << "group readed! group size is:\t" << samples.size() << endl;
     double** value = dmatrix(-1,500000000,-1,1);
     double recvalue = 0;
@@ -4115,7 +4108,6 @@ int toXPCLRsnp(parameter *para){
         snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t" << value[string2Int(ll[1])][0] << "\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
-    ingroup.close();
     inrec.close();
     snpf.close();
     return 1;
