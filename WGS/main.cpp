@@ -75,7 +75,6 @@ int main(int argc, char * argv[]) {
             else if ((para->type) == "toXPCLR"){
                 toXPCLR(para);
             }else if((para->type) =="toXPCLRsnp") {
-                cout << "testing..." << endl;
                 toXPCLRsnp(para);
             }else if ((para->type)=="toV11"){
                 toV11(para);

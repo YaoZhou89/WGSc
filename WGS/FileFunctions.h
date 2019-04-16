@@ -4042,11 +4042,9 @@ int toXPCLRsnp(parameter *para){
     igzstream invcf ((infile.c_str()),ifstream::in);
     ifstream inrec ((infile3.c_str()),ifstream::in);
     ofstream snpf (snp.c_str());
-    set<string> samples;
     string line;
     vector<string> ll;
     string chr = (para->chr);
-    cout << "group readed! group size is:\t" << samples.size() << endl;
     double** value = dmatrix(-1,500000000,-1,1);
     double recvalue = 0;
     int previous = 0;
