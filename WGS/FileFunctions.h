@@ -4570,6 +4570,9 @@ int getGffDensity(parameter *para){
         split(line,ll, " \t");
         if(ll[2] != "gene") continue;
         if(chr != ll[0]){
+            if(chr!=""){
+                ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
+            }
             chr = ll[0];
             sum = 0;
             prePos = 1;
