@@ -4951,8 +4951,10 @@ int FstGenes(parameter *para){
     // input is the gene list of selected and the whole gff3 file
     string infile = (para->inFile);
     string infile2 = (para->inFile2);
-    string outfile = (para->outFile).append(".selected.gff3");
-    string outfile2 = (para->outFile).append(".unselected.gff3");
+    string outs = (para->outFile);
+    string outfile = outs.append(".selected.gff3");
+    outs = (para->outFile);
+    string outfile2 = outs.append(".unselected.gff3");
     igzstream inf1 ((infile.c_str()),ifstream::in);
     igzstream inf2 ((infile2.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
