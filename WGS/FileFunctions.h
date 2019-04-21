@@ -4997,7 +4997,7 @@ int FstGenes(parameter *para){
         if(selectedGenes.count(ll[1])==1){
             ouf << line << "\n";
         }else{
-            geneC++;
+            if(ll[2] == "gene") geneC++;
             if(genePos.count(geneC)==1){
                 ouf2 << line << "\n";
             }
