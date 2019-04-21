@@ -93,6 +93,7 @@ inline vector <double> rpois(const int& rep, const double& mean,int s){
     return result;
 }
 
+
 inline vector <double> sum_sd(vector<double> &v){
     vector <double> result;
     double sum = std::accumulate(v.begin(), v.end(),0.0);
@@ -328,6 +329,18 @@ int Random(int m, int n)
         return rand() % dis + pos;
     }
 }
+inline vector <int> sample(int rep,  int start,int end,int s){
+    vector <int> result;
+    default_random_engine generator(s);
+    for (int i = 0; i < rep; ++i){
+        result.push_back(Random(start, end));
+        
+    }
+    //    cout << result[0] << endl;
+    return result;
+}
+
+
 int getChr(string & file){
     vector<string> ll1,ll2;
     ll1.clear();
@@ -335,4 +348,6 @@ int getChr(string & file){
     split(ll1[0],ll2,"r");
     return string2Int(ll2[ll2.size()-1]);
 }
+bool increase (int i,int j) { return (i<j); }
+bool decrease (int i,int j) { return (i>j); }
 #endif /* baseFunctions_h */

@@ -99,6 +99,8 @@ int main(int argc, char * argv[]) {
                 mergeDepth(para);
             }else if((para->type) == "mask"){
                 getMaskRegion(para);
+            }else if ((para->type) == "UnMapped"){
+                getUnMapped(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){
@@ -137,10 +139,20 @@ int main(int argc, char * argv[]) {
                 subMummer4(para);
             }else if((para->type) == "LDmean"){
                 LDmean(para);
+            }else if ((para->type) =="TEdensity"){
+                TEdensity(para);
+            }else if ((para->type) == "cleanBed"){
+                cleanBed(para);
+            }else if ((para->type) =="BestHit"){
+                BestHit(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
                 getGffDensity(para);
+            }else if ((para->type) == "gff2bed"){
+                gff2bed(para);
+            }else if ((para->type) == "gff3thin"){
+                gff2thin(para);
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
@@ -165,6 +177,12 @@ int main(int argc, char * argv[]) {
         }else if((para->model) == "tree"){
             if((para->type) == "phy"){
                 changePhy(para);
+            }
+        }else if ((para->model) == "fasta"){
+            if((para->type) == "toMCscanGff"){
+                getGffMCscan(para);
+            }else if((para->type) =="changeGff"){
+                getGffMCscanChr(para);
             }
         }
     }

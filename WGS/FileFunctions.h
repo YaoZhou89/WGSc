@@ -674,6 +674,67 @@ int Depth2Bed(parameter *para){
     ouf.close();
     return 1;
 }
+int getUnMapped(parameter *para){
+    igzstream inf ((para->inFile).c_str(),ifstream::in);
+    ofstream ouf ((para->outFile).c_str());
+    vector<string> ll;
+    string line;
+    string chrPre = "";
+    int startPre = 0,start = 0;
+    int end = 0;
+    bool next = true;
+    bool write = false;
+    bool first = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        ll.clear();
+        split(line,ll," \t");
+        int tmp =  string2Int(ll[2]);
+        if(ll[0]!=chrPre){
+            if(write){
+                ouf << ll[0] << "\t" << start-1 << "\t" << end << "\n";
+                write = false;
+                next = true;
+                first = true;
+                start = 0;
+                end = 0;
+            }
+        }
+        chrPre = ll[0];
+        
+        if(next && tmp == 0){
+            if(first){
+                start = string2Int(ll[1]);
+                first = false;
+            }
+            next = false;
+            if(write){
+                
+            }
+        }else{
+            if(tmp > 0 && !next){
+                end = string2Int(ll[1])-1;
+                next = true;
+                first = true;
+            }else{
+                continue;
+            }
+            
+        }
+        if((end - start) > 150){
+            ouf << ll[0] << "\t" << start-1 << "\t" << end<< "\n";
+            end = 1;
+            next = true;
+        }
+    }
+    if(write){
+        cout << ll[0] << "\t" << start-1 << "\t" << end << "\n";
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
 int getOri(parameter *para){
     igzstream inf1 ((para->inFile).c_str(),ifstream::in);
     igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
@@ -4590,6 +4651,349 @@ int getGffDensity(parameter *para){
     }
     ouf << chr << "\t" << prePos << "\t" << chrSize[chr] << "\t" << sum << "\n";
     inbed.close();
+    ouf.close();
+    return 0;
+}
+int SNPdensity(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    int windowSize = (para->size );
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    
+    return 0;
+}
+int TEdensity(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    int windowSize = (para->size );
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    int sum = 0;
+    int prePos = 1;
+    string chr = "s";
+    int maxPos = 2;
+    int length = 0;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length()<0) continue;
+        ll.clear();
+        split(line,ll, " \t");
+        maxPos = string2Int(ll[2]);
+        if(chr != ll[0]){
+            if(chr!="s"){
+                ouf << chr << "\t" << prePos << "\t" << maxPos << "\t" << 1.0*sum/windowSize << "\n";
+            }
+            chr = ll[0];
+            sum = 0;
+            prePos = 1;
+        }
+        int cp = string2Int(ll[1]);
+        if(cp < prePos) {
+            cerr << "please check start position!" << endl;
+            return 1;
+        }
+        while (cp >= (prePos + windowSize)){
+            ouf << chr << "\t" << prePos << "\t" << (prePos + windowSize - 1) << "\t" << 1.0*sum/windowSize << "\n";
+            sum = 0;
+            prePos += windowSize;
+        }
+        
+        sum += string2Int(ll[2]) - string2Int(ll[1]) + 1;
+    }
+    ouf << chr << "\t" << prePos << "\t" << maxPos << "\t" << 1.0*sum/windowSize << "\n";
+    inbed.close();
+    ouf.close();
+    return 0;
+}
+int cleanBed(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    int pre = 0 ;
+    int pos = 0;
+    string chr = "";
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(chr != ll[0]){
+            pre = 0 ;
+            pos = 0;
+            chr = ll[0];
+//            cout << ll[0] << endl;
+        }
+        int a = string2Int(ll[1]);
+        int b = string2Int(ll[2]);
+        if(b < pos) continue;
+        if(a < pos){
+            ll[1] = Int2String(pos+1);
+            pre = pos+1;
+            pos = b;
+            for (int i = 0; i < ll.size()-1; ++i){
+                ouf << ll[i] << "\t";
+            }
+            if(ll.size()<2) cout << line << endl;
+            ouf << ll[ll.size()-1] << "\n";
+            continue;
+        }else{
+            pre = a;
+            pos = b;
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    inbed.close();
+    return 0;
+}
+int gff2bed(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    set<int> pos;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length()<1) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[2] != "gene") continue;
+        int pre = string2Int(ll[3]) -1;
+        if(pos.count(pre)==1){
+            continue;
+        }else{
+            pos.insert(pre);
+        }
+        ll[3] = Int2String(pre);
+        ouf << ll[0] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+    }
+    inbed.close();
+    ouf.close();
+    return 0;
+}
+int gff2thin(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inbed ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    vector <string> ll2;
+    set<int> pos;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length()<1) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[2] != "gene") continue;
+        int pre = string2Int(ll[3]) -1;
+        if(pos.count(pre)==1){
+            continue;
+        }else{
+            pos.insert(pre);
+        }
+        ll[3] = Int2String(pre);
+        ll2.clear();
+        split(ll[ll.size()-1],ll2,";");
+        string ltmp = ll2[0];
+        ll2.clear();
+        split(ltmp,ll2,"=");
+        ouf << ll[0] << "\t" << ll2[1] << ".1" << "\t" << ll[3] << "\t" << ll[4] << "\n";
+    }
+    inbed.close();
+    ouf.close();
+    return 0;
+}
+int BestHit(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf1 ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    map<string,string> first;
+    set<string> find;
+    cout << "read " << infile << endl;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        
+        if(find.count(ll[0])==1){
+            continue;
+        }else{
+            find.insert(ll[0].append("."));
+//            ouf << line << endl;
+        }
+        first.insert(pair<string, string>(ll[0].append("."),ll[1]));
+    }
+    cout << find.size() << " pairs found!" << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+
+        if(first[ll[1]] == ll[0].append(".")){
+            ouf << line << endl;
+        }
+    }
+    inf1.close();
+    inf2.close();
+    ouf.close();
+    return 0;
+}
+int changeName(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf1 ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    map<string,string> first;
+    set<string> find;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        
+    }
+    
+    return 0;
+}
+int getContig(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    int start = 0;
+    int end = 1;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        
+    }
+    
+    return 0;
+}
+int getGffMCscan(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    string head = (para->headerC);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    string start, end;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[2]!="mRNA") continue;
+        start = ll[3];
+        end = ll[4];
+        vector<string> tmp ;
+        tmp.clear();
+        split(ll[8],tmp, ";");
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ouf << head << "\t" << ll[1] << "\t" << start << "\t" << end << "\n";
+    }
+    
+    inf.close();
+    ouf.close();
+    return 0;
+}
+int getGffMCscanChr(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        string chr = ll[1].substr(ll[1].rfind('g')-2,2);
+        ouf << ll[0].append(chr) << "\t" << ll[1] << "\t" << ll[2] << "\t" << ll[3] << "\n";
+    }
+    
+    inf.close();
+    ouf.close();
+    return 0;
+}
+int FstGenes(parameter *para){
+    // write two files, one is gff for selected, the other is gff for unselected
+    // input is the gene list of selected and the whole gff3 file
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf1 ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set<string> selectedGenes;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        selectedGenes.insert(line);
+    }
+    int size = (para->size);
+    vector<string> tmp;
+    vector <int> order = sample(selectedGenes.size(),0,size,010);
+//    sort(order.begin(),order.end(),increase);
+    set<int> genePos ;
+    for(int i = 0; i < order.size();++i){
+        genePos.insert(order[i]);
+    }
+    int geneC = -1;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll, " \t");
+        if(ll[2] !="gene") continue;
+        tmp.clear();
+        split(ll[8],tmp,";");
+        ll.clear();
+        split(tmp[0],ll,"=");
+        if(selectedGenes.count(ll[1])==1){
+            ouf << line << "\n";
+        }else{
+            geneC++;
+            if(genePos.count(geneC)==1){
+                ouf << line << "\n";
+            }
+        }
+    }
+    inf1.close();
+    inf2.close();
     ouf.close();
     return 0;
 }
