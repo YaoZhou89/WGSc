@@ -145,6 +145,8 @@ int main(int argc, char * argv[]) {
                 cleanBed(para);
             }else if ((para->type) =="BestHit"){
                 BestHit(para);
+            }else if((para->type) == "geneToGff3"){
+                FstGenes(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
