@@ -4951,10 +4951,12 @@ int FstGenes(parameter *para){
     // input is the gene list of selected and the whole gff3 file
     string infile = (para->inFile);
     string infile2 = (para->inFile2);
-    string outfile = (para->outFile);
+    string outfile = (para->outFile).append(.selected.gff3);
+    string outfile2 = (para->outFile).append(.unselected.gff3);
     igzstream inf1 ((infile.c_str()),ifstream::in);
     igzstream inf2 ((infile2.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
+    ofstream ouf2 (outfile2.c_str());
     string line;
     vector<string> ll;
     set<string> selectedGenes;
@@ -4988,13 +4990,14 @@ int FstGenes(parameter *para){
         }else{
             geneC++;
             if(genePos.count(geneC)==1){
-                ouf << line << "\n";
+                ouf2 << line << "\n";
             }
         }
     }
     inf1.close();
     inf2.close();
     ouf.close();
+    ouf2.close();
     return 0;
 }
 #endif /* FileFunctions_h */
