@@ -4969,12 +4969,12 @@ int FstGenes(parameter *para){
     }
     int size = (para->size);
     vector<string> tmp;
-    vector <int> order = sample(selectedGenes.size(),0,size,010);
+    set<int> genePos  = Sample(selectedGenes.size(),0,size,010);
 //    sort(order.begin(),order.end(),increase);
-    set<int> genePos ;
-    for(int i = 0; i < order.size();++i){
-        genePos.insert(order[i]);
-    }
+//    
+//    for(int i = 0; i < order.size();++i){
+//        genePos.insert(order[i]);
+//    }
     int geneC = -1;
     while(!inf2.eof()){
         getline(inf2,line);

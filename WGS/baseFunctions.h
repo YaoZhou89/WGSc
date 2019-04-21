@@ -339,7 +339,16 @@ inline vector <int> sample(int rep,  int start,int end,int s){
     //    cout << result[0] << endl;
     return result;
 }
-
+inline set<int> Sample(int rep,  int start,int end,int s){
+    set <int> result;
+    default_random_engine generator(s);
+    for (int i = 0; i < rep*10; ++i){
+        result.insert(Random(start, end));
+        if(result.size()==rep) break;
+    }
+    //    cout << result[0] << endl;
+    return result;
+}
 
 int getChr(string & file){
     vector<string> ll1,ll2;
