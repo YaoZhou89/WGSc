@@ -4969,7 +4969,7 @@ int FstGenes(parameter *para){
     }
     int size = (para->size);
     vector<string> tmp;
-    set<int> genePos  = Sample(selectedGenes.size(),0,size,010);
+    set<int> genePos  = Sample(selectedGenes.size(),0,size-selectedGenes.size(),010);
 //    sort(order.begin(),order.end(),increase);
 //
 //    for(int i = 0; i < order.size();++i){
@@ -4983,6 +4983,7 @@ int FstGenes(parameter *para){
         if(line[0] == '#') continue;
         ll.clear();
         split(line,ll, " \t");
+        string type =ll[2];
         if(ll[2] == "gene") {
             tmp.clear();
             split(ll[8],tmp,";");
@@ -4997,7 +4998,7 @@ int FstGenes(parameter *para){
         if(selectedGenes.count(ll[1])==1){
             ouf << line << "\n";
         }else{
-            if(ll[2] == "gene") geneC++;
+            if(type == "gene") geneC++;
             if(genePos.count(geneC)==1){
                 ouf2 << line << "\n";
             }
