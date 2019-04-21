@@ -4969,7 +4969,7 @@ int FstGenes(parameter *para){
     }
     int size = (para->size);
     vector<string> tmp;
-    set<int> genePos  = Sample(selectedGenes.size(),0,size-selectedGenes.size(),010);
+//    set<int> genePos  = Sample(selectedGenes.size(),0,size,11);
 //    sort(order.begin(),order.end(),increase);
 //
 //    for(int i = 0; i < order.size();++i){
@@ -4977,6 +4977,7 @@ int FstGenes(parameter *para){
 //    }
     int geneC = -1;
     string geneName;
+    bool write = false;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
@@ -4998,8 +4999,15 @@ int FstGenes(parameter *para){
         if(selectedGenes.count(ll[1])==1){
             ouf << line << "\n";
         }else{
-            if(type == "gene") geneC++;
-            if(genePos.count(geneC)==1){
+            if(type == "gene"){
+                double ra = 1 /double(RAND_MAX) ;
+                if (rand() * ra < selectedGenes.size()/(size*1.0)){
+                    write = true;
+                }else {
+                    write = false;
+                }
+            }
+            if(write){
                 ouf2 << line << "\n";
             }
         }
