@@ -4971,22 +4971,29 @@ int FstGenes(parameter *para){
     vector<string> tmp;
     set<int> genePos  = Sample(selectedGenes.size(),0,size,010);
 //    sort(order.begin(),order.end(),increase);
-//    
+//
 //    for(int i = 0; i < order.size();++i){
 //        genePos.insert(order[i]);
 //    }
     int geneC = -1;
+    string geneName;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
         if(line[0] == '#') continue;
         ll.clear();
         split(line,ll, " \t");
-        if(ll[2] !="gene") continue;
-        tmp.clear();
-        split(ll[8],tmp,";");
-        ll.clear();
-        split(tmp[0],ll,"=");
+        if(ll[2] == "gene") {
+            tmp.clear();
+            split(ll[8],tmp,";");
+            ll.clear();
+            split(tmp[0],ll,"=");
+        }else{
+            tmp.clear();
+            split(ll[8],tmp,".");
+            ll.clear();
+            split(tmp[0],ll,"=");
+        }
         if(selectedGenes.count(ll[1])==1){
             ouf << line << "\n";
         }else{
