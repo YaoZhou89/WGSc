@@ -5165,7 +5165,7 @@ int getPairAlleleFrequency(parameter *para){
         double mf2 = ref(ll,na2);
         
         if (mf1 == 0 || mf1 == 1 || mf2 ==0 || mf2 == 1) continue;
-        ouf << ll[0] << "\t" << ll[1] << mf1 <<"\t" << mf2 << "\n" ;
+        ouf << ll[0] << "\t" << ll[1] <<"\t" << mf1 <<"\t" << mf2 << "\n" ;
     }
     invcf.close();
     ouf.close();
