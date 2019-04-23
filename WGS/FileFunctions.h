@@ -5018,4 +5018,157 @@ int FstGenes(parameter *para){
     ouf2.close();
     return 0;
 }
+int vcf2Fasta(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf1 ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    vector <string> region;
+    string line;
+    vector <string> ll;
+    return 0;
+}
+int slicedGenome(parameter *para){
+    string gffFile = (para -> inFile);
+    string piFile = (para -> inFile2);
+    string outFile = (para -> outFile);
+    string outFile1 = outFile + ".genes";
+    string chr = (para -> chr);
+    double threshold = (para -> threshold);
+    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    igzstream infPi ((piFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    ofstream ouf1 ((outFile1).c_str());
+    string line;
+    vector<string> ll;
+    set<int> withoutIntron;
+    int start = 0, end = 0;
+    int ps = 0, pe = 0;
+    string strand = "";
+    vector<int> startP(20000);
+    vector<int> endP(20000);
+    vector<int> strandP(20000);
+    vector<string> genefeaturs(500000000);
+    int gene_order = 0;
+    // upstream50: 1; upstream20: 2;upstream10: 3; upstream5: 4;upstream2: 5;
+    // gene: 20, 5utr: 7; cds: 8; intron: 9; 3utr: 10;
+    // down50: 11; down20: 12; down10: 13; down5: 14; down2: 15;
+    while(!infGff.eof()){
+        getline(infGff,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
+            for ( int i = start; i < end; ++i){
+                if(withoutIntron.count(i) == 0){
+                    genefeaturs[i] = 9;
+                    //                    intron.insert(i);
+                }
+            }
+            start = 0;
+            end = 0;
+            withoutIntron.clear();
+            ps = 0;
+            pe = 0;
+            continue;
+        };
+        if(line[0]=='#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0] != chr) continue;
+        if(ll[2] == "gene"){
+            start = string2Int(ll[3]);
+            end = string2Int(ll[4]);
+            strand = ll[6];
+            startP[gene_order] = start;
+            endP[gene_order] = end;
+            if(strand == "+"){
+                strandP[gene_order] = 0;
+            }else{
+                strandP[gene_order] = 1;
+            }
+            gene_order++;
+        }else if (ll[2] == "five_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i]= 7;
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "three_prime_UTR"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i] = 10;
+                withoutIntron.insert(i);
+            }
+        }else if (ll[2] == "CDS"){
+            ps = string2Int(ll[3]);
+            pe = string2Int(ll[4]);
+            for (int i = ps; i < pe+1; ++i){
+                genefeaturs[i] = 8;
+                withoutIntron.insert(i);
+            }
+        }
+    }
+    
+    if(withoutIntron.size() > 1) {
+        for ( int i = start; i < end; ++i){
+            if(withoutIntron.count(i)==0){
+                genefeaturs[i] = 9;
+            }
+        }
+        withoutIntron.clear();
+    }
+    
+    return 0;
+}
+int getPairAlleleFrequency(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string gf2 = (para -> inFile3);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    set<string> name2 = getSubgroup(gf2);
+    vector<int> na1;
+    vector<int> na2;
+    vector<int> na;
+    vector<string> ll;
+    vector<int> number(9);
+    for (int i=0; i <9; ++i){
+        number[i] = 0;
+    }
+    int all = 0, derived = 0;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') {
+        };
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            na2 = getPos(ll,name2);
+            if(na1.size() < 1) break;
+            if(na2.size() < 1) break;
+            continue;
+        }
+        
+        if(na1.size() < 1) continue;
+        if(na2.size() < 1) continue;
+        
+        all++;
+        double mf1 = ref(ll,na1);
+        double mf2 = ref(ll,na2);
+        
+        if (mf1 == 0 || mf1 == 1 || mf2 ==0 || mf2 == 1) continue;
+        ouf << ll[0] << "\t" << ll[1] << mf1 <<"\t" << mf2 << "\n" ;
+    }
+    invcf.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */

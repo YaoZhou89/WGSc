@@ -147,6 +147,8 @@ int main(int argc, char * argv[]) {
                 BestHit(para);
             }else if((para->type) == "geneToGff3"){
                 FstGenes(para);
+            }else if((para->type) =="pariMAF"){
+                getPairAlleleFrequency(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
