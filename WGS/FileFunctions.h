@@ -3730,6 +3730,12 @@ int gene_count_gene(parameter *para){
                                 }
                                 next = false;
                             }else{
+                                if (current_order > gene_order - 1){
+                                    size_intergenic++;
+                                    geneMatrix[current_order][0]+=pi;
+                                    genefeaturs[pos]= 20;
+                                    next = false;
+                                }else
                                 if ((pos - startP[current_order+1] ) < 0){
                                     // put into corrent position
                                     if((pos - endP[current_order] ) < 2000){
@@ -3791,12 +3797,7 @@ int gene_count_gene(parameter *para){
                                 }else {
                                     current_order++;
                                     next = true;
-                                    if (current_order > gene_order - 1){
-                                        size_intergenic++;
-                                        geneMatrix[current_order][0]+=pi;
-                                        genefeaturs[pos]= 20;
-                                        next = false;
-                                    }
+                                    
                                 }
                             }
                         }
@@ -3881,6 +3882,12 @@ int gene_count_gene(parameter *para){
                             }
                             next = false;
                         }else{
+                            if (current_order > gene_order - 1){
+                                size_intergenic++;
+                                geneMatrix[current_order][0]+=pi;
+                                genefeaturs[pos]= 20;
+                                next = false;
+                            }else
                             if ((pos - startP[current_order+1] ) < 0){
                                 if((pos - endP[current_order] ) < 2000){
                                     if(strandP[current_order] == 1){
