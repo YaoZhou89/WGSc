@@ -5186,6 +5186,8 @@ int getExtream(parameter *para){
     string gf1 = (para -> inFile2 );
     string gf2 = (para -> inFile3);
     string outfile = (para->outFile);
+    string outfile1 = outfile + ".1";
+    string outfile2 = outfile +".2";
     igzstream invcf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
@@ -5231,6 +5233,13 @@ int getExtream(parameter *para){
         if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
             ouf << line << "\n";
         };
+        if ( (mf1 > 0.9 && mf2 < 0.1) )) {
+            ouf1 << line << "\n";
+        };
+        if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
+            ouf2 << line << "\n";
+        };
+
         
     }
     invcf.close();
