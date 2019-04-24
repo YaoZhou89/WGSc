@@ -3724,13 +3724,15 @@ int gene_count_gene(parameter *para){
                                     }
                                     genefeaturs[pos]= 20;
                                 }else{
-                                    
+                                    size_intergenic++;
+                                    geneMatrix[current_order][0]+=pi;
+                                    genefeaturs[pos]= 20;
                                 }
                                 next = false;
                             }else{
-                                if (pos - endP[current_order]){
+                                if ((pos - startP[current_order+1] ) < 0){
                                     // put into corrent position
-                                    if((endP[current_order] - pos) < 2000){
+                                    if((pos - endP[current_order] ) < 2000){
                                         if(strandP[current_order] == 1){
                                             size_upstream ++;
                                             geneMatrix[current_order][5]+=pi;
@@ -3740,7 +3742,7 @@ int gene_count_gene(parameter *para){
                                         }
                                         genefeaturs[pos]= 20;
                                         
-                                    }else if ((endP[current_order]- pos) < 5000){
+                                    }else if ((pos - endP[current_order]) < 5000){
                                         if(strandP[current_order] == 1){
                                             size_up5 ++;
                                             geneMatrix[current_order][4]+=pi;
@@ -3750,7 +3752,7 @@ int gene_count_gene(parameter *para){
                                         }
                                         genefeaturs[pos]= 20;
                                         
-                                    }else if ((endP[current_order]- pos) < 10000){
+                                    }else if ((pos - endP[current_order]- pos) < 10000){
                                         if(strandP[current_order] == 1){
                                             size_up10 ++;
                                             geneMatrix[current_order][3]+=pi;
@@ -3760,7 +3762,7 @@ int gene_count_gene(parameter *para){
                                         }
                                         genefeaturs[pos]= 20;
                                         
-                                    }else if ((endP[current_order] - pos) < 20000){
+                                    }else if ((pos - endP[current_order] ) < 20000){
                                         if(strandP[current_order]== 1){
                                             size_up20 ++;
                                             geneMatrix[current_order][2]+=pi;
@@ -3770,7 +3772,7 @@ int gene_count_gene(parameter *para){
                                         }
                                         genefeaturs[pos]= 20;
                                         
-                                    }else if ((endP[current_order] - pos) < 50000){
+                                    }else if ((pos - endP[current_order] ) < 50000){
                                         if(strandP[current_order] == 1){
                                             size_up50 ++;
                                             geneMatrix[current_order][1]+=pi;
@@ -3879,9 +3881,8 @@ int gene_count_gene(parameter *para){
                             }
                             next = false;
                         }else{
-                            if (pos - endP[current_order]){
-                                // put into corrent position
-                                if((endP[current_order] - pos) < 2000){
+                            if ((pos - startP[current_order+1] ) < 0){
+                                if((pos - endP[current_order] ) < 2000){
                                     if(strandP[current_order] == 1){
                                         size_upstream ++;
                                         geneMatrix[current_order][5]++;
@@ -3891,7 +3892,7 @@ int gene_count_gene(parameter *para){
                                     }
                                     genefeaturs[pos]= 20;
                                     
-                                }else if ((endP[current_order]- pos) < 5000){
+                                }else if ((pos - endP[current_order]) < 5000){
                                     if(strandP[current_order] == 1){
                                         size_up5 ++;
                                         geneMatrix[current_order][4]++;
@@ -3901,7 +3902,7 @@ int gene_count_gene(parameter *para){
                                     }
                                     genefeaturs[pos]= 20;
                                     
-                                }else if ((endP[current_order]- pos) < 10000){
+                                }else if ((pos - endP[current_order]) < 10000){
                                     if(strandP[current_order] == 1){
                                         size_up10 ++;
                                         geneMatrix[current_order][3]++;
@@ -3911,7 +3912,7 @@ int gene_count_gene(parameter *para){
                                     }
                                     genefeaturs[pos]= 20;
                                     
-                                }else if ((endP[current_order] - pos) < 20000){
+                                }else if ((pos - endP[current_order]) < 20000){
                                     if(strandP[current_order]== 1){
                                         size_up20 ++;
                                         geneMatrix[current_order][2]++;
@@ -3921,7 +3922,7 @@ int gene_count_gene(parameter *para){
                                     }
                                     genefeaturs[pos]= 20;
                                     
-                                }else if ((endP[current_order] - pos) < 50000){
+                                }else if ((pos - endP[current_order]) < 50000){
                                     if(strandP[current_order] == 1){
                                         size_up50 ++;
                                         geneMatrix[current_order][1]++;
@@ -3930,14 +3931,13 @@ int gene_count_gene(parameter *para){
                                         geneMatrix[current_order][14]++;
                                     }
                                     genefeaturs[pos]= 20;
-                                    
                                 }else{
                                     size_intergenic++;
                                     geneMatrix[current_order][0]++;
                                     genefeaturs[pos]= 20;
                                 }
                                 next = false;
-                            }else {
+                            } else {
                                 current_order++;
                                 next = true;
                                 if (current_order > gene_order - 1){
