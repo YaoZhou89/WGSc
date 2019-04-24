@@ -88,6 +88,8 @@ int main(int argc, char * argv[]) {
                 getDerivedAllele(para);
             }else if ((para->type) == "incp"){
                 cp(para);
+            }else if ((para->type) == "getExtream"){
+                getExtream(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

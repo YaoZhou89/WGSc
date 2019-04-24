@@ -5181,4 +5181,60 @@ int getPairAlleleFrequency(parameter *para){
     ouf.close();
     return 0;
 }
+int getExtream(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string gf2 = (para -> inFile3);
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    set<string> name2 = getSubgroup(gf2);
+    vector<int> na1;
+    vector<int> na2;
+    vector<int> na;
+    vector<string> ll;
+    vector<int> number(9);
+    for (int i=0; i <9; ++i){
+        number[i] = 0;
+    }
+    int all = 0, derived = 0;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') {
+            ouf << line << "\n";
+        };
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            na2 = getPos(ll,name2);
+            if(na1.size() < 1) break;
+            if(na2.size() < 1) break;
+            ouf << line << "\n";
+            continue;
+        }
+        
+        if(na1.size() < 1) continue;
+        if(na2.size() < 1) continue;
+        
+        all++;
+        double mf1 = ref(ll,na1);
+        double mf2 = ref(ll,na2);
+        char ref = ll[ll.size()-1][0];
+        if(ref == '0'){
+            mf1 = 1 - mf1;
+            mf2 = 1 - mf2;
+        }
+        if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
+            ouf << line << "\n";
+        };
+        
+    }
+    invcf.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */
