@@ -3579,7 +3579,7 @@ int gene_count_gene(parameter *para){
     while(!infGff.eof()){
         getline(infGff,line);
         if(line.length()<1) continue;
-        if(line[0]=='#' && line[2] =='#'&& withoutIntron.size() > 0) {
+        if(line[0]=='#' &line[2] =='#'&& withoutIntron.size() > 0) {
             for ( int i = start; i < end; ++i){
                 if(withoutIntron.count(i) == 0){
                     genefeaturs[i] = 9;
@@ -4998,7 +4998,7 @@ int FstGenes(parameter *para){
         }
         if(selectedGenes.count(ll[1])==1){
             if(ll[2] == "gene"){
-                ouf << "##\n";
+                ouf << "###\n";
             }
             ouf << line << "\n";
         }else{
@@ -5012,7 +5012,7 @@ int FstGenes(parameter *para){
             }
             if(write){
                 if(ll[2] == "gene"){
-                    ouf2 << "##\n";
+                    ouf2 << "###\n";
                 }
                 ouf2 << line << "\n";
             }
