@@ -5190,7 +5190,7 @@ int getExtream(parameter *para){
     string outfile2 = outfile +".2";
     igzstream invcf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
-    ofstream ouf1 (outfile2.c_str());
+    ofstream ouf1 (outfile1.c_str());
     ofstream ouf2 (outfile2.c_str());
     string line;
     set<string> name1 = getSubgroup(gf1);
