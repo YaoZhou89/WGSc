@@ -3878,7 +3878,9 @@ int gene_count_gene(parameter *para){
                                 }
                                 genefeaturs[pos]= 20;
                             }else{
-                                
+                                size_intergenic++;
+                                geneMatrix[current_order][0]++;
+                                genefeaturs[pos]= 20;
                             }
                             next = false;
                         }else{
@@ -3947,12 +3949,6 @@ int gene_count_gene(parameter *para){
                             } else {
                                 current_order++;
                                 next = true;
-                                if (current_order > gene_order - 1){
-                                    size_intergenic++;
-                                    geneMatrix[current_order][0]++;
-                                    genefeaturs[pos]= 20;
-                                    next = false;
-                                }
                             }
                         }
                     }
