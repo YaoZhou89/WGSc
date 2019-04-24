@@ -5238,7 +5238,7 @@ int getExtream(parameter *para){
         if ( (mf1 > 0.9 && mf2 < 0.1) ) {
             ouf1 << line << "\n";
         };
-        if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
+        if ( (mf2 > 0.9 && mf1 < 0.1)) {
             ouf2 << line << "\n";
         };
 
