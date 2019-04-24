@@ -5235,7 +5235,7 @@ int getExtream(parameter *para){
         if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
             ouf << line << "\n";
         };
-        if ( (mf1 > 0.9 && mf2 < 0.1) )) {
+        if ( (mf1 > 0.9 && mf2 < 0.1) ) {
             ouf1 << line << "\n";
         };
         if ( (mf1 > 0.9 && mf2 < 0.1) || (mf2 > 0.9 && mf1 < 0.1)) {
@@ -5246,6 +5246,8 @@ int getExtream(parameter *para){
     }
     invcf.close();
     ouf.close();
+    ouf1.close();
+    ouf2.close();
     return 0;
 }
 #endif /* FileFunctions_h */
