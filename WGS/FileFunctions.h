@@ -5169,7 +5169,11 @@ int getPairAlleleFrequency(parameter *para){
         all++;
         double mf1 = ref(ll,na1);
         double mf2 = ref(ll,na2);
-        
+        char ref = ll[ll.size()-1][0];
+        if(ref == '0'){
+            mf1 = 1 - mf1;
+            mf2 = 1 - mf2;
+        }
         if (mf1 == 0 || mf1 == 1 || mf2 ==0 || mf2 == 1) continue;
         ouf << ll[0] << "\t" << ll[1] <<"\t" << mf1 <<"\t" << mf2 << "\n" ;
     }
