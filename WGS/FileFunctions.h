@@ -3884,7 +3884,7 @@ int gene_count_gene(parameter *para){
                         }else{
                             if (current_order > gene_order - 1){
                                 size_intergenic++;
-                                geneMatrix[current_order][0]+=pi;
+                                geneMatrix[current_order][0]++;
                                 genefeaturs[pos]= 20;
                                 next = false;
                             }else
