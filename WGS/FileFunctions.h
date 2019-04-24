@@ -3670,128 +3670,133 @@ int gene_count_gene(parameter *para){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Doublepos(ll[size]);
             if( pi > threshold){
+                bool next = true;
                 switch(genefeaturs[pos]){
                     case 0:
-                        while ((startP[current_order] - pos) < 0){
-                            if (current_order > gene_order - 1){
-                                geneMatrix[current_order][0] +=pi;
-                                size_intergenic += pi;
-                                genefeaturs[pos]= 20;
-                                break;
-                            }
-                            current_order++;
-                            if (current_order % 100 == 0 ){
-                                cout << "currrent_order is:\t" << current_order << endl;
-                            }
-                        }
-                        if((startP[current_order] - pos) < 2000){
-                            if(strandP[current_order] == 0){
-                                size_upstream += pi;
-                                geneMatrix[current_order][5] += pi;
+                        while(next){
+                            if((pos - startP[current_order])<0){
+                                // put into corrent position
+                                if((startP[current_order] - pos) < 2000){
+                                    if(strandP[current_order] == 0){
+                                        size_upstream+=pi;
+                                        geneMatrix[current_order][5]+=pi;
+                                    }else{
+                                        size_downstream++;
+                                        geneMatrix[current_order][10]+=pi;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                }else if ((startP[current_order]- pos) < 5000){
+                                    if(strandP[current_order]== 0){
+                                        size_up5+=pi;
+                                        geneMatrix[current_order][4]+=pi;
+                                    }else{
+                                        size_down5++;
+                                        geneMatrix[current_order][11]+=pi;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                }else if ((startP[current_order] - pos) < 10000){
+                                    if(strandP[current_order] == 0){
+                                        size_up10++;
+                                        geneMatrix[current_order][3]+=pi;
+                                    }else{
+                                        size_down10++;
+                                        geneMatrix[current_order][12]+=pi;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((startP[current_order] - pos) < 20000){
+                                    if(strandP[current_order] == 0){
+                                        size_up20++;
+                                        geneMatrix[current_order][2]+=pi;
+                                    }else{
+                                        size_down20++;
+                                        geneMatrix[current_order][13]+=pi;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((startP[current_order] - pos) < 50000){
+                                    if(strandP[current_order] == 0){
+                                        size_up50++;
+                                        geneMatrix[current_order][1]+=pi;
+                                    }else{
+                                        size_down50++;
+                                        geneMatrix[current_order][14]+=pi;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                }else{
+                                    
+                                }
+                                next = false;
                             }else{
-                                size_downstream += pi;
-                                geneMatrix[current_order][10] += pi;
+                                if (pos - endP[current_order]){
+                                    // put into corrent position
+                                    if((endP[current_order] - pos) < 2000){
+                                        if(strandP[current_order] == 1){
+                                            size_upstream ++;
+                                            geneMatrix[current_order][5]+=pi;
+                                        }else{
+                                            size_downstream ++;
+                                            geneMatrix[current_order][10]+=pi;
+                                        }
+                                        genefeaturs[pos]= 20;
+                                        
+                                    }else if ((endP[current_order]- pos) < 5000){
+                                        if(strandP[current_order] == 1){
+                                            size_up5 ++;
+                                            geneMatrix[current_order][4]+=pi;
+                                        }else{
+                                            size_down5 ++;
+                                            geneMatrix[current_order][11]+=pi;
+                                        }
+                                        genefeaturs[pos]= 20;
+                                        
+                                    }else if ((endP[current_order]- pos) < 10000){
+                                        if(strandP[current_order] == 1){
+                                            size_up10 ++;
+                                            geneMatrix[current_order][3]+=pi;
+                                        }else{
+                                            size_down10 ++;
+                                            geneMatrix[current_order][12]+=pi;
+                                        }
+                                        genefeaturs[pos]= 20;
+                                        
+                                    }else if ((endP[current_order] - pos) < 20000){
+                                        if(strandP[current_order]== 1){
+                                            size_up20 ++;
+                                            geneMatrix[current_order][2]+=pi;
+                                        }else{
+                                            size_down20 ++;
+                                            geneMatrix[current_order][13]+=pi;
+                                        }
+                                        genefeaturs[pos]= 20;
+                                        
+                                    }else if ((endP[current_order] - pos) < 50000){
+                                        if(strandP[current_order] == 1){
+                                            size_up50 ++;
+                                            geneMatrix[current_order][1]+=pi;
+                                        }else{
+                                            size_down50 ++;
+                                            geneMatrix[current_order][14]+=pi;
+                                        }
+                                        genefeaturs[pos]= 20;
+                                        
+                                    }else{
+                                        size_intergenic++;
+                                        geneMatrix[current_order][0]+=pi;
+                                        genefeaturs[pos]= 20;
+                                    }
+                                    next = false;
+                                }else {
+                                    current_order++;
+                                    next = true;
+                                    if (current_order > gene_order - 1){
+                                        size_intergenic++;
+                                        geneMatrix[current_order][0]+=pi;
+                                        genefeaturs[pos]= 20;
+                                        next = false;
+                                    }
+                                }
                             }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((startP[current_order]- pos) < 5000){
-                            if(strandP[current_order] == 0){
-                                size_up5 += pi;
-                                geneMatrix[current_order][4] += pi;
-                            }else{
-                                size_down5 += pi;
-                                geneMatrix[current_order][11] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((startP[current_order]- pos) < 10000){
-                            if(strandP[current_order] == 0){
-                                size_up10+= pi;
-                                geneMatrix[current_order][3] += pi;
-                            }else{
-                                size_down10+= pi;
-                                geneMatrix[current_order][12] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((startP[current_order] - pos) < 20000){
-                            if(strandP[current_order]== 0){
-                                size_up20 += pi;
-                                geneMatrix[current_order][2] += pi;
-                            }else{
-                                size_down20 += pi;
-                                geneMatrix[current_order][13] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((startP[current_order] - pos) < 50000){
-                            if(strandP[current_order] == 0){
-                                size_up50 += pi;
-                                geneMatrix[current_order][1] += pi;
-                            }else{
-                                size_down50 += pi;
-                                geneMatrix[current_order][14] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }
-                        
-                        if( genefeaturs[pos]!=0) break;
-                        
-                        if((endP[current_order] - pos) < 2000){
-                            if(strandP[current_order] == 1){
-                                size_upstream += pi;
-                                geneMatrix[current_order][5] += pi;
-                            }else{
-                                size_downstream += pi;
-                                geneMatrix[current_order][10] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((endP[current_order]- pos) < 5000){
-                            if(strandP[current_order] == 1){
-                                size_up5 += pi;
-                                geneMatrix[current_order][4]+=pi;
-                            }else{
-                                size_down5 += pi;
-                                geneMatrix[current_order][11]+=pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((endP[current_order]- pos) < 10000){
-                            if(strandP[current_order] == 1){
-                                size_up10+= pi;
-                                geneMatrix[current_order][3] += pi;
-                            }else{
-                                size_down10+= pi;
-                                geneMatrix[current_order][12] +=pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((endP[current_order] - pos) < 20000){
-                            if(strandP[current_order]== 1){
-                                size_up20 += pi;
-                                geneMatrix[current_order][2] += pi;
-                            }else{
-                                size_down20 += pi;
-                                geneMatrix[current_order][13] += pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else if ((endP[current_order] - pos) < 50000){
-                            if(strandP[current_order] == 1){
-                                size_up50 += pi;
-                                geneMatrix[current_order][1] +=pi;
-                            }else{
-                                size_down50 += pi;
-                                geneMatrix[current_order][14] +=pi;
-                            }
-                            genefeaturs[pos]= 20;
-                            
-                        }else{
-                            size_intergenic+= pi;
-                            geneMatrix[current_order][0] +=pi;
-                            genefeaturs[pos]= 20;
                         }
                         break;
                     case 7:
@@ -3815,125 +3820,134 @@ int gene_count_gene(parameter *para){
                 }
             }
         }else{
+            bool next = true;
             switch(genefeaturs[pos]){
                 case 0:
-                    while ((startP[current_order]- pos) < 0){
-                        if (current_order % 100 == 0 ){
-                            cout << "currrent_order is:\t" << current_order << endl;
-                        }
-                        if (current_order > gene_order - 1){
-                            size_intergenic++;
-                            geneMatrix[current_order][0]++;
-                            genefeaturs[pos]= 20;
-                            break;
-                        }
-                        current_order++;
-                    }
-                    if((startP[current_order] - pos) < 2000){
-                        if(strandP[current_order] == 0){
-                            size_upstream++;
-                            geneMatrix[current_order][5]++;
+                    // new methods
+                    while(next){
+                        if((pos - startP[current_order])<0){
+                            // put into corrent position
+                            if((startP[current_order] - pos) < 2000){
+                                if(strandP[current_order] == 0){
+                                    size_upstream++;
+                                    geneMatrix[current_order][5]++;
+                                }else{
+                                    size_downstream++;
+                                    geneMatrix[current_order][10]++;
+                                }
+                                genefeaturs[pos]= 20;
+                            }else if ((startP[current_order]- pos) < 5000){
+                                if(strandP[current_order]== 0){
+                                    size_up5++;
+                                    geneMatrix[current_order][4]++;
+                                }else{
+                                    size_down5++;
+                                    geneMatrix[current_order][11]++;
+                                }
+                                genefeaturs[pos]= 20;
+                            }else if ((startP[current_order] - pos) < 10000){
+                                if(strandP[current_order] == 0){
+                                    size_up10++;
+                                    geneMatrix[current_order][3]++;
+                                }else{
+                                    size_down10++;
+                                    geneMatrix[current_order][12]++;
+                                }
+                                genefeaturs[pos]= 20;
+                                
+                            }else if ((startP[current_order] - pos) < 20000){
+                                if(strandP[current_order] == 0){
+                                    size_up20++;
+                                    geneMatrix[current_order][2]++;
+                                }else{
+                                    size_down20++;
+                                    geneMatrix[current_order][13]++;
+                                }
+                                genefeaturs[pos]= 20;
+                                
+                            }else if ((startP[current_order] - pos) < 50000){
+                                if(strandP[current_order] == 0){
+                                    size_up50++;
+                                    geneMatrix[current_order][1]++;
+                                }else{
+                                    size_down50++;
+                                    geneMatrix[current_order][14]++;
+                                }
+                                genefeaturs[pos]= 20;
+                            }else{
+                                
+                            }
+                            next = false;
                         }else{
-                            size_downstream++;
-                            geneMatrix[current_order][10]++;
+                            if (pos - endP[current_order]){
+                                // put into corrent position
+                                if((endP[current_order] - pos) < 2000){
+                                    if(strandP[current_order] == 1){
+                                        size_upstream ++;
+                                        geneMatrix[current_order][5]++;
+                                    }else{
+                                        size_downstream ++;
+                                        geneMatrix[current_order][10]++;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((endP[current_order]- pos) < 5000){
+                                    if(strandP[current_order] == 1){
+                                        size_up5 ++;
+                                        geneMatrix[current_order][4]++;
+                                    }else{
+                                        size_down5 ++;
+                                        geneMatrix[current_order][11]++;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((endP[current_order]- pos) < 10000){
+                                    if(strandP[current_order] == 1){
+                                        size_up10 ++;
+                                        geneMatrix[current_order][3]++;
+                                    }else{
+                                        size_down10 ++;
+                                        geneMatrix[current_order][12]++;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((endP[current_order] - pos) < 20000){
+                                    if(strandP[current_order]== 1){
+                                        size_up20 ++;
+                                        geneMatrix[current_order][2]++;
+                                    }else{
+                                        size_down20 ++;
+                                        geneMatrix[current_order][13]++;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else if ((endP[current_order] - pos) < 50000){
+                                    if(strandP[current_order] == 1){
+                                        size_up50 ++;
+                                        geneMatrix[current_order][1]++;
+                                    }else{
+                                        size_down50 ++;
+                                        geneMatrix[current_order][14]++;
+                                    }
+                                    genefeaturs[pos]= 20;
+                                    
+                                }else{
+                                    size_intergenic++;
+                                    geneMatrix[current_order][0]++;
+                                    genefeaturs[pos]= 20;
+                                }
+                                next = false;
+                            }else {
+                                current_order++;
+                                next = true;
+                                if (current_order > gene_order - 1){
+                                    size_intergenic++;
+                                    geneMatrix[current_order][0]++;
+                                    genefeaturs[pos]= 20;
+                                    next = false;
+                                }
+                            }
                         }
-                        genefeaturs[pos]= 20;
-                    }else if ((startP[current_order]- pos) < 5000){
-                        if(strandP[current_order]== 0){
-                            size_up5++;
-                            geneMatrix[current_order][4]++;
-                        }else{
-                            size_down5++;
-                            geneMatrix[current_order][11]++;
-                        }
-                        genefeaturs[pos]= 20;
-                    }else if ((startP[current_order] - pos) < 10000){
-                        if(strandP[current_order] == 0){
-                            size_up10++;
-                            geneMatrix[current_order][3]++;
-                        }else{
-                            size_down10++;
-                            geneMatrix[current_order][12]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((startP[current_order] - pos) < 20000){
-                        if(strandP[current_order] == 0){
-                            size_up20++;
-                            geneMatrix[current_order][2]++;
-                        }else{
-                            size_down20++;
-                            geneMatrix[current_order][13]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((startP[current_order] - pos) < 50000){
-                        if(strandP[current_order] == 0){
-                            size_up50++;
-                            geneMatrix[current_order][1]++;
-                        }else{
-                            size_down50++;
-                            geneMatrix[current_order][14]++;
-                        }
-                        genefeaturs[pos]= 20;
-                    }else{
-                        
-                    }
-                    if( genefeaturs[pos] != 0) break;
-                    if((endP[current_order] - pos) < 2000){
-                        if(strandP[current_order] == 1){
-                            size_upstream ++;
-                            geneMatrix[current_order][5]++;
-                        }else{
-                            size_downstream ++;
-                            geneMatrix[current_order][10]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((endP[current_order]- pos) < 5000){
-                        if(strandP[current_order] == 1){
-                            size_up5 ++;
-                            geneMatrix[current_order][4]++;
-                        }else{
-                            size_down5 ++;
-                            geneMatrix[current_order][11]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((endP[current_order]- pos) < 10000){
-                        if(strandP[current_order] == 1){
-                            size_up10 ++;
-                            geneMatrix[current_order][3]++;
-                        }else{
-                            size_down10 ++;
-                            geneMatrix[current_order][12]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((endP[current_order] - pos) < 20000){
-                        if(strandP[current_order]== 1){
-                            size_up20 ++;
-                            geneMatrix[current_order][2]++;
-                        }else{
-                            size_down20 ++;
-                            geneMatrix[current_order][13]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else if ((endP[current_order] - pos) < 50000){
-                        if(strandP[current_order] == 1){
-                            size_up50 ++;
-                            geneMatrix[current_order][1]++;
-                        }else{
-                            size_down50 ++;
-                            geneMatrix[current_order][14]++;
-                        }
-                        genefeaturs[pos]= 20;
-                        
-                    }else{
-                        size_intergenic++;
-                        geneMatrix[current_order][0]++;
-                        genefeaturs[pos]= 20;
                     }
                     break;
                 case 7:
