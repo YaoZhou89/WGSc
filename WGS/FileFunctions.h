@@ -4997,6 +4997,9 @@ int FstGenes(parameter *para){
             split(tmp[0],ll,"=");
         }
         if(selectedGenes.count(ll[1])==1){
+            if(ll[2]) == "gene"{
+                ouf << "##\n";
+            }
             ouf << line << "\n";
         }else{
             if(type == "gene"){
@@ -5008,6 +5011,9 @@ int FstGenes(parameter *para){
                 }
             }
             if(write){
+                if(ll[2]) == "gene"{
+                    ouf << "##\n";
+                }
                 ouf2 << line << "\n";
             }
         }
