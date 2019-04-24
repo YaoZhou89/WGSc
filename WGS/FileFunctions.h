@@ -5012,7 +5012,7 @@ int FstGenes(parameter *para){
             }
             if(write){
                 if(ll[2] == "gene"){
-                    ouf << "##\n";
+                    ouf2 << "##\n";
                 }
                 ouf2 << line << "\n";
             }
