@@ -3758,7 +3758,7 @@ int gene_count_gene(parameter *para){
                                         }
                                         genefeaturs[pos]= 20;
                                         
-                                    }else if ((pos - endP[current_order]- pos) < 10000){
+                                    }else if ((pos - endP[current_order]) < 10000){
                                         if(strandP[current_order] == 1){
                                             size_up10 +=pi;
                                             geneMatrix[current_order][3]+=pi;
