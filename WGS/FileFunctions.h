@@ -701,31 +701,28 @@ int getUnMapped(parameter *para){
             }
         }
         chrPre = ll[0];
-        
         if(next && tmp == 0){
             if(first){
                 start = string2Int(ll[1]);
                 first = false;
             }
             next = false;
-            if(write){
-                
-            }
         }else{
             if(tmp > 0 && !next){
                 end = string2Int(ll[1])-1;
                 next = true;
                 first = true;
+                if((end - start) > 150){
+                    ouf << ll[0] << "\t" << start-1 << "\t" << end<< "\n";
+                    end = 1;
+                    next = true;
+                }
             }else{
                 continue;
             }
             
         }
-        if((end - start) > 150){
-            ouf << ll[0] << "\t" << start-1 << "\t" << end<< "\n";
-            end = 1;
-            next = true;
-        }
+        
     }
     if(write){
         cout << ll[0] << "\t" << start-1 << "\t" << end << "\n";
