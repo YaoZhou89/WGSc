@@ -2493,8 +2493,9 @@ int splitByChr(parameter *para){
             break;
         }
     }
-    string chr = "0";
+    string chr = "";
     ofstream ouf ;
+    bool first;
     while(!inf.eof()){
         string  line ;
         getline(inf,line);
@@ -2506,12 +2507,18 @@ int splitByChr(parameter *para){
         if(ll[0]==chr){
             ouf << line << "\n" ;
         }else{
-            ouf.close();
-            string outname = outFile+chr;
-//            ouf ((outname.c_str()));
-//            for(int i = 0; i < header.size();i++){
-//                ouf << header[i] << "\n" ;
-//            }
+            if(first){
+                first = false;
+                chr = ll[0];
+                string outname = outFile+chr;
+                ofstream ouf ((outname.c_str()));
+                continue;
+            }else{
+                ouf.close();
+                string outname = outFile+chr;
+                ofstream ouf ((outname.c_str()));
+            }
+            
         }
     }
     inf.close();

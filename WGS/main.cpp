@@ -151,6 +151,8 @@ int main(int argc, char * argv[]) {
                 FstGenes(para);
             }else if((para->type) =="pairedMAF"){
                 getPairAlleleFrequency(para);
+            }else if((para->type)=="ByChr"){
+                splitByChr(<#parameter *para#>)
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
