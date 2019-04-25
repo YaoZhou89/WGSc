@@ -69,6 +69,11 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> outFile = argv[i];
+        }else if (flag  ==  "flag")
+        {
+            if(i + 1 == argc) {LogLackArg(flag); return 0;}
+            i++;
+            para -> flag = argv[i];
         }
         else if (flag  ==  "chr" ||  flag  == "chromosome" )
         {

@@ -152,7 +152,9 @@ int main(int argc, char * argv[]) {
             }else if((para->type) =="pairedMAF"){
                 getPairAlleleFrequency(para);
             }else if((para->type)=="ByChr"){
-                splitByChr(<#parameter *para#>)
+                splitByChr(para);
+            }else if((para->type) =="mummer2vcf"){
+                mummer2vcf(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

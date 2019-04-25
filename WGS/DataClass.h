@@ -24,6 +24,7 @@ public:
     string subPop;
     string logFile;
     string chr;
+    string flag;
     double  MQ;
     double FS;
     double MQRankSum;
@@ -53,6 +54,7 @@ public:
         outFile = "";
         subPop = "";
         bedFile = "";
+        flag = "";
         MQ = 30.0;
         MQRankSum = -12.5;
         FS = 60.0;
