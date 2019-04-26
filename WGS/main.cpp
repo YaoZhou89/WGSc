@@ -103,6 +103,8 @@ int main(int argc, char * argv[]) {
                 getMaskRegion(para);
             }else if ((para->type) == "UnMapped"){
                 getUnMapped(para);
+            }else if ((para->type) == "Mapped"){
+                getMapped(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){
@@ -163,6 +165,8 @@ int main(int argc, char * argv[]) {
                 gff2bed(para);
             }else if ((para->type) == "gff3thin"){
                 gff2thin(para);
+            }else if ((para->type) =="ToGene"){
+                getUniqueGene(para);
             }
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
