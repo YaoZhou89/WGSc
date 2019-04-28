@@ -5653,4 +5653,58 @@ int daf(parameter *para){
     
     return 0;
 }
+int getRegulation(parameter *para){
+    string infile = (para -> inFile);
+    string gffFile = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    int size = (para->size);
+    string line;
+    vector<string> ll;
+    string strand;
+    string chr = (para->chr);
+    vector<int> value(500000000);
+    while(!infGff.eof()){
+        getline(infGff,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') continue;
+        ll.clear();
+        if(ll[0]!=chr) continue;
+        if(ll[2] != "gene") continue;
+        int start = string2Int(ll[3]);
+        int end = string2Int(ll[4]);
+        for (int i = start ; i < end+1; ++i){
+            value[i] = 1;
+        }
+        if(ll[6]=="+"){
+            for (int i = (start-size); i < start; ++i){
+                value[i] = 2;
+            }
+        }else{
+            for (int i = end+1; i < end+size+1; ++i){
+                value[i] = 2;
+            }
+        }
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') continue;
+        ll.clear();
+        if(ll[0]!=chr) continue;
+        if(value[string2Int(ll[1])]==1){
+            ouf << ll[0] << "\t" << ll[1] << "\t" << "G" << "\n";
+        }else if(value[string2Int(ll[1])]==2){
+            ouf << ll[0] << "\t" << ll[1] << "\t" << "R" << "\n";
+        }else{
+            ouf << ll[0] << "\t" << ll[1] << "\t" << "N" << "\n";
+        }
+    }
+    ouf.close();
+    inf.close();
+    infGff.close();
+    return 0;
+}
 #endif /* FileFunctions_h */

@@ -92,6 +92,8 @@ int main(int argc, char * argv[]) {
                 getExtream(para);
             }else if((para->type) =="DAF"){
                 daf(para);
+            }else if ((para->type)=="getReg"){
+                getRegulation(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
