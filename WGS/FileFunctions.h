@@ -5679,11 +5679,15 @@ int getRegulation(parameter *para){
             value[i] = 1;
         }
         if(ll[6]=="+"){
-            for (int i = (start-size); i < start; ++i){
+            int s =(start-size);
+            if (s <0 ) s = 0;
+            for (int i = s; i < start; ++i){
                 value[i] = 2;
             }
         }else{
-            for (int i = end+1; i < end+size+1; ++i){
+            int s =end+size+1;
+            if (s>500000000) s = 500000000;
+            for (int i = end+1; i < s; ++i){
                 value[i] = 2;
             }
         }
