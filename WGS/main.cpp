@@ -90,6 +90,8 @@ int main(int argc, char * argv[]) {
                 cp(para);
             }else if ((para->type) == "getExtream"){
                 getExtream(para);
+            }else if((para->type) =="DAF"){
+                daf(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -157,6 +159,8 @@ int main(int argc, char * argv[]) {
                 splitByChr(para);
             }else if((para->type) =="mummer2vcf"){
                 mummer2vcf(para);
+            }else if((para->type)=="blast2Gene"){
+                blast2Gene(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
@@ -197,6 +201,10 @@ int main(int argc, char * argv[]) {
                 getGffMCscan(para);
             }else if((para->type) =="changeGff"){
                 getGffMCscanChr(para);
+            }else if((para->type)=="pepTofasta"){
+                pepTofasta(para);
+            }else if((para->type)=="getContig"){
+                getContig(para);
             }
         }
     }

@@ -4961,14 +4961,59 @@ int getContig(parameter *para){
     igzstream inf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
+    string chrSeq = "";
+    string chr = "";
     int start = 0;
     int end = 1;
+    bool first = true,next = true;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
-        
+        if(line[0]=='>'){
+            if(!first){
+                start = 0;
+                end = 0;
+                for (int i = 0; i < chrSeq.length(); ++i){
+                    if(chrSeq[i]=='N'||chrSeq[i]=='n'){
+                        if((i -start)>1 && next){
+                            ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                            next = false;
+                        }
+                        start = i+1;
+                    }else{
+                        next =true;
+                    }
+                }
+                if ((chrSeq.length()-start)>1) {
+                    ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+                }
+            }
+            first = false;
+            start = 0;
+            end = 0;
+            chrSeq = "";
+            chr = line.substr(1,line.length()-1);
+            
+        }else{
+            chrSeq.append(line);
+        }
     }
-    
+    start = 0;
+    end = 0;
+    for (int i = 0; i < chrSeq.length(); ++i){
+        if(chrSeq[i]=='N'||chrSeq[i]=='n'){
+            if((i -start)>1 && next){
+                ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                next = false;
+            }
+            start = i+1;
+        }else{
+            next = true;
+        }
+    }
+    if ((chrSeq.length()-start)>1) {
+        ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+    }
     return 0;
 }
 int getGffMCscan(parameter *para){
@@ -5056,23 +5101,33 @@ int FstGenes(parameter *para){
     int geneC = -1;
     string geneName;
     bool write = false;
+    string preGene = "";
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
         if(line[0] == '#') continue;
         ll.clear();
-        split(line,ll, " \t");
+        split(line,ll, "\t");
         string type =ll[2];
         if(ll[2] == "gene") {
             tmp.clear();
             split(ll[8],tmp,";");
             ll.clear();
             split(tmp[0],ll,"=");
+            tmp.clear();
+            split(ll[1],tmp,":");
+            if(tmp.size()>1) {
+                ll[1] = tmp[1];
+            }
+            preGene = ll[1];
         }else{
             tmp.clear();
             split(ll[8],tmp,".");
             ll.clear();
             split(tmp[0],ll,"=");
+            if(line.find(preGene)!=std::string::npos){
+                ll[1] = preGene;
+            }
         }
         if(selectedGenes.count(ll[1])==1){
             if(ll[2] == "gene"){
@@ -5474,6 +5529,126 @@ int getUniqueGene(parameter *para){
     
     inf.close();
     inf2.close();
+    ouf.close();
+    
+    return 0;
+}
+int blast2Gene(parameter *para){
+    string infile = (para->inFile);
+    double r = (para->r);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set<string> gene;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1)continue;
+        ll.clear();
+        split(line,ll,"\t");
+        double v = string2Double(ll[2])/100;
+        if(v>r){
+            gene.insert(ll[0]);
+        }
+    }
+    for(string n:gene){
+        ouf << n << "\n";
+    }
+    return 0;
+}
+int pepTofasta(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set <string> allGene;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,".");
+        allGene.insert(ll[0]);
+    }
+    bool write = false;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        
+        if(line[0]=='>'){
+            ll.clear();
+            split(line,ll,".");
+            if(allGene.count(ll[0].substr(1,ll[0].length()-1))==1){
+                write =true;
+            }else{
+                write = false;
+            }
+        }
+        if(write){
+            ouf << line << "\n";
+        }
+    }
+    inf2.close();
+    inf.close();
+    ouf.close();
+    return 0;
+}
+int getSingle(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set <string> allGene;
+    
+    return 0;
+}
+int daf(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 = getSubgroup(gf1);
+    vector<int> na1;
+    vector<int> na;
+    vector<string> ll;
+    vector<int> number(9);
+    for (int i=0; i <9; ++i){
+        number[i] = 0;
+    }
+    int all = 0, derived = 0;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') {
+        };
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            if(na1.size() < 1) break;
+            continue;
+        }
+        
+        if(na1.size() < 1) continue;
+        
+        all++;
+        double mf1 = ref(ll,na1);
+        char ref = ll[ll.size()-1][0];
+        if(ref == '1'){
+            mf1 = 1 - mf1;
+        }
+        ouf << ll[0] << "\t" << ll[1] << "\t" << mf1 << "\n";
+    }
+    
+    invcf.close();
     ouf.close();
     
     return 0;
