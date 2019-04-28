@@ -5671,6 +5671,7 @@ int getRegulation(parameter *para){
         if(line.length()<1) continue;
         if(line[0]=='#') continue;
         ll.clear();
+        split(line,ll,"\t");
         if(ll[0]!=chr) continue;
         if(ll[2] != "gene") continue;
         int start = string2Int(ll[3]);
@@ -5697,6 +5698,7 @@ int getRegulation(parameter *para){
         if(line.length()<1) continue;
         if(line[0]=='#') continue;
         ll.clear();
+        split(line, ll,"\t");
         if(ll[0]!=chr) continue;
         if(value[string2Int(ll[1])]==1){
             ouf << ll[0] << "\t" << ll[1] << "\t" << "G" << "\n";
