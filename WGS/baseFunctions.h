@@ -44,6 +44,7 @@ inline string &  replace_all(string &  str,const  string &  old_Avalue,const str
 
 inline void split(const string& str,vector<string>& tokens,  const string& delimiters = " ")
 {
+    tokens.clear();
     string::size_type lastPos = str.find_first_not_of(delimiters, 0);
     string::size_type pos     = str.find_first_of(delimiters, lastPos);
     while (string::npos != pos || string::npos != lastPos)
@@ -356,6 +357,25 @@ int getChr(string & file){
     split(file,ll1,".");
     split(ll1[0],ll2,"r");
     return string2Int(ll2[ll2.size()-1]);
+}
+string reverse_complementary(string & sequence){
+    string rc = "";
+    for (int i = sequence.length()-1; i > -1;--i){
+        if(sequence[i]=='A' ||sequence[i]=='a' ){
+            rc.append("T");
+        }else if (sequence[i]=='T' ||sequence[i]=='t' ){
+            rc.append("A");
+        }else if (sequence[i]=='G' ||sequence[i]=='g' ){
+            rc.append("C");
+        }else if (sequence[i]=='C' ||sequence[i]=='c' ){
+            rc.append("G");
+        }else if (sequence[i]=='N' ||sequence[i]=='n' ){
+            rc.append("N");
+        }else {
+            rc.append(sequence.substr(i,1));
+        }
+    }
+    return rc;
 }
 bool increase (int i,int j) { return (i<j); }
 bool decrease (int i,int j) { return (i>j); }

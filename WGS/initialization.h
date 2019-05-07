@@ -155,6 +155,10 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);
+        }else if (flag == "headLine"){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> headLine = atoi(argv[i]);
         }else if (flag == "threshold"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;

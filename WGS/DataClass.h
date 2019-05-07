@@ -37,6 +37,7 @@ public:
     double a;
     double b; // y = a + bx
     int size;
+    int headLine;
     double threshold;
     int maxLength;
     double r;
@@ -66,6 +67,7 @@ public:
         logFile = "";
         isBed = false;
         pos;
+        headLine = 0;
         noNeg = false;
         size = 1000000;
         headerC = "#";

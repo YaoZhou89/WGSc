@@ -94,6 +94,10 @@ int main(int argc, char * argv[]) {
                 daf(para);
             }else if ((para->type)=="getReg"){
                 getRegulation(para);
+            }else if ((para->type) =="changePos"){
+                changeVcfPos(para);
+            }else if ((para->type) =="smoothIndel"){
+                smoothIndel(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -161,8 +165,22 @@ int main(int argc, char * argv[]) {
                 splitByChr(para);
             }else if((para->type) =="mummer2vcf"){
                 mummer2vcf(para);
+            }else if ((para->type) =="mummerCountInDel"){
+                mummerCountInDel(para);
             }else if((para->type)=="blast2Gene"){
                 blast2Gene(para);
+            }else if ((para->type) == "sog"){
+                getSOG(para);
+            }else if ((para->type)=="getKaKs"){
+                getKaKs(para);
+            }else if ((para->type) == "RemoveDot"){
+                RemoveDot(para);
+            }else if((para->type) =="pairOrtho"){
+                pairOrtho(para);
+            }else if ((para->type) =="summaryBeast"){
+                summaryBeast(para);
+            }else if ((para->type) =="summary2Beast"){
+                summary2Beast(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
@@ -173,7 +191,16 @@ int main(int argc, char * argv[]) {
                 gff2thin(para);
             }else if ((para->type) =="ToGene"){
                 getUniqueGene(para);
+            }else if ((para->type) == "changePos"){
+                changeGffPos(para);
             }
+        }else if((para->model) == "bed"){
+            if ((para->type) == "changePos"){
+                changeBedPos(para);
+            }else if ((para->type) == "density"){
+                getBedDensity(para);
+            }
+        
         }else if((para->model) == "diversity"){
             if((para->type)=="bedPi"){
                 pi2bed(para);
@@ -207,6 +234,20 @@ int main(int argc, char * argv[]) {
                 pepTofasta(para);
             }else if((para->type)=="getContig"){
                 getContig(para);
+            }else if ((para->type) =="formatFasta"){
+                formatFasta(para);
+            }else if((para->type) =="formatFasta2"){
+                formatFasta2(para);
+            }else if((para->type) =="formatFasta3"){
+                formatFasta3(para);
+            }else if ((para->type) == "toPhy"){
+                toPhy(para);
+            }else if((para->type)=="getCDS"){
+                getCDS(para);
+            }else if((para->type)=="keepLongest"){
+                keepLongest(para);
+            }else if ((para->type) =="RC"){
+                changeGenomePos(para);
             }
         }
     }
