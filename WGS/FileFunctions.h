@@ -3648,8 +3648,7 @@ int gene_count_gene(parameter *para){
         if(line[0]=='#' &line[2] =='#'){
             
             if(withoutIntron.size() > 0) {
-                cout << "start is:\t" << start << endl;
-                cout << "end is:\t" << end << endl;
+            
                 for ( int i = start; i < end; ++i){
                     if(withoutIntron.count(i) == 0){
                         genefeaturs[i] = 9;
@@ -3702,8 +3701,12 @@ int gene_count_gene(parameter *para){
                 withoutIntron.insert(i);
             }
         }
+        int su = 0;
+        for (int i = 12170678 ; i < 12170875;i++ ){
+            su += genefeaturs[i];
+        }
+        cout << "Intron Number is:\t" << su << endl;
     }
-    cout << "start is:\t" << start << endl;
     if(withoutIntron.size() > 1) {
         for ( int i = start; i < end; ++i){
             if(withoutIntron.count(i)==0){
