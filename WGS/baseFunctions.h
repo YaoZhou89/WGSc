@@ -8,7 +8,9 @@
 
 #ifndef baseFunctions_h
 #define baseFunctions_h
-
+#define TWO_BIT_MASK (3)
+#define BITS_PER_BYTE (8)
+#define BIG_ENOUGH (1024)
 #include <vector>
 
 using namespace std;
@@ -379,4 +381,37 @@ string reverse_complementary(string & sequence){
 }
 bool increase (int i,int j) { return (i<j); }
 bool decrease (int i,int j) { return (i>j); }
+
+
+uint64_t encode(string original) {
+    
+    size_t length = original.length();
+    
+//    assert(length * 2 == sizeof(uint64_t) * BITS_PER_BYTE);
+    uint64_t result = 0;
+    
+    for (size_t i = 0; i < length; i++) {
+        result = (result << 2) | ((original[i] >> 1) & TWO_BIT_MASK);
+    }
+    
+    return result;
+}
+
+void decode(uint64_t encoded, char *decoded, bool rna_flag) {
+    
+    int i = sizeof(uint64_t) * BITS_PER_BYTE / 2;
+    
+    for (decoded[i--] = '\0'; i >= 0; i--, encoded >>= 2) {
+        
+        unsigned char byte = encoded & TWO_BIT_MASK;
+        
+        if (byte == 2) {
+            byte = (rna_flag) ? 'U' : 'T';
+        } else {
+            byte = 'A' | (byte << 1);
+        }
+        
+        decoded[i] = byte;
+    }
+}
 #endif /* baseFunctions_h */

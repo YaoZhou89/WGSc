@@ -4057,7 +4057,7 @@ int gene_count_gene(parameter *para){
     ouf << "downstream_5k_10k\t" << size_down10 << "\n";
     ouf << "downstream_10k_20k\t" << size_down20 << "\n";
     ouf << "downstream_20k_50k\t" << size_down50 << "\n";
-    for (int i = 0; i < gene_order-1; i++){
+    for (int i = 0; i < gene_order; i++){
         for (int j = 0; j < 14; j++){
             ouf1 << geneMatrix[i][j] << "\t";
         }
@@ -6006,6 +6006,52 @@ int getCDS(parameter *para){
     
     return 0;
 }
+int getSeq(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para->inFile2);
+    string outFile = (para -> outFile);
+    ofstream ouf ((outFile).c_str());
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    string line;
+    vector<string> ll;
+    set<string> gene;
+    int col = 0;
+    string key = "",value = "";
+    bool write = true;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        col = ll[0].length();
+        gene.insert(ll[0]);
+    }
+    cout << gene.size() << " genes added!" << endl;
+    key = "";
+    value = "";
+    int cp = 0;
+    while(!inf.eof()){
+        getline(inf, line);
+        if(line.length()<1) continue;
+        if(line[0]=='>'){
+            if(gene.count(line.substr(1,col))==1){
+                write = true;
+                
+            }else{
+                write = false;
+            }
+        }
+        if (write){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    inf.close();
+    inf2.close();
+    
+    return 0;
+}
 int formatFasta2(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
@@ -6530,6 +6576,21 @@ int changeVcfPos(parameter *para){
     inf.close();
     inf2.close();
     ouf.close();
+    return 0;
+}
+int kmerStat(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    string chr = (para->chr);
+    ofstream ouf (outfile.c_str());
+    string line;
+    unordered_map<string, int> umap(10000000000);
+    while(!inf.eof()){
+        
+    }
     return 0;
 }
 #endif /* FileFunctions_h */

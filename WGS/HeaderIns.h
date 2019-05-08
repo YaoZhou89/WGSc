@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <iomanip>
 #include <math.h>
@@ -25,7 +26,8 @@
 #include <functional>
 #include <random>
 #include <regex>
-
+#include <stdbool.h>
+#include <assert.h>
 #if defined __GNUC__ || defined __APPLE__
 #include <ext/hash_map>
 #else

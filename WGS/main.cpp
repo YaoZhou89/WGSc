@@ -19,7 +19,6 @@ int main(int argc, char * argv[]) {
     double duration;
    
     start = clock();
-    
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -244,6 +243,8 @@ int main(int argc, char * argv[]) {
                 toPhy(para);
             }else if((para->type)=="getCDS"){
                 getCDS(para);
+            }else if((para->type)=="getSeq"){
+                getSeq(para);
             }else if((para->type)=="keepLongest"){
                 keepLongest(para);
             }else if ((para->type) =="RC"){
