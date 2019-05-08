@@ -3701,14 +3701,6 @@ int gene_count_gene(parameter *para){
                 withoutIntron.insert(i);
             }
         }
-        int su = 0;
-        for (int i = 12170678 ; i < 12170875;i++ ){
-            if(genefeaturs[i]==9){
-                su++;
-            }
-            
-        }
-        cout << "Intron Number is:\t" << su << endl;
     }
     if(withoutIntron.size() > 1) {
         for ( int i = start; i < end; ++i){
@@ -3889,6 +3881,7 @@ int gene_count_gene(parameter *para){
                         break;
                     case 9:
                         size_intron +=pi ;
+                        cout <<"current order is:\t" << current_order<<endl;
                         geneMatrix[current_order][8] +=pi;
                         break;
                     case 10:
