@@ -3645,11 +3645,14 @@ int gene_count_gene(parameter *para){
     while(!infGff.eof()){
         getline(infGff,line);
         if(line.length()<1) continue;
-        if(line[0]=='#' &line[2] =='#'&& withoutIntron.size() > 0) {
-            for ( int i = start; i < end; ++i){
-                if(withoutIntron.count(i) == 0){
-                    genefeaturs[i] = 9;
+        if(line[0]=='#' &line[2] =='#'){
+            
+            if(withoutIntron.size() > 0) {
+                for ( int i = start; i < end; ++i){
+                    if(withoutIntron.count(i) == 0){
+                        genefeaturs[i] = 9;
                     //                    intron.insert(i);
+                    }
                 }
             }
             start = 0;
