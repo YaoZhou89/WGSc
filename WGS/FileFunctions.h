@@ -3735,6 +3735,7 @@ int gene_count_gene(parameter *para){
         //            pos = string2Int(ll[2]);
         //        }
         int size = ll.size()-1;
+        cout << "test:\t" << geneMatrix[262,8] << endl;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Doublepos(ll[size]);
@@ -3881,7 +3882,7 @@ int gene_count_gene(parameter *para){
                         break;
                     case 9:
                         size_intron +=pi ;
-                        cout <<"current order is:\t" << current_order<<endl;
+                        
                         geneMatrix[current_order][8] +=pi;
                         break;
                     case 10:
