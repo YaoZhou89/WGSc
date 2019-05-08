@@ -3736,6 +3736,7 @@ int gene_count_gene(parameter *para){
         //        }
         int size = ll.size()-1;
         cout << "test:\t" << geneMatrix[262][8] << endl;
+        cout << "test0:\t" << geneMatrix[263][8] << endl;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double pi = string2Doublepos(ll[size]);
@@ -4062,6 +4063,8 @@ int gene_count_gene(parameter *para){
     ouf << "downstream_5k_10k\t" << size_down10 << "\n";
     ouf << "downstream_10k_20k\t" << size_down20 << "\n";
     ouf << "downstream_20k_50k\t" << size_down50 << "\n";
+    cout << "test2:\t" <<geneMatrix[262][8] << endl;
+    cout << "test3:\t" <<geneMatrix[263][8] << endl;
     for (int i = 0; i < gene_order; i++){
         for (int j = 0; j < 14; j++){
             ouf1 << geneMatrix[i][j] << "\t";
