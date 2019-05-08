@@ -3703,7 +3703,10 @@ int gene_count_gene(parameter *para){
         }
         int su = 0;
         for (int i = 12170678 ; i < 12170875;i++ ){
-            su += genefeaturs[i];
+            if(genefeaturs[i]==9){
+                su++;
+            }
+            
         }
         cout << "Intron Number is:\t" << su << endl;
     }
