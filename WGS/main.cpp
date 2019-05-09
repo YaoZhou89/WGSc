@@ -97,6 +97,8 @@ int main(int argc, char * argv[]) {
                 changeVcfPos(para);
             }else if ((para->type) =="smoothIndel"){
                 smoothIndel(para);
+            }else if ((para->type) == "toDstatistic"){
+                vcf2Dstat(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

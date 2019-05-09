@@ -6623,4 +6623,46 @@ int kmerStat(parameter *para){
     }
     return 0;
 }
+int vcf2Dstat(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' & line[1]=='#') continue;
+        split(line,ll," \t");
+        if(line[0]=='#' & line[1] == 'C'){
+            ouf << ll[0] << "\t" << ll[1] ;
+            for (int i = 9; i < ll.size();++i){
+                ouf << "\t" << ll[i];
+            }
+            ouf << "\n";
+        }else{
+            ouf << ll[0] << "\t" << ll[1] ;
+            string ref = ll[3];
+            string alt = ll[4];
+            for (int i = 9; i < ll.size();++i){
+                ouf << "\t" ;
+                if(ll[i][0]=='0'||ll[i][2]=='0'){
+                    ouf << ref << "/" << ref;
+                }else if (ll[i][0]=='0'||ll[i][2]=='1'){
+                    ouf << ref << "/" << alt;
+                }else if (ll[i][1]=='0'||ll[i][2]=='1'){
+                    ouf << alt << "/" << alt;
+                }else{
+                    ouf << "N" << "/" << "N";
+                }
+            }
+            ouf << "\n";
+        }
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
 #endif /* FileFunctions_h */
