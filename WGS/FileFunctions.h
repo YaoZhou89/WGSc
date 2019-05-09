@@ -3805,8 +3805,7 @@ int gene_count_gene(parameter *para){
                                     geneMatrix[current_order][0]+=pi;
                                     genefeaturs[pos]= 20;
                                     next = false;
-                                }else
-                                if ((pos - startP[current_order+1] ) < 0){
+                                }else if ((pos - startP[current_order+1] ) < 0){
                                     // put into corrent position
                                     if((pos - endP[current_order] ) < 2000){
                                         if(strandP[current_order] == 1){
@@ -3867,17 +3866,22 @@ int gene_count_gene(parameter *para){
                                 }else {
                                     current_order++;
                                     next = true;
-                                    
                                 }
                             }
                         }
                         break;
                     case 7:
                         size_utr5 +=pi ;
+                        while(pos > endP[current_order]){
+                            current_order++;
+                        }
                         geneMatrix[current_order][6] +=pi;
                         break;
                     case 8:
                         size_cds +=pi ;
+                        while(pos > endP[current_order]){
+                            current_order++;
+                        }
                         geneMatrix[current_order][7] +=pi;
                         if(current_order==262){
                             cout << line<< endl;
@@ -3885,11 +3889,16 @@ int gene_count_gene(parameter *para){
                         break;
                     case 9:
                         size_intron +=pi ;
-                        
+                        while(pos > endP[current_order]){
+                            current_order++;
+                        }
                         geneMatrix[current_order][8] +=pi;
                         break;
                     case 10:
                         size_utr3 +=pi ;
+                        while(pos > endP[current_order]){
+                            current_order++;
+                        }
                         geneMatrix[current_order][9] +=pi;
                         break;
                     default:
@@ -4029,18 +4038,30 @@ int gene_count_gene(parameter *para){
                     break;
                 case 7:
                     size_utr5 ++ ;
+                    while(pos > endP[current_order]){
+                        current_order++;
+                    }
                     geneMatrix[current_order][6]++;
                     break;
                 case 8:
                     size_cds ++ ;
+                    while(pos > endP[current_order]){
+                        current_order++;
+                    }
                     geneMatrix[current_order][7]++;
                     break;
                 case 9:
                     size_intron ++ ;
+                    while(pos > endP[current_order]){
+                        current_order++;
+                    }
                     geneMatrix[current_order][8]++;
                     break;
                 case 10:
                     size_utr3 ++ ;
+                    while(pos > endP[current_order]){
+                        current_order++;
+                    }
                     geneMatrix[current_order][9]++;
                     break;
                 default:
@@ -4065,8 +4086,7 @@ int gene_count_gene(parameter *para){
     ouf << "downstream_5k_10k\t" << size_down10 << "\n";
     ouf << "downstream_10k_20k\t" << size_down20 << "\n";
     ouf << "downstream_20k_50k\t" << size_down50 << "\n";
-    cout << "test2:\t" <<geneMatrix[262][7] << endl;
-    cout << "test3:\t" <<geneMatrix[263][7] << endl;
+   
     for (int i = 0; i < gene_order; i++){
         for (int j = 0; j < 14; j++){
             ouf1 << geneMatrix[i][j] << "\t";
