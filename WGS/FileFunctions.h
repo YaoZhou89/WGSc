@@ -6665,4 +6665,48 @@ int vcf2Dstat(parameter *para){
     
     return 0;
 }
+int mergeDgeno(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> names = getSubgroup(infile2);
+    string filename;
+    vector<string> ll;
+    vector<int> na;
+    bool first = true;
+    while(!inf.eof()){
+        getline(inf,filename);
+        if(line.length()<1) continue;
+        igzstream invcf (filename.c_str(),ifstream::in);
+        while(!invcf.eof()){
+            if(line[0]=='#' && line[1] == '#') continue;
+            ll.clear();
+            split(line,ll," \t");
+            if(line[0]=='#' && line[1] == 'C') {
+                na = getPos(ll,names,2);
+                if(first){
+                    ouf << ll[0] << "\t" << ll[1] ;
+                    for (int i = 0; i < na.size(); ++i){
+                        ouf << "\t" << ll[na[i]] ;
+                    }
+                    ouf << "\n";
+                    first = false;
+                }
+                continue;
+            }
+            ouf << ll[0] << "\t" << ll[1] ;
+            for (int i = 0; i < na.size(); ++i){
+                ouf << "\t" << ll[na[i]] ;
+            }
+            ouf << "\n";
+        }
+        invcf.close();
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */

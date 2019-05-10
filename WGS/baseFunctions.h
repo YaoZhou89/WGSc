@@ -311,6 +311,13 @@ vector <int> getPos(vector <string> & ll, set<string> na){
     }
     return pos;
 }
+vector <int> getPos(vector <string> & ll, set<string> na,int start){
+    vector<int> pos;
+    for(int i = start; i<ll.size();++i){
+        if(na.count(ll[i])==1) pos.push_back(i);
+    }
+    return pos;
+}
 int Random(int m, int n)
 {
     int pos, dis;

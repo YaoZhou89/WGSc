@@ -182,6 +182,8 @@ int main(int argc, char * argv[]) {
                 summaryBeast(para);
             }else if ((para->type) =="summary2Beast"){
                 summary2Beast(para);
+            }else if ((para->type)=="mergeDgeno"){
+                mergeDgeno(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
