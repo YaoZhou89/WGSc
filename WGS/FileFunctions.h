@@ -6687,6 +6687,7 @@ int mergeDgeno(parameter *para){
             split(line,ll," \t");
             if(line[0]=='#' && line[1] == 'C') {
                 na = getPos(ll,names,2);
+                cout << line << endl;
                 if(first){
                     ouf << ll[0] << "\t" << ll[1] ;
                     for (int i = 0; i < na.size(); ++i){
