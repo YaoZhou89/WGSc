@@ -6672,7 +6672,7 @@ int mergeDgeno(parameter *para){
     igzstream inf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
-    set<string> names = getSubgroup(infile2);
+    set<string> names = getSubgroup(infile2,0);
     string filename;
     vector<string> ll;
     vector<int> na;

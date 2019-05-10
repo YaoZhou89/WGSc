@@ -225,6 +225,22 @@ set <string> getSubgroup(string& inFile){
     inf.close();
     return names;
 }
+set <string> getSubgroup(string& inFile,int pos){
+    set<string> names ;
+    igzstream inf ((inFile.c_str()),ifstream::in);
+    if(inf.fail()) throw std::runtime_error("invalid subgroup files!");
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        names.insert(ll[pos]);
+    }
+    cout << "subgroup file readed! " << names.size() << " samples!" << endl;
+    inf.close();
+    return names;
+}
 double MAF(vector <string> & ll, vector<int> na){
     double maf = 0;
     double a = 0;
