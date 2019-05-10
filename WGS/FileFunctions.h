@@ -6679,8 +6679,8 @@ int mergeDgeno(parameter *para){
     bool first = true;
     while(!inf.eof()){
         getline(inf,filename);
-        cout << filename << endl;
-        if(line.length()<1) continue;
+//        cout << filename << endl;
+        if(filename.length()<1) continue;
         igzstream invcf (filename.c_str(),ifstream::in);
         while(!invcf.eof()){
             if(line[0]=='#' && line[1] == '#') continue;
@@ -6688,7 +6688,6 @@ int mergeDgeno(parameter *para){
             split(line,ll," \t");
             if(line[0]=='#' && line[1] == 'C') {
                 na = getPos(ll,names,2);
-                
                 if(first){
                     ouf << ll[0] << "\t" << ll[1] ;
                     for (int i = 0; i < na.size(); ++i){
