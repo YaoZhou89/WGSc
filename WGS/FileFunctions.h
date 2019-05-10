@@ -6683,6 +6683,7 @@ int mergeDgeno(parameter *para){
         if(filename.length()<1) continue;
         igzstream invcf (filename.c_str(),ifstream::in);
         while(!invcf.eof()){
+            getline(invcf, line);
             if(line[0]=='#' && line[1] == '#') continue;
             ll.clear();
             split(line,ll," \t");
