@@ -6873,9 +6873,9 @@ int IScore(parameter *para){
         chrV[P] = chr;
     }
     
-    ouf << "Chr\tPos\tStart\tEnd\tSNP_number\tIScore\n";
+    ouf << "Chr\tPos\tStart\tEnd\tSNP_number\ttotal_IS\tmean_IS\n";
     for(int i = 0; i < P+1; ++i){
-        ouf << chrV[i] << "\t" << start[i]<<"\t" << end[i] << "\t" << siteNumber[i] <<"\t" << IS[i] <<"\n";
+        ouf << chrV[i] << "\t" << start[i]<<"\t" << end[i] << "\t" << siteNumber[i] <<"\t" << IS[i] << "\t" << IS[i]/siteNumber[i] <<"\n";
     }
     inf.close();
     ouf.close();
