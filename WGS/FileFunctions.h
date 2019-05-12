@@ -6790,6 +6790,10 @@ double getISvalue(vector<string> ll,vector<int>pos){
         }
     }
     s = (double)d*1.0/sum;
+    if(sum == 0) s = 0;
+    cout << "d is:\t" << d << endl;
+    cout << "sum is:\t" << sum << endl;
+    
     return s;
 }
 int IScore(parameter *para){
@@ -6864,7 +6868,7 @@ int IScore(parameter *para){
         chrV[P] = chr;
     }
     
-    ouf << "Chr\tPos\tStart\tEnd\tSNP_number\tIScore";
+    ouf << "Chr\tPos\tStart\tEnd\tSNP_number\tIScore\n";
     for(int i = 0; i < P+1; ++i){
         ouf << chrV[i] << "\t" << start[i]<<"\t" << end[i] << "\t" << siteNumber[i] <<"\t" << IS[i] <<"\n";
     }
