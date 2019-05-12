@@ -6795,9 +6795,9 @@ double getISvalue(vector<string> ll,vector<int>pos){
     }
     s = (double)d*1.0/sum;
     if(sum == 0) s = 0;
-    cout << "d is:\t" << d << endl;
-    cout << "sum is:\t" << sum << endl;
-    
+//    cout << "d is:\t" << d << endl;
+//    cout << "sum is:\t" << sum << endl;
+//
     return s;
 }
 int IScore(parameter *para){
@@ -6831,13 +6831,13 @@ int IScore(parameter *para){
         getline(inf,line);
         if(line.length()<1) continue;
         if(line[0]=='#' && line[1] == '#') continue;
-        if(line[0] == '#' && line[1] == 'C'){
-            pos = getPos(ll, na);
-            cout << "readed!" << endl;
-            continue;
-        }
         ll.clear();
         split(line,ll," \t");
+        if(line[0] == '#' && line[1] == 'C'){
+            pos = getPos(ll, na);
+//            cout << "readed!" << endl;
+            continue;
+        }
         Cpos = string2Int(ll[1]);
         string chrC = ll[0];
         if(chrC!=chr){
