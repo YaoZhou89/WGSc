@@ -7,8 +7,8 @@
 //
 
 #include "HeaderIns.h"
-#include "DataClass.h"
 #include "baseFunctions.h"
+#include "DataClass.h"
 #include "help.h"
 #include "initialization.h"
 #include "checkers.h"
@@ -99,6 +99,8 @@ int main(int argc, char * argv[]) {
                 smoothIndel(para);
             }else if ((para->type) == "toDstatistic"){
                 vcf2Dstat(para);
+            }else if ((para->type)=="IS"){
+                IScore(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -196,6 +198,8 @@ int main(int argc, char * argv[]) {
                 getUniqueGene(para);
             }else if ((para->type) == "changePos"){
                 changeGffPos(para);
+            }else if((para->type) == "stat"){
+                statGff(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){

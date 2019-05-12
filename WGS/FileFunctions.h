@@ -6716,20 +6716,160 @@ int getDFreq(parameter *para){
     string infile2 = (para->inFile2);
     string outfile = (para->outFile);
     igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
-    set<string> names = getSubgroup(infile2,0);
-    string filename;
     vector<string> ll;
-    vector<int> na;
-    bool first = true;
-    while(!inf.eof()){
-        getline(inf,filename);
-        //        cout << filename << endl;
-        if(filename.length()<1) continue;
-        igzstream invcf (filename.c_str(),ifstream::in);
-        while(!invcf.eof()){}
+    map<string,string> pos;
+    set<string> group;
+    map<string,int> gr;
+    string outgroup;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll, " \t");
+        pos.insert(pair<string,string>(ll[0],ll[1]));
+        group.insert(ll[1]);
     }
+    int gi = 0;
+    for(string g:group){
+        gr.insert(pair<string,int>(g,gi));
+        gi++;
+    }
+    vector<int> po;
+   
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#'){
+            for(int i = 2; i < ll.size(); ++i){
+                
+            }
+        }
+    }
+    return 0;
+}
+int statGff(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> pos;
+    set<string> group;
+    map<string,int> gr;
+    string outgroup;
+    while(!inf.eof()){
+        
+    }
+    return 0;
+}
+double getISvalue(vector<string> ll,vector<int>pos){
+    double s = 0;
+    int d = 0;
+    int sum = 0;
+    char derived = ll[ll.size()-1][0];
+    for(int i = 0; i < pos.size();++i){
+        if(ll[pos[i]][2]=='.'){
+            continue;
+        }else{
+            if(ll[pos[i]][0]==derived){
+                d++;
+                sum++;
+            }else if (ll[pos[i]][2]==derived){
+                d++;
+                sum++;
+            }else {
+                sum++;
+                sum++;
+            }
+        }
+    }
+    s = (double)d*1.0/sum;
+    return s;
+}
+int IScore(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set<string> na = getSubgroup(infile2);
+    int binSize = (para->size);
+    int binNumber = 500000000/binSize+1;
+    vector<int> pos;
+    map<string,int> gr;
+    string outgroup;
+    vector<int> siteNumber(binNumber);
+    vector<double> IS(binNumber);
+    vector<int> start(binNumber);
+    vector<int> end(binNumber);
+    vector<string> chrV(binNumber);
+    string chr = "";
+    int startP = 1;
+    int endP = binSize;
+    int CP = 1;
+    int P = 0;
+    double ISvalue = 0;
+    int siteValue = 0;
+    int Cpos = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') continue;
+        if(line[0] == '#' && line[1] == 'C'){
+            pos = getPos(ll, na);
+            continue;
+        }
+        ll.clear();
+        split(line,ll," \t");
+        Cpos = string2Int(ll[1]);
+        string chrC = ll[0];
+        if(chrC!=chr){
+            startP = 1;
+            endP= startP+binSize-1;
+            CP = 1;
+            ISvalue = 0;
+            siteValue = 0;
+        }
+        chr= chrC;
+        if(Cpos > startP && Cpos < endP){
+            siteValue++;
+            ISvalue+=getISvalue(ll,pos);
+        }
+        while( Cpos > (startP + binSize)){
+            siteNumber[P] = siteValue;
+            IS[P] = ISvalue;
+            start[P] =startP;
+            end[P] = endP;
+            chrV[P] = chrC;
+            P++;
+            siteValue = 0;
+            ISvalue = 0;
+            startP += binSize;
+            endP = startP+binSize-1;
+        }
+    }
+    if(Cpos > startP && Cpos < endP){
+        siteNumber[P] = siteValue;
+        IS[P] = ISvalue;
+        start[P] =startP;
+        end[P] = Cpos;
+        chrV[P] = chr;
+    }
+    
+    ouf << "Chr\tPos\tStart\tEnd\tSNP_number\tIScore";
+    for(int i = 0; i < P+1; ++i){
+        ouf << chrV[i] << "\t" << start[i]<<"\t" << end[i] << "\t" << siteNumber[i] <<"\t" << IS[i] <<"\n";
+    }
+    inf.close();
+    ouf.close();
     return 0;
 }
 #endif /* FileFunctions_h */
