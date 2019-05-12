@@ -6773,8 +6773,8 @@ double getISvalue(vector<string> ll,vector<int>pos){
     int d = 0;
     int sum = 0;
     char derived = ll[ll.size()-1][0];
-    cout << "pos 1 is: " << pos[1] << endl;
-    cout << ll[pos[1]][0]<< endl;
+//    cout << "pos 1 is: " << pos[1] << endl;
+//    cout << ll[pos[1]][0]<< endl;
     for(int i = 0; i < pos.size();++i){
         
         if(ll[pos[i]][0]=='.'){
@@ -6833,6 +6833,7 @@ int IScore(parameter *para){
         if(line[0]=='#' && line[1] == '#') continue;
         if(line[0] == '#' && line[1] == 'C'){
             pos = getPos(ll, na);
+            cout << "readed!" << endl;
             continue;
         }
         ll.clear();
