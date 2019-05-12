@@ -6773,10 +6773,12 @@ double getISvalue(vector<string> ll,vector<int>pos){
     int d = 0;
     int sum = 0;
     char derived = ll[ll.size()-1][0];
-    
+    cout << "pos 1 is: " << pos[i] << endl;
+    cout << ll[pos[1]][0]<< endl;
     for(int i = 0; i < pos.size();++i){
+        
         if(ll[pos[i]][0]=='.'){
-            cout << ll[pos[i]][0]<< endl;
+            
             continue;
         }else{
             if(ll[pos[i]][0]==derived){
