@@ -702,14 +702,14 @@ int getUnMapped(parameter *para){
             }
         }
         chrPre = ll[0];
-        if(next && tmp == 0){
+        if(next && tmp <= 10){
             if(first){
                 start = string2Int(ll[1]);
                 first = false;
             }
             next = false;
         }else{
-            if(tmp > 0 && !next){
+            if(tmp > 10 && !next){
                 end = string2Int(ll[1]);
                 next = true;
                 first = true;
