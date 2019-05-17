@@ -702,14 +702,14 @@ int getUnMapped(parameter *para){
             }
         }
         chrPre = ll[0];
-        if(next && tmp <= 10){
+        if(next && tmp == 0){
             if(first){
                 start = string2Int(ll[1]);
                 first = false;
             }
             next = false;
         }else{
-            if(tmp > 10 && !next){
+            if(tmp > 0 && !next){
                 end = string2Int(ll[1]);
                 next = true;
                 first = true;
@@ -6879,6 +6879,35 @@ int IScore(parameter *para){
     }
     inf.close();
     ouf.close();
+    return 0;
+}
+int getRegion(parameter *para){
+    string file = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((file).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    double left = (para -> a);
+    double right = (para -> b);
+    bool pass = false, keep = true;
+    int pre = 0;
+    int end = 1;
+    int cp = 0;
+    string chr = (para->chr);
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='C') continue;
+        double value = string2Double(line);
+        if( value>=left && value <= right){
+            pass = true;
+        }
+        if((cp-end)<1000) pass = false;
+        
+        if((cp-pre)==16){
+            ouf << chr << "\t" << pre << end;
+        }
+    }
     return 0;
 }
 #endif /* FileFunctions_h */
