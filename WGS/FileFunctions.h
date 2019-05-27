@@ -2459,6 +2459,101 @@ int merge2vcf (parameter *para){
     ouf.close();
     return 1;
 }
+int add2vcf (parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    igzstream inf2  ((inFile2.c_str()),fstream::in);
+    ofstream ouf ((outFile.c_str()));
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    if(inf2.fail()){
+        cerr << "Couldn't open inFile2" << endl;
+        return 0 ;
+    }
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0 ;
+    }
+    string line,line2;
+    vector<string> ll,ll2;
+    string header;
+    set <string> head;
+    vector <int> pos;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] =='#'){
+            continue;
+        }
+        if(line[0]=='#' && line[1] =='C'){
+            ll.clear();
+            split(line,ll,"\t");
+            for(int i = 0; i < ll.size();++i){
+                head.insert(ll[i]);
+            }
+            header = line;
+            break;
+        }
+    }
+    
+    while(!inf2.eof())
+    {
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] =='#')
+        {
+            ouf << line << "\n" ;
+            continue;
+        }
+        if(line[0]=='#' && line[1] =='C')
+        {
+            ll2.clear();
+            split(line,ll2," \t");
+            ouf << header ;
+            for (int i = 0 ; i < ll2.size(); ++i)
+            {
+                if(head.count(ll2[i])!=1)
+                {
+                    pos.push_back(i);
+                    ouf << "\t" << ll2[i];
+                }
+            }
+            ouf << "\n";
+            break;
+        }
+    }
+    int num = 0;
+    while(!inf.eof() && !inf2.eof())
+    {
+        getline(inf,line);
+        getline(inf2,line2);
+        if (line.length()<1) continue;
+        if(line2.length()  < 1) continue;
+        ll.clear();
+        ll2.clear();
+        split(line2,ll2," \t");
+        split(line,ll," \t");
+        if(ll[1]!=ll2[1]) continue;
+        if(ll2[ll2.size()-1][0]=='.' || ll2[ll2.size()-2][0]=='.') continue;
+        if(ll2[ll2.size()-1][0]!=ll2[ll2.size()-1][2] || ll2[ll2.size()-2][0]!=ll2[ll2.size()-2][2] ) continue;
+        if(ll2[ll2.size()-1][0]!=ll2[ll2.size()-2][0] ) continue;
+        ouf << line ;
+        num++;
+        for (int i = 0 ; i < pos.size(); ++i){
+            ouf << "\t" << ll2[pos[i]];
+        }
+        ouf << "\n";
+    }
+    cout << num << " SNPs merged!" << endl;
+    inf.close();
+    inf2.close();
+    ouf.close();
+    return 1;
+}
 int pwpd(parameter *para){
     string inFile = (para->inFile);
     string inFile2 = (para->inFile2);
@@ -5107,6 +5202,129 @@ int getContig(parameter *para){
     }
     return 0;
 }
+int getScaffold(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    string chrSeq = "";
+    string chr = "";
+    int start = 0;
+    int end = 1;
+    bool first = true,next = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='>'){
+            if(!first){
+                start = 0;
+                end = 0;
+                for (int i = 0; i < chrSeq.length(); ++i){
+                    if((chrSeq[i]=='N'||chrSeq[i]=='n') && (chrSeq[i+99]=='N'||chrSeq[i+99]=='n')){
+                        if((i -start)>1 && next){
+                            ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                            next = false;
+                        }
+                        start = i+100;
+                        i = i+99;
+                    }else{
+                        next =true;
+                    }
+                }
+                if ((chrSeq.length()-start)>1) {
+                    ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+                }
+            }
+            first = false;
+            start = 0;
+            end = 0;
+            chrSeq = "";
+            chr = line.substr(1,line.length()-1);
+            
+        }else{
+            chrSeq.append(line);
+        }
+    }
+    start = 0;
+    end = 0;
+    for (int i = 0; i < chrSeq.length(); ++i){
+        if((chrSeq[i]=='N'||chrSeq[i]=='n') && (chrSeq[i+99]=='N'||chrSeq[i+99]=='n')){
+            if((i -start)>1 && next){
+                ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                next = false;
+            }
+            start = i+100;
+            i = i+99;
+        }else{
+            next = true;
+        }
+    }
+    if ((chrSeq.length()-start)>1) {
+        ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+    }
+    return 0;
+}int writeContig(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    string chrSeq = "";
+    string chr = "";
+    int start = 0;
+    int end = 1;
+    bool first = true,next = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='>'){
+            if(!first){
+                start = 0;
+                end = 0;
+                for (int i = 0; i < chrSeq.length(); ++i){
+                    if(chrSeq[i]=='N'||chrSeq[i]=='n'){
+                        if((i -start)>1 && next){
+                            ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                            next = false;
+                        }
+                        start = i+1;
+                    }else{
+                        next =true;
+                    }
+                }
+                if ((chrSeq.length()-start)>1) {
+                    ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+                }
+            }
+            first = false;
+            start = 0;
+            end = 0;
+            chrSeq = "";
+            chr = line.substr(1,line.length()-1);
+            
+        }else{
+            chrSeq.append(line);
+        }
+    }
+    start = 0;
+    end = 0;
+    for (int i = 0; i < chrSeq.length(); ++i){
+        if(chrSeq[i]=='N'||chrSeq[i]=='n'){
+            if((i -start)>1 && next){
+                ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
+                next = false;
+            }
+            start = i+1;
+        }else{
+            next = true;
+        }
+    }
+    if ((chrSeq.length()-start)>1) {
+        ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
+    }
+    return 0;
+}
 int getGffMCscan(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
@@ -6883,31 +7101,366 @@ int IScore(parameter *para){
 }
 int getRegion(parameter *para){
     string file = (para -> inFile);
+    string file2 = (para -> inFile2);
     string outFile = (para -> outFile);
     igzstream inf ((file).c_str(),ifstream::in);
+    igzstream inf2 ((file2).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
-    string line;
+    string line,line2;
     double left = (para -> a);
     double right = (para -> b);
-    bool pass = false, keep = true;
-    int pre = 0;
+    bool keep = true;
+    int start = 0;
     int end = 1;
     int cp = 0;
+    int start_pre = -1001;
+    
     string chr = (para->chr);
+    while(!inf.eof() && !inf2.eof()){
+        getline(inf,line);
+        getline(inf2,line2);
+        if(line.length()<1) continue;
+        if(line2.length()<1) continue;
+        if(line[0]=='C') continue;
+        if(line2[0]=='C') continue;
+        if (line[0]=='N') line="0";
+        if (line2[0]=='N') line2="0";
+        double value = string2Double(line);
+        double value2 = string2Double(line2);
+        if( value >= left && value <= right && value2 >= left && value2 <= right){
+            if(!keep) {
+                start = cp;
+                keep = true;
+            }else{
+                end = cp;
+                if((end-start)==32){
+                    ouf << chr << "\t" << start << "\t" << end << "\n";
+                    start_pre = cp;
+                    keep = false;
+                }
+                
+            }
+            
+        }else{
+            keep = false;
+        }
+        cp++;
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
+int getKmerOrder(parameter *para){
+    string file = (para -> inFile); // genome need to re-order
+    string file2 = (para -> inFile2); // reference genome
+    string file3 = (para -> inFile3); // bed file
+    string outFile = (para -> outFile);
+    igzstream inf ((file).c_str(),ifstream::in);
+    igzstream inf2 ((file2).c_str(),ifstream::in);
+    igzstream inf3 ((file3).c_str(),ifstream::in);
+    
+    ofstream ouf ((outFile).c_str());
+    string line;
+    
+    map<uint64_t, vector<int>> kmer;
+    map<int, string> fasta;
+    int  key;
+    string value;
+    uint64_t pkey;
+    bool first = true;
+    cout << "Read reference genome..." << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='>'){
+            if(!first){
+                fasta.insert(pair<int, string>(key,value));
+                value.clear();
+            }
+            first = false;
+            key = string2Int(line.substr(1,line.length()-1))-1;
+        }else{
+            value.append(line);
+        }
+    }
+    fasta.insert(pair<int, string>(key,value));
+    value.clear();
+    cout << fasta.size() << " sequences readed..." << endl;
+    vector<string> ll;
+    cout << "Read reference position..." << endl;
+    while(!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        int chr = string2Int(ll[0]);
+        string seq = fasta[chr].substr(string2Int(ll[1]),32);
+        uint64_t vseq = encode(seq);
+        vector<int> ll1(3);
+        for (int i = 0; i < 3;++i){
+            ll1[i] = string2Int(ll[i]);
+        }
+        kmer.insert(pair<uint64_t, vector<int>>(vseq,ll1));
+    }
+    cout << "Reference position readed..." << endl;
+    string chr="";
+    string linep = "";
+    cout << "Read FINAL assembly scaffold..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
-        if(line[0]=='C') continue;
-        double value = string2Double(line);
-        if( value>=left && value <= right){
-            pass = true;
-        }
-        if((cp-end)<1000) pass = false;
-        
-        if((cp-pre)==16){
-            ouf << chr << "\t" << pre << end;
+        if(line[0]=='>'){
+            chr = line.substr(1,line.length()-1);
+            linep = "";
+            first = true;
+            cout << "Processing scaffold:\t" << line << endl;
+        }else{
+            if(first){
+                first = false;
+                for(int i = 0; i < line.length()-32;++i){
+                    if(i==0){
+                        for(int j = 0 ; j < 32;j++){
+                            if(line[j]=='N') {
+                                i= j+1;
+                            }
+                        }
+                        if(i>0) continue;
+                    }
+                    if(line[i+31]=='N') {
+                        i=i+31;
+                        continue;
+                    }
+                    uint64_t ut = encode(line.substr(i,32));
+                    if(kmer.count(ut)==1){
+                        vector<int> ll1 = kmer[ut];
+                        ouf << chr << "\t" << ll1[0] << "\t" << ll1[1] <<"\t" << ll1[2] << "\n";
+                    }
+                }
+            }else{
+                string u1;
+                int s = linep.length()-32;
+                for(int i = linep.length()-32; i< linep.length();++i){
+                    if(linep[i]=='N') {
+                        s = i+1;
+                    }
+                }
+                for(int i = 0; i < line.length()-32;++i){
+                    if(s<linep.length()){
+                        u1 = linep.substr(s,linep.length()-s);
+                    }else{
+                        u1="";
+                    }
+                    if(line[31-u1.length()]=='N'){
+                        i = i + 31-u1.length();
+                        continue;
+                    }
+                    if(line.length() < (32-u1.length())) continue;
+                    uint64_t ut = encode(u1.append(line.substr(i,32-u1.length())));
+                    if(kmer.count(ut)==1){
+                        vector<int> ll1 = kmer[ut];
+                        ouf << chr << "\t" << ll1[0] << "\t" << ll1[1] <<"\t" << ll1[2] << "\n";
+                    }
+                }
+            }
         }
     }
+    inf.close();
+    inf2.close();
+    inf3.close();
+    ouf.close();
+    return 0;
+}
+int getKmerOrder2(parameter *para){
+    string file = (para -> inFile); // genome need to re-order
+    string file2 = (para -> inFile2); // reference genome
+    string file3 = (para -> inFile3); // bed file
+    string outFile = (para -> outFile);
+    igzstream inf ((file).c_str(),ifstream::in);
+    igzstream inf2 ((file2).c_str(),ifstream::in);
+    igzstream inf3 ((file3).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    map<uint64_t, vector<int>> kmer;
+    map<int, string> fasta;
+    map<string, string> query;
+    int  key;
+    int k = (para->size);
+    string value,qkey,qvalue;
+    bool first = true;
+    cout << "Read reference genome..." << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='>'){
+            if(!first){
+                fasta.insert(pair<int, string>(key,value));
+                value.clear();
+            }
+            first = false;
+            key = string2Int(line.substr(1,line.length()-1))-1;
+        }else{
+            value.append(line);
+        }
+    }
+    fasta.insert(pair<int, string>(key,value));
+    value.clear();
+    cout << fasta.size() << " sequences readed..." << endl;
+    vector<string> ll;
+    cout << "Read reference position..." << endl;
+    while(!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        int chr = string2Int(ll[0]);
+        string seq = fasta[chr].substr(string2Int(ll[1]),k);
+        uint64_t vseq = encode(seq);
+        vector<int> ll1(3);
+        for (int i = 0; i < 3;++i){
+            ll1[i] = string2Int(ll[i]);
+        }
+        kmer.insert(pair<uint64_t, vector<int>>(vseq,ll1));
+    }
+    cout << "Reference position readed..." << endl;
+    cout << "Read FINAL assembly scaffold..." << endl;
+    first = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='>'){
+            if(!first){
+                query.insert(pair<string, string>(qkey,qvalue));
+                qvalue.clear();
+            }
+            first = false;
+            qkey = line.substr(1,line.length()-1);
+        }else{
+            qvalue.append(line);
+        }
+    }
+    query.insert(pair<string, string>(qkey,qvalue));
+    qvalue.clear();
+    cout << query.size() << " query contigs readed!" << endl;
+    cout << "writing position..." << endl;
+    map <string, string>::iterator qiter = query.begin();
+    while(qiter != query.end()){
+        string scaf = qiter->first;
+        string sseq = qiter->second;
+        cout << "coting\t"<< scaf << " length is:\t" << sseq.length() << endl;
+        for (int i = 0; i < sseq.length()-k; ++i){
+            if(i == 0){
+                for(int j = 0 ; j < k;j++){
+                    if(sseq[j]=='N') {
+                        i= j+1;
+                    }
+                }
+                if(i>0) continue;
+            }else if(sseq[i+31]=='N') {
+                i=i+31;
+                continue;
+            }
+            string sc = sseq.substr(i,k);
+            
+            uint64_t ut = encode(sc);
+            map<uint64_t, vector<int>>::iterator iter = kmer.find(ut);
+            if(iter != kmer.end()){
+                vector<int> ll1 = iter->second;
+                ouf << scaf << "\t" << i << "\t" << i + k << "\t" << ll1[0] << "\t" << ll1[1] <<"\t" << ll1[2] << "\n";
+            }else{
+                ut = encode(reverse_complementary(sc));
+                iter = kmer.find(ut);
+                if(iter != kmer.end()){
+                    vector<int> ll1 = iter->second;
+                    ouf << scaf << "\t" << i << "\t" << (i + k) << "\t" << ll1[0] << "\t" << ll1[1] <<"\t" << ll1[2] << "\n";
+                }
+            }
+        }
+        qiter++;
+    }
+    inf.close();
+    inf2.close();
+    inf3.close();
+    ouf.close();
+    return 0;
+}
+void addFeatures(){
+    
+//    if(ll[2] == "gene"){
+//        start = string2Int(ll[3]);
+//        end = string2Int(ll[4]);
+//        strand = ll[6];
+//        startP[gene_order] = start;
+//        endP[gene_order] = end;
+//        if(strand == "+"){
+//            strandP[gene_order] = 0;
+//        }else{
+//            strandP[gene_order] = 1;
+//        }
+//        gene_order++;
+//    }else if (ll[2] == "five_prime_UTR"){
+//        ps = string2Int(ll[3]);
+//        pe = string2Int(ll[4]);
+//        for (int i = ps; i < pe+1; ++i){
+//            genefeaturs[i]= 7;
+//            withoutIntron.insert(i);
+//        }
+//    }else if (ll[2] == "three_prime_UTR"){
+//        ps = string2Int(ll[3]);
+//        pe = string2Int(ll[4]);
+//        for (int i = ps; i < pe+1; ++i){
+//            genefeaturs[i] = 10;
+//            withoutIntron.insert(i);
+//        }
+//    }else if (ll[2] == "CDS"){
+//        ps = string2Int(ll[3]);
+//        pe = string2Int(ll[4]);
+//        for (int i = ps; i < pe+1; ++i){
+//            genefeaturs[i] = 8;
+//            withoutIntron.insert(i);
+//        }
+//    }
+}
+int slicedFunction(parameter *para){
+    string gffFile = (para -> inFile);
+    string piFile = (para -> inFile2);
+    string outFile = (para -> outFile);
+    string outFile1 = outFile + ".genes";
+    string chr = (para -> chr);
+    double threshold = (para -> threshold);
+    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    igzstream infPi ((piFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    ofstream ouf1 ((outFile1).c_str());
+    string line;
+    vector<string> ll;
+    set<int> withoutIntron;
+    int start = 0, end = 0;
+    int ps = 0, pe = 0;
+    string strand = "";
+    vector<int> startP(20000);
+    vector<int> endP(20000);
+    vector<int> strandP(20000);
+    vector<string> genefeaturs(500000000);
+    int gene_order = 0;
+    bool new_gene = true,first = true;
+    while(!infGff.eof()){
+        getline(infGff,line);
+        if(line.length()<1) continue;
+        if(line[0] ='#') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[0] != chr) continue;
+        if(ll[2] =="gene"){
+            new_gene= true;
+            if(!first){
+                addFeatures();
+            }
+            first = false;
+        }else{
+            new_gene = false;
+        }
+        
+    }
+    addFeatures();
+    
     return 0;
 }
 #endif /* FileFunctions_h */

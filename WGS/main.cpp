@@ -17,7 +17,7 @@
 int main(int argc, char * argv[]) {
     clock_t start;
     double duration;
-   
+//    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
@@ -70,6 +70,8 @@ int main(int argc, char * argv[]) {
                 changeAncestralAllele(para);
             }else if ((para->type) == "merge2vcf"){
                 merge2vcf(para);
+            }else if ((para->type) == "addOutgroup"){
+                add2vcf(para);
             }
             else if ((para->type) == "toXPCLR"){
                 toXPCLR(para);
@@ -241,6 +243,8 @@ int main(int argc, char * argv[]) {
                 pepTofasta(para);
             }else if((para->type)=="getContig"){
                 getContig(para);
+            }else if((para->type)=="getScaffold"){
+                getScaffold(para);
             }else if ((para->type) =="formatFasta"){
                 formatFasta(para);
             }else if((para->type) =="formatFasta2"){
@@ -257,6 +261,12 @@ int main(int argc, char * argv[]) {
                 keepLongest(para);
             }else if ((para->type) =="RC"){
                 changeGenomePos(para);
+            }else if ((para->type) == "getRegion"){
+                getRegion(para);
+            }else if ((para->type) == "getKmerOrder"){
+                getKmerOrder(para);
+            }else if ((para->type) =="getKmerOrder2"){
+                getKmerOrder2(para);
             }
         }
     }
