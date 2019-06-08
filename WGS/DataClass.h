@@ -463,7 +463,7 @@ public:
                 }
                 t.push_back(g);
                 CDSs.insert(pair<string,vector<CDS>>(g.parent,t));
-            }else if (ll[2] == "five_prime_utr"){
+            }else if (ll[2] == "five_prime_UTR"){
                 utr5 g;
                 g.getUtr5(line);
                 vector<utr5> t;
@@ -472,7 +472,7 @@ public:
                 }
                 t.push_back(g);
                 utr5s.insert(pair<string,vector<utr5>>(g.parent,t));
-            }else if (ll[2] == "three_prime_utr"){
+            }else if (ll[2] == "three_prime_UTR"){
                 utr3 g;
                 g.getUtr3(line);
                 vector<utr3> t;
