@@ -428,8 +428,8 @@ public:
             if (line.length() < 1) continue;
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
+            count << line << endl;
             if (ll[2] == "gene"){
-                
                 gene g ;
                 g.getGene(line);
                 cout << "current gene is:\t" << g.ID << endl;
@@ -484,7 +484,6 @@ public:
                 cerr << "pattern failed" << endl;
             }
         }
-        inf.close();
         map<string,gene>::iterator it;
         it = genes.begin();
         while(it!= genes.end()){
@@ -508,6 +507,7 @@ public:
             long_transcripts.insert(pair<string,transcript>(IDs,trans));
             it++;
         }
+        inf.close();
     }
     
 };
