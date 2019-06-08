@@ -7386,8 +7386,8 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
  utr5, e1, I1, em, Io, ee utr3
  D1, D2, D3, D4, D5
 */
-     vector<string> feature(24000000,"non");
-     vector<string> name(24000000,"non");
+     vector<string> feature(500000000,"non");
+     vector<string> name(500000000,"non");
      cout << "reading gff3 file..." << endl;
      gff3 g3 = gff3(gffFile,chr);
      map<string,transcript> trans = g3.long_transcripts;
