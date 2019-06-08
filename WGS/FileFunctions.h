@@ -7386,8 +7386,8 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
  utr5, e1, I1, em, Io, ee utr3
  D1, D2, D3, D4, D5
 */
-     vector<string> feature(500000000,"non");
-     vector<string> name(500000000,"non");
+     vector<string> feature(24000000,"non");
+     vector<string> name(24000000,"non");
      cout << "reading gff3 file..." << endl;
      gff3 g3 = gff3(gffFile,chr);
      map<string,transcript> trans = g3.long_transcripts;
@@ -7560,6 +7560,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
     return re;
 }
 
+
 int slicedFunction(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);
@@ -7573,6 +7574,12 @@ int slicedFunction(parameter *para){
     
     vector<string> feature = re[0];
     vector<string> name = re[1];
+    int test = 0;
+    for (int i = 0; i < 24000000; i++){
+        if(feature[i]=="D1") test++;
+    }
+    cout << "test is:\t" << test << endl;
+
     igzstream infPi ((piFile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
     string line;
@@ -7603,7 +7610,7 @@ int slicedFunction(parameter *para){
             values.insert(pair<string,map<string,double>>(ID,a));
         }else{
             int value = 0;
-            cout << "ID is:\t" << ID << endl;
+//            cout << "ID is:\t" << ID << endl;
             if(values[ID].count(key)==1){
                 value = string2Double(ll[size]) + 1;
             }else{
