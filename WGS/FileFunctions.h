@@ -7396,6 +7396,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
      cout << "genes number is:\t"<< trans.size() << endl;
     
      while(it != trans.end()){
+         cout << "ID is:\t" << ID;
          string ID = it->first;
          transcript tr = it->second;
          int start = tr.start;
@@ -7559,7 +7560,6 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
     re.push_back(name);
     return re;
 }
-
 
 int slicedFunction(parameter *para){
     string gffFile = (para -> inFile);
