@@ -7396,9 +7396,10 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
      cout << "genes number is:\t"<< trans.size() << endl;
     
      while(it != trans.end()){
-         string ID = it->first;
+         
          transcript tr = it->second;
-         cout << "ID is:\t" << ID;
+         string ID = tr.ID;
+         cout << "ID is:\t" << ID << endl;
 
          int start = tr.start;
          int end = tr.end;
