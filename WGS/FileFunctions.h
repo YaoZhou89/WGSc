@@ -7563,7 +7563,11 @@ int slicedFunction(parameter *para){
     string outFile = (para -> outFile);
     string chr = (para -> chr);
     double threshold = (para -> threshold);
+    
+    cout<<"adding features..."<< endl;
     vector<vector<string>> re = addFeatures(gffFile,chr);
+    cout << " features added!" << endl;
+    
     vector<string> feature = re[0];
     vector<string> name = re[1];
     igzstream infPi ((piFile).c_str(),ifstream::in);
