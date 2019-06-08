@@ -433,7 +433,9 @@ public:
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
             cout << line << endl;
+            split(line,ll,"\t");
             if (ll[2] == "gene"){
+                cout << "gene order " << endl;
                 gene g(line);
                 cout << "current gene is:\t" << g.ID << endl;
                 genes.insert(pair<string,gene>(g.ID,g));
