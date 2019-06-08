@@ -275,15 +275,14 @@ public:
         strand = ll[6];
         vector<string> tmp;
         split(ll[8], tmp,";Parent=");
-        cout << "exon end0.." << endl;
         ll.clear();
-        cout << "exon end1.." << endl;
         split(tmp[1],ll,";");
         parent = ll[0];
         ll.clear();
         split(tmp[0],ll,"=");
-        cout << "exon end2.." << endl;
+        cout << "tmp[0] is:\t" << tmp[0] << endl;
         ID = ll[1];
+        cout << "exon end2.." << endl;
         ll.clear();
         tmp.clear();
         length = end - start + 1;
