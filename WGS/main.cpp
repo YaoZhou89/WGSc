@@ -221,6 +221,8 @@ int main(int argc, char * argv[]) {
                 gene_count(para);
             }else if((para->type) == "CountByGene"){
                 gene_count_gene(para);
+            }else if ((para->type)== "slicedByGene"){
+                slicedFunction(para);
             }else if((para->type) == "reduction"){
                 DiversityReduction(para);
             }
@@ -243,6 +245,8 @@ int main(int argc, char * argv[]) {
                 pepTofasta(para);
             }else if((para->type)=="getContig"){
                 getContig(para);
+            }else if((para->type)=="writeContig"){
+                writeContig(para);
             }else if((para->type)=="getScaffold"){
                 getScaffold(para);
             }else if ((para->type) =="formatFasta"){

@@ -197,39 +197,223 @@ void free_imatrix(int **m, long nrl, long nrh, long ncl, long nch)
     free((FREE_ARG) (m[nrl]+ncl-NR_END));
     free((FREE_ARG) (m+nrl-NR_END));
 }
-class gff3 {
-    
-private:
-    
+
+class gene{
+// 1-based, and inclusive on both side
 public:
-    // 了解set,map,hash_map, Multi_set等，选择合适的容器
-    int geneNum;
-    int transcriptNum;
-    map<string, vector<int>> geneLength;
-    map<string, int> transprit;
-    map<string,int> exonNumber;
-    map<string,int> intronNumber;
-    set<string> genes;
-    // 定义了一个空参数构造函数和一个有参数的构造函数；
-    gff3(string inFile,string geneID){
-        cout << "inFile is:\t" << inFile << endl;
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    void getGene(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";");
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class transcript{
+// 1-based, and inclusive on both side
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getTranscript(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";Parent=");
+        ll.clear();
+        split(tmp[1],ll,";");
+        parent = ll[0];
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class exon{
+    // 1-based, and inclusive on both side
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getexon(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";Parent=");
+        ll.clear();
+        split(tmp[1],ll,";");
+        parent = ll[0];
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class CDS{
+    // 1-based, and inclusive on both side
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getCDS(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";Parent=");
+        ll.clear();
+        split(tmp[1],ll,";");
+        parent = ll[0];
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class utr5{
+    // 1-based, and inclusive on both side
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getUtr5(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";Parent=");
+        ll.clear();
+        split(tmp[1],ll,";");
+        parent = ll[0];
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class utr3{
+    // 1-based, and inclusive on both side
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getUtr3(string line){
+        vector<string> ll;
+        split(line,ll,"\t");
+        start = string2Int(ll[3]);
+        end = string2Int(ll[4]);
+        chr = ll[0];
+        strand = ll[6];
+        vector<string> tmp;
+        split(ll[8], tmp,";Parent=");
+        ll.clear();
+        split(tmp[1],ll,";");
+        parent = ll[0];
+        ll.clear();
+        split(tmp[0],ll,"=");
+        ID = ll[1];
+        ll.clear();
+        tmp.clear();
+        length = end - start + 1;
+    }
+};
+class intron{
+public:
+    int start;
+    int end;
+    int length;
+    string ID;
+    string strand;
+    string chr;
+    string parent;
+    void getIntron(int starts, int ends, string IDs, string strands,string chrs, string parents){
+        start = starts;
+        end = ends;
+        ID = IDs;
+        strand = strands;
+        chr = chrs;
+        parent = parents;
+        length = end - start + 1;
+    }
+};
+
+class gff3 {
+private:
+public:
+    map<string,gene> genes;
+    map<string,vector<transcript>> transcripts;
+    map<string,transcript> long_transcripts;
+    map<string,vector<utr5>> utr5s;
+    map<string,vector<utr3>> utr3s;
+    map<string,vector<exon>> exons;
+//    map<string,vector<intron>> introns;
+    map<string,vector<CDS>> CDSs;
+    gff3(string inFile){
         readGff(inFile);
-        cout << "gene number is:\t" << geneNum << endl;
-        cout << "transcript number is:\t" << transcriptNum << endl;
-        cout << "Gene "<< geneID << "\texon number is:\t" << exonNumber[geneID] << endl;
     }
     
     gff3(){
-        cout << "this just is a demo!" << endl;
+        cout << "No gff3 file!" << endl;
     }
     
-    //定义一个函数对gene进行初始化；
-    // 这里没有进行优化，根据你们所学的知识，可以考虑对这里的gene变量进行优化
-    
-    // void 表示函数没有返回值；
-    // 注意这里的geneNum等变量的作用范围（全局变量）；
     void readGff(string inFile){
-        //        map<string, map<string,vector<int>>> gene;
         igzstream inf (inFile.c_str(),fstream::in);
         if (inf.fail()){
             cerr << "Read gff3 failed!" << endl;
@@ -237,65 +421,92 @@ public:
         string line;
         vector<string> ll;
         vector<string> name,IDa;
-        
         bool geneReaded = false;
         int exonNum = 0;
-        string geneIDpre;
         while (!inf.eof()){
-            // 按行读取文件，读入的数据存在line里；
             getline(inf, line);
-            if (line.length() < 1) continue; // 有时候会读到空行，直接跳过去，这一步以后不管有没有空行都加上；
-            if (line[0] == '#') continue; //这里取的第一位，返回值是char类型，所以==后面用了单引号，不能用双引号；
-            if (line.substr(0,1) == "#") continue; //这一行和上一行是同一个含义，但是substr的返回值类型是string,所以==后面用了双引号
-            ll.clear(); // 循环中每次使用前，都要清空，否则上次产生的值还在
-            split(line, ll," \t"); //对读入的文件进行分割，分割符为tab
-            
-            // 提取基因的ID，例如，ID=gene:Solyc00g005084.1; 提取后ID为Solyc00g005084
-            name.clear();
-            IDa.clear();
-            split(ll[8],name,".");
-            split(name[0],IDa,":");
-            string ID = IDa[1]; // while循环里的变量，出了这个循环，就不能用了，注意变量的作用范围
+            if (line.length() < 1) continue;
+            if (line[0] == '#') continue;
+            if (line.substr(0,1) == "#") continue;
             if (ll[2] == "gene"){
-                if(!geneReaded){
-                    geneReaded = true;
-                }else{
-                    exonNumber.insert(map<string,int>::value_type(geneIDpre,exonNum));
-                }
-                genes.insert(ID);
-                exonNum = 0;
-                ++geneNum;
-                int length = string2Int(ll[4]) - string2Int(ll[3]) + 1;
-                if (geneLength.count(ll[2])>0){
-                    vector<int> lens = geneLength[ll[2]];
-                    lens.push_back(length);
-                    geneLength[ll[2]] = lens;
-                }else{
-                    vector<int> lens;
-                    lens.push_back(length);
-                    geneLength[ll[2]] = lens;
-                }
-                geneIDpre = ID;
+                gene g ;
+                g.getGene(line);
+                genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
-                ++transcriptNum;
-                genes.insert(ID);
+                transcript g;
+                g.getTranscript(line);
+                vector<transcript> t;
+                if(transcripts.count(g.parent)==1){
+                    t = transcripts[g.parent];
+                }
+                t.push_back(g);
+                transcripts.insert(pair<string,vector<transcript>>(g.parent,t));
             }else if (ll[2] == "exon"){
-                genes.insert(ID);
-                exonNum ++;
-            }else if (ll[2] == "cds"){
-                continue;
-            }else if (ll[2] == "intron"){
-                continue;
+                exon g;
+                g.getexon(line);
+                vector<exon> t;
+                if(exons.count(g.parent)==1){
+                    t = exons[g.parent];
+                }
+                t.push_back(g);
+                exons.insert(pair<string,vector<exon>>(g.parent,t));
+                
+            }else if (ll[2] == "CDS"){
+                CDS g;
+                g.getCDS(line);
+                vector<CDS> t;
+                if(CDSs.count(g.parent)==1){
+                    t = CDSs[g.parent];
+                }
+                t.push_back(g);
+                CDSs.insert(pair<string,vector<CDS>>(g.parent,t));
             }else if (ll[2] == "five_prime_utr"){
-                continue;
+                utr5 g;
+                g.getUtr5(line);
+                vector<utr5> t;
+                if(utr5s.count(g.parent)==1){
+                    t = utr5s[g.parent];
+                }
+                t.push_back(g);
+                utr5s.insert(pair<string,vector<utr5>>(g.parent,t));
             }else if (ll[2] == "three_prime_utr"){
-                continue;
+                utr3 g;
+                g.getUtr3(line);
+                vector<utr3> t;
+                if(utr3s.count(g.parent)==1){
+                    t = utr3s[g.parent];
+                }
+                t.push_back(g);
+                utr3s.insert(pair<string,vector<utr3>>(g.parent,t));
             }else {
-                continue;
+                cerr << "pattern failed" << endl;
             }
         }
-        //        exonNumber.push_back(exonNum);
-        exonNumber.insert(map<string,int>::value_type(geneIDpre,exonNum));
+        inf.close();
+        map<string,gene>::iterator it;
+        it = genes.begin();
+        while(it!= genes.end()){
+            string IDs = it->first;
+            gene g = it->second;
+            transcript trans;
+            vector<transcript> tl = transcripts[IDs] ;
+            if(tl.size()>1){
+                int len = tl[0].length;
+                int p = 0;
+                for(int i = 1; i < tl.size();++i){
+                    if(tl[i].length > len){
+                        len = tl[i].length;
+                        p = i;
+                    }
+                }
+                trans = tl[p];
+            }else{
+                trans = tl[0];
+            }
+            long_transcripts.insert(pair<string,transcript>(IDs,trans));
+            it++;
+        }
     }
+    
 };
 #endif /* DataClass_h */

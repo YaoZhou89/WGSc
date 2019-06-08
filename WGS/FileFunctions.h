@@ -1141,7 +1141,7 @@ int chr2num(parameter *para){
         while (!inFile.eof()){
             chr.clear();
             getline(inFile, line);
-            if((line.substr(0,lh) == header) | line[0] == '#') {
+            if((line.substr(0,lh) == header) | (line[0] == '#')) {
                 OUT << line ;
             }else {
                 chr.clear();
@@ -5202,6 +5202,59 @@ int getContig(parameter *para){
     }
     return 0;
 }
+int writeContig(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    string chrSeq = "";
+    string chr = "";
+    int contig = 0;
+    bool first = true,next = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='>'){
+            string chrSeq="";
+            if(!first){
+                vector<string> ll ;
+                split(chrSeq,ll,"N");
+                for (int i = 0; i < ll.size();++i){
+                    contig++;
+                    ouf << ">" << contig << "\n";
+                    int n =0;
+                    while(n < ll[i].length() - 80){
+                        ouf << ll[i].substr(n,80) << "\n";
+                        n+=80;
+                    }
+                    ouf << ll[i].substr(ll[i].length()-80,ll[i].length()-n);
+                    ouf << "\n";
+                }
+            }
+            first = false;
+            
+        }else{
+            chrSeq.append(line);
+        }
+    }
+    vector<string> ll ;
+    split(chrSeq,ll,"N");
+    for (int i = 0; i < ll.size();++i){
+        contig++;
+        ouf << ">" << contig << "\n";
+        int n =0;
+        while(n < ll[i].length() - 80){
+            ouf << ll[i].substr(n,80) << "\n";
+            n+=80;
+        }
+        ouf << ll[i].substr(ll[i].length()-80,ll[i].length()-n);
+        ouf << "\n";
+    }
+    ouf.close();
+    inf.close();
+    return 0;
+}
 int getScaffold(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
@@ -5264,67 +5317,8 @@ int getScaffold(parameter *para){
         ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
     }
     return 0;
-}int writeContig(parameter *para){
-    string infile = (para->inFile);
-    string outfile = (para->outFile);
-    igzstream inf ((infile.c_str()),ifstream::in);
-    ofstream ouf (outfile.c_str());
-    string line;
-    string chrSeq = "";
-    string chr = "";
-    int start = 0;
-    int end = 1;
-    bool first = true,next = true;
-    while(!inf.eof()){
-        getline(inf,line);
-        if(line.length()<1) continue;
-        if(line[0]=='>'){
-            if(!first){
-                start = 0;
-                end = 0;
-                for (int i = 0; i < chrSeq.length(); ++i){
-                    if(chrSeq[i]=='N'||chrSeq[i]=='n'){
-                        if((i -start)>1 && next){
-                            ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
-                            next = false;
-                        }
-                        start = i+1;
-                    }else{
-                        next =true;
-                    }
-                }
-                if ((chrSeq.length()-start)>1) {
-                    ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
-                }
-            }
-            first = false;
-            start = 0;
-            end = 0;
-            chrSeq = "";
-            chr = line.substr(1,line.length()-1);
-            
-        }else{
-            chrSeq.append(line);
-        }
-    }
-    start = 0;
-    end = 0;
-    for (int i = 0; i < chrSeq.length(); ++i){
-        if(chrSeq[i]=='N'||chrSeq[i]=='n'){
-            if((i -start)>1 && next){
-                ouf << chr << "\t" << start << "\t" << i << "\t" << i -start << "\n";
-                next = false;
-            }
-            start = i+1;
-        }else{
-            next = true;
-        }
-    }
-    if ((chrSeq.length()-start)>1) {
-        ouf << chr << "\t" << start << "\t" << chrSeq.length() << "\t" << chrSeq.length() -start << "\n";
-    }
-    return 0;
 }
+
 int getGffMCscan(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
@@ -7381,85 +7375,289 @@ int getKmerOrder2(parameter *para){
     ouf.close();
     return 0;
 }
-void addFeatures(){
-    
-//    if(ll[2] == "gene"){
-//        start = string2Int(ll[3]);
-//        end = string2Int(ll[4]);
-//        strand = ll[6];
-//        startP[gene_order] = start;
-//        endP[gene_order] = end;
-//        if(strand == "+"){
-//            strandP[gene_order] = 0;
-//        }else{
-//            strandP[gene_order] = 1;
-//        }
-//        gene_order++;
-//    }else if (ll[2] == "five_prime_UTR"){
-//        ps = string2Int(ll[3]);
-//        pe = string2Int(ll[4]);
-//        for (int i = ps; i < pe+1; ++i){
-//            genefeaturs[i]= 7;
-//            withoutIntron.insert(i);
-//        }
-//    }else if (ll[2] == "three_prime_UTR"){
-//        ps = string2Int(ll[3]);
-//        pe = string2Int(ll[4]);
-//        for (int i = ps; i < pe+1; ++i){
-//            genefeaturs[i] = 10;
-//            withoutIntron.insert(i);
-//        }
-//    }else if (ll[2] == "CDS"){
-//        ps = string2Int(ll[3]);
-//        pe = string2Int(ll[4]);
-//        for (int i = ps; i < pe+1; ++i){
-//            genefeaturs[i] = 8;
-//            withoutIntron.insert(i);
-//        }
-//    }
+//void changeGff3(parameter *para){
+//    string gffFile = (para->inFile);
+//    igzstream infGff ((gffFile).c_str(),ifstream::in);
+//    
+//}
+vector<vector<string>> addFeatures(string gffFile, string chr){
+/* Features
+ U1, U2, U3, U4, U5
+ utr5, e1, I1, em, Io, ee utr3
+ D1, D2, D3, D4, D5
+*/
+     vector<string> feature(500000000,"non");
+     vector<string> name(500000000,"non");
+     gff3 g3 = gff3(gffFile);
+     map<string,transcript> trans = g3.long_transcripts;
+     map<string,transcript>::iterator it;
+     it = trans.begin();
+     while(it != trans.end()){
+         string ID = it->first;
+         transcript tr = it->second;
+         int start = tr.start;
+         int end = tr.end;
+         string strand = tr.strand;
+         vector<CDS> CDSs = g3.CDSs[(it->second).ID];
+         int csize = CDSs.size();
+         if(tr.chr != chr){
+             it++;
+             continue;
+         }
+         if(csize < 3) {
+             it++;
+             continue;
+         }
+         if(strand == "+"){
+             int cs = CDSs[0].start;
+             int ce = CDSs[0].end;
+             for(int i = cs; i < ce+1; ++i){
+                 feature[i] = "Es";
+             }
+             
+             for(int i = ce+1; i < CDSs[1].start;++i){
+                 feature[i] = "intron1";
+             }
+             
+             cs = CDSs[csize-1].start;
+             ce = CDSs[csize-1].end;
+             for(int i = cs; i < ce+1; ++i){
+                 feature[i] = "El";
+             }
+         }else{
+             int cs = CDSs[0].start;
+             int ce = CDSs[0].end;
+             for(int i = cs; i < ce+1; ++i){
+                 feature[i] = "El";
+             }
+             cs = CDSs[csize-1].start;
+             ce = CDSs[csize-1].end;
+             for(int i = cs; i < ce+1; ++i){
+                 feature[i] = "Es";
+             }
+             for(int i = ce+1; i < CDSs[1].start;++i){
+                 feature[i] = "intron1";
+             }
+         }
+         for(int i = 1; i < CDSs.size()-1; ++i ){
+             int cs = CDSs[i].start;
+             int ce = CDSs[i].end;
+             for(int j = cs; j < ce+1; ++j){
+                 feature[j] = "Em";
+             }
+         }
+         for(int i = start;i < end+1;i++){
+             name[i] = ID;
+             if(feature[i]=="non") feature[i] == "intron2";
+         }
+         vector<utr3> utr3s = g3.utr3s[(it->second).ID];
+         int u3s = utr3s[0].start;
+         int u3e = utr3s[0].end;
+         for(int j = u3s; j < u3e + 1; ++j){
+             feature[j] = "utr3";
+         }
+         vector<utr5> utr5s = g3.utr5s[(it->second).ID];
+         int u5s = utr5s[0].start;
+         int u5e = utr5s[0].end;
+         for(int j = u5s; j < u5e + 1; ++j){
+             feature[j] = "utr5";
+         }
+         
+         if(strand == "-"){
+             for(int i = end + 1; i < end + 1000; i++){
+                 feature[i] = "U1";
+                 name[i] = ID;
+             }
+             for(int i = end + 1000; i < end + 2000; i++){
+                 feature[i] = "U2";
+                 name[i] = ID;
+             }
+             for(int i = end + 2000; i < end + 3000; i++){
+                 feature[i] = "U3";
+                 name[i] = ID;
+             }
+             for(int i = end + 3000; i < end + 4000; i++){
+                 feature[i] = "U4";
+                 name[i] = ID;
+             }
+             for(int i = end + 4000; i < end + 5000; i++){
+                 feature[i] = "U5";
+                 name[i] = ID;
+             }
+             
+             for(int i = start - 1000; i < start ; i++){
+                 feature[i] = "D1";
+                 name[i] = ID;
+             }
+             for(int i = start - 2000; i < start - 1000; i++){
+                 feature[i] = "D2";
+                 name[i] = ID;
+             }
+             for(int i = start - 3000; i < start - 2000; i++){
+                 feature[i] = "D3";
+                 name[i] = ID;
+             }
+             for(int i = start - 4000; i < start - 3000; i++){
+                 feature[i] = "D4";
+                 name[i] = ID;
+             }
+             for(int i = start - 5000; i < start - 4000; i++){
+                 feature[i] = "D5";
+                 name[i] = ID;
+             }
+             
+         }else{
+             for(int i = end + 1; i < end + 1000; i++){
+                 feature[i] = "D1";
+                 name[i] = ID;
+             }
+             for(int i = end + 1000; i < end + 2000; i++){
+                 feature[i] = "D2";
+                 name[i] = ID;
+             }
+             for(int i = end + 2000; i < end + 3000; i++){
+                 feature[i] = "D3";
+                 name[i] = ID;
+             }
+             for(int i = end + 3000; i < end + 4000; i++){
+                 feature[i] = "D4";
+                 name[i] = ID;
+             }
+             for(int i = end + 4000; i < end + 5000; i++){
+                 feature[i] = "D5";
+                 name[i] = ID;
+             }
+             
+             for(int i = start - 1000; i < start ; i++){
+                 feature[i] = "U1";
+                 name[i] = ID;
+             }
+             for(int i = start - 2000; i < start - 1000; i++){
+                 feature[i] = "U2";
+                 name[i] = ID;
+             }
+             for(int i = start - 3000; i < start - 2000; i++){
+                 feature[i] = "U3";
+                 name[i] = ID;
+             }
+             for(int i = start - 4000; i < start - 3000; i++){
+                 feature[i] = "U4";
+                 name[i] = ID;
+             }
+             for(int i = start - 5000; i < start - 4000; i++){
+                 feature[i] = "U5";
+                 name[i] = ID;
+             }
+         }
+         it++;
+     }
+    vector<vector<string>> re;
+    re.push_back(feature);
+    re.push_back(name);
+    return re;
 }
+
 int slicedFunction(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);
     string outFile = (para -> outFile);
-    string outFile1 = outFile + ".genes";
     string chr = (para -> chr);
     double threshold = (para -> threshold);
-    igzstream infGff ((gffFile).c_str(),ifstream::in);
+    vector<vector<string>> re = addFeatures(gffFile,chr);
+    vector<string> feature = re[0];
+    vector<string> name = re[1];
     igzstream infPi ((piFile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
-    ofstream ouf1 ((outFile1).c_str());
     string line;
     vector<string> ll;
-    set<int> withoutIntron;
-    int start = 0, end = 0;
-    int ps = 0, pe = 0;
-    string strand = "";
-    vector<int> startP(20000);
-    vector<int> endP(20000);
-    vector<int> strandP(20000);
-    vector<string> genefeaturs(500000000);
-    int gene_order = 0;
-    bool new_gene = true,first = true;
-    while(!infGff.eof()){
-        getline(infGff,line);
+    map<string,map<string,double>> values;
+
+    while(!infPi.eof()){
+        getline(infPi,line);
         if(line.length()<1) continue;
-        if(line[0] ='#') continue;
+        if(line[0]=='C' || line[0]=='c') continue;
         ll.clear();
         split(line,ll,"\t");
-        if(ll[0] != chr) continue;
-        if(ll[2] =="gene"){
-            new_gene= true;
-            if(!first){
-                addFeatures();
+        if(ll[0]!=chr) continue;
+        int pos = string2Int(ll[1]);
+        int size = ll.size()-1;
+        string ID = name[pos];
+        string key = feature[pos];
+        if(size>1){
+            if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
+            double value = 0;
+            if(values[ID].count(key)==1){
+                value = values[ID][key] + string2Double(ll[size]);
+            }else{
+                value = string2Double(ll[size]);
             }
-            first = false;
+            map<string,double> a;
+            a.insert(pair<string,double>(key,value));
+            values.insert(pair<string,map<string,double>>(ID,a));
         }else{
-            new_gene = false;
+            int value = 0;
+            if(values[ID].count(key)==1){
+                value = string2Double(ll[size]) + 1;
+            }else{
+                value ++;
+            }
+            map<string,double> a;
+            a.insert(pair<string,int>(key,value));
+            values.insert(pair<string,map<string,double>>(ID,a));
+        }
+    }
+    map<string,map<string,double>>::iterator itm;
+    itm = values.begin();
+    // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
+    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr3\texon1\tintron1\texon2\tintron2\tExon3\tutr5\tD1\tD2\tD3\tD4\tD5" <<"\n";
+    while(itm != values.end()){
+        map<string,double> a = itm->second;
+        string geneID = itm->first;
+        ouf << geneID <<"\t";
+        ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] << a["U2"] << "\t"<< a["U1"] << "\t" ;
+        ouf << a["utr3"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
+        ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr5"] << "\t";
+        ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
+        ouf << "\n";
+        itm++;
+    }
+    ouf.close();
+    return 0;
+}
+
+int getSubTreemix(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,3) == "ord") continue;
+        vector<string> ll;
+        ll.clear();
+        split(line,ll," \t");
+        set<string> subgroup;
+        subgroup.insert(ll[1]);
+        subgroup.insert(ll[2]);
+        subgroup.insert(ll[3]);
+        subgroup.insert(ll[4]);
+        ofstream ouf ((outFile+ll[0]).c_str());
+        string line1;
+        getline(inf,line1);
+        ll.clear();
+        split(line1,ll," \t");
+        vector<int> pos;
+        
+        for(int i = 0; i < ll.size();++i){
+            if(subgroup.count(ll[i])==1) pos.push_back(i);
         }
         
     }
-    addFeatures();
+    
     
     return 0;
 }

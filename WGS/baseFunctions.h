@@ -437,4 +437,8 @@ void decode(uint64_t encoded, char *decoded, bool rna_flag) {
         decoded[i] = byte;
     }
 }
+void parseFeatures(){
+    
+}
+
 #endif /* baseFunctions_h */
