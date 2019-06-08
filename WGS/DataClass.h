@@ -217,9 +217,7 @@ public:
         chr = ll[0];
         strand = ll[6];
         vector<string> tmp;
-        cout << "ll[8] is:\t" << ll[8] << endl;
         split(ll[8], tmp,";");
-        cout << "tmp[0] is:\t" << tmp[0] << endl;
         ll.clear();
         split(tmp[0],ll,"=");
         ID = ll[1];
@@ -432,12 +430,10 @@ public:
             if (line.length() < 1) continue;
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
-            cout << line << endl;
+            ll.clear();
             split(line,ll,"\t");
             if (ll[2] == "gene"){
-                cout << "gene order " << endl;
                 gene g(line);
-                cout << "current gene is:\t" << g.ID << endl;
                 genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
                 transcript g;
