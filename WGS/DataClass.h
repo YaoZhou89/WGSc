@@ -428,7 +428,7 @@ public:
             if (line.length() < 1) continue;
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
-            count << line << endl;
+            cout << line << endl;
             if (ll[2] == "gene"){
                 gene g ;
                 g.getGene(line);
