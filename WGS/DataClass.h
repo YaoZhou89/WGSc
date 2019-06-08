@@ -266,6 +266,7 @@ public:
     string chr;
     string parent;
     void getexon(string line){
+        cout << "exon start.." << endl;
         vector<string> ll;
         split(line,ll,"\t");
         start = string2Int(ll[3]);
@@ -283,6 +284,7 @@ public:
         ll.clear();
         tmp.clear();
         length = end - start + 1;
+         cout << "exon end.." << endl;
     }
 };
 class CDS{
