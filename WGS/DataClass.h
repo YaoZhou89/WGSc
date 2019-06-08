@@ -406,15 +406,15 @@ public:
     map<string,vector<exon>> exons;
 //    map<string,vector<intron>> introns;
     map<string,vector<CDS>> CDSs;
-    gff3(string inFile){
-        readGff(inFile);
+    gff3(string inFile,string chr){
+        readGff(inFile,chr);
     }
     
     gff3(){
         cout << "No gff3 file!" << endl;
     }
     
-    void readGff(string inFile){
+    void readGff(string inFile,string chr){
         igzstream inf (inFile.c_str(),fstream::in);
         if (inf.fail()){
             cerr << "Read gff3 failed!" << endl;
@@ -429,9 +429,11 @@ public:
             if (line.length() < 1) continue;
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
+        
             ll.clear();
             cout << line << endl;
             split(line,ll,"\t");
+            if(ll[0]!=chr) continue;
             if (ll[2] == "gene"){
                 gene g(line);
                 genes.insert(pair<string,gene>(g.ID,g));
