@@ -208,7 +208,6 @@ public:
     string strand;
     string chr;
     gene(string line){
-        cout << "reading..." << endl;
         vector<string> ll;
         ll.clear();
         split(line,ll,"\t");
@@ -431,6 +430,7 @@ public:
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
             ll.clear();
+            cout << line << endl;
             split(line,ll,"\t");
             if (ll[2] == "gene"){
                 gene g(line);
@@ -482,6 +482,7 @@ public:
                 t.push_back(g);
                 utr3s.insert(pair<string,vector<utr3>>(g.parent,t));
             }else {
+                cout << line << endl;
                 cerr << "pattern failed" << endl;
             }
         }
