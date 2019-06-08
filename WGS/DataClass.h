@@ -429,8 +429,10 @@ public:
             if (line[0] == '#') continue;
             if (line.substr(0,1) == "#") continue;
             if (ll[2] == "gene"){
+                
                 gene g ;
                 g.getGene(line);
+                cout << "current gene is:\t" << g.ID << endl;
                 genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
                 transcript g;
