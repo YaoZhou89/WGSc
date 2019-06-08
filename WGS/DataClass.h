@@ -208,14 +208,18 @@ public:
     string strand;
     string chr;
     gene(string line){
+        cout << "reading..." << endl;
         vector<string> ll;
+        ll.clear();
         split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
         strand = ll[6];
         vector<string> tmp;
+        cout << "ll[8] is:\t" << ll[8] << endl;
         split(ll[8], tmp,";");
+        cout << "tmp[0] is:\t" << tmp[0] << endl;
         ll.clear();
         split(tmp[0],ll,"=");
         ID = ll[1];
