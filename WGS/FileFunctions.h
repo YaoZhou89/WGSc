@@ -7392,6 +7392,8 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
      map<string,transcript> trans = g3.long_transcripts;
      map<string,transcript>::iterator it;
      it = trans.begin();
+     cout << "genes number is:\t"<< trans.size() << endl;
+    
      while(it != trans.end()){
          string ID = it->first;
          transcript tr = it->second;
