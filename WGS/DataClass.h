@@ -207,7 +207,7 @@ public:
     string ID;
     string strand;
     string chr;
-    void getGene(string line){
+    getGene(string line){
         vector<string> ll;
         split(line,ll,"\t");
         start = string2Int(ll[3]);
