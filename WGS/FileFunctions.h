@@ -7406,6 +7406,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
          string strand = tr.strand;
          vector<CDS> CDSs = g3.CDSs[(it->second).ID];
          int csize = CDSs.size();
+         cout << "exon size is:\t" << csize << endl;
          if(tr.chr != chr){
              it++;
              continue;
@@ -7414,6 +7415,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
              it++;
              continue;
          }
+         cout << "strand is:\t" << strand << endl;
          if(strand == "+"){
              int cs = CDSs[0].start;
              int ce = CDSs[0].end;
