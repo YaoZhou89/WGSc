@@ -274,10 +274,10 @@ public:
         chr = ll[0];
         strand = ll[6];
         vector<string> tmp;
-        split(ll[8], tmp,";Parent=");
+        split(ll[8], tmp,";");
         ll.clear();
-        split(tmp[1],ll,";");
-        parent = ll[0];
+        split(tmp[1],ll,"=");
+        parent = ll[1];
         ll.clear();
         split(tmp[0],ll,"=");
         cout << "tmp[0] is:\t" << tmp[0] << endl;
