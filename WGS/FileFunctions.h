@@ -7582,7 +7582,7 @@ int slicedFunction(parameter *para){
     while(!infPi.eof()){
         getline(infPi,line);
         if(line.length()<1) continue;
-        if(line[0]=='C' || line[0]=='c') continue;
+        if(line[0]=='C' ) continue;
         ll.clear();
         split(line,ll,"\t");
         if(ll[0]!=chr) continue;
@@ -7603,6 +7603,7 @@ int slicedFunction(parameter *para){
             values.insert(pair<string,map<string,double>>(ID,a));
         }else{
             int value = 0;
+            cout << "ID is:\t" << ID << endl;
             if(values[ID].count(key)==1){
                 value = string2Double(ll[size]) + 1;
             }else{
@@ -7617,6 +7618,7 @@ int slicedFunction(parameter *para){
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
     ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr3\texon1\tintron1\texon2\tintron2\tExon3\tutr5\tD1\tD2\tD3\tD4\tD5" <<"\n";
+    
     while(itm != values.end()){
         map<string,double> a = itm->second;
         string geneID = itm->first;
