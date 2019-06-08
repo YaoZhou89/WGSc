@@ -207,7 +207,7 @@ public:
     string ID;
     string strand;
     string chr;
-    getGene(string line){
+    gene(string line){
         vector<string> ll;
         split(line,ll,"\t");
         start = string2Int(ll[3]);
@@ -430,8 +430,7 @@ public:
             if (line.substr(0,1) == "#") continue;
             cout << line << endl;
             if (ll[2] == "gene"){
-                gene g ;
-                g.getGene(line);
+                gene g(line);
                 cout << "current gene is:\t" << g.ID << endl;
                 genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
