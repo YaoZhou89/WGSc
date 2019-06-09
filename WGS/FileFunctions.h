@@ -7399,16 +7399,16 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
          
          transcript tr = it->second;
          string ID = tr.ID;
-         cout << "ID is:\t" << ID << endl;
+//         cout << "ID is:\t" << ID << endl;
 
          int start = tr.start;
          int end = tr.end;
          string strand = tr.strand;
          vector<CDS> CDSs = g3.CDSs[ID];
          int csize = CDSs.size();
-         cout << "exon size is:\t" << csize << endl;
-         cout << "start is:\t" << start << endl;
-         cout << "end is:\t" << end << endl;
+//         cout << "exon size is:\t" << csize << endl;
+//         cout << "start is:\t" << start << endl;
+//         cout << "end is:\t" << end << endl;
          if(tr.chr != chr){
              it++;
              continue;
@@ -7417,7 +7417,6 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
              it++;
              continue;
          }
-         cout << "strand is:\t" << strand << endl;
          if(strand == "+"){
              int cs = CDSs[0].start;
              int ce = CDSs[0].end;
@@ -7456,12 +7455,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
                  feature[j] = "Em";
              }
          }
-         cout << "exon added" << endl;
-         for(int i = start;i < end+1;i++){
-             name[i] = ID;
-             if(feature[i]=="non") feature[i] == "intron2";
-         }
-         cout << "intron added" << endl;
+         
          vector<utr3> utr3s = g3.utr3s[ID];
          if(utr3s.size()==1){
              int u3s = utr3s[0].start;
@@ -7480,7 +7474,10 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
                  feature[j] = "utr5";
              }
          }
-         
+         for(int i = start;i < end+1;i++){
+             name[i] = ID;
+             if(feature[i]=="non") feature[i] == "intron2";
+         }
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
                  feature[i] = "U1";
@@ -7589,11 +7586,6 @@ int slicedFunction(parameter *para){
     
     vector<string> feature = re[0];
     vector<string> name = re[1];
-    int test = 0;
-    for (int i = 0; i < 24000000; i++){
-        if(feature[i]=="D1") test++;
-    }
-    cout << "test is:\t" << test << endl;
 
     igzstream infPi ((piFile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
@@ -7609,9 +7601,10 @@ int slicedFunction(parameter *para){
         split(line,ll,"\t");
         if(ll[0]!=chr) continue;
         int pos = string2Int(ll[1]);
-        int size = ll.size()-1;
+        int size = ll.size() - 1;
         string ID = name[pos];
         string key = feature[pos];
+        double value = 0;
         if(size>1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double value = 0;
@@ -7624,16 +7617,18 @@ int slicedFunction(parameter *para){
             a.insert(pair<string,double>(key,value));
             values.insert(pair<string,map<string,double>>(ID,a));
         }else{
-            int value = 0;
-//            cout << "ID is:\t" << ID << endl;
             if(values[ID].count(key)==1){
-                value = string2Double(ll[size]) + 1;
+                value = values[ID][key] + 1;
             }else{
                 value ++;
             }
             map<string,double> a;
             a.insert(pair<string,int>(key,value));
-            values.insert(pair<string,map<string,double>>(ID,a));
+            if(values.count(ID)==1){
+                values[ID] = a;
+            }else{
+                values.insert(pair<string,map<string,double>>(ID,a));
+            }
         }
     }
     map<string,map<string,double>>::iterator itm;
