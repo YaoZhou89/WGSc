@@ -7605,7 +7605,7 @@ int slicedFunction(parameter *para){
         string ID = name[pos];
         string key = feature[pos];
         double value = 0;
-        if(size>1){
+        if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
             double value = 0;
             if(values[ID].count(key)==1){
@@ -7617,18 +7617,17 @@ int slicedFunction(parameter *para){
             a.insert(pair<string,double>(key,value));
             values.insert(pair<string,map<string,double>>(ID,a));
         }else{
+            map<string,double> a;
+            if(values.count(ID)==0){
+                values.insert(pair<string,map<string,double>>(ID,a));
+            }
             if(values[ID].count(key)==1){
                 value = values[ID][key] + 1;
             }else{
                 value ++;
             }
-            map<string,double> a;
             a.insert(pair<string,int>(key,value));
-            if(values.count(ID)==1){
-                values[ID] = a;
-            }else{
-                values.insert(pair<string,map<string,double>>(ID,a));
-            }
+            values[ID] = a;
         }
     }
     map<string,map<string,double>>::iterator itm;
