@@ -7465,6 +7465,8 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
          vector<utr3> utr3s = g3.utr3s[ID];
          int u3s = utr3s[0].start;
          int u3e = utr3s[0].end;
+         cout << "u3s is:\t" << u3s << endl;
+         cout << "u3e is:\t" << u3e << endl;
          for(int j = u3s; j < u3e + 1; ++j){
              feature[j] = "utr3";
          }
