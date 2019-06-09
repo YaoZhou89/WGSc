@@ -7462,14 +7462,14 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
              if(feature[i]=="non") feature[i] == "intron2";
          }
          cout << "intron added" << endl;
-         vector<utr3> utr3s = g3.utr3s[(it->second).ID];
+         vector<utr3> utr3s = g3.utr3s[ID];
          int u3s = utr3s[0].start;
          int u3e = utr3s[0].end;
          for(int j = u3s; j < u3e + 1; ++j){
              feature[j] = "utr3";
          }
          cout << "utr3 added" << endl;
-         vector<utr5> utr5s = g3.utr5s[(it->second).ID];
+         vector<utr5> utr5s = g3.utr5s[ID];
          int u5s = utr5s[0].start;
          int u5e = utr5s[0].end;
          for(int j = u5s; j < u5e + 1; ++j){
