@@ -7624,17 +7624,18 @@ int slicedFunction(parameter *para){
             if(values.count(ID) == 0){
                 values.insert(pair<string,map<string,double>>(ID,a));
             }
+            
             if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
                 if(key=="U1"){
                     cout << "ID is:\t" << ID <<"; value is:\t" << value << "\n";
                 }
-                
+                a[key] = value;
             }else{
                 value ++;
-//
+                a.insert(pair<string,int>(key,value));
             }
-            a.insert(pair<string,int>(key,value));
+            
             values[ID] = a;
         }
     }
