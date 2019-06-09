@@ -7463,6 +7463,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
          }
          cout << "intron added" << endl;
          vector<utr3> utr3s = g3.utr3s[ID];
+         cout << "utr3s size is:\t" << utr3s.size() << endl;
          int u3s = utr3s[0].start;
          int u3e = utr3s[0].end;
          cout << "u3s is:\t" << u3s << endl;
