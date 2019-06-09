@@ -456,6 +456,7 @@ public:
                 g.getexon(line);
                 vector<exon> t;
                 if(exons.count(g.parent)==1){
+                    cout << g.parent << " founded!" << endl;
                     t = exons[g.parent];
                 }
                 t.push_back(g);
