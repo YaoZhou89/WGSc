@@ -460,7 +460,8 @@ public:
                     cout << g.parent << " size (before) is:\t" << t.size()  << endl;
                 }
                 t.push_back(g);
-                exons.insert(pair<string,vector<exon>>(g.parent,t));
+//                exons.insert(pair<string,vector<exon>>(g.parent,t));
+                exons[g.parent] = t;
                 cout << g.parent << " size is:\t" << t.size()  << endl;
             }else if (ll[2] == "CDS"){
                 CDS g;
