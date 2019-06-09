@@ -7636,7 +7636,7 @@ int slicedFunction(parameter *para){
         }
     }
    
-    cout << "ID is:\t" << values["TraesCS6D02G395700.1"] <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
+    cout << "ID is:\t" << "TraesCS6D02G395700.1" <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
