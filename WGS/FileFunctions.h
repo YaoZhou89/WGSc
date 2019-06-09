@@ -7635,8 +7635,8 @@ int slicedFunction(parameter *para){
         string geneID = itm->first;
         ouf << geneID <<"\t";
         ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] << a["U2"] << "\t"<< a["U1"] << "\t" ;
-        ouf << a["utr3"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
-        ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr5"] << "\t";
+        ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
+        ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr3"] << "\t";
         ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
         ouf << "\n";
         itm++;
