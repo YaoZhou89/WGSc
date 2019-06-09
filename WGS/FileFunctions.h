@@ -7404,9 +7404,11 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
          int start = tr.start;
          int end = tr.end;
          string strand = tr.strand;
-         vector<CDS> CDSs = g3.CDSs[(it->second).ID];
+         vector<CDS> CDSs = g3.CDSs[ID];
          int csize = CDSs.size();
          cout << "exon size is:\t" << csize << endl;
+         cout << "start is:\t" << start << endl;
+         cout << "end is:\t" << end << endl;
          if(tr.chr != chr){
              it++;
              continue;
@@ -7454,23 +7456,26 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
                  feature[j] = "Em";
              }
          }
+         cout << "exon added" << endl;
          for(int i = start;i < end+1;i++){
              name[i] = ID;
              if(feature[i]=="non") feature[i] == "intron2";
          }
+         cout << "intron added" << endl;
          vector<utr3> utr3s = g3.utr3s[(it->second).ID];
          int u3s = utr3s[0].start;
          int u3e = utr3s[0].end;
          for(int j = u3s; j < u3e + 1; ++j){
              feature[j] = "utr3";
          }
+         cout << "utr3 added" << endl;
          vector<utr5> utr5s = g3.utr5s[(it->second).ID];
          int u5s = utr5s[0].start;
          int u5e = utr5s[0].end;
          for(int j = u5s; j < u5e + 1; ++j){
              feature[j] = "utr5";
          }
-         
+         cout << "utr5 added" << endl;
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
                  feature[i] = "U1";
@@ -7557,6 +7562,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
                  name[i] = ID;
              }
          }
+         cout << "upstream and downstream added" << endl;
          it++;
      }
     vector<vector<string>> re;
