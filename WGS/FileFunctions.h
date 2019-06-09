@@ -7628,17 +7628,22 @@ int slicedFunction(parameter *para){
             if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
                 a[key] = value;
-                 if(ID=="TraesCS6D02G395700.1" && key == "U1"){
-                     cout << "value U1 is:\t" << value << endl;
+                 if(ID=="TraesCS6D02G395700.1" ){
+                     if( key == "U1"){
+                        cout << "value U1 is:\t" << value << endl;
+                     }else if (key == "U3"){
+                          cout << "value U3 is:\t" << value << endl;
+                     }
+                     
                  }
             }else{
                 value ++;
                 a.insert(pair<string,int>(key,value));
             }
             values[ID][key] = value;
-            if(ID=="TraesCS6D02G395700.1"){
-                cout << "ID is:\t" << "TraesCS6D02G395700.1" <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
-            }
+//            if(ID=="TraesCS6D02G395700.1"){
+//                cout << "ID is:\t" << "TraesCS6D02G395700.1" <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
+//            }
             
         }
     }
@@ -7652,6 +7657,7 @@ int slicedFunction(parameter *para){
     while(itm != values.end()){
         map<string,double> a = itm->second;
         string geneID = itm->first;
+        if(geneID=="non") continue;
         ouf << geneID <<"\t";
         ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] << a["U2"] << "\t"<< a["U1"] << "\t" ;
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
