@@ -7626,8 +7626,10 @@ int slicedFunction(parameter *para){
             }
             if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
+                if(ID=="U1"){
+                    cout << "ID is:\t" << ID <<"; value is:\t" << value << "\n";
+                }
                 
-                cout << "ID is:\t" << ID <<"; value is:\t" << value << "\n";
             }else{
                 value ++;
 //
