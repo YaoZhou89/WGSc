@@ -7647,10 +7647,10 @@ int slicedFunction(parameter *para){
         }
     }
     
-    cout << "value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << endl;
-   
-    cout << "value U3 is:\t" << values["TraesCS6D02G395700.1"]["U3"]  << endl;
-    
+//    cout << "value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << endl;
+//
+//    cout << "value U3 is:\t" << values["TraesCS6D02G395700.1"]["U3"]  << endl;
+//
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
@@ -7664,7 +7664,7 @@ int slicedFunction(parameter *para){
             continue;
         }
         ouf << geneID <<"\t";
-        ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] << a["U2"] << "\t"<< a["U1"] << "\t" ;
+        ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] <<"\t"<< a["U2"] << "\t"<< a["U1"] << "\t" ;
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
         ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr3"] << "\t";
         ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
