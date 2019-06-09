@@ -456,8 +456,8 @@ public:
                 g.getexon(line);
                 vector<exon> t;
                 if(exons.count(g.parent)==1){
-                    
                     t = exons[g.parent];
+                    cout << g.parent << " size (before) is:\t" << t.size()  << endl;
                 }
                 t.push_back(g);
                 exons.insert(pair<string,vector<exon>>(g.parent,t));
