@@ -7564,7 +7564,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
                  name[i] = ID;
              }
          }
-         cout << "upstream and downstream added" << endl;
+//         cout << "upstream and downstream added" << endl;
          it++;
      }
     vector<vector<string>> re;
@@ -7628,14 +7628,13 @@ int slicedFunction(parameter *para){
             if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
                 a[key] = value;
-                 if(ID=="TraesCS6D02G395700.1" ){
-                     if( key == "U1"){
-                        cout << "value U1 is:\t" << value << endl;
-                     }else if (key == "U3"){
-                          cout << "value U3 is:\t" << value << endl;
-                     }
-                     
-                 }
+//                if(ID=="TraesCS6D02G395700.1" ){
+//                     if( key == "U1"){
+//                        cout << "value U1 is:\t" << value << endl;
+//                     }else if (key == "U3"){
+//                          cout << "value U3 is:\t" << value << endl;
+//                     }
+//                 }
             }else{
                 value ++;
                 a.insert(pair<string,int>(key,value));
@@ -7647,7 +7646,10 @@ int slicedFunction(parameter *para){
             
         }
     }
+    
+    cout << "value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << endl;
    
+    cout << "value U3 is:\t" << values["TraesCS6D02G395700.1"]["U3"]  << endl;
     
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
