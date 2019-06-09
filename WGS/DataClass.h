@@ -456,12 +456,12 @@ public:
                 g.getexon(line);
                 vector<exon> t;
                 if(exons.count(g.parent)==1){
-                    cout << g.parent << " founded!" << endl;
+                    
                     t = exons[g.parent];
                 }
                 t.push_back(g);
                 exons.insert(pair<string,vector<exon>>(g.parent,t));
-                
+                cout << g.parent << " size is:\t" << t.size()  << endl;
             }else if (ll[2] == "CDS"){
                 CDS g;
                 g.getCDS(line);
