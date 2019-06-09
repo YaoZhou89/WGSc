@@ -7633,14 +7633,9 @@ int slicedFunction(parameter *para){
                  }
             }else{
                 value ++;
-                if(a.count(key)==0){
-                    a.insert(pair<string,int>(key,value));
-                }else{
-                    a[key] = value;
-                }
-                
+                a.insert(pair<string,int>(key,value));
             }
-            values[ID] = a;
+            values[ID][key] = value;
             if(ID=="TraesCS6D02G395700.1"){
                 cout << "ID is:\t" << "TraesCS6D02G395700.1" <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
             }
