@@ -7604,9 +7604,9 @@ int slicedFunction(parameter *para){
         int size = ll.size() - 1;
         string ID = name[pos];
         string key = feature[pos];
-        if(ID=="TraesCS6D02G395700.1"){
-            if(key == "U1") cout << "U1 found!" << endl;
-        }
+//        if(ID=="TraesCS6D02G395700.1"){
+//            if(key == "U1") cout << "U1 found!" << endl;
+//        }
         double value = 0;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
@@ -7624,11 +7624,13 @@ int slicedFunction(parameter *para){
             if(values.count(ID) == 0){
                 values.insert(pair<string,map<string,double>>(ID,a));
             }
-            if(values[ID].count(key)==1){
+            if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
+                
+                cout << "ID is:\t" << ID <<"; value is:\t" << value << "\n";
             }else{
                 value ++;
-//                cout << "ID is:\t" << ID <<"; value is:\t" << value << "\n";
+//
             }
             a.insert(pair<string,int>(key,value));
             values[ID] = a;
