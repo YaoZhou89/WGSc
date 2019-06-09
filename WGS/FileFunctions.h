@@ -7628,12 +7628,17 @@ int slicedFunction(parameter *para){
             if(values[ID].count(key) == 1){
                 value = values[ID][key] + 1;
                 a[key] = value;
-                 if(ID=="TraesCS6D02G395700.1" || key == "U1"){
+                 if(ID=="TraesCS6D02G395700.1" && key == "U1"){
                      cout << "value U1 is:\t" << value << endl;
                  }
             }else{
                 value ++;
-                a.insert(pair<string,int>(key,value));
+                if(a.count(key)==0){
+                    a.insert(pair<string,int>(key,value));
+                }else{
+                    a[key] = value;
+                }
+                
             }
             values[ID] = a;
             if(ID=="TraesCS6D02G395700.1"){
