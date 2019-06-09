@@ -450,7 +450,8 @@ public:
                     t = transcripts[g.parent];
                 }
                 t.push_back(g);
-                transcripts.insert(pair<string,vector<transcript>>(g.parent,t));
+//                transcripts.insert(pair<string,vector<transcript>>(g.parent,t));
+                transcripts[g.parent] = t;
             }else if (ll[2] == "exon"){
                 exon g;
                 g.getexon(line);
@@ -471,7 +472,8 @@ public:
                     t = CDSs[g.parent];
                 }
                 t.push_back(g);
-                CDSs.insert(pair<string,vector<CDS>>(g.parent,t));
+//                CDSs.insert(pair<string,vector<CDS>>(g.parent,t));
+                CDSs[g.parent] = t;
             }else if (ll[2] == "five_prime_UTR"){
                 utr5 g;
                 g.getUtr5(line);
@@ -480,7 +482,8 @@ public:
                     t = utr5s[g.parent];
                 }
                 t.push_back(g);
-                utr5s.insert(pair<string,vector<utr5>>(g.parent,t));
+//                utr5s.insert(pair<string,vector<utr5>>(g.parent,t));
+                utr5s[g.parent] = t;
             }else if (ll[2] == "three_prime_UTR"){
                 utr3 g;
                 g.getUtr3(line);
@@ -489,7 +492,8 @@ public:
                     t = utr3s[g.parent];
                 }
                 t.push_back(g);
-                utr3s.insert(pair<string,vector<utr3>>(g.parent,t));
+//                utr3s.insert(pair<string,vector<utr3>>(g.parent,t));
+                utr3s[g.parent] = t;
             }else {
                 cout << line << endl;
                 cerr << "pattern failed" << endl;
