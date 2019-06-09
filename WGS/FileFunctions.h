@@ -7659,7 +7659,10 @@ int slicedFunction(parameter *para){
     while(itm != values.end()){
         map<string,double> a = itm->second;
         string geneID = itm->first;
-        if(geneID=="non") continue;
+        if(geneID=="non") {
+            itm++;
+            continue;
+        }
         ouf << geneID <<"\t";
         ouf << a["U5"] << "\t" << a["U4"] << "\t" << a["U3"] << a["U2"] << "\t"<< a["U1"] << "\t" ;
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
