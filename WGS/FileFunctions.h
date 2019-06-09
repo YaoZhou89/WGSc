@@ -7610,15 +7610,21 @@ int slicedFunction(parameter *para){
         double value = 0;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
-            double value = 0;
-            if(values[ID].count(key)==1){
-                value = values[ID][key] + string2Double(ll[size]);
-            }else{
-                value = string2Double(ll[size]);
-            }
+            double v = string2Double(ll[size]);
+            if (v < threshold) continue;
             map<string,double> a;
-            a.insert(pair<string,double>(key,value));
-            values.insert(pair<string,map<string,double>>(ID,a));
+            if(values.count(ID) == 0){
+                values.insert(pair<string,map<string,double>>(ID,a));
+            }
+            
+            if(values[ID].count(key) == 1){
+                value = values[ID][key] + v;
+                a[key] = value;
+            }else{
+                value = v;
+                a.insert(pair<string,int>(key,value));
+            }
+            values[ID][key] = value;
         }else{
             map<string,double> a;
             if(values.count(ID) == 0){
@@ -7640,10 +7646,6 @@ int slicedFunction(parameter *para){
                 a.insert(pair<string,int>(key,value));
             }
             values[ID][key] = value;
-//            if(ID=="TraesCS6D02G395700.1"){
-//                cout << "ID is:\t" << "TraesCS6D02G395700.1" <<"; value U1 is:\t" << values["TraesCS6D02G395700.1"]["U1"] << "\n";
-//            }
-            
         }
     }
     
