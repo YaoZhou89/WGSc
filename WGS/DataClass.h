@@ -494,7 +494,7 @@ public:
                 utr3s[g.parent] = t;
             }else {
                 cout << line << endl;
-                cerr << "pattern failed" << endl;
+                cout << "pattern failed" << endl;
             }
         }
         map<string,gene>::iterator it;

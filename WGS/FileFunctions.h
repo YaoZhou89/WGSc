@@ -7380,14 +7380,14 @@ int getKmerOrder2(parameter *para){
 //    igzstream infGff ((gffFile).c_str(),ifstream::in);
 //    
 //}
-vector<vector<string>> addFeatures(string gffFile, string chr){
+vector<vector<string>> addFeatures(string gffFile, string chr,int size){
 /* Features
  U1, U2, U3, U4, U5
  utr5, e1, I1, em, Io, ee utr3
  D1, D2, D3, D4, D5
 */
-     vector<string> feature(500000000,"non");
-     vector<string> name(500000000,"non");
+     vector<string> feature(size,"non");
+     vector<string> name(size,"non");
      cout << "reading gff3 file..." << endl;
      gff3 g3 = gff3(gffFile,chr);
      map<string,transcript> trans = g3.long_transcripts;
@@ -7439,12 +7439,14 @@ vector<vector<string>> addFeatures(string gffFile, string chr){
              for(int i = cs; i < ce+1; ++i){
                  feature[i] = "El";
              }
+             
              cs = CDSs[csize-1].start;
              ce = CDSs[csize-1].end;
+             
              for(int i = cs; i < ce+1; ++i){
                  feature[i] = "Es";
              }
-             for(int i = ce+1; i < CDSs[1].start;++i){
+             for(int i = CDSs[csize-2].end+1; i < CDSs[csize-1].start;++i){
                  feature[i] = "intron1";
              }
          }
@@ -7579,9 +7581,9 @@ int slicedFunction(parameter *para){
     string outFile = (para -> outFile);
     string chr = (para -> chr);
     double threshold = (para -> threshold);
-    
+    int size = (para->size);
     cout<<"adding features..."<< endl;
-    vector<vector<string>> re = addFeatures(gffFile,chr);
+    vector<vector<string>> re = addFeatures(gffFile,chr,size);
     cout << " features added!" << endl;
     
     vector<string> feature = re[0];
@@ -7656,7 +7658,7 @@ int slicedFunction(parameter *para){
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
-    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr3\texon1\tintron1\texon2\tintron2\tExon3\tutr5\tD1\tD2\tD3\tD4\tD5" <<"\n";
+    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr5\texon1\tintron1\texon2\tintron2\tExon3\tutr3\tD1\tD2\tD3\tD4\tD5" <<"\n";
     
     while(itm != values.end()){
         map<string,double> a = itm->second;
