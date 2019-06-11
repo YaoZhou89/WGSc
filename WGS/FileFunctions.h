@@ -7578,6 +7578,9 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
 //         cout << "upstream and downstream added" << endl;
          it++;
      }
+    for (int i = 0; i < feature.length();++i){
+        if(feature[i]=="intron2") cout << "intron2" << endl;
+    }
     vector<vector<string>> re;
     re.push_back(feature);
     re.push_back(name);
@@ -7618,7 +7621,7 @@ int slicedFunction(parameter *para){
 //        if(ID=="TraesCS6D02G395700.1"){
 //            if(key == "U1") cout << "U1 found!" << endl;
 //        }
-        if(key=="intron2") cout << "intron2" << endl;
+//        if(key=="intron2") cout << "intron2" << endl;
         double value = 0;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
