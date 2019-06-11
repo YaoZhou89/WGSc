@@ -441,6 +441,7 @@ public:
             if(ll[0] != chr) continue;
             if (ll[2] == "gene"){
                 gene g(line);
+                cout << line << endl;
                 genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
                 transcript g;
