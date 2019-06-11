@@ -437,7 +437,7 @@ public:
         
             ll.clear();
 //            cout << line << endl;
-            split(line,ll,"\t");
+            split(line,ll," \t");
             cout << "ll[0] is:\t" << ll[0] << endl;
             if(ll[0] != chr) continue;
             cout << line << endl;
