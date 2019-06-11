@@ -869,8 +869,9 @@ int pi2bed(parameter *para){
         if(ll[0]!=chr) continue;
         int current_pos = string2Int(ll[1]);
         if (current_pos < bedPos[0][0]) {
-            cerr << "please check bedFile, the first position is too small!" << endl;
-            return 1;
+//            cerr << "please check bedFile, the first position is too small!" << endl;
+//            return 1;
+            continue;
         }
 //        if (current_pos > bedPos[bedPos_i-1][1]) continue;
         if(n_bed_pos > bedPos_i){
