@@ -7486,9 +7486,10 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
              name[i] = ID;
              
              if(fea.count(feature[i])!=1) {
-                 feature[i] == "intron2";
+                 feature[i] = "intron2";
              }
          }
+         
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
                  feature[i] = "U1";
