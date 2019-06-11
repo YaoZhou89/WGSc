@@ -210,7 +210,7 @@ public:
     gene(string line){
         vector<string> ll;
         ll.clear();
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -237,7 +237,7 @@ public:
     string parent;
     void getTranscript(string line){
         vector<string> ll;
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -268,7 +268,7 @@ public:
     void getexon(string line){
 //        cout << "exon start.." << endl;
         vector<string> ll;
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -301,7 +301,7 @@ public:
     string parent;
     void getCDS(string line){
         vector<string> ll;
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -331,7 +331,7 @@ public:
     string parent;
     void getUtr5(string line){
         vector<string> ll;
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -362,7 +362,7 @@ public:
     string parent;
     void getUtr3(string line){
         vector<string> ll;
-        split(line,ll," \t");
+        split(line,ll,"\t");
         start = string2Int(ll[3]);
         end = string2Int(ll[4]);
         chr = ll[0];
@@ -437,7 +437,7 @@ public:
         
             ll.clear();
 //            cout << line << endl;
-            split(line,ll," \t");
+            split(line,ll,"\t");
             if(ll.size() != 9) {
                 cout << line << endl;
                 continue;
