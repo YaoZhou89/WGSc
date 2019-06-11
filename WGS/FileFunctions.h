@@ -7394,7 +7394,13 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
      map<string,transcript>::iterator it;
      it = trans.begin();
      cout << "genes number is:\t"<< trans.size() << endl;
-    
+    set<string> fea;
+    fea.insert("utr5");
+    fea.insert("utr3");
+    fea.insert("Es");
+    fea.insert("intron1");
+    fea.insert("Em");
+    fea.insert("El");
      while(it != trans.end()){
          
          transcript tr = it->second;
@@ -7478,7 +7484,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
          }
          for(int i = start;i < end+1;i++){
              name[i] = ID;
-             if(feature[i]=="non") feature[i] == "intron2";
+             if(fea.count(feature[i])!=1) feature[i] == "intron2";
          }
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
@@ -7658,7 +7664,7 @@ int slicedFunction(parameter *para){
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
-    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr5\texon1\tintron1\texon2\tintron2\tExon3\tutr3\tD1\tD2\tD3\tD4\tD5" <<"\n";
+    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr5\texon1\tintron1\texon2\tintron2\texon3\tutr3\tD1\tD2\tD3\tD4\tD5" <<"\n";
     
     while(itm != values.end()){
         map<string,double> a = itm->second;
