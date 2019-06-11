@@ -7484,7 +7484,11 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
          }
          for(int i = start;i < end+1;i++){
              name[i] = ID;
-             if(fea.count(feature[i])!=1) feature[i] == "intron2";
+             
+             if(fea.count(feature[i])!=1) {
+                 cout << "intron2" << endl;
+                 feature[i] == "intron2";
+             }
          }
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
