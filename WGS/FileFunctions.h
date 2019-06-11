@@ -7543,7 +7543,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
                  feature[j] = "Em";
              }
          }
-         cout << "started..." << endl;
+//         cout << "started..." << endl;
          vector<utr3> utr3s = g3.utr3s[ID];
          if(utr3s.size()==1){
              int u3s = utr3s[0].start;
@@ -7566,7 +7566,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
              name[i] = ID;
              if (feature[i] == "non") feature[i] = "intron2";
         }
-        cout << "ended1..." << endl;
+//        cout << "ended1..." << endl;
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
                  feature[i] = "U1";
@@ -7606,6 +7606,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
                  name[i] = ID;
              }
              for(int i = start - 5000; i < start - 4000; i++){
+                 if(i < 0) continue;
                  feature[i] = "D5";
                  name[i] = ID;
              }
@@ -7649,11 +7650,12 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
                  name[i] = ID;
              }
              for(int i = start - 5000; i < start - 4000; i++){
+                 if(i < 0) continue;
                  feature[i] = "U5";
                  name[i] = ID;
              }
          }
-         cout << "ended2..." << endl;
+//         cout << "ended2..." << endl;
 //         cout << "upstream and downstream added" << endl;
          it++;
      }
