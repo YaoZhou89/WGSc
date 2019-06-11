@@ -438,10 +438,12 @@ public:
             ll.clear();
 //            cout << line << endl;
             split(line,ll,"\t");
+            cout << "ll[0] is:\t" << ll[0] << endl;
             if(ll[0] != chr) continue;
+            cout << line << endl;
             if (ll[2] == "gene"){
                 gene g(line);
-                cout << line << endl;
+                
                 genes.insert(pair<string,gene>(g.ID,g));
             }else if (ll[2] == "mRNA"){
                 transcript g;
