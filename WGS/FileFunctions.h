@@ -7394,6 +7394,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
      map<string,transcript>::iterator it;
      it = trans.begin();
      cout << "genes number is:\t"<< trans.size() << endl;
+     cout << "genes number is:\t"<< g3.CDSs.size() << endl;
     
      while(it != trans.end()){
          

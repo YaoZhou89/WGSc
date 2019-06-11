@@ -438,7 +438,7 @@ public:
             ll.clear();
 //            cout << line << endl;
             split(line,ll,"\t");
-            if(ll[0]!=chr) continue;
+            if(ll[0] != chr) continue;
             if (ll[2] == "gene"){
                 gene g(line);
                 genes.insert(pair<string,gene>(g.ID,g));
