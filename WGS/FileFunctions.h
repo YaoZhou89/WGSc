@@ -7729,4 +7729,30 @@ int getSubTreemix(parameter *para){
     
     return 0;
 }
+int DtoBed(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='s') continue;
+        ll.clear();
+        split(line,ll,",");
+        if(ll[8] == "-nan" || ll[8] == "nan" || ll[8] == "na" || ll[8] == "NA"|| ll[8] == "Inf"|| ll[8] == "-Inf") continue;
+        if(ll[9] == "-nan" || ll[9] == "nan" || ll[9] == "na" || ll[9] == "NA"|| ll[9] == "Inf"|| ll[9] == "-Inf") continue;
+        double Dvalue = string2Double(ll[8]);
+        if(Dvalue < 0) continue;
+        double fd_value = string2Double(ll[9]);
+        if(fd_value > 0) continue;
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
 #endif /* FileFunctions_h */
