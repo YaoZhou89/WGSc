@@ -7579,9 +7579,9 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
 //         cout << "upstream and downstream added" << endl;
          it++;
      }
-    for (int i = 0; i < feature.size();++i){
-        if(feature[i]=="intron2") cout << "intron2" << endl;
-    }
+//    for (int i = 0; i < feature.size();++i){
+//        if(feature[i]=="intron2") cout << "intron2" << endl;
+//    }
     vector<vector<string>> re;
     re.push_back(feature);
     re.push_back(name);

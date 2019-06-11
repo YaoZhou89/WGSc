@@ -439,7 +439,7 @@ public:
 //            cout << line << endl;
             split(line,ll," \t");
             if(ll[0] != chr) continue;
-            cout << line << endl;
+//            cout << line << endl;
             if (ll[2] == "gene"){
                 gene g(line);
                 genes.insert(pair<string,gene>(g.ID,g));
@@ -500,7 +500,7 @@ public:
         }
         map<string,gene>::iterator it;
         it = genes.begin();
-        cout << "genes size is:\t" << genes.size() << endl;
+//        cout << "genes size is:\t" << genes.size() << endl;
         while(it!= genes.end()){
             string IDs = it->first;
             gene g = it->second;
