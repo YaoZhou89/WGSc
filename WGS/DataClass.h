@@ -438,6 +438,10 @@ public:
             ll.clear();
 //            cout << line << endl;
             split(line,ll," \t");
+            if(ll.size() != 9) {
+                cout << line << endl;
+                continue;
+            }
             if(ll[0] != chr) continue;
 //            cout << line << endl;
             if (ll[2] == "gene"){

@@ -902,6 +902,91 @@ int pi2bed(parameter *para){
     return 1;
 }
 
+int meanBedpi(parameter *para){
+    //    int binSize = para->size;
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    igzstream inbed ((para->inFile2).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    if(inbed.fail()){
+        cerr << "Open file error: " << (para->inFile2) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string chr = (para->chr);
+    string line;
+    vector < string > ll;
+    int** bedPos = imatrix(-1, 500000, -1, 4);
+    int bedPos_i = 0;
+    while(!inbed.eof()){
+        getline(inbed,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='C') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[0] !=chr) continue;
+        bedPos[bedPos_i][0] = string2Int(ll[1]); // start pos
+        bedPos[bedPos_i][1] = string2Int(ll[2]); // end pos
+        bedPos[bedPos_i][2] = string2Int(ll[2]) - string2Int(ll[1]) + 1 ; // length
+        bedPos[bedPos_i][3] = string2Int(ll[3]); // number in this region
+        bedPos_i++;
+    }
+    cout << "bed readed! Size is:\t" << bedPos_i << endl;
+    inbed.close();
+    double pi = 0.0;
+    int curent_bed = bedPos[0][0];
+    int startPos;
+    int endPos;
+    int n_bed_pos = 0;
+    while(!inF.eof()){
+        getline(inF, line);
+        if(line.length() < 1) continue;
+        if(line[0]=='C') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]!=chr) continue;
+        int current_pos = string2Int(ll[1]);
+        if (current_pos < bedPos[0][0]) {
+            //            cerr << "please check bedFile, the first position is too small!" << endl;
+            //            return 1;
+            continue;
+        }
+        //        if (current_pos > bedPos[bedPos_i-1][1]) continue;
+        if(n_bed_pos > bedPos_i){
+            break;
+        }
+        while(bedPos[n_bed_pos][1] < current_pos ){
+            startPos = bedPos[n_bed_pos][0];
+            endPos = bedPos[n_bed_pos][1];
+            ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+            n_bed_pos++;
+            if(n_bed_pos > bedPos_i){
+                break;
+            }
+            pi = 0;
+        }
+        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
+        pi += string2Double(ll[2]);
+    }
+    while( n_bed_pos < bedPos_i){
+        startPos = bedPos[n_bed_pos][0];
+        endPos = bedPos[n_bed_pos][1];
+        ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
+        n_bed_pos++;
+        pi = 0;
+    }
+    inF.close();
+    ouf.close();
+    return 1;
+}
+
+
 int pi(parameter *para){
     //site pi
     igzstream inF ((para->inFile).c_str(),ifstream::in);
@@ -7395,13 +7480,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
      map<string,transcript>::iterator it;
      it = trans.begin();
      cout << "genes number is:\t"<< trans.size() << endl;
-    set<string> fea;
-    fea.insert("utr5");
-    fea.insert("utr3");
-    fea.insert("Es");
-    fea.insert("intron1");
-    fea.insert("Em");
-    fea.insert("El");
+     set<string> fea;
      while(it != trans.end()){
          
          transcript tr = it->second;
@@ -7485,11 +7564,8 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
          }
          for(int i = start;i < end+1;i++){
              name[i] = ID;
-             
-             if(fea.count(feature[i])!=1) {
-                 feature[i] = "intron2";
-             }
-         }
+             if (feature[i] == "non") feature[i] = "intron2";
+        }
          
          if(strand == "-"){
              for(int i = end + 1; i < end + 1000; i++){
