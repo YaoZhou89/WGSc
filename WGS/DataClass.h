@@ -69,7 +69,7 @@ public:
         pos;
         headLine = 0;
         noNeg = false;
-        size = 5000000;
+        size = 500000000;
         headerC = "#";
         recode = false;
         mean = 0.0;
