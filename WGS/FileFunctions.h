@@ -7747,7 +7747,7 @@ int DtoBed(parameter *para){
         double Dvalue = string2Double(ll[8]);
         if(Dvalue < 0) continue;
         double fd_value = string2Double(ll[9]);
-        if(fd_value > 0) continue;
+        if(fd_value > 1) continue;
         ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
     }
     inf.close();
