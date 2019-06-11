@@ -7486,7 +7486,6 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
              name[i] = ID;
              
              if(fea.count(feature[i])!=1) {
-                 cout << "intron2" << endl;
                  feature[i] == "intron2";
              }
          }
@@ -7619,6 +7618,7 @@ int slicedFunction(parameter *para){
 //        if(ID=="TraesCS6D02G395700.1"){
 //            if(key == "U1") cout << "U1 found!" << endl;
 //        }
+        if(key=="intron2") count << "intron2" << endl;
         double value = 0;
         if(size > 1){
             if (ll[size] == "-nan" || ll[size] == "nan" || ll[size] == "na" || ll[size] == "NA"|| ll[size] == "Inf"|| ll[size] == "-Inf") continue;
