@@ -499,6 +499,7 @@ public:
         }
         map<string,gene>::iterator it;
         it = genes.begin();
+        cout << "genes size is:\t" << genes.size() << endl;
         while(it!= genes.end()){
             string IDs = it->first;
             gene g = it->second;
@@ -520,6 +521,7 @@ public:
             long_transcripts.insert(pair<string,transcript>(IDs,trans));
             it++;
         }
+        
         inf.close();
     }
     
