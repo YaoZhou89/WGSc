@@ -963,7 +963,7 @@ int meanBedpi(parameter *para){
             }
         }
         double mean = pi / number;
-        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n";
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n" << flush;
     }
     inbed.close();
     inF.close();
