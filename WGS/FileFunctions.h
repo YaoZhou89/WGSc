@@ -951,15 +951,15 @@ int meanBedpi(parameter *para){
         for(int i = s ; i < e; ++i){
             string key = ll[0]+"_"+Int2String(i);
             if(pi_value.count(key) == 1){
+                number++;
                 double value = pi_value[key];
                 if(value != NAN){
-                    number++;
                     pi += value;
                 }
             }
         }
         double mean = pi / number;
-        cout << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n";
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n";
     }
     inbed.close();
     inF.close();
