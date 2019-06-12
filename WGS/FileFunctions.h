@@ -919,6 +919,7 @@ int meanBedpi(parameter *para){
         cerr << "Couldn't open outFile" << endl;
         return 0;
     }
+    string chr = (para->chr);
     string line;
     vector < string > ll;
     map<string,double> pi_value;
@@ -928,6 +929,7 @@ int meanBedpi(parameter *para){
         if(line[0]=='C') continue;
         ll.clear();
         split(line,ll," \t");
+        if(ll[0]!=chr) continue;
         string key =ll[0] + "_" + ll[1];
         double value = 0;
         if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") {
@@ -947,6 +949,7 @@ int meanBedpi(parameter *para){
         if(line[0] =='S') continue;
         ll.clear();
         split(line,ll,"\t");
+        if(ll[0]!=chr) continue;
         int s = string2Int(ll[1]);
         int e = string2Int(ll[2]) + 1 ;
         for(int i = s ; i < e; ++i){
