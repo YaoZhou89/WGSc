@@ -937,6 +937,7 @@ int meanBedpi(parameter *para){
         }
         pi_value.insert(pair<string,double>(key,value));
     }
+    cout << "site value readed! Total sites are:\t" << pi_value.size() <<  endl;
     while(!inbed.eof()){
         double pi = 0;
         int number = 0;
