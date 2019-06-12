@@ -919,68 +919,49 @@ int meanBedpi(parameter *para){
         cerr << "Couldn't open outFile" << endl;
         return 0;
     }
-    string chr = (para->chr);
     string line;
     vector < string > ll;
-    int** bedPos = imatrix(-1, 500000, -1, 4);
-    int bedPos_i = 0;
-    while(!inbed.eof()){
-        getline(inbed,line);
-        if(line.length() < 1) continue;
-        if(line[0]=='C') continue;
-        ll.clear();
-        split(line,ll,"\t");
-        if(ll[0] !=chr) continue;
-        bedPos[bedPos_i][0] = string2Int(ll[1]); // start pos
-        bedPos[bedPos_i][1] = string2Int(ll[2]); // end pos
-        bedPos[bedPos_i][2] = string2Int(ll[2]) - string2Int(ll[1]) + 1 ; // length
-        bedPos[bedPos_i][3] = string2Int(ll[3]); // number in this region
-        bedPos_i++;
-    }
-    cout << "bed readed! Size is:\t" << bedPos_i << endl;
-    inbed.close();
-    double pi = 0.0;
-    int curent_bed = bedPos[0][0];
-    int startPos;
-    int endPos;
-    int n_bed_pos = 0;
+    map<string,double> pi_value;
     while(!inF.eof()){
         getline(inF, line);
         if(line.length() < 1) continue;
         if(line[0]=='C') continue;
         ll.clear();
         split(line,ll," \t");
-        if(ll[0]!=chr) continue;
-        int current_pos = string2Int(ll[1]);
-        if (current_pos < bedPos[0][0]) {
-            //            cerr << "please check bedFile, the first position is too small!" << endl;
-            //            return 1;
-            continue;
+        string key =ll[0] + "_" + ll[1];
+        double value = 0;
+        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") {
+            value = NAN;
+        }else{
+            value = string2Double(ll[2]);
         }
-        //        if (current_pos > bedPos[bedPos_i-1][1]) continue;
-        if(n_bed_pos > bedPos_i){
-            break;
-        }
-        while(bedPos[n_bed_pos][1] < current_pos ){
-            startPos = bedPos[n_bed_pos][0];
-            endPos = bedPos[n_bed_pos][1];
-            ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
-            n_bed_pos++;
-            if(n_bed_pos > bedPos_i){
-                break;
+        pi_value.insert(pair<string,double>(key,value));
+    }
+    while(!inbed.eof()){
+        double pi = 0;
+        int number = 0;
+        getline(inbed,line);
+        if(line.length()<1) continue;
+        if(line[0] == 'C') continue;
+        if(line[0] =='S') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        int s = string2Int(ll[1]);
+        int e = string2Int(ll[2]) + 1 ;
+        for(int i = s ; i < e; ++i){
+            string key = ll[0]+"_"+Int2String(i);
+            if(pi_value.count(key) == 1){
+                double value = pi_value[key];
+                if(value != NAN){
+                    number++;
+                    pi += value;
+                }
             }
-            pi = 0;
         }
-        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") ll[2] = "0";
-        pi += string2Double(ll[2]);
+        double mean = pi / number;
+        cout << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n";
     }
-    while( n_bed_pos < bedPos_i){
-        startPos = bedPos[n_bed_pos][0];
-        endPos = bedPos[n_bed_pos][1];
-        ouf << chr << "\t" << startPos << "\t" << endPos << "\t" << pi/bedPos[n_bed_pos][3] << "\n";
-        n_bed_pos++;
-        pi = 0;
-    }
+    inbed.close();
     inF.close();
     ouf.close();
     return 1;
@@ -7810,6 +7791,32 @@ int getSubTreemix(parameter *para){
     return 0;
 }
 int DtoBed(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='s') continue;
+        ll.clear();
+        split(line,ll,",");
+        if(ll[8] == "-nan" || ll[8] == "nan" || ll[8] == "na" || ll[8] == "NA"|| ll[8] == "Inf"|| ll[8] == "-Inf") continue;
+        if(ll[9] == "-nan" || ll[9] == "nan" || ll[9] == "na" || ll[9] == "NA"|| ll[9] == "Inf"|| ll[9] == "-Inf") continue;
+        double Dvalue = string2Double(ll[8]);
+        if(Dvalue < 0) continue;
+        double fd_value = string2Double(ll[9]);
+        if(fd_value > 1) continue;
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << "100" << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
+int Bed(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
