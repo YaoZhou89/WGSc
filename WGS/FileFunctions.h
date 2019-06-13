@@ -922,7 +922,7 @@ int meanBedpi(parameter *para){
     string chr = (para->chr);
     string line;
     vector < string > ll;
-    map<string,double> pi_value;
+    unordered_map<string,double> pi_value;
     while(!inF.eof()){
         getline(inF, line);
         if(line.length() < 1) continue;
