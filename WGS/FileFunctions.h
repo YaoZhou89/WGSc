@@ -932,7 +932,9 @@ int meanBedpi(parameter *para){
         if(ll[0]!=chr) continue;
         string key =ll[0] + "_" + ll[1];
         double value = 0;
-        if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") {
+        if(ll.size()==2){
+            value = 1;
+        }else if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") {
             value = NAN;
         }else{
             value = string2Double(ll[2]);
@@ -963,7 +965,7 @@ int meanBedpi(parameter *para){
             }
         }
         double mean = pi / number;
-        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << mean << "\n" << flush;
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << pi << "\t" << number << "\t" << mean << "\n" << flush;
     }
     inbed.close();
     inF.close();
