@@ -935,7 +935,7 @@ int meanBedpi(parameter *para){
         if(ll.size()==2){
             value = 1;
         }else if(ll[2]=="-nan"||ll[2]=="NA"||ll[2]=="inf") {
-            value = NAN;
+            value = 0;
         }else{
             value = string2Double(ll[2]);
         }
