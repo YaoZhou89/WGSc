@@ -7835,7 +7835,7 @@ int DtoBed2(parameter *para){
         if(line[0]=='s') continue;
         ll.clear();
         split(line,ll,",");
-        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << "100" << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << "500" << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
     }
     inf.close();
     ouf.close();
