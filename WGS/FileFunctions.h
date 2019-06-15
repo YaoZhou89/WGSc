@@ -7822,6 +7822,26 @@ int DtoBed(parameter *para){
     
     return 0;
 }
+int DtoBed2(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='s') continue;
+        ll.clear();
+        split(line,ll,",");
+        ouf << ll[0] << "\t" << ll[1] << "\t" << ll[2] << "\t" << "100" << "\t" << ll[8] << "\t" << ll[9] << "\t" << ll[10] << "\n";
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
 int Bed(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
