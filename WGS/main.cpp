@@ -190,6 +190,8 @@ int main(int argc, char * argv[]) {
                 mergeDgeno(para);
             }else if ((para->type) == "DtoBed"){
                 DtoBed(para);
+            }else if ((para->type) == "DtoBed2"){
+                DtoBed2(para);
             }else if ((para->type) == "meanBed"){
                 meanBedpi(para);
             }
