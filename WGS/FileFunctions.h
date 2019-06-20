@@ -8043,6 +8043,7 @@ int getIntersectVcf(parameter *para){
             for(int i = 0; i < np.size();++i){
                 ouf << "\t" << ll[np[i]];
             }
+            ouf << "\n";
             continue;
         }
         
