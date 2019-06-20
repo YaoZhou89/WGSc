@@ -7953,7 +7953,7 @@ int getGeneticDistance(parameter *para){
         if(line[0] = '#' && line[1] == 'C'){
             np = getPos(ll,subs);
             ouf << ll[np[np.size()-1]] << "\n";
-            split(line,head;"\t");
+            split(line,head,"\t");
         }
         for (int i = 0; i < np.size()-1; ++i){
             string a = ll[np[i]];
