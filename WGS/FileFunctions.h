@@ -8036,6 +8036,7 @@ int getIntersectVcf(parameter *para){
         if(line[0] == '#' && line[1] == 'C'){
             np = getPos(ll,subs);
             cout << "Reading VCF file..." << endl;
+            ouf << ll[0];
             for(int i = 1; i<9;++i){
                 ouf << "\t" << ll[i] ;
             }
