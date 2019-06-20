@@ -7929,7 +7929,7 @@ int getGeoDistance(parameter *para){
 int getGeneticDistance(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
-    string sampleFile = (para -> inFile2);
+    string sampleFile = (para -> inFile3);
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
     string line;
@@ -7944,15 +7944,17 @@ int getGeneticDistance(parameter *para){
     vector<string> head;
     double** distanceMatrix = dmatrix(-1, subs.size() + 1, -1, subs.size()+1);
     double** markerMatrix = dmatrix(-1, subs.size() + 1, -1, subs.size()+1);
+    int cl = 0;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if(line[0] == '#' && line[1] != 'C') continue;
+        if(line[0] == '#' && line[1] == '#') continue;
+        cl++;
+        cout << "Current line is:\t" << cl << endl;
         ll.clear();
         split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
             np = getPos(ll,subs);
-//            ouf << ll[np[np.size()-1]] << "\n";
             split(line,head,"\t");
             cout << "Reading vcf file..." << endl;
             continue;
@@ -7961,8 +7963,6 @@ int getGeneticDistance(parameter *para){
             string a = ll[np[i]];
             for(int j = i+1; j < np.size(); ++j){
                 string b =ll[np[j]];
-//                cout << "a is:\t" << a << ";b is:\t" << b << endl;
-                
                 if(a[0] =='.' || b[0] == '.') {
                     continue;
                 }else{
