@@ -7953,7 +7953,6 @@ int getGeneticDistance(parameter *para){
         if(cl%10000==0){
              cout << "Current line is:\t" << cl << endl;
         }
-       
         ll.clear();
         split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
@@ -7970,12 +7969,10 @@ int getGeneticDistance(parameter *para){
                     continue;
                 }else{
                     markerMatrix[i][j] ++;
-                    int a1 = string2Int(a.substr(0,1)) + string2Int(a.substr(2,1));
-                    int b1 = string2Int(b.substr(0,1)) + string2Int(b.substr(2,1));
-                    if(a1*b1 > 0){
-                        distanceMatrix[i][j] ++;
-                    }else if (a1*b1 == 0){
+                    if(a[0] != a[2] || b[0] != b[2]){
                         distanceMatrix[i][j] = distanceMatrix[i][j] + 0.5;
+                    }else if(a[0]==b[0]){
+                        distanceMatrix[i][j] ++;
                     }else{
                         continue;
                     }
