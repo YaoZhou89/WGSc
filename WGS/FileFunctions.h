@@ -7960,10 +7960,13 @@ int getGeneticDistance(parameter *para){
             string a = ll[np[i]];
             for(int j = i+1; j < np.size(); ++j){
                 string b =ll[np[j]];
+                cout << "a is:\t" << a << ";b is:\t" << b << endl;
+                
                 if(a[0] !='.' && b[0]!='.') {
                     continue;
                 }else{
                     markerMatrix[i][j] ++;
+                    
                     int a1 = string2Int(a.substr(0,1)) + string2Int(a.substr(2,1));
                     int b1 = string2Int(b.substr(0,1)) + string2Int(b.substr(2,1));
                     if(a1*b1 > 0){
