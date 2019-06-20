@@ -8023,7 +8023,7 @@ int getIntersectVcf(parameter *para){
     cout << "Total sites is:\t" << sites.size() << endl;
     
     while(!inf.eof()){
-        getline(inf2,line);
+        getline(inf,line);
         if(line.length()<1) continue;
         if(line.substr(0,2) == "##") {
             if(para->recode){
