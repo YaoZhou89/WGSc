@@ -7868,4 +7868,127 @@ int Bed(parameter *para){
     
     return 0;
 }
+int getGeoDistance(parameter *para){
+/*
+ 
+*/
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    vector<double> lat;
+    vector<double> lng;
+    vector<string> ID;
+    getline(inf,line);
+    split(line,ll,"\t");
+    int latp = 0, lngp = 0;
+    for(int i = 0; i < ll.size(); ++i){
+        if(ll[i] == "Latitude") {
+            latp = i;
+        }else if (ll[i] == "Longitude"){
+            lngp = i;
+        }
+    }
+//    cout <<"latP is:\t" << latp << endl;
+//    cout <<"lngP is:\t" << lngp << endl;
+    
+    double EarthRadius = 6378.1;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[latp] == "NA" || ll[lngp] == "NA") continue;
+        lat.push_back(string2Double(ll[latp]));
+        lng.push_back(string2Double(ll[lngp]));
+        ID.push_back(ll[0]);
+    }
+    
+    for(int i = 0; i < ID.size()-1; ++i){
+        for (int j = i+1; j < ID.size();++j){
+            double a1 = radian(lat[i]);
+            double a2 = radian(lat[j]);
+            double b1 = radian(lng[i]);
+            double b2 = radian(lng[j]);
+            double a = a1 - a2;
+            double b = b1 - b2;
+            double cal = 2 * asin(sqrt(pow(sin(a / 2), 2) + cos(a1)
+                                                 * cos(a2) * pow(sin(b / 2), 2))) * EarthRadius;
+            double result = round(cal * 10000) / 10000;
+            ouf << ID[i] << "\t" << ID[j] << "\t" << result << "\n";
+        }
+    }
+    
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
+int getGeneticDistance(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    string sampleFile = (para -> inFile2);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    vector<double> lat;
+    vector<double> lng;
+    vector<string> ID;
+    getline(inf,line);
+    set<string> subs = getSubgroup(sampleFile);
+    split(line,ll,"\t");
+    vector<int> np;
+    vector<string> head;
+    double** distanceMatrix = dmatrix(-1, subs.size() + 1, -1, subs.size()+1);
+    double** markerMatrix = dmatrix(-1, subs.size() + 1, -1, subs.size()+1);
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] = '#' && line[1] != 'C') continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(line[0] = '#' && line[1] == 'C'){
+            np = getPos(ll,subs);
+            ouf << ll[np[np.size()-1]] << "\n";
+            split(line,head;"\t");
+        }
+        for (int i = 0; i < np.size()-1; ++i){
+            string a = ll[np[i]];
+            for(int j = i+1; j < np.size(); ++j){
+                string b =ll[np[j]];
+                if(a[0] !='.' && b[0]!='.') {
+                    continue;
+                }else{
+                    markerMatrix[i][j] ++;
+                    int a1 = string2Int(a.substr(0,1)) + string2Int(a.substr(2,1));
+                    int b1 = string2Int(b.substr(0,1)) + string2Int(b.substr(2,1));
+                    if(a1*b1 > 0){
+                        distanceMatrix[i][j] ++;
+                    }else if (a1*b1 == 0){
+                        distanceMatrix[i][j] = distanceMatrix[i][j] + 0.5;
+                    }else{
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+    
+    ouf << "ID1\tID2\tsum\tmarker\tmean\n";
+    for (int i = 0; i < np.size()-1; ++i){
+        for (int j = i+1; j < np.size();++i){
+            ouf << head[np[i]] << "\t" << head[np[j]] << "\t";
+            ouf << markerMatrix[i][j]- distanceMatrix[i][j] << "\t";
+            ouf << markerMatrix[i][j] << "\t";
+            ouf << 1 - distanceMatrix[i][j]/markerMatrix[i][j] << "\n";
+        }
+    }
+    inf.close();
+    ouf.close();
+    
+    return 0;
+}
 #endif /* FileFunctions_h */

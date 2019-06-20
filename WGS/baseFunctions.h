@@ -441,4 +441,8 @@ void parseFeatures(){
     
 }
 
+double radian (double d){
+    const double PI  =3.141592653589793238463;
+    return d * PI / 180.0;
+}
 #endif /* baseFunctions_h */

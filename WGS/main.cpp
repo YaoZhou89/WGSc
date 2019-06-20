@@ -28,6 +28,8 @@ int main(int argc, char * argv[]) {
 //    checkOUT(para);
     vcf *inVCF = new vcf;
     depth *inDepth = new depth;
+    // testing:
+   
     if (!(para->inFile).empty())
     {
         if ((para -> model).empty()){
@@ -72,8 +74,7 @@ int main(int argc, char * argv[]) {
                 merge2vcf(para);
             }else if ((para->type) == "addOutgroup"){
                 add2vcf(para);
-            }
-            else if ((para->type) == "toXPCLR"){
+            }else if ((para->type) == "toXPCLR"){
                 toXPCLR(para);
             }else if((para->type) =="toXPCLRsnp") {
                 toXPCLRsnp(para);
@@ -103,6 +104,8 @@ int main(int argc, char * argv[]) {
                 vcf2Dstat(para);
             }else if ((para->type)=="IS"){
                 IScore(para);
+            }else if ((para->type) == "GeneticDistance"){
+                getGeneticDistance(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -194,6 +197,8 @@ int main(int argc, char * argv[]) {
                 DtoBed2(para);
             }else if ((para->type) == "meanBed"){
                 meanBedpi(para);
+            }else if ((para->type) == "GeoDistance"){
+                getGeoDistance(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
