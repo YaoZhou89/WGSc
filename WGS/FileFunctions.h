@@ -8031,6 +8031,8 @@ int getIntersectVcf(parameter *para){
             }
             continue;
         };
+        ll.clear();
+        split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
             np = getPos(ll,subs);
             cout << "Reading VCF file..." << endl;
@@ -8042,8 +8044,7 @@ int getIntersectVcf(parameter *para){
             }
             continue;
         }
-        ll.clear();
-        split(line,ll,"\t");
+        
         if(sites.count(ll[0]+"_"+ll[1])==1){
             ouf << ll[0];
             for(int i = 1; i<9;++i){
