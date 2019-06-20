@@ -7954,6 +7954,7 @@ int getGeneticDistance(parameter *para){
             np = getPos(ll,subs);
             ouf << ll[np[np.size()-1]] << "\n";
             split(line,head,"\t");
+            cout << "Reading vcf file..." << endl;
         }
         for (int i = 0; i < np.size()-1; ++i){
             string a = ll[np[i]];
@@ -7976,7 +7977,7 @@ int getGeneticDistance(parameter *para){
             }
         }
     }
-    
+    cout << "Distance calculated!" << endl;
     ouf << "ID1\tID2\tsum\tmarker\tmean\n";
     for (int i = 0; i < np.size()-1; ++i){
         for (int j = i+1; j < np.size();++i){
