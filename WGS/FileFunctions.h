@@ -7947,12 +7947,12 @@ int getGeneticDistance(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if(line[0] = '#' && line[1] != 'C') continue;
+        if(line[0] == '#' && line[1] != 'C') continue;
         ll.clear();
         split(line,ll,"\t");
-        if(line[0] = '#' && line[1] == 'C'){
+        if(line[0] == '#' && line[1] == 'C'){
             np = getPos(ll,subs);
-            ouf << ll[np[np.size()-1]] << "\n";
+//            ouf << ll[np[np.size()-1]] << "\n";
             split(line,head,"\t");
             cout << "Reading vcf file..." << endl;
         }
@@ -7981,7 +7981,7 @@ int getGeneticDistance(parameter *para){
     ouf << "ID1\tID2\tsum\tmarker\tmean\n";
     for (int i = 0; i < np.size()-1; ++i){
         for (int j = i+1; j < np.size();++j){
-            cout << "i is:\t" << i <<";j is:\t" << j << endl;
+//            cout << "i is:\t" << i <<";j is:\t" << j << endl;
             
             ouf << head[np[i]] << "\t" << head[np[j]] << "\t";
             ouf << markerMatrix[i][j]- distanceMatrix[i][j] << "\t";
