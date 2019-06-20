@@ -7981,6 +7981,8 @@ int getGeneticDistance(parameter *para){
     ouf << "ID1\tID2\tsum\tmarker\tmean\n";
     for (int i = 0; i < np.size()-1; ++i){
         for (int j = i+1; j < np.size();++i){
+            cout << "i is:\t" << i <<";j is:\t" << j << endl;
+            
             ouf << head[np[i]] << "\t" << head[np[j]] << "\t";
             ouf << markerMatrix[i][j]- distanceMatrix[i][j] << "\t";
             ouf << markerMatrix[i][j] << "\t";
