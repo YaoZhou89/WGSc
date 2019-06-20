@@ -7967,7 +7967,6 @@ int getGeneticDistance(parameter *para){
                     continue;
                 }else{
                     markerMatrix[i][j] ++;
-                    
                     int a1 = string2Int(a.substr(0,1)) + string2Int(a.substr(2,1));
                     int b1 = string2Int(b.substr(0,1)) + string2Int(b.substr(2,1));
                     if(a1*b1 > 0){
@@ -7994,6 +7993,65 @@ int getGeneticDistance(parameter *para){
         }
     }
     inf.close();
+    ouf.close();
+    
+    return 0;
+}
+int getIntersectVcf(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    string sampleFile = (para -> inFile3);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> sites;
+    set<string> subs = getSubgroup(sampleFile);
+    vector<string> ll;
+    vector<int> np;
+    
+    cout << "Reading sites..." << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,1)=="#") continue;
+        ll.clear();
+        split(line,ll,"\t");
+        sites.insert(ll[0]+"_"+ll[1]);
+    }
+    cout << "Total sites is:\t" << sites.size() << endl;
+    
+    while(!inf.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,2) == "##") {
+            if(para->recode){
+                ouf << line << "\n";
+            }
+            continue;
+        };
+        if(line[0] == '#' && line[1] == 'C'){
+            np = getPos(ll,subs);
+            cout << "Reading VCF file..." << endl;
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if(sites.count(ll[0]+"_"+ll[1])==1){
+            ouf << ll[0];
+            for(int i = 1; i<9;++i){
+                ouf << "\t" << ll[i] ;
+            }
+            for(int i = 0; i < np.size();++i){
+                ouf << "\t" << ll[np[i]];
+            }
+            ouf << "\n";
+        }
+        
+    }
+    inf.close();
+    inf2.close();
     ouf.close();
     
     return 0;

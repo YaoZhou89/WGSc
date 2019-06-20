@@ -106,6 +106,8 @@ int main(int argc, char * argv[]) {
                 IScore(para);
             }else if ((para->type) == "GeneticDistance"){
                 getGeneticDistance(para);
+            }else if((para->type) =="intersect"){
+                getIntersectVcf(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
