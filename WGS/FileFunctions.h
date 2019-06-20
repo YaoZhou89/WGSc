@@ -7963,7 +7963,7 @@ int getGeneticDistance(parameter *para){
                 string b =ll[np[j]];
 //                cout << "a is:\t" << a << ";b is:\t" << b << endl;
                 
-                if(a[0] !='.' && b[0]!='.') {
+                if(a[0] =='.' && b[0] == '.') {
                     continue;
                 }else{
                     markerMatrix[i][j] ++;
