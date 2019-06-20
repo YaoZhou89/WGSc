@@ -7955,12 +7955,13 @@ int getGeneticDistance(parameter *para){
 //            ouf << ll[np[np.size()-1]] << "\n";
             split(line,head,"\t");
             cout << "Reading vcf file..." << endl;
+            continue;
         }
         for (int i = 0; i < np.size()-1; ++i){
             string a = ll[np[i]];
             for(int j = i+1; j < np.size(); ++j){
                 string b =ll[np[j]];
-                cout << "a is:\t" << a << ";b is:\t" << b << endl;
+//                cout << "a is:\t" << a << ";b is:\t" << b << endl;
                 
                 if(a[0] !='.' && b[0]!='.') {
                     continue;
