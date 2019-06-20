@@ -7950,7 +7950,10 @@ int getGeneticDistance(parameter *para){
         if(line.length() < 1) continue;
         if(line[0] == '#' && line[1] == '#') continue;
         cl++;
-        cout << "Current line is:\t" << cl << endl;
+        if(cl%10000==0){
+             cout << "Current line is:\t" << cl << endl;
+        }
+       
         ll.clear();
         split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
