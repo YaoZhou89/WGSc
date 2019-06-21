@@ -8065,4 +8065,42 @@ int getIntersectVcf(parameter *para){
     
     return 0;
 }
+int getDistanceAll(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    map<string,double> geneticDistance;
+//    map<string,double> geoDistance;
+    vector<string> ll;
+    getline(inf,line);
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        geneticDistance.insert(pair<string,double>(ll[0]+"_"+ll[1],string2Double(ll[3])));
+    }
+    cout << "Genetic distance readed! " << geneticDistance.size() << " pairs found!" << endl;
+    ouf << "ID1\tID2\tGeneticDistance\tGeoDistance";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(geneticDistance.count(ll[0]+"_"+ll[1])==1){
+            ouf << ll[0] << "\t" << ll[1] << "\t" << geneticDistance[ll[0]+"_"+ll[1]] << "\t" << ll[2] << "\n";
+        }else if (geneticDistance.count(ll[1]+"_"+ll[0])==1){
+            ouf << ll[0] << "\t" << ll[1] << "\t" << geneticDistance[ll[1]+"_"+ll[0]] << "\t" << ll[2] << "\n";
+        }
+    }
+    inf.close();
+    inf2.close();
+    ouf.close();
+    return 0;
+}
 #endif /* FileFunctions_h */
