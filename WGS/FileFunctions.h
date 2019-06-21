@@ -8083,10 +8083,10 @@ int getDistanceAll(parameter *para){
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
-        geneticDistance.insert(pair<string,double>(ll[0]+"_"+ll[1],string2Double(ll[3])));
+        geneticDistance.insert(pair<string,double>(ll[0]+"_"+ll[1],string2Double(ll[4])));
     }
     cout << "Genetic distance readed! " << geneticDistance.size() << " pairs found!" << endl;
-    ouf << "ID1\tID2\tGeneticDistance\tGeoDistance";
+    ouf << "ID1\tID2\tGeneticDistance\tGeoDistance\n";
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
