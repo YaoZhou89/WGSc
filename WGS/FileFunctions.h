@@ -7642,6 +7642,12 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
                  name[i] = ID;
              }
          }
+         //
+         for(int i = start - 55000; i < start - 50000; i++){
+             if(i < 0) continue;
+             if(feature[i] =="NA") feature[i] = "intergenic";
+             name[i] = ID;
+         }
 //         cout << "ended2..." << endl;
 //         cout << "upstream and downstream added" << endl;
          it++;
@@ -7739,7 +7745,7 @@ int slicedFunction(parameter *para){
     map<string,map<string,double>>::iterator itm;
     itm = values.begin();
     // U1, U2, U3, U4,U5,utr3,Es,intron1,Em,intron2,El,utr5,D1,D2,D3,D4,D5
-    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr5\texon1\tintron1\texon2\tintron2\texon3\tutr3\tD1\tD2\tD3\tD4\tD5" <<"\n";
+    ouf << "gene\tU5\tU4\tU3\tU2\tU1\tutr5\texon1\tintron1\texon2\tintron2\texon3\tutr3\tD1\tD2\tD3\tD4\tD5\tintergenic" <<"\n";
     
     while(itm != values.end()){
         map<string,double> a = itm->second;
@@ -7753,6 +7759,7 @@ int slicedFunction(parameter *para){
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
         ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr3"] << "\t";
         ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
+        ouf << "\t" << a["intergenic"];
         ouf << "\n";
         itm++;
     }
