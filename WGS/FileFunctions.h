@@ -7645,7 +7645,7 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
          //
          for(int i = start - 55000; i < start - 50000; i++){
              if(i < 0) continue;
-             if(feature[i] =="NA") feature[i] = "intergenic";
+             if(feature[i] =="non") feature[i] = "intergenic";
              name[i] = ID;
          }
 //         cout << "ended2..." << endl;
