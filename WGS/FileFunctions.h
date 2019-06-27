@@ -7643,9 +7643,9 @@ vector<vector<string>> addFeatures(string gffFile, string chr,int size){
              }
          }
          //
-         for(int i = start - 55000; i < start - 50000; i++){
+         for(int i = start - 50000; i < start - 5000; i++){
              if(i < 0) continue;
-             if(feature[i] =="non") feature[i] = "intergenic";
+             if(feature[i] =="non") feature[i] = "pre";
              name[i] = ID;
          }
 //         cout << "ended2..." << endl;
@@ -7759,7 +7759,7 @@ int slicedFunction(parameter *para){
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
         ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr3"] << "\t";
         ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
-        ouf << "\t" << a["intergenic"];
+        ouf << "\t" << a["non"];
         ouf << "\n";
         itm++;
     }
