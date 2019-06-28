@@ -445,4 +445,7 @@ double radian (double d){
     const double PI  =3.141592653589793238463;
     return d * PI / 180.0;
 }
+bool isNA(string a){
+    return a == "-nan" || a == "nan" || a == "na" || a == "NA"|| a == "Inf"|| a == "-Inf" || a == "inf"|| a == "-inf";
+}
 #endif /* baseFunctions_h */
