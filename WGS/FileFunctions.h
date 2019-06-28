@@ -7759,7 +7759,7 @@ int slicedFunction(parameter *para){
         ouf << a["utr5"] << "\t" << a["Es"] << "\t"<< a["intron1"] << "\t" << a["Em"] << "\t";
         ouf << a["intron2"] << "\t"<< a["El"] << "\t" << a["utr3"] << "\t";
         ouf << a["D1"] << "\t"<< a["D2"] << "\t" << a["D3"] << "\t" << a["D4"] << "\t" << a["D5"];
-        ouf << "\t" << a["non"];
+        ouf << "\t" << a["intergenic"];
         ouf << "\n";
         itm++;
     }
