@@ -7789,6 +7789,12 @@ int getSubTreemix(parameter *para){
     igzstream inf2 ((infile2).c_str(),ifstream::in);
     
     string line;
+    map<string,set<string>> f4s;
+    
+    string *filename;
+    filename = new string[f4s.size()];
+    int o = 0;
+    map<string,int> pname;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
@@ -7801,20 +7807,76 @@ int getSubTreemix(parameter *para){
         subgroup.insert(ll[2]);
         subgroup.insert(ll[3]);
         subgroup.insert(ll[4]);
-        ofstream ouf ((outFile+ll[0]).c_str());
-        string line1;
-        getline(inf,line1);
+        f4s.insert(pair<string,set<string>>(ll[0],subgroup));
+        filename[o] = outFile+ll[0]+".txt";
+        pname.insert(pair<string,int>(ll[0],o));
+        o++;
+    }
+    ofstream *ouf;
+    ouf = new ofstream[f4s.size()];
+    for(int i = 0; i < pname.size(); ++i){
+        ouf[i].open(filename[i],ios::out);
+    }
+    map<int,vector<int>> pos;
+    getline(inf,line);
+    vector<string> ll;
+    ll.clear();
+    split(line,ll," \t");
+    int outgroupP = 0;
+    for(int i = 0; i < ll.size();++i){
+        if(ll[i]=="outgroup") outgroupP = i;
+        map<string,set<string>>::iterator it;
+        for(it=f4s.begin();it!=f4s.end();++it){
+            string ord = it->first;
+            set<string> f4 = it->second;
+            if(f4.count(ll[i])==1){
+                int po = pname[ord];
+                if(pos.count(i)==0){
+                    vector<int> p;
+                    p.push_back(po);
+                    pos.insert(pair<int,vector<int>>(i,p));
+                }else{
+                    vector<int> p = pos[i];
+                    p.push_back(po);
+                    pos[i] = p;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < ll.size(); ++i){
+        if(pos.count(i)==1){
+            vector<int> p = pos[i];
+            for(int j = 0; j < p.size();j++){
+                ouf[p[j]] << ll[i] << "\t";
+            }
+        }
+    }
+    for(int i = 0; i < f4s.size(); ++i){
+        ouf[i] << "outgroup\n";
+    }
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        vector<string> ll;
         ll.clear();
-        split(line1,ll," \t");
-        vector<int> pos;
-        
-        for(int i = 0; i < ll.size();++i){
-            if(subgroup.count(ll[i])==1) pos.push_back(i);
+        split(line,ll," \t");
+        for (int i = 0; i < ll.size(); ++i){
+            if(pos.count(i)==1){
+                vector<int> p = pos[i];
+                for(int j = 0; j < p.size();j++){
+                    ouf[p[j]] << ll[i] << "\t";
+                    
+                }
+            }
+        }
+        for(int i = 0;  i<f4s.size();i++){
+            ouf[i] << ll[outgroupP];
         }
         
     }
-    
-    
+    for(int i = 0;  i<f4s.size();i++){
+        ouf[i].close();
+    }
     return 0;
 }
 int DtoBed(parameter *para){
