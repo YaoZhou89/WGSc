@@ -7812,9 +7812,9 @@ int getSubTreemix(parameter *para){
     filename = new string[f4s.size()];
     map<string,int> pname; // key: order, map: index in filename
     for (int i = 0; i < orders.size();++i){
-        filename[i] = outFile + orders[i] +".txt";
+        filename[i] = outFile + orders[i] +".frq";
         pname.insert(pair<string,int>(orders[i],i));
-        cout << filename[i] << endl;
+//        cout << filename[i] << endl;
     }
     ///
     ofstream *ouf;
