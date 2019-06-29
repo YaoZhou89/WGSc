@@ -7877,6 +7877,7 @@ int getSubTreemix(parameter *para){
         }
         for(int i = 0;  i<f4s.size();i++){
             ouf[i] << ll[outgroupP];
+            ouf[i] << "\n";
         }
         
     }
