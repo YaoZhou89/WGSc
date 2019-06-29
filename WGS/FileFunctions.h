@@ -7795,6 +7795,7 @@ int getSubTreemix(parameter *para){
     filename = new string[f4s.size()];
     int o = 0;
     map<string,int> pname;
+    cout << "Reading information file..." << endl;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
@@ -7812,6 +7813,7 @@ int getSubTreemix(parameter *para){
         pname.insert(pair<string,int>(ll[0],o));
         o++;
     }
+    cout << pname.size() << " information file readed!" << endl;
     ofstream *ouf;
     ouf = new ofstream[f4s.size()];
     for(int i = 0; i < pname.size(); ++i){
@@ -7823,6 +7825,7 @@ int getSubTreemix(parameter *para){
     ll.clear();
     split(line,ll," \t");
     int outgroupP = 0;
+    cout << "Reading treeMix frq file..." << endl;
     for(int i = 0; i < ll.size();++i){
         if(ll[i]=="outgroup") outgroupP = i;
         map<string,set<string>>::iterator it;
@@ -7854,6 +7857,7 @@ int getSubTreemix(parameter *para){
     for(int i = 0; i < f4s.size(); ++i){
         ouf[i] << "outgroup\n";
     }
+    cout << "header added!" << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
