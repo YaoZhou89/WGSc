@@ -7794,24 +7794,25 @@ int getSubTreemix(parameter *para){
     string *filename;
     filename = new string[f4s.size()];
     int o = 0;
-    map<string,int> pname;
+    map<string,int> pname; // key: order, map: index in filename
     cout << "Reading information file..." << endl;
+    vector<string> ll;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
         if(line.substr(0,3) == "ord") continue;
-        vector<string> ll;
         ll.clear();
         split(line,ll," \t");
         set<string> subgroup;
         subgroup.insert(ll[1]);
         subgroup.insert(ll[2]);
         subgroup.insert(ll[3]);
-        subgroup.insert(ll[4]);
         f4s.insert(pair<string,set<string>>(ll[0],subgroup));
         filename[o] = outFile+ll[0]+".txt";
         pname.insert(pair<string,int>(ll[0],o));
+        cout << filename[o] << endl;
         o++;
+        
     }
     cout << pname.size() << " information file readed!" << endl;
     ofstream *ouf;
@@ -7821,7 +7822,6 @@ int getSubTreemix(parameter *para){
     }
     map<int,vector<int>> pos;
     getline(inf,line);
-    vector<string> ll;
     ll.clear();
     split(line,ll," \t");
     int outgroupP = 0;
