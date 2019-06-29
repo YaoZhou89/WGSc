@@ -7790,16 +7790,12 @@ int getSubTreemix(parameter *para){
     
     string line;
     map<string,set<string>> f4s;
-    
-    string *filename;
-    filename = new string[f4s.size()];
-    int o = 0;
-    map<string,int> pname; // key: order, map: index in filename
     cout << "Reading information file..." << endl;
     vector<string> ll;
+    vector<string> orders;
     while(!inf2.eof()){
         getline(inf2,line);
-        if(line.length()<1) continue;
+        if(line.length() < 1) continue;
         if(line.substr(0,3) == "ord") continue;
         ll.clear();
         split(line,ll," \t");
@@ -7807,14 +7803,20 @@ int getSubTreemix(parameter *para){
         subgroup.insert(ll[1]);
         subgroup.insert(ll[2]);
         subgroup.insert(ll[3]);
+        orders.push_back(ll[0]);
         f4s.insert(pair<string,set<string>>(ll[0],subgroup));
-        filename[o] = outFile+ll[0]+".txt";
-        pname.insert(pair<string,int>(ll[0],o));
-        cout << filename[o] << endl;
-        o++;
-        
     }
-    cout << pname.size() << " information file readed!" << endl;
+    cout << f4s.size() << " information file readed!" << endl;
+    ///
+    string *filename;
+    filename = new string[f4s.size()];
+    map<string,int> pname; // key: order, map: index in filename
+    for (int i = 0; i < orders.size();++i){
+        filename[i] = outFile + orders[i] +".txt";
+        pname.insert(pair<string,int>(orders[i],i));
+        cout << filename[i] << endl;
+    }
+    
     ofstream *ouf;
     ouf = new ofstream[f4s.size()];
     for(int i = 0; i < pname.size(); ++i){
