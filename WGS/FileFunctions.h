@@ -7816,7 +7816,7 @@ int getSubTreemix(parameter *para){
         pname.insert(pair<string,int>(orders[i],i));
         cout << filename[i] << endl;
     }
-    
+    ///
     ofstream *ouf;
     ouf = new ofstream[f4s.size()];
     for(int i = 0; i < pname.size(); ++i){
