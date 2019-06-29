@@ -203,6 +203,8 @@ int main(int argc, char * argv[]) {
                 getGeoDistance(para);
             }else if ((para->type)== "DistanceAll"){
                 getDistanceAll(para);
+            }else if ((para->type) == "tof4"){
+                getSubTreemix(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
