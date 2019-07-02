@@ -441,6 +441,59 @@ void parseFeatures(){
     
 }
 
+void list_dir(const std::string& dir, std::vector<std::string>& files){
+    DIR *dp;
+    struct dirent *dirp;
+    unsigned fileCount = 0;
+    
+    if ((dp = opendir(dir.c_str())) == NULL){
+        std::cout << "Error opening dir." << std::endl;
+    }
+    
+    while ((dirp = readdir(dp)) != NULL){
+        std::string entry = dirp->d_name;
+        if ( entry == "." or entry == ".." )
+        {
+            continue;
+        }
+        
+        files.push_back(entry);
+        fileCount++;
+    }
+    closedir(dp);
+}
+void list_allDir(const std::string& dir, std::set<std::string>& files){
+    DIR *dp;
+    struct dirent *dirp;
+    unsigned fileCount = 0;
+    
+    if ((dp = opendir(dir.c_str())) == NULL){
+        std::cout << "Error opening dir." << std::endl;
+    }
+    
+}
+void list_dir(const std::string& dir, std::set<std::string>& files){
+    DIR *dp;
+    struct dirent *dirp;
+    unsigned fileCount = 0;
+    
+    if ((dp = opendir(dir.c_str())) == NULL){
+        std::cout << "Error opening dir." << std::endl;
+    }
+    
+    while ((dirp = readdir(dp)) != NULL){
+        std::string entry = dirp->d_name;
+        if ( entry == "." or entry == ".." )
+        {
+            continue;
+        }
+        
+        files.insert(entry);
+        fileCount++;
+    }
+    closedir(dp);
+}
+
 double radian (double d){
     const double PI  =3.141592653589793238463;
     return d * PI / 180.0;

@@ -8193,4 +8193,33 @@ int getDistanceAll(parameter *para){
     ouf.close();
     return 0;
 }
+int checkFile(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+//    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> samples;
+    vector<string> a;
+    list_dir(infile, a);
+    for(int i = 0; i < a.size(); ++i ){
+        line = a[i];
+        ll.clear();
+        split(line,ll,".");
+        samples.insert(ll[0]);
+    }
+    cout << samples.size() << " samples added" << "n";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(samples.count(line)==0){
+            ouf << line << ".sra" << "\n";
+        }
+    }
+    return 0;
+}
+    
 #endif /* FileFunctions_h */

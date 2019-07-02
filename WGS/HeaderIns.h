@@ -28,10 +28,14 @@
 #include <regex>
 #include <stdbool.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <dirent.h>
 #if defined __GNUC__ || defined __APPLE__
 #include <ext/hash_map>
+#include <sys/uio.h>
 #else
 #include <hash_map>
+#include <sys/io.h>
 #endif
 
 #endif /* HeaderIns_h */

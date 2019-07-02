@@ -19,6 +19,7 @@ int main(int argc, char * argv[]) {
     double duration;
 //    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
+   
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -29,7 +30,7 @@ int main(int argc, char * argv[]) {
     vcf *inVCF = new vcf;
     depth *inDepth = new depth;
     // testing:
-   
+    
     if (!(para->inFile).empty())
     {
         if ((para -> model).empty()){
@@ -205,6 +206,8 @@ int main(int argc, char * argv[]) {
                 getDistanceAll(para);
             }else if ((para->type) == "tof4"){
                 getSubTreemix(para);
+            }else if ((para->type) =="checkFile"){
+                checkFile(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
