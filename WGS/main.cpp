@@ -19,7 +19,7 @@ int main(int argc, char * argv[]) {
     double duration;
 //    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
-   
+    
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -208,6 +208,8 @@ int main(int argc, char * argv[]) {
                 getSubTreemix(para);
             }else if ((para->type) =="checkFile"){
                 checkFile(para);
+            }else if ((para->type) == "getOrtholog"){
+                getOrtholog(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

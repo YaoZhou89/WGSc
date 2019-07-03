@@ -8221,5 +8221,84 @@ int checkFile(parameter *para){
     }
     return 0;
 }
+int getOrtholog(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> genes;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        genes.insert(ll[0]+"|"+ll[1]);
+    }
+    cout << "gene list readed!" << endl;
+    map<string,map<string,string>> orth;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[2] == ll[3] ) continue;
+        string ID1 = ll[0];
+        string ID2 = ll[1];
+        double value = string2Double(ll[7]) + string2Double(ll[6]) - string2Double(ll[4]);
+        string taxon1 = ll[2];
+        string taxon2 = ll[3];
+        ll.clear();
+        split(ID1,ll,"._");
+        ID1 = ll[0];
+        ll.clear();
+        split(ID2,ll,"._");
+        ID2 = ll[0];
+        if(ID1 == ID2 ) continue;
+        
+        map<string, string> blast;
+        if(genes.count(ID1) == 1){
+            if(orth.count(ID1) == 1){
+                blast = orth[ID1];
+                if(blast.count(taxon2) == 0){
+                    blast.insert(pair<string,string>(taxon2,ID2));
+                    orth[ID1] = blast;
+                }
+            }else{
+                blast.insert(pair<string,string>(taxon2,ID2));
+                orth.insert(pair<string,map<string,string>>(ID1,blast));
+            }
+        }else if(genes.count(ID2) == 1){
+            if(orth.count(ID2) == 1){
+                blast = orth[ID2];
+                if(blast.count(taxon1) == 0){
+                    blast.insert(pair<string,string>(taxon1,ID1));
+                    orth[ID2] = blast;
+                }
+            }else{
+                blast.insert(pair<string,string>(taxon1,ID1));
+                orth.insert(pair<string,map<string,string>>(ID2,blast));
+            }
+        }
+    }
+    cout << "similarity file parsed!" << endl;
+    set<string>::iterator it;
     
+    for(it = genes.begin(); it != genes.end(); it++){
+        if(orth.count(*it) == 1){
+            ouf << *it ;
+            map<string, string> blast = orth[*it];
+            map<string,string>::iterator itm;
+            for(itm = blast.begin(); itm != blast.end(); itm++){
+                ouf << "\t" << itm->second;
+            }
+            ouf << "\n";
+        }
+    }
+   
+    return 0;
+}
 #endif /* FileFunctions_h */
