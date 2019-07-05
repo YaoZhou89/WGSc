@@ -8301,4 +8301,23 @@ int getOrtholog(parameter *para){
    
     return 0;
 }
+int getGenes(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> genes;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        for(int i = 0; i < ll.size()){
+            
+        }
+    }
+    return 0;
+}
 #endif /* FileFunctions_h */
