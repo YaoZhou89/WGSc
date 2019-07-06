@@ -210,6 +210,8 @@ int main(int argc, char * argv[]) {
                 checkFile(para);
             }else if ((para->type) == "getOrtholog"){
                 getOrtholog(para);
+            }else if ((para->type) == "HapToVCF"){
+                riceHapToVCF(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

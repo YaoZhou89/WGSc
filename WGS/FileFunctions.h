@@ -8301,23 +8301,46 @@ int getOrtholog(parameter *para){
    
     return 0;
 }
-int getGenes(parameter *para){
+int riceHapToVCF(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
     string line;
     vector<string> ll;
-    set<string> genes;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
-        for(int i = 0; i < ll.size()){
-            
+        if(ll[0] == "Chromosome"){
+            ouf << "##fileformat=VCFv4.1" << "\n";
+            ouf << "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT";
+            for (int i = 8; i < ll.size(); ++i){
+                ouf << "\t" << ll[i];
+            }
+            ouf << "\n";
+        }else{
+            if(string2Double(ll[4]) < 660) continue;
+            if(string2Double(ll[5]) < 0.01) continue;
+            ouf << ll[0] << "\t" << ll[1] <<"\t"<< "." << "\t" << ll[2] << "\t" << ll[3];
+            ouf << "\t" << "." << "\t"<< "."<< "\t"<< "."<< "\t"<< ".";
+            for (int i = 8; i < ll.size(); ++i){
+                if(ll[i] == ll[2]){
+                    ouf << "\t" << "0/0";
+                }else if(ll[i] == ll[3]){
+                    ouf << "\t" << "1/1";
+                }else if(ll[i] == "-"){
+                    ouf << "\t" << "./.";
+                }else{
+                    ouf << "\t" << "0/1";
+                }
+            }
+            ouf << "\n";
         }
     }
+    inf.close();
+    ouf.close();
     return 0;
 }
 #endif /* FileFunctions_h */
