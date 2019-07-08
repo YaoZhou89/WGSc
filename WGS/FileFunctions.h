@@ -4413,7 +4413,7 @@ int toEigenStrat(parameter *para){
             if  ( ll[0]  != "#CHROM"){
                 continue  ;
             }else{
-                for (int i = 9; i< ll.size();++i){
+                for (int i = 9; i < ll.size();++i){
                     if(group.count(ll[i]) == 0){
                         skipSamle.insert(i);
                     }else{
@@ -4454,15 +4454,20 @@ int toEigenStrat(parameter *para){
                 genof << "9" ;
             }
         }
-        if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='0'){
-            genof << "0\n" ;
-        }else if (ll[ll.size()-1][0]=='1'&&ll[ll.size()-1][2]=='1'){
-            genof << "1\n" ;
-        }else if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='1'){
-            genof << "0\n" ;
+        if(skipSamle.count(ll.size()-1) == 0){
+            if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='0'){
+                genof << "0\n" ;
+            }else if (ll[ll.size()-1][0]=='1'&&ll[ll.size()-1][2]=='1'){
+                genof << "1\n" ;
+            }else if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='1'){
+                genof << "0\n" ;
+            }else{
+                genof << "9\n" ;
+            }
         }else{
-            genof << "9\n" ;
+            genof << "\n";
         }
+        
         snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t0.0\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
