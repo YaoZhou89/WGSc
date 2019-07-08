@@ -4455,7 +4455,9 @@ int toEigenStrat(parameter *para){
                 genof << "9" ;
             }
         }
+        
         genof << "\n";
+        
         snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t0.0\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
@@ -8320,6 +8322,7 @@ int getOrtholog(parameter *para){
     string line;
     vector<string> ll;
     set<string> genes;
+    
     bool splitoff = para->recode;
     while(!inf2.eof()){
         getline(inf2,line);
@@ -8330,6 +8333,7 @@ int getOrtholog(parameter *para){
     }
     cout << "gene list readed!" << endl;
     map<string,map<string,string>> orth;
+    map<string,map<string,double>> orthvalue;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -8338,7 +8342,44 @@ int getOrtholog(parameter *para){
         if(ll[2] == ll[3] ) continue;
         string ID1 = ll[0];
         string ID2 = ll[1];
-        double value = string2Double(ll[7]) + string2Double(ll[6]) - string2Double(ll[4]);
+        double iv = string2Double(ll[6]);
+        double sv = string2Double(ll[7]);
+        double value = sv + iv;
+        map<string,double> v;
+        if(iv < 50 && sv < 50 ) continue;
+        if(value < 120) continue;
+        if(orthvalue.count(ID1)==1){
+            v = orthvalue[ID1];
+            if(v.count(ID2) == 1){
+                double vv = v[ID2];
+                if (vv < value ) {
+                    continue;
+                }else{
+                    v[ID2] = value;
+                    orthvalue[ID1] = v;
+                }
+            }else{
+                v.insert(pair<string,double>(ID2,value));
+                orthvalue[ID1] = v;
+            }
+        }else if (orthvalue.count(ID2)==1){
+            v = orthvalue[ID2];
+            if(v.count(ID1) == 1){
+                double vv = v[ID1];
+                if (vv < value ) {
+                    continue;
+                }else{
+                    v[ID1] = value;
+                    orthvalue[ID2] = v;
+                }
+            }else{
+                v.insert(pair<string,double>(ID1,value));
+                orthvalue[ID2] = v;
+            }
+        }else{
+            v.insert(pair<string,double>(ID2,value));
+            orthvalue.insert(pair<string,map<string,double>>(ID1,v));
+        }
         string taxon1 = ll[2];
         string taxon2 = ll[3];
         ll.clear();
@@ -8359,6 +8400,9 @@ int getOrtholog(parameter *para){
                 if(blast.count(taxon2) == 0){
                     blast.insert(pair<string,string>(taxon2,ID2));
                     orth[ID1] = blast;
+                }else{
+                    blast[taxon2] = ID2;
+                    orth[ID1] = blast;
                 }
             }else{
                 blast.insert(pair<string,string>(taxon2,ID2));
@@ -8369,6 +8413,9 @@ int getOrtholog(parameter *para){
                 blast = orth[ID2];
                 if(blast.count(taxon1) == 0){
                     blast.insert(pair<string,string>(taxon1,ID1));
+                    orth[ID2] = blast;
+                }else{
+                    blast[taxon1] = ID1;
                     orth[ID2] = blast;
                 }
             }else{
