@@ -4441,7 +4441,7 @@ int toEigenStrat(parameter *para){
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll," \t");
-        for (int i = 9; i < ll.size(); ++i){
+        for (int i = 9; i < ll.size()-1; ++i){
             if(skipSamle.count(i)==1){
                 continue;
             }
