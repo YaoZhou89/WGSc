@@ -4420,6 +4420,9 @@ int toEigenStrat(parameter *para){
                         indf << ll[i] << "\t" << "U\t" << group[ll[i]] << "\n";
                     }
                 }
+                if(skipSamle.size()>0){
+                    cout <<  skipSamle.size() << " out of "<< ll.size()-9 << " sample not found!" << endl;
+                }
             }
             break;
         }else if ( line[0] != '#' && line[1] != '#' ){
@@ -4430,9 +4433,7 @@ int toEigenStrat(parameter *para){
             break;
         }
     }
-    if(skipSamle.size()>0){
-        cout << skipSamle.size() << " sample not found!" << endl;
-    }
+    
     
     cout << "Reading VCF file..." << endl;
     while (!invcf.eof()){
