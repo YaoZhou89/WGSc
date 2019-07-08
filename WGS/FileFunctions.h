@@ -4442,7 +4442,7 @@ int toEigenStrat(parameter *para){
         split(line,ll," \t");
         for (int i = 9; i < ll.size(); ++i){
             if(skipSamle.count(i)==1){
-                
+                continue;
             }
             if(ll[i][0] == '0' && ll[i][2] == '0'){
                 genof << "0" ;
