@@ -109,6 +109,8 @@ int main(int argc, char * argv[]) {
                 getGeneticDistance(para);
             }else if((para->type) =="intersect"){
                 getIntersectVcf(para);
+            }else if ((para->type) == "toEigenStrat"){
+                toEigenStrat(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

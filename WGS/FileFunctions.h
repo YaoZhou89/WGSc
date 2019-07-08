@@ -4376,6 +4376,102 @@ int toXPCLR(parameter *para){
     genof.close();
     return 1;
 }
+int toEigenStrat(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    string snp = outfile+".snp";
+    string geno = outfile+".geno";
+    string ind = outfile + ".ind";
+    
+    igzstream invcf ((infile.c_str()),ifstream::in);
+    igzstream ingroup ((infile2.c_str()),ifstream::in);
+    ofstream snpf (snp.c_str());
+    ofstream genof (geno.c_str());
+    ofstream indf (ind.c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> group;
+    while(!ingroup.eof()){
+        getline(ingroup,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        group.insert(pair<string,string>(ll[0],ll[1]));
+    }
+    cout << group.size() << " samples added!" << endl;
+    set<int> skipSamle;
+    while(!invcf.eof()){
+        getline(invcf,line);
+        if (line.length()<=0 )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] == '#' )  {
+            continue  ;
+        }else if ( line[0] == '#' && line[1] != '#' ){
+            ll.clear();
+            split(line,ll,"\t");
+            if  ( ll[0]  != "#CHROM"){
+                continue  ;
+            }else{
+                for (int i = 9; i< ll.size();++i){
+                    if(group.count(ll[i]) == 0){
+                        skipSamle.insert(i);
+                    }else{
+                        indf << ll[i] << "\t" << "U\t" << group[ll[i]] << "\n";
+                    }
+                }
+            }
+            break;
+        }else if ( line[0] != '#' && line[1] != '#' ){
+            cerr<<"wrong Line : "<<line<<endl;
+            cerr<<"VCF Header same thing wrong, can find sample info before site info"<<endl;
+            cerr<<"VCF Header sample info Flag : [  #CHROM  ] "<<endl;
+            return  0;
+            break;
+        }
+    }
+    if(skipSamle.size()>0){
+        cout << skipSamle.size() << " sample not found!" << endl;
+    }
+    
+    cout << "Reading VCF file..." << endl;
+    while (!invcf.eof()){
+        getline(invcf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        for (int i = 9; i < ll.size(); ++i){
+            if(skipSamle.count(i)==1){
+                
+            }
+            if(ll[i][0] == '0' && ll[i][2] == '0'){
+                genof << "0" ;
+            }else if (ll[i][0]=='1'&&ll[i][2]=='1'){
+                genof << "2" ;
+            }else if(ll[i][0]=='0'&&ll[i][2]=='1'){
+                genof << "1" ;
+            }else{
+                genof << "9" ;
+            }
+        }
+        if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='0'){
+            genof << "0\n" ;
+        }else if (ll[ll.size()-1][0]=='1'&&ll[ll.size()-1][2]=='1'){
+            genof << "1\n" ;
+        }else if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='1'){
+            genof << "0\n" ;
+        }else{
+            genof << "9\n" ;
+        }
+        snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t0.0\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
+    }
+    invcf.close();
+    ingroup.close();
+    snpf.close();
+    genof.close();
+    indf.close();
+    return 1;
+}
 int toXPCLRsnp(parameter *para){
     string infile = (para->inFile);
     string infile3 = (para->bedFile);
@@ -8231,6 +8327,7 @@ int getOrtholog(parameter *para){
     string line;
     vector<string> ll;
     set<string> genes;
+    bool splitoff = para->recode;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -8252,11 +8349,14 @@ int getOrtholog(parameter *para){
         string taxon1 = ll[2];
         string taxon2 = ll[3];
         ll.clear();
-        split(ID1,ll,"._");
-        ID1 = ll[0];
-        ll.clear();
-        split(ID2,ll,"._");
-        ID2 = ll[0];
+        if(!splitoff){
+            split(ID1,ll,"._");
+            ID1 = ll[0];
+            ll.clear();
+            split(ID2,ll,"._");
+            ID2 = ll[0];
+        }
+        
         if(ID1 == ID2 ) continue;
         
         map<string, string> blast;
