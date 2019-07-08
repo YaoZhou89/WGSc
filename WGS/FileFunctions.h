@@ -4441,7 +4441,7 @@ int toEigenStrat(parameter *para){
         if(line.length()<1) continue;
         ll.clear();
         split(line,ll," \t");
-        for (int i = 9; i < ll.size()-1; ++i){
+        for (int i = 9; i < ll.size(); ++i){
             if(skipSamle.count(i)==1){
                 continue;
             }
@@ -4455,20 +4455,7 @@ int toEigenStrat(parameter *para){
                 genof << "9" ;
             }
         }
-        if(skipSamle.count(ll.size()-1) == 0){
-            if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='0'){
-                genof << "0\n" ;
-            }else if (ll[ll.size()-1][0]=='1'&&ll[ll.size()-1][2]=='1'){
-                genof << "1\n" ;
-            }else if(ll[ll.size()-1][0]=='0'&&ll[ll.size()-1][2]=='1'){
-                genof << "0\n" ;
-            }else{
-                genof << "9\n" ;
-            }
-        }else{
-            genof << "\n";
-        }
-        
+        genof << "\n";
         snpf << " rs" << ll[0]<<"_" << ll[1] << "\t" << ll[0]<< "\t0.0\t" << ll[1] << "\t" << ll[3] << "\t" << ll[4] << "\n";
     }
     invcf.close();
