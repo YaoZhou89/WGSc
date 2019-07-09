@@ -1172,7 +1172,59 @@ int changePos(parameter *para){
     }
     return 1;
 }
-
+int changeEigenStratPos(parameter *para){
+    cout << "Change file chromosome position..." << endl;
+    string input =(para->inFile);
+    ifstream inFile (input.c_str());
+    if (inFile.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    ifstream posFile(para->inFile2);
+    if((!posFile.good())){
+        cerr << "open pos File error: " << para->inFile2 << endl;
+        return  0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    map<string, vector<string>> pos ;
+    string line;
+    vector <string> ll;
+    while (!posFile.eof()){
+        getline(posFile,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        vector<string> p ;
+        p.push_back(ll[3]);
+        p.push_back(ll[4]);
+        pos.insert(pair<string,vector<string>>(ll[0],p));
+    }
+    cout << "Position file readed!" << endl;
+    posFile.close();
+    while (!inFile.eof()){
+        getline(inFile, line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        vector<string> p = pos[ll[1]];
+        ll[1] = p[0];
+        int po = string2Int(ll[3]) + string2Int(p[1]);
+        ll[3] = Int2String(po);
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); ++i){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    inFile.close();
+    ouf.close();
+    return 1;
+}
 int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
@@ -8322,7 +8374,6 @@ int getOrtholog(parameter *para){
     string line;
     vector<string> ll;
     set<string> genes;
-    
     bool splitoff = para->recode;
     while(!inf2.eof()){
         getline(inf2,line);
@@ -8333,7 +8384,9 @@ int getOrtholog(parameter *para){
     }
     cout << "gene list readed!" << endl;
     map<string,map<string,string>> orth;
-    map<string,map<string,double>> orthvalue;
+    map<string,double> orthvalue;
+    map<string, string> IDP;
+    
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -8345,41 +8398,6 @@ int getOrtholog(parameter *para){
         double iv = string2Double(ll[6]);
         double sv = string2Double(ll[7]);
         double value = sv + iv;
-        map<string,double> v;
-        if(iv < 50 && sv < 50 ) continue;
-        if(value < 120) continue;
-        if(orthvalue.count(ID1)==1){
-            v = orthvalue[ID1];
-            if(v.count(ID2) == 1){
-                double vv = v[ID2];
-                if (vv < value ) {
-                    continue;
-                }else{
-                    v[ID2] = value;
-                    orthvalue[ID1] = v;
-                }
-            }else{
-                v.insert(pair<string,double>(ID2,value));
-                orthvalue[ID1] = v;
-            }
-        }else if (orthvalue.count(ID2)==1){
-            v = orthvalue[ID2];
-            if(v.count(ID1) == 1){
-                double vv = v[ID1];
-                if (vv < value ) {
-                    continue;
-                }else{
-                    v[ID1] = value;
-                    orthvalue[ID2] = v;
-                }
-            }else{
-                v.insert(pair<string,double>(ID1,value));
-                orthvalue[ID2] = v;
-            }
-        }else{
-            v.insert(pair<string,double>(ID2,value));
-            orthvalue.insert(pair<string,map<string,double>>(ID1,v));
-        }
         string taxon1 = ll[2];
         string taxon2 = ll[3];
         ll.clear();
@@ -8390,54 +8408,92 @@ int getOrtholog(parameter *para){
             split(ID2,ll,"._");
             ID2 = ll[0];
         }
-        
         if(ID1 == ID2 ) continue;
-        
-        map<string, string> blast;
-        if(genes.count(ID1) == 1){
-            if(orth.count(ID1) == 1){
-                blast = orth[ID1];
-                if(blast.count(taxon2) == 0){
-                    blast.insert(pair<string,string>(taxon2,ID2));
-                    orth[ID1] = blast;
-                }else{
-                    blast[taxon2] = ID2;
-                    orth[ID1] = blast;
-                }
+        if(iv < 50 && sv < 50 ) continue;
+        if(value < 120) continue;
+        if(genes.count(ID1) == 0 && genes.count(ID2) == 0) continue;
+        if(ID1 > ID2){
+            string tmp;
+            tmp = ID1;
+            ID1 = ID2;
+            ID2 = tmp;
+            tmp = taxon1;
+            taxon1 = taxon2;
+            taxon2 = tmp;
+        }
+        string key = ID1+"_"+ taxon2;
+        if(orthvalue.count(key) == 1){
+            if(orthvalue[key] < value){
+                orthvalue[key] = value;
+                IDP[key] = ID2;
             }else{
-                blast.insert(pair<string,string>(taxon2,ID2));
-                orth.insert(pair<string,map<string,string>>(ID1,blast));
+                continue;
             }
-        }else if(genes.count(ID2) == 1){
-            if(orth.count(ID2) == 1){
-                blast = orth[ID2];
-                if(blast.count(taxon1) == 0){
-                    blast.insert(pair<string,string>(taxon1,ID1));
-                    orth[ID2] = blast;
-                }else{
-                    blast[taxon1] = ID1;
-                    orth[ID2] = blast;
-                }
-            }else{
-                blast.insert(pair<string,string>(taxon1,ID1));
-                orth.insert(pair<string,map<string,string>>(ID2,blast));
-            }
+        }else{
+            orthvalue.insert(pair<string,double>(key,value));
+            IDP.insert(pair<string,string>(key,ID2));
+        }
+//        map<string, string> blast;
+//        if(genes.count(ID1) == 1 || genes.count(ID2) == 1){
+//            if(orth.count(ID1) == 1){
+//                blast = orth[ID1];
+//                if(blast.count(taxon2) == 0){
+//                    blast.insert(pair<string,string>(taxon2,ID2));
+//                    orth[ID1] = blast;
+//                }else{
+//                    blast[taxon2] = ID2;
+//                    orth[ID1] = blast;
+//                }
+//            }else{
+//                blast.insert(pair<string,string>(taxon2,ID2));
+//                orth.insert(pair<string,map<string,string>>(ID1,blast));
+//            }
+//        }
+    }
+    cout << "similarity file parsed! " << IDP.size() << " pairs found!" << endl;
+//    set<string>::iterator it;
+    map<string,string>::iterator it;
+    map<string,set<string>> orthg;
+    for(it = IDP.begin(); it!=IDP.end();it++){
+        string key = it->first;
+        string value = it-> second;
+        ll.clear();
+        split(key,ll,"_");
+        if(orthg.count(ll[0])==1){
+            set<string> g;
+            g = orthg[ll[0]];
+            g.insert(value);
+            orthg[ll[0]] = g;
+        }else{
+            set<string> g;
+            g.insert(value);
+            orthg.insert(pair<string,set<string>>(ll[0],g));
         }
     }
-    cout << "similarity file parsed!" << endl;
-    set<string>::iterator it;
+    cout << orthg.size() << " ortholog pairs parsed!" << endl;
+    map<string,set<string>>::iterator itt;
+    for(itt = orthg.begin(); itt != orthg.end(); ++itt){
+        string key = itt->first;
+        set<string> value = itt->second;
+        ouf << key;
+        for(string f:value){
+            ouf << "\t" << f;
+        }
+        ouf << "\n";
+    }
     
-    for(it = genes.begin(); it != genes.end(); it++){
-        if(orth.count(*it) == 1){
-            ouf << *it ;
-            map<string, string> blast = orth[*it];
-            map<string,string>::iterator itm;
-            for(itm = blast.begin(); itm != blast.end(); itm++){
-                ouf << "\t" << itm->second;
-            }
-            ouf << "\n";
-        }
-    }
+    ouf.close();
+//    for(it = genes.begin(); it != genes.end(); it++){
+//        if(orth.count(*it) == 1){
+//            ouf << *it ;
+//            map<string, string> blast = orth[*it];
+//            map<string,string>::iterator itm;
+//            for(itm = blast.begin(); itm != blast.end(); itm++){
+//                ouf << "\t" << itm->second;
+//            }
+//            ouf << "\n";
+//        }
+//    }
    
     return 0;
 }
