@@ -1861,6 +1861,7 @@ int intersectFile(parameter *para){
     while(!f1.eof()){
         getline(f1, l1);
         if(l1.length() < 1) continue;
+        if(l1[0]=='#') continue;
         ll1.clear();
         split(l1,ll1,"\t");
         pos.insert(ll1[0]+"_"+ll1[1]);
