@@ -2793,7 +2793,7 @@ int splitByChr(parameter *para){
             if(first){
                 first = false;
                 chr = ll[0];
-                string outname = outFile+chr;
+                string outname = outFile+chr+".vcf";
                 ofstream ouf ((outname.c_str()));
                 continue;
             }else{
