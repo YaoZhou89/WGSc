@@ -4951,6 +4951,7 @@ double getSum(string & infile){
     invcf.close();
     return sum;
 }
+
 int DiversityReduction(parameter *para){
     string infile = (para->inFile);
     string gf1 = (para -> inFile2 );
@@ -5028,6 +5029,43 @@ int DiversityReduction(parameter *para){
     }
 //    cout << "all1 is: " << all1 << ";all2 is: " << all2 << endl;
     ouf << all1/allC << "\t" << all2/allC << "\t" << (1 - all2/all1) << "\n";
+    ouf.close();
+    return 1;
+}
+int getMean(parameter *para){
+    string infile = (para->inFile);
+    string gf1 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream countf ((gf1.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    vector<string> file1;
+    vector<string> sub;
+    split(gf1,sub,"/");
+    string folder = "" ;
+    vector<int> chrSize(42);
+    int allCount = 0;
+    while(!countf.eof()){
+        getline(countf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        if(line[0]=='C') continue;
+        split(line,ll," \t");
+        chrSize[string2Int(ll[0])-1] = string2Int(ll[1]);
+        allCount += string2Int(ll[1]);
+    }
+    countf.close();
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        if(line[0]=='C') continue;
+        double value = getSum(line);
+        ouf << line << "\n";
+    }
+    inf.close();
     ouf.close();
     return 1;
 }
