@@ -5070,6 +5070,28 @@ int getMean(parameter *para){
     ouf.close();
     return 1;
 }
+int getSum(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    double value = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        if(line[0]=='C') continue;
+        split(line,ll,"\t");
+        if(isNA(ll[2])) continue;
+        value += string2Double(ll[2]);
+    }
+    ouf << value << "\n";
+    inf.close();
+    ouf.close();
+    return 1;
+}
 int getBedDensity(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);

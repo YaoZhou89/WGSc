@@ -223,6 +223,8 @@ int main(int argc, char * argv[]) {
                 riceHapToVCF(para);
             }else if ((para->type) == "getMean"){
                 getMean(para);
+            }else if ((para->type) == "getSum"){
+                getSum(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
