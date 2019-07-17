@@ -5062,6 +5062,7 @@ int getMean(parameter *para){
         if(line.length() < 1) continue;
         ll.clear();
         if(line[0]=='C') continue;
+        cout << "Now calculating file:\t" << line << endl;
         double value = getSum(line);
         ouf << line << "\n";
     }
