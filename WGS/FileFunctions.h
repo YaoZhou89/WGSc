@@ -4972,6 +4972,7 @@ int DiversityReduction(parameter *para){
         getline(invcf,line);
         if(line.length() < 1) continue;
         ll.clear();
+        if(line[0]=='C') continue;
         split(line,ll," \t");
         chrSize[string2Int(ll[0])-1] = string2Int(ll[1]);
     }
@@ -4980,6 +4981,7 @@ int DiversityReduction(parameter *para){
     while(!g1.eof()){
         getline(g1,line);
         if(line.length() < 1) continue;
+        if(line[0]=='C') continue;
         file1.push_back(line);
     }
     g1.close();
@@ -4987,6 +4989,7 @@ int DiversityReduction(parameter *para){
     while(!g2.eof()){
         getline(g2,line);
         if(line.length() < 1) continue;
+        if(line[0]=='C') continue;
         file2.push_back(line);
     }
     g2.close();
