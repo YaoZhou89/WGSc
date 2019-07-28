@@ -8628,7 +8628,7 @@ int getSummary(parameter *para){
             Matrix[i][j] = 0;
         }
     }
-    ouf << "ID\tsum\het\tAlt_hom\t\missing\n";
+    ouf << "ID\tsum\thet\tAlt_hom\tmissing\n";
     vector<string> IDs;
     while(!inf.eof()){
         getline(inf,line);
