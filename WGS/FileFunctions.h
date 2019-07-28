@@ -8615,6 +8615,52 @@ int getOrtholog(parameter *para){
    
     return 0;
 }
+int getSummary(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    double** Matrix = dmatrix(-1, 500, -1, 10);
+    for(int i = 0; i < 500; ++i){
+        for (int j = 0; j < 10; ++j){
+            Matrix[i][j] = 0;
+        }
+    }
+    ouf << "ID\tsum\het\tAlt_hom\t\missing\n";
+    vector<string> IDs;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#' && line[1]=='#') continue;
+        split(line,ll,"\t");
+        if(line[0] == '#' && line[1] == 'C'){
+            for(int i = 9; i < ll.size(); ++i){
+                IDs.push_back(ll[i]);
+            }
+            continue;
+        }
+        for(int i = 9; i < ll.size(); ++i){
+            if(ll[i][2] == '1'){
+                if(ll[i][0]=='0'){ // het = 1
+                    Matrix[i-9][1]++;
+                }else{
+                    Matrix[i-9][2]++; // Alt_hom = 2
+                }
+            }else if(ll[i][2] == '.'){
+                Matrix[i-9][3]++; // missing =3
+            }
+            Matrix[i-9][0]++; // sum = 0
+        }
+    }
+    for(int i =0; i < IDs.size();++i){
+        ouf << IDs[i] << "\t" << Matrix[i][0] << "\t" << Matrix[i][1]
+        << "\t" << Matrix[i][2] << "\t" << Matrix[i][3] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int riceHapToVCF(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);

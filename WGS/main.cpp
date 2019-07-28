@@ -118,6 +118,8 @@ int main(int argc, char * argv[]) {
                 getIntersectVcf(para);
             }else if ((para->type) == "toEigenStrat"){
                 toEigenStrat(para);
+            }else if((para->type) == "getSummary"){
+                getSummary(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
