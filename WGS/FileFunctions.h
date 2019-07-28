@@ -8302,7 +8302,6 @@ int getGeneticDistanceRef(parameter *para){
     ofstream ouf ((outFile).c_str());
     string line;
     vector<string> ll;
-    vector<int> np;
     vector<string> IDs;
     double** distanceMatrix = dmatrix(-1, 500 , -1, 500);
     for(int i = 0; i < 500;++i){
@@ -8310,11 +8309,11 @@ int getGeneticDistanceRef(parameter *para){
             distanceMatrix[i][j] = 0;
         }
     }
+    cout << "Reading file..." << endl;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '#' && line[1] == '#') continue;
-        
         ll.clear();
         split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
