@@ -8634,6 +8634,7 @@ int getSummary(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0]=='#' && line[1]=='#') continue;
+        ll.clear();
         split(line,ll,"\t");
         if(line[0] == '#' && line[1] == 'C'){
             for(int i = 9; i < ll.size(); ++i){
