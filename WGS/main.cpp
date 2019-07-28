@@ -112,6 +112,8 @@ int main(int argc, char * argv[]) {
                 IScore(para);
             }else if ((para->type) == "GeneticDistance"){
                 getGeneticDistance(para);
+            }else if ((para->type) == "GeneticDistanceRef"){
+                getGeneticDistanceRef(para);
             }else if((para->type) =="intersect"){
                 getIntersectVcf(para);
             }else if ((para->type) == "toEigenStrat"){

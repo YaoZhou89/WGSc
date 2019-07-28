@@ -8295,6 +8295,60 @@ int getGeneticDistance(parameter *para){
     
     return 0;
 }
+int getGeneticDistanceRef(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    vector<int> np;
+    vector<string> IDs;
+    double** distanceMatrix = dmatrix(-1, 500 , -1, 500);
+    for(int i = 0; i < 500;++i){
+        for(int j = 0; j < 4;j++){
+            distanceMatrix[i][j] = 0;
+        }
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#' && line[1] == '#') continue;
+        
+        ll.clear();
+        split(line,ll,"\t");
+        if(line[0] == '#' && line[1] == 'C'){
+            split(line,ll,"\t");
+            for(int i = 9; i < ll.size(); ++i){
+                IDs.push_back(ll[i]);
+            }
+            continue;
+        }
+        for (int i = 9; i < ll.size(); ++i){
+            if(ll[i][0] == '.') continue;
+            if(ll[i][0]=='0'){
+                if(ll[i][2] == '0'){
+                    distanceMatrix[i-9][0] ++;
+                }else{
+                    distanceMatrix[i-9][0] += 0.5;
+                }
+            }
+            distanceMatrix[i-9][1] ++;
+            
+        }
+    }
+    cout << "Distance calculated!" << endl;
+    ouf << "ID\tsum\tmarker\tmean\n";
+    for (int i = 0; i < IDs.size(); ++i){
+        ouf << IDs[i] << "\t";
+        ouf << distanceMatrix[i][0] << "\t";
+        ouf << distanceMatrix[i][1] << "\t";
+        ouf << 1 - distanceMatrix[i][0]/distanceMatrix[i][1] << "\n";
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
 int getIntersectVcf(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
