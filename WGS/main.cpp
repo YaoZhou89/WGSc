@@ -247,6 +247,8 @@ int main(int argc, char * argv[]) {
                 statGff(para);
             }else if((para -> type) == "gff2genic"){
                 gff2genicsite(para);
+            }else if ((para->type) == "gff2exon"){
+                gff2exon(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){
