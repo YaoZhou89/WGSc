@@ -8443,8 +8443,9 @@ int vcfoverlap(parameter *para){
         split(line,ll,"\t");
         sites.insert(ll[0]+"_"+ll[1]);
     }
+    cout << "sites readed!" << endl;
     while (!inf.eof()){
-        getline(inf2,line);
+        getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0]=='#'){
             ouf << line << "\n";
