@@ -5092,6 +5092,24 @@ int getSum(parameter *para){
     ouf.close();
     return 1;
 }
+int wc(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    lint value = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        value++;
+    }
+    ouf << infile << "\t" << value << "\n";
+    inf.close();
+    ouf.close();
+    return 1;
+}
 int getBedDensity(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);

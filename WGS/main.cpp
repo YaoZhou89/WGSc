@@ -229,6 +229,8 @@ int main(int argc, char * argv[]) {
                 getMean(para);
             }else if ((para->type) == "getSum"){
                 getSum(para);
+            }else if ((para->type) == "wc"){
+                wc(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
