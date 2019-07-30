@@ -8426,6 +8426,39 @@ int getGeneticDistanceRef(parameter *para){
     ouf.close();
     return 0;
 }
+int vcfoverlap(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> sites;
+    vector<string> ll;
+    
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        sites.insert(ll[0]+"_"+ll[1]);
+    }
+    while (!inf.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#'){
+            ouf << line << "\n";
+        }else{
+            ll.clear();
+            split(line,ll,"\t");
+            if(sites.count(ll[0]+"_"+ll[1])==1){
+                ouf << line << "\n";
+            }
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int getIntersectVcf(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
