@@ -5351,14 +5351,17 @@ int gff2genicsite(parameter *para){
     igzstream inf ((infile.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
     string line;
+    string chr = (para->chr);
     vector <string> ll;
     set<int> pos;
+    cout << "read gff3 file..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
         if(line[0] == '#') continue;
         ll.clear();
-        split(line,ll," \t");
+        split(line,ll,"\t");
+        if(ll[0] != chr) continue;
         if(ll[2] != "gene") continue;
         for(int i = string2Int(ll[3]); i < string2Int(ll[4])+1; ++i){
             ouf << ll[0] << "\t" << i << "\n";
