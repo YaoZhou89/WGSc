@@ -8436,11 +8436,11 @@ int vcfoverlap(parameter *para){
     string line;
     set<string> sites;
     vector<string> ll;
-    
+    string chr = (para->chr);
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        split(line,ll,"\t");
+        split(line,ll," \t");
         sites.insert(ll[0]+"_"+ll[1]);
     }
     cout << "sites readed!" << endl;
@@ -8451,7 +8451,7 @@ int vcfoverlap(parameter *para){
             ouf << line << "\n";
         }else{
             ll.clear();
-            split(line,ll,"\t");
+            split(line,ll," \t");
             if(sites.count(ll[0]+"_"+ll[1])==1){
                 ouf << line << "\n";
             }
