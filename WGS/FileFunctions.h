@@ -5094,9 +5094,9 @@ int getSum(parameter *para){
 }
 int wc(parameter *para){
     string infile = (para->inFile);
-    string outfile = (para->outFile);
+//    string outfile = (para->outFile);
     igzstream inf ((infile.c_str()),ifstream::in);
-    ofstream ouf (outfile.c_str());
+//    ofstream ouf (outfile.c_str());
     string line;
     vector<string> ll;
     lint value = 0;
@@ -5105,9 +5105,9 @@ int wc(parameter *para){
         if(line.length() < 1) continue;
         value++;
     }
-    ouf << infile << "\t" << value << "\n";
+    cout << infile << "\t" << value << endl;
     inf.close();
-    ouf.close();
+//    ouf.close();
     return 1;
 }
 int getBedDensity(parameter *para){
