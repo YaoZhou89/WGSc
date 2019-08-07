@@ -8969,7 +8969,6 @@ int ABBAsim(parameter *para){
     vector<int> p2;
     srand((int)time(NULL));
     while(!inf.eof()){
-        double A1 = 0, B1 = 0, A2 = 0, B2 = 0;
         getline(inf,line);
         if(line.length() < 1) continue;
         ll.clear();
@@ -8995,29 +8994,14 @@ int ABBAsim(parameter *para){
                 ouf << "\t" << "Sim1" << i ;
             }
             ouf << "\n";
+            cout << "Header readed!" << endl;
         }else{
             char A = ll[ll.size()-1][0];
             char B = A;
-//            for ( int i = 0; i < p1.size(); ++i){
-//                if(ll[p1[i]][0] == A ){
-//                    A1++;
-//                }else{
-//                    B1++;
-//                }
-//            }
-//            for ( int i = 0; i < p2.size(); ++i){
-//                if(ll[p2[i]][0] == A ){
-//                    A2++;
-//                }else{
-//                    B2++;
-//                }
-//            }
-//            double p = (A1 * B2 - B1 * A2)/((A1+B1)*(A2+B2));
-//
             for(int i = 2; i < ll.size(); ++i){
                 if(ll[i][0] != A) {
                     B= ll[i][0];
-                    continue;
+                    break;
                 }
             }
             for(int i = 0; i < 10; ++i){
