@@ -8823,8 +8823,8 @@ int ABBAstat(parameter *para){
     string group2 = (para -> inFile3);
     string outFile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
-    igzstream inP1 ((infile).c_str(),ifstream::in);
-    igzstream inP2 ((infile).c_str(),ifstream::in);
+    igzstream inP1 ((group1).c_str(),ifstream::in);
+    igzstream inP2 ((group2).c_str(),ifstream::in);
     
     ofstream ouf ((outFile).c_str());
     string line;
