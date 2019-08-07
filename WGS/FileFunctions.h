@@ -8816,4 +8816,118 @@ int riceHapToVCF(parameter *para){
     ouf.close();
     return 0;
 }
+
+int ABBAstat(parameter *para){
+    string infile = (para -> inFile);
+    string group1 = (para -> inFile2);
+    string group2 = (para -> inFile3);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inP1 ((infile).c_str(),ifstream::in);
+    igzstream inP2 ((infile).c_str(),ifstream::in);
+    
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> g1;
+    set<string> g2;
+    while(!inP1.eof()){
+        getline(inP1,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        g1.insert(ll[0]);
+    }
+    while(!inP2.eof()){
+        getline(inP2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        g2.insert(ll[0]);
+    }
+    vector<int> p1;
+    vector<int> p2;
+    double A1 = 0,B1 = 0,A2 = 0,B2 = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        srand((int)time(NULL));
+        ll.clear();
+        split(line,ll,"\t");
+        if(line[0] == '#'){
+            for(int i = 0; i < ll.size(); ++i){
+                if(g1.count(ll[0])==1){
+                    p1.push_back(i);
+                }else if (g2.count(ll[0]) == 1){
+                    p2.push_back(i);
+                }else{
+                    continue;
+                }
+            }
+        }else{
+            char A = ll[ll.size()-1][0];
+            for ( int i = 0; i < p1.size(); ++i){
+                if(ll[p1[i]][0] == A ){
+                    A1++;
+                }else{
+                    B1++;
+                }
+            }
+            for ( int i = 0; i < p2.size(); ++i){
+                if(ll[p2[i]][0] == A ){
+                    A2++;
+                }else{
+                    B2++;
+                }
+            }
+            double p = (A1 * B2 - B1 * A2)/((A1+B1)*(A2+B2));
+            ouf << ll[0] << "\t" << ll[1] << "\t" << p << "\n";
+        }
+    }
+    inf.close();
+//    while(!inf.eof()){
+//        getline(inf,line);
+//        if(line.length() < 1) continue;
+//        ll.clear();
+//        split(line, ll, "\t");
+//        if(line[0] == '#'){
+//            for(int i = 0; i < ll.size(); ++i){
+//                if(g1.count(ll[0])==1){
+//                    p1.push_back(i);
+//                }else if (g2.count(ll[0]) == 1){
+//                    p2.push_back(i);
+//                }else{
+//                    continue;
+//                }
+//            }
+//            ouf << ll[0] << "\t" << ll[1];
+//            for (int i = 0; i < g1.size(); ++i){
+//                ouf << "\t" << ll[p1[i]];
+//            }
+//            for (int i = 0; i < g2.size(); ++i){
+//                ouf << "\t" << ll[p2[i]];
+//            }
+//
+//        }else{
+//            char A = ll[ll.size()-1][0];
+//            char B = A;
+//            for(int i = 2; i < ll.size(); ++i){
+//                if(ll[i][0] != A) {
+//                    B= ll[i][0];
+//                    continue;
+//                }
+//            }
+//            int r = rand()*100;
+//            if (r < 50){
+//                ouf << "\t" << A << "/" << A ;
+//            }else{
+//                ouf << "\t" << B << "/" << B;
+//            }
+//        }
+//    }
+    
+    ouf.close();
+    return 0;
+}
+
 #endif /* FileFunctions_h */
