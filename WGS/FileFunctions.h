@@ -8975,7 +8975,7 @@ int ABBAsim(parameter *para){
         split(line, ll, "\t");
         if(line[0] == '#'){
             for(int i = 0; i < ll.size(); ++i){
-                if(g1.count(ll[0])==1){
+                if(g1.count(ll[0]) == 1){
                     p1.push_back(i);
                 }else if (g2.count(ll[0]) == 1){
                     p2.push_back(i);
@@ -8986,6 +8986,7 @@ int ABBAsim(parameter *para){
             ouf << ll[0] << "\t" << ll[1];
             for (int i = 0; i < g1.size(); ++i){
                 ouf << "\t" << ll[p1[i]];
+                 cout << "Header readed!" << endl;
             }
             for (int i = 0; i < g2.size(); ++i){
                 ouf << "\t" << ll[p2[i]];
