@@ -9019,7 +9019,7 @@ int ABBAsim(parameter *para){
             for(int i = 0; i < 10; ++i){
                 int r = rand()*100;
                 if (r < 15){
-                    ouf << "\t" << A << "/" << A ;
+                    ouf << "\t" << B << "/" << B ;
                 }else{
                     ouf << "\t" << B << "/" << B;
                 }
