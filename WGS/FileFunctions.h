@@ -8859,9 +8859,9 @@ int ABBAstat(parameter *para){
         split(line,ll,"\t");
         if(line[0] == '#'){
             for(int i = 0; i < ll.size(); ++i){
-                if(g1.count(ll[0])==1){
+                if(g1.count(ll[i])==1){
                     p1.push_back(i);
-                }else if (g2.count(ll[0]) == 1){
+                }else if (g2.count(ll[i]) == 1){
                     p2.push_back(i);
                 }else{
                     continue;
