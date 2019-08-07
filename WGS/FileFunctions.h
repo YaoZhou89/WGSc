@@ -8983,10 +8983,12 @@ int ABBAsim(parameter *para){
                     continue;
                 }
             }
+            cout << "Header readed!" << endl;
             ouf << ll[0] << "\t" << ll[1];
             for (int i = 0; i < g1.size(); ++i){
+                cout <<p1[i]<< endl;
                 ouf << "\t" << ll[p1[i]];
-                 cout << "Header readed!" << endl;
+                
             }
             for (int i = 0; i < g2.size(); ++i){
                 ouf << "\t" << ll[p2[i]];
