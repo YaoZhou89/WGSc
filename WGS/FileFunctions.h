@@ -8838,7 +8838,7 @@ int ABBAstat(parameter *para){
         split(line,ll,"\t");
         g1.insert(ll[0]);
     }
-    cout << "group1 readed! size is:\t" << g2.size() << endl;
+    cout << "group1 readed! size is:\t" << g1.size() << endl;
     while(!inP2.eof()){
         getline(inP2,line);
         if(line.length() < 1) continue;
@@ -8849,8 +8849,9 @@ int ABBAstat(parameter *para){
     cout << "group2 readed! size is:\t" << g2.size() << endl;
     vector<int> p1;
     vector<int> p2;
-    double A1 = 0,B1 = 0,A2 = 0,B2 = 0;
+    
     while(!inf.eof()){
+        double A1 = 0, B1 = 0, A2 = 0, B2 = 0;
         getline(inf,line);
         if(line.length() < 1) continue;
         srand((int)time(NULL));
@@ -8866,6 +8867,8 @@ int ABBAstat(parameter *para){
                     continue;
                 }
             }
+            cout << p1.size() << "\tsamples in group1 found!" << endl;
+            cout << p2.size() << "\tsamples in group2 found!" << endl;
         }else{
             char A = ll[ll.size()-1][0];
             for ( int i = 0; i < p1.size(); ++i){
