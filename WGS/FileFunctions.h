@@ -8997,15 +8997,22 @@ int ABBAsim(parameter *para){
                 ouf << "\t" << "Sim1" << i ;
             }
             ouf << "\n";
-            cout << "Header readed!" << endl;
         }else{
             char A = ll[ll.size()-1][0];
             char B = A;
             for(int i = 2; i < ll.size(); ++i){
-                if(ll[i][0] != A) {
+                if(ll[i][0] != A & ll[i][0] != 'N') {
                     B= ll[i][0];
                     break;
                 }
+            }
+            ouf << ll[0] << "\t" << ll[1];
+            for (int i = 0; i < g1.size(); ++i){
+                ouf << "\t" << ll[p1[i]];
+                
+            }
+            for (int i = 0; i < g2.size(); ++i){
+                ouf << "\t" << ll[p2[i]];
             }
             for(int i = 0; i < 10; ++i){
                 int r = rand()*100;
