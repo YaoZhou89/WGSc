@@ -8838,6 +8838,7 @@ int ABBAstat(parameter *para){
         split(line,ll,"\t");
         g1.insert(ll[0]);
     }
+    cout << "group1 readed! size is:\t" << g2.size() << endl;
     while(!inP2.eof()){
         getline(inP2,line);
         if(line.length() < 1) continue;
@@ -8845,6 +8846,7 @@ int ABBAstat(parameter *para){
         split(line,ll,"\t");
         g2.insert(ll[0]);
     }
+    cout << "group2 readed! size is:\t" << g2.size() << endl;
     vector<int> p1;
     vector<int> p2;
     double A1 = 0,B1 = 0,A2 = 0,B2 = 0;
