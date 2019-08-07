@@ -8991,6 +8991,10 @@ int ABBAsim(parameter *para){
             for (int i = 0; i < g2.size(); ++i){
                 ouf << "\t" << ll[p2[i]];
             }
+            for (int i = 0;i < 10; ++i){
+                ouf << "\t" << "Sim1" << i ;
+            }
+            ouf << "\n";
         }else{
             char A = ll[ll.size()-1][0];
             char B = A;
@@ -9024,6 +9028,7 @@ int ABBAsim(parameter *para){
                     ouf << "\t" << B << "/" << B;
                 }
             }
+            ouf << "\n";
         }
     }
     
