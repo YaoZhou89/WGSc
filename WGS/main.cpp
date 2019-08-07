@@ -235,6 +235,8 @@ int main(int argc, char * argv[]) {
                 wc(para);
             }else if ((para->type) =="ABBAstat"){
                 ABBAstat(para);
+            }else if ((para->type) == "ABBAsim"){
+                ABBAsim(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
