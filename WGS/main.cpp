@@ -255,6 +255,8 @@ int main(int argc, char * argv[]) {
                 gff2genicsite(para);
             }else if ((para->type) == "gff2exon"){
                 gff2exon(para);
+            }else if ((para->type) == "gff2geneBed"){
+                getGeneBed(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){
@@ -324,6 +326,10 @@ int main(int argc, char * argv[]) {
                 getKmerOrder(para);
             }else if ((para->type) =="getKmerOrder2"){
                 getKmerOrder2(para);
+            }
+        }else if ((para->model) == "assembly"){
+            if((para->type) == "fastq"){
+                getKmer(para);
             }
         }
     }

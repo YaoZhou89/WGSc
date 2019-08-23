@@ -972,7 +972,31 @@ int meanBedpi(parameter *para){
     ouf.close();
     return 1;
 }
-
+int getGeneBed(parameter *para){
+    
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string chr = (para->chr);
+    string line;
+    vector < string > ll;
+    int binSize = para->size;
+    gff3 g3 = gff3((para->inFile),chr);
+    cout << "Chromosome: "<< chr << "on Gff3 readed!" << endl;
+    map<string,gene> g = g3.genes ;
+    map<string,gene>::iterator it;
+    it = g.begin();
+    while(it != g.end()){
+        ouf << it->first <<"\t";
+        gene a = it->second;
+        ouf << (a.start - binSize) << "\t" << (a.end + binSize) << "\n";
+        it++;
+    }
+    ouf.close();
+    return 1;
+}
 
 int pi(parameter *para){
     //site pi
@@ -9030,6 +9054,120 @@ int ABBAsim(parameter *para){
         }
     }
     
+    ouf.close();
+    return 0;
+}
+
+int getKmer(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para-> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    map<uint64_t,vector<int>> kmer_number; // key: kmer; value: vector, even is order; odd is freqency
+    map<uint64_t,vector<string>> kmer_strand; // key: kmer; value: vector, even is order; odd is strand
+    map<string,int> nameMap; // key: fastq ID, value: numbered order
+    map<string,string> dataMap; // key: ID, value:
+    int lineNow = 0;
+    int fno = 0; // fno: fastq number order
+    string line;
+    string keyName;
+    lint totalSize = 0;
+    int kmer_len = 8;
+    string seed = "AGC";
+    int seed_len = seed.length();
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        lineNow++;
+        if(lineNow % 4 == 1){
+            keyName = line;
+            continue;
+        }else if (lineNow % 4 == 2){
+            fno++;
+            totalSize += line.size();
+            nameMap.insert(pair<string,int>(keyName,fno));
+            dataMap.insert(pair<string,string>(keyName,line)); // fastq file readed
+            for(int i = 0; i< line.length() - kmer_len; i += seed_len){
+                string subk = line.substr(i,seed_len);
+                if(subk == seed){
+                    uint64_t kmer32 = encode(line.substr(i + seed_len,kmer_len));
+                    if(kmer_number.count(kmer32) == 1){
+                        vector<int> count = kmer_number[kmer32];
+                        vector<string> strand = kmer_strand[kmer32];
+                        int length = count.size()-1;
+                        if(count[length-2] == fno){
+                            count[length-1] ++;
+                        }else{
+                            count.push_back(fno);
+                            count.push_back(1);
+                            strand.push_back(Int2String(fno));
+                            strand.push_back("+");
+                        }
+                        kmer_number[kmer32] = count;
+                        kmer_strand[kmer32] = strand;
+                    }else{
+                        vector<int> count ;
+                        vector<string> strand;
+                        count.push_back(fno);
+                        strand.push_back(Int2String(fno));
+                        count.push_back(1);
+                        strand.push_back("+");
+                        kmer_number.insert(pair<uint64_t,vector<int>>(kmer32,count));
+                        kmer_strand.insert(pair<uint64_t,vector<string>>(kmer32,strand));
+                    }
+                }
+            }
+            string rl = reverse_complementary(line);
+            for(int i = 0; i< rl.length() - kmer_len; i += seed_len){
+                string subk = rl.substr(i,seed_len);
+                if(subk == seed){
+                    uint64_t kmer32 = encode(rl.substr(i + seed_len,kmer_len));
+                    if(kmer_number.count(kmer32) == 1){
+                        vector<int> count = kmer_number[kmer32];
+                        vector<string> strand = kmer_strand[kmer32];
+                        int length = count.size()-1;
+                        if(count[length-2] == fno){
+                            count[length-1] ++;
+                        }else{
+                            count.push_back(fno);
+                            count.push_back(1);
+                            strand.push_back(Int2String(fno));
+                            
+                            strand.push_back("-");
+                        }
+                        kmer_number[kmer32] = count;
+                    }else{
+                        vector<int> count ;
+                        vector<string> strand;
+                        count.push_back(fno);
+                        count.push_back(1);
+                        strand.push_back(Int2String(fno));
+                        strand.push_back("-");
+                        kmer_number.insert(pair<uint64_t,vector<int>>(kmer32,count));
+                        kmer_strand.insert(pair<uint64_t,vector<string>>(kmer32,strand));
+                    }
+                }
+            }
+        }else {
+            continue;
+        }
+    }
+    cout << "Kmer size is:\t" << kmer_number.size() << endl;
+    cout << "Total reads is:\t" << fno << endl;
+    cout << "Total size is:\t" << totalSize << endl;
+    map<uint64_t,vector<int>>::iterator kit;
+    
+    for(kit = kmer_number.begin(); kit !=kmer_number.end(); kit++){
+        char *seq ;
+        decode(kit->first,seq,false);
+        vector<int> number = kit->second;
+//        ouf << seq ;
+        
+        for( int i = 0; i < number.size(); ++i){
+            ouf << "\t" << number[i];
+        }
+        ouf << "\n";
+    }
     ouf.close();
     return 0;
 }
