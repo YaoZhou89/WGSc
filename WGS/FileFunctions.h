@@ -991,7 +991,9 @@ int getGeneBed(parameter *para){
     while(it != g.end()){
         ouf << it->first <<"\t";
         gene a = it->second;
-        ouf << (a.start - binSize) << "\t" << (a.end + binSize) << "\n";
+        int start = a.start - binSize;
+        if ( start < 0 ) start = 0;
+        ouf << start << "\t" << (a.end + binSize) << "\n";
         it++;
     }
     ouf.close();
