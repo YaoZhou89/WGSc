@@ -984,16 +984,17 @@ int getGeneBed(parameter *para){
     vector < string > ll;
     int binSize = para->size;
     gff3 g3 = gff3((para->inFile),chr);
-    cout << "Chromosome: "<< chr << "on Gff3 readed!" << endl;
+    cout << "Chromosome "<< chr << " on Gff3 readed!" << endl;
     map<string,gene> g = g3.genes ;
     map<string,gene>::iterator it;
     it = g.begin();
     while(it != g.end()){
-        ouf << it->first <<"\t";
+        
         gene a = it->second;
         int start = a.start - binSize;
         if ( start < 0 ) start = 0;
-        ouf << start << "\t" << (a.end + binSize) << "\n";
+        ouf << chr << "\t" << start << "\t" << (a.end + binSize) << "\t";
+        ouf << it->first <<"\n";
         it++;
     }
     ouf.close();
