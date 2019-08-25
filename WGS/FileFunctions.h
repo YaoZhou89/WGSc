@@ -972,6 +972,58 @@ int meanBedpi(parameter *para){
     ouf.close();
     return 1;
 }
+int depthEvaluation(parameter *para){
+    igzstream inf1 ((para->inFile).c_str(),ifstream::in);
+    igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    if(inf2.fail()){
+        cerr << "Open file error: " << (para->inFile2) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    vector<int> hist(41,0);
+    int overlapped = 0;
+    string line;
+    vector<string> ll;
+    set<string> pos;
+    set<string> pos2;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        pos.insert(ll[0]+"_"+ll[1]);
+        int p = string2Int(ll[2]);
+        if(p>40) p = 40;
+        hist[p] ++;
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        if(pos.count(ll[0]+"_"+ll[1])==1){
+            overlapped++;
+        }
+        pos2.insert(ll[0]+"_"+ll[1]);
+        int p = string2Int(ll[2]);
+        if(p>40) p = 40;
+        hist[p] ++;
+    }
+    for(int i = 0; i < hist.size();++i){
+        ouf << i << "\t" << hist[i] << "\n";
+    }
+    cout << "file1 size is:\t" << pos.size() << endl;
+    cout << "file2 size is:\t" << pos2.size() << endl;
+    cout << "overlapped site is:\t" << overlapped << endl;
+    ouf.close();
+    return 0;
+}
 int getGeneBed(parameter *para){
     
     ofstream ouf ((para -> outFile).c_str());

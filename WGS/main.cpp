@@ -237,6 +237,8 @@ int main(int argc, char * argv[]) {
                 ABBAstat(para);
             }else if ((para->type) == "ABBAsim"){
                 ABBAsim(para);
+            }else if ((para->type) == "depthEvaluation"){
+                depthEvaluation(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
