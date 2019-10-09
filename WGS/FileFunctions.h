@@ -3208,7 +3208,6 @@ int ct2(parameter *para){
 int getFasta(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
-    
     igzstream inf ((inFile).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
     string chr = (para -> chr);
@@ -3231,6 +3230,8 @@ int getFasta(parameter *para){
         }
     }
     genome.insert(pair<string,string>(key,seq));
+    cout << "Genome readed!" << endl;
+    ouf << ">" + chr + "\n" ;
     ouf << genome[">" + chr] ;
     ouf.close();
     return 0;
