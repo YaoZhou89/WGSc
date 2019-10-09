@@ -239,6 +239,10 @@ int main(int argc, char * argv[]) {
                 ABBAsim(para);
             }else if ((para->type) == "depthEvaluation"){
                 depthEvaluation(para);
+            }else if ((para->type) == "rice"){
+                getRiceGenes(para);
+            }else if ((para->type)=="test"){
+//                readtest(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
@@ -328,6 +332,10 @@ int main(int argc, char * argv[]) {
                 getKmerOrder(para);
             }else if ((para->type) =="getKmerOrder2"){
                 getKmerOrder2(para);
+            }else if ((para->type) == "GenomeStatistic"){
+                GenomeStatistic(para);
+            }else if ((para -> type) == "getChr"){
+                getFasta(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){

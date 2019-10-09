@@ -1304,6 +1304,88 @@ int changeEigenStratPos(parameter *para){
     ouf.close();
     return 1;
 }
+int GenomeStatistic(parameter *para){
+    cout << "Genome summary..." << endl;
+    string input =(para->inFile);
+    ifstream inf (input.c_str());
+    if (inf.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    map<string, int> chromosome;
+    map<string, string> genome;
+    string chr;
+    string fasta;
+    int len;
+    int size;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]== '>'){
+            chr = line;
+        }
+    }
+    return 0;
+}
+int getRiceGenes(parameter *para){
+    string input =(para->inFile);
+    string input2 =(para->inFile2);
+    ifstream inFile (input.c_str());
+    ifstream inFile2 (input2.c_str());
+    if (inFile.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    
+    if((!inFile2.good())){
+        cerr << "open pos File error: " << para->inFile2 << endl;
+        return  0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    set<string> genes;
+    string line;
+    while (!inFile2.eof()){
+        getline(inFile2,line);
+        if(line.length()<1) continue;
+        genes.insert(line);
+    }
+    vector<string> ll;
+    cout << genes.size() << "\tgenes added!" << endl;
+    while(!inFile.eof()){
+        getline(inFile,line);
+        if(line.length() < 1) continue;
+        if(line[0] != 'T') continue;
+        if (line.rfind("OSY") == string::npos) continue;
+        ll.clear();
+        split(line,ll," \t");
+        string a;
+        a = ll[0];
+        ll.clear();
+        split(a,ll,"|");
+        a = ll[1];
+        ll.clear();
+        split(a,ll,".");
+        if(genes.count(ll[0]) == 1){
+//            cout << ll[0] << endl;
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
+
 int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
@@ -3123,7 +3205,36 @@ int ct2(parameter *para){
     ouf.close();
     return 1;
 }
-
+int getFasta(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string chr = (para -> chr);
+    map<string,string> genome;
+    string line;
+    string seq;
+    string key;
+    bool first = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 0 ) continue;
+        if(line[0] == '>' ){
+            if(!first){
+                genome.insert(pair<string,string>(key,seq));
+            }
+            key = line;
+            seq = "";
+        }else{
+            seq.append(line+"\n");
+        }
+    }
+    genome.insert(pair<string,string>(key,seq));
+    ouf << genome[">" + chr] ;
+    ouf.close();
+    return 0;
+}
 int ct1(parameter *para){
     string inFile1 = (para->inFile);
     string vcfFile = (para->bedFile);
