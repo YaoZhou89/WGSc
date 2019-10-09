@@ -3218,11 +3218,12 @@ int getFasta(parameter *para){
     bool first = true;
     while(!inf.eof()){
         getline(inf,line);
-        if(line.length() < 0 ) continue;
+        if(line.length() < 1 ) continue;
         if(line[0] == '>' ){
             if(!first){
                 genome.insert(pair<string,string>(key,seq));
             }
+            first = false;
             key = line;
             seq = "";
         }else{
