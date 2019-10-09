@@ -3232,7 +3232,7 @@ int getFasta(parameter *para){
     genome.insert(pair<string,string>(key,seq));
     cout << "Genome readed!" << endl;
     ouf << ">" + chr + "\n" ;
-    ouf << genome[">" + chr] ;
+    ouf << genome[chr] ;
     ouf.close();
     return 0;
 }
