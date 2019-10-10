@@ -3670,11 +3670,11 @@ int vcf2ancestral(parameter *para){
             if (line.substr(0,2) == "#C"){
                 cout << "header.."  << endl;
                 ll.clear();
-                split(line,ll,"\t");
+                split(line,ll," \t");
                 for (int i = 0; i < ll.size() - 2; ++i){
                     ouf << ll[i] << "\t";
                 }
-                ouf << ll[ll.size() - 1] << "\n";
+                ouf << ll[ll.size() - 2] << "\n";
             }else{
                 ouf << line << "\n";
             }
@@ -3682,9 +3682,13 @@ int vcf2ancestral(parameter *para){
             ll.clear();
             split(line,ll,"\t");
             if (ll[ll.size()-1][0] == '0'){
-                ouf << line << "\n";
+                ouf << ll[0];
+                for ( int i = 1; i < ll.size() -1; ++i){
+                    ouf << "\t" << ll[i];
+                }
+                ouf << "\n";
             } else {
-                for ( int i = 0; i < ll.size()-1; i ++){
+                for ( int i = 0; i < ll.size()-1; i++){
                     if (i == 0){
                         ouf << ll[i];
                     }else if ( i < 9){
