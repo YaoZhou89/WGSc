@@ -3667,7 +3667,8 @@ int vcf2ancestral(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '#') {
-            if (line[1] == 'C'){
+            if (line.substr(0,2) == "#C"){
+                cout << "header.."  << endl;
                 ll.clear();
                 split(line,ll,"\t");
                 for (int i = 0; i < ll.size() - 2; ++i){
@@ -3690,9 +3691,11 @@ int vcf2ancestral(parameter *para){
                         ouf << "\t" << ll[i];
                     } else {
                         if(ll[i].substr(0,3)=="0/0"){
-                            ll[i].replace(0,3,"1/1");
+                            ll[i].replace(0,3,"1|1");
                         }else if (ll[i].substr(0,3)=="1/1"){
-                            ll[i].replace(0,3,"0/0");
+                            ll[i].replace(0,3,"0|0");
+                        }else if (ll[i].substr(0,3)=="./."){
+                            ll[i].replace(0,3,".|.");
                         }else{
                             continue;
                         }
