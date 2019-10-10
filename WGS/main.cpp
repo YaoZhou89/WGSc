@@ -245,6 +245,8 @@ int main(int argc, char * argv[]) {
                 getRiceGenes(para);
             }else if ((para->type)=="test"){
 //                readtest(para);
+            }else if ((para->type) == "snpID"){
+                snpID(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
