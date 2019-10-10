@@ -3227,7 +3227,7 @@ int getFasta(parameter *para){
             key = line;
             seq = "";
         }else{
-            seq.append(line+"\n");
+            seq.append(line + "\n");
         }
     }
     genome.insert(pair<string,string>(key,seq));
@@ -3655,7 +3655,55 @@ int genePi(parameter *para){
     ouf.close();
     return 0;
 }
-
+int vcf2ancestral(parameter *para){
+    string inFile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        
+        if(line[0]== '#') {
+            if (line[1] == 'C'){
+                ll.clear();
+                for (int i = 0; i < ll.size() - 2; ++i){
+                    ouf << ll[i] << "\t";
+                }
+                ouf << ll[ll.size() - 1] << "\n";
+            }else{
+                ouf << line << "\n";
+            }
+        }else {
+            ll.clear();
+            split(line,ll,"\t");
+            if (ll[ll.size()-1][0] == '0'){
+                ouf << line << "\n";
+            } else {
+                for ( int i = 0; i < ll.size()-1; i ++){
+                    if (i == 0){
+                        ouf << ll[i];
+                    }else if ( i < 9){
+                        ouf << "\t" << ll[i];
+                    } else {
+                        if(ll[i].substr(0,3)=="0/0"){
+                            ll[i].replace(0,3,"1/1");
+                        }else if (ll[i].substr(0,3)=="1/1"){
+                            ll[i].replace(0,3,"0/0");
+                        }else{
+                            continue;
+                        }
+                        ouf << "\t" << ll[i];
+                    }
+                }
+                ouf << "\n";
+            }
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int gene_count(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);

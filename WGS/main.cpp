@@ -122,6 +122,8 @@ int main(int argc, char * argv[]) {
                 getSummary(para);
             }else if ((para->type) == "overlap"){
                 vcfoverlap(para);
+            }else if ((para->type) =="toAncestral"){
+                vcf2ancestral(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
