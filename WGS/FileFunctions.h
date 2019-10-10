@@ -3656,7 +3656,6 @@ int genePi(parameter *para){
     return 0;
 }
 int vcf2ancestral(parameter *para){
-    cout << "Reading..." << endl;
     string inFile = (para -> inFile);
     string outFile = (para -> outFile);
     igzstream inf ((inFile).c_str(),ifstream::in);
@@ -3670,6 +3669,7 @@ int vcf2ancestral(parameter *para){
         if(line[0] == '#') {
             if (line[1] == 'C'){
                 ll.clear();
+                split(line,ll,"\t");
                 for (int i = 0; i < ll.size() - 2; ++i){
                     ouf << ll[i] << "\t";
                 }
