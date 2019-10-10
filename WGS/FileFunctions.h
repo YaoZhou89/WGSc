@@ -3662,10 +3662,11 @@ int vcf2ancestral(parameter *para){
     ofstream ouf ((outFile).c_str());
     string line;
     vector<string> ll;
+    cout << "Reading vcf file..." << endl;
     while (!inf.eof()){
         getline(inf,line);
-        
-        if(line[0]== '#') {
+        if(line.length() < 1) continue;
+        if(line[0] == '#') {
             if (line[1] == 'C'){
                 ll.clear();
                 for (int i = 0; i < ll.size() - 2; ++i){
