@@ -3690,16 +3690,13 @@ int vcf2ancestral(parameter *para){
                     }else if ( i < 9){
                         ouf << "\t" << ll[i];
                     } else {
-                        if(ll[i].substr(0,3)=="0/0"){
-                            ll[i].replace(0,3,"1|1");
-                        }else if (ll[i].substr(0,3)=="1/1"){
-                            ll[i].replace(0,3,"0|0");
-                        }else if (ll[i].substr(0,3)=="./."){
-                            ll[i].replace(0,3,".|.");
+                        if(ll[i] == "0|0"){
+                            ouf << "\t" << "1|1";
+                        }else if (ll[i] == "1|1"){
+                            ouf << "\t" << "0|0";
                         }else{
-                            continue;
+                            ouf << "\t" << ll[i];
                         }
-                        ouf << "\t" << ll[i];
                     }
                 }
                 ouf << "\n";
