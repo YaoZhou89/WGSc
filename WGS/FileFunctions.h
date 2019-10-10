@@ -3710,6 +3710,24 @@ int vcf2ancestral(parameter *para){
     ouf.close();
     return 0;
 }
+int snpID(parameter *para){
+    string inFile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," ");
+        string ID = ll[0]+"_"+ll[2];
+        replaceAll(line,".",ID);
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int gene_count(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);
