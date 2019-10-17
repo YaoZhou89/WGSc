@@ -124,6 +124,8 @@ int main(int argc, char * argv[]) {
                 vcfoverlap(para);
             }else if ((para->type) =="toAncestral"){
                 vcf2ancestral(para);
+            }else if ((para->type) == "DPvsGATK"){
+                DPvsGATK(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

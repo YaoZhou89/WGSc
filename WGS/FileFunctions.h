@@ -3728,6 +3728,38 @@ int snpID(parameter *para){
     ouf.close();
     return 0;
 }
+int DPvsGATK(parameter *para){
+    string inFile = (para -> inFile);
+    string inFile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> pos;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#' ) continue;
+        split(line,ll,"\t");
+        pos.insert(ll[0]+"_"+ll[1]);
+    }
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#' ) {
+            ouf << line << "\n";
+            continue;
+        };
+        split(line,ll,"\t");
+        if(pos.count(ll[0] +"_" + ll[1]) == 0){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int gene_count(parameter *para){
     string gffFile = (para -> inFile);
     string piFile = (para -> inFile2);
