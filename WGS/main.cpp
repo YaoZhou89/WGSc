@@ -126,6 +126,8 @@ int main(int argc, char * argv[]) {
                 vcf2ancestral(para);
             }else if ((para->type) == "DPvsGATK"){
                 DPvsGATK(para);
+            }else if ((para->type) == "het2depth"){
+                het2depth(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

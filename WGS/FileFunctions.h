@@ -3728,6 +3728,34 @@ int snpID(parameter *para){
     ouf.close();
     return 0;
 }
+int het2depth(parameter *para){
+    string inFile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll,"\t");
+        ouf << ll[0] << "\t" << ll[1] << "\t";
+        string g = ll[ll.size()-1];
+        ll.clear();
+        split(g,ll,":");
+        string d = ll[1];
+        ll.clear();
+        split(d,ll,",");
+        if (string2Int(ll[0]) > string2Int(ll[1])){
+            ouf << ll[0] << "\t" << ll[1] << "\n";
+        }else {
+            ouf << ll[1] << "\t" << ll[0] << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int DPvsGATK(parameter *para){
     string inFile = (para -> inFile);
     string inFile2 = (para -> inFile2);
