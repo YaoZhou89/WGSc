@@ -128,6 +128,8 @@ int main(int argc, char * argv[]) {
                 DPvsGATK(para);
             }else if ((para->type) == "het2depth"){
                 het2depth(para);
+            }else if ((para-type) == "vcf2RleateMap"){
+                vcf2RleateMap(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

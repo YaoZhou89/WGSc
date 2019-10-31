@@ -1385,7 +1385,23 @@ int getRiceGenes(parameter *para){
     ouf.close();
     return 0;
 }
-
+int vcf2RleateMap(parameter *para){
+    string input =(para->inFile);
+    ifstream inf (input.c_str());
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        ouf << ll[2] << " 2.02 " << string2Int(ll[2])/1000000000 << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
