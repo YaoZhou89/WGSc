@@ -346,6 +346,8 @@ int main(int argc, char * argv[]) {
                 GenomeStatistic(para);
             }else if ((para -> type) == "getChr"){
                 getFasta(para);
+            }else if ((para-> type) =="GPM"){
+                GPMm(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
