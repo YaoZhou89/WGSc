@@ -2364,7 +2364,6 @@ int GPMm(parameter *para){
                     first = false;
                 }else{
                     ouf << N << "\n";
-                    ouf << N << "\n";
                 }
             }else{
                 split(line,ll," \t");
@@ -2374,6 +2373,7 @@ int GPMm(parameter *para){
             ouf << line << "\n";
         }
     }
+    ouf.close();
     return 1;
 }
 int calibarate5(parameter *para){
