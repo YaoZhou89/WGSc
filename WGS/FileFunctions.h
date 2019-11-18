@@ -2337,6 +2337,45 @@ int calibarate4(parameter *para){
     f1.close();
     return 1;
 }
+int GPMm(parameter *para){
+    string fas = (para->inFile);
+    igzstream inf (fas.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "open File IN error: " << fas << endl;
+        return 0;
+    }
+    string outfile = (para->outFile);
+    ofstream ouf (outfile.c_str());
+    if(ouf.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    vector <string> ll ;
+    string line="";
+    bool first = true;
+    string N = string(80,'N');
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='>'){
+            if(line[4] == 'U'){
+                if(first){
+                    ouf << ">ChrUn\n";
+                    first = false;
+                }else{
+                    ouf << N << "\n";
+                    ouf << N << "\n";
+                }
+            }else{
+                split(line,ll," \t");
+                ouf << ll[0] << "\n";
+            }
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    return 1;
+}
 int calibarate5(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
