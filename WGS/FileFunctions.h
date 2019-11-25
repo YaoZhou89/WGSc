@@ -1932,7 +1932,7 @@ int filterDepth(parameter *para){
             ll.push_back(string2Double(ll1[i]));
         }
         
-        bool pass =depthTest(ll,0,100,para->minDepth,para-> maxDepth,para->3);
+        bool pass =depthTest(ll,0,100,para->minDepth,para-> maxDepth,3);
         if(pass){
             j++;
             OUT << ll1[0];
