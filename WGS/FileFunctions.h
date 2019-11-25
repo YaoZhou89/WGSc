@@ -2049,6 +2049,7 @@ int mergeSynteny(parameter *para){
         pos = string2Int(ll[1]);
         pos1.insert(pos);
     }
+    int passed = 0;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -2056,8 +2057,10 @@ int mergeSynteny(parameter *para){
         pos = string2Int(ll[1]);
         while(pos1.count(pos)==1){
             ouf << line << "\n";
+            passed++;
         }
     }
+    cout << "Passed number is:\t" << passed << "\n";
     return 0;
 }
 int randChoose(parameter *para){
