@@ -2017,6 +2017,49 @@ int filterDepth_bySimulation2(parameter *para){
     log.close();
     return 1;
 }
+int mergeSynteny(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    
+    if(inf2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    vector<string> ll;
+    int pos;
+    set<int> pos1;
+    while (!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        split(line,ll);
+        pos = string2Int(ll[1]);
+        pos1.insert(pos);
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll);
+        pos = string2Int(ll[1]);
+        while(pos1.count(pos)==1){
+            ouf << line << "\n";
+        }
+    }
+    return 0;
+}
 int randChoose(parameter *para){
     double r = (para->r);
     string input1 = (para->inFile);
