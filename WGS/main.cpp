@@ -354,6 +354,8 @@ int main(int argc, char * argv[]) {
                 getFasta(para);
             }else if ((para-> type) =="GPM"){
                 GPMm(para);
+            }else if ((para-> type) =="GPM1"){
+                GPMm1(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
