@@ -2062,6 +2062,87 @@ int mergeSynteny(parameter *para){
     cout << "Passed number is:\t" << passed << endl;
     return 0;
 }
+
+int Syn2HapScan(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    string input3 = (para->inFile3);
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    
+    if(inf2.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    if(inf3.fail()){
+        cerr << "open File IN error: " << input3 << endl;
+        return 0;
+    }
+    
+    string outFile =(para -> outFile);
+    string hapPos = outFile + ".pos.txt";
+    string allele = outFile + ".allele.txt";
+    ofstream  hapPosf ((hapPos).c_str());
+    ofstream  allelef ((allele).c_str());
+    if((!hapPosf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    vector<string> ll;
+    map<string,string> pos1;
+    map<string,string> pos2;
+    while (!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        if(line[0] =='#') continue;
+        split(line,ll,"\t");
+        pos1.insert((pair<string,string>(ll[1],ll[3] +"\t"+ll[4])));
+    }
+    cout << "File1 readed!" << endl;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] =='#') continue;
+        split(line,ll,"\t");
+        pos2.insert((pair<string,string>(ll[1],ll[3]+"\t"+ll[4])));
+    }
+    cout << "File2 readed!" << endl;
+    
+    allelef << "Chr\tPos\tRef\tAlt\n" ;
+    while(!inf3.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line, ll, "\t");
+        int a = pos1.count(ll[1]);
+        int b = pos2.count(ll[1]);
+        if( a == 1 | b == 1){
+            if (a == 0 ){
+                hapPosf << line << "\n";
+                allelef << line << "\t";
+                allelef << pos2[ll[1]] << "\n";
+            }else if (b == 0){
+                hapPosf << line << "\n";
+                allelef << line << "\t";
+                allelef << pos1[ll[1]] << "\n";
+            }else{
+                if (pos1[ll[1]] == pos2[ll[1]]){
+                    hapPosf << line << "\n";
+                    allelef << line << "\t";
+                    allelef << pos1[ll[1]] << "\n";
+                }
+            }
+        }
+    }
+    hapPosf.close();
+    allelef.close();
+    return 0;
+}
 int randChoose(parameter *para){
     double r = (para->r);
     string input1 = (para->inFile);
