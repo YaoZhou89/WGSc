@@ -2031,7 +2031,6 @@ int mergeSynteny(parameter *para){
         cerr << "open File IN error: " << input2 << endl;
         return 0;
     }
-    
     string outFile =(para -> outFile);
     ofstream  ouf ((outFile).c_str());
     if((!ouf.good())){
@@ -2045,7 +2044,7 @@ int mergeSynteny(parameter *para){
     while (!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1) continue;
-        split(line,ll);
+        split(line,ll,"\t");
         pos = string2Int(ll[1]);
         pos1.insert(pos);
     }
@@ -2053,14 +2052,14 @@ int mergeSynteny(parameter *para){
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        split(line,ll);
+        split(line,ll,"\t");
         pos = string2Int(ll[1]);
         while(pos1.count(pos)==1){
             ouf << line << "\n";
             passed++;
         }
     }
-    cout << "Passed number is:\t" << passed << "\n";
+    cout << "Passed number is:\t" << passed << endl;
     return 0;
 }
 int randChoose(parameter *para){
