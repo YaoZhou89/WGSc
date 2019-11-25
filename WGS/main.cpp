@@ -164,6 +164,8 @@ int main(int argc, char * argv[]) {
                 randChoose(para);
             }else if((para -> type)=="merge3"){
                 filterDepth3(para);
+            }else if((para -> type)=="synteny"){
+                filterDepth(para);
             }else if((para -> type)=="merge2"){
                 filterDepth2(para);
             }else if((para -> type)=="filterBySim3"){
