@@ -166,6 +166,8 @@ int main(int argc, char * argv[]) {
                 filterDepth3(para);
             }else if((para -> type)=="synteny"){
                 filterDepth(para);
+            }}else if((para -> type)=="mergeSynteny"){
+                mergeSynteny(para);
             }else if((para -> type)=="merge2"){
                 filterDepth2(para);
             }else if((para -> type)=="filterBySim3"){
