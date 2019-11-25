@@ -168,6 +168,8 @@ int main(int argc, char * argv[]) {
                 filterDepth(para);
             }else if((para -> type)=="mergeSynteny"){
                 mergeSynteny(para);
+            }else if((para -> type)=="Syn2HapScan"){
+                Syn2HapScan(para);
             }else if((para -> type)=="merge2"){
                 filterDepth2(para);
             }else if((para -> type)=="filterBySim3"){
