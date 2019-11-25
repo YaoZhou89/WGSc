@@ -2054,7 +2054,7 @@ int mergeSynteny(parameter *para){
         if(line.length() < 1) continue;
         split(line,ll,"\t");
         pos = string2Int(ll[1]);
-        while(pos1.count(pos)==1){
+        if(pos1.count(pos)==1){
             ouf << line << "\n";
             passed++;
         }
