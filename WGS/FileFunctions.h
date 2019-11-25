@@ -2116,7 +2116,7 @@ int Syn2HapScan(parameter *para){
     
     allelef << "Chr\tPos\tRef\tAlt\n" ;
     while(!inf3.eof()){
-        getline(inf2,line);
+        getline(inf3,line);
         if(line.length() < 1) continue;
         split(line, ll, "\t");
         int a = pos1.count(ll[1]);
