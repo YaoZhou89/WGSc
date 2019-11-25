@@ -1897,6 +1897,56 @@ int filterDepth2(parameter *para){
     log.close();
     return 1;
 }
+int filterDepth(parameter *para){
+    string input1 = (para->inFile);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+   
+    
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    ofstream log((para->outFile+".log").c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    if((!log.good())){
+        cerr << "open log File error" << endl;
+        return  0;
+    }
+    
+    string l1, l2;
+    vector < string >  ll1,ll2;
+    vector <double> ll;
+    int j = 0;
+    while(!f1.eof()){
+        getline(f1,l1);
+        if(l1.length() < 1) continue;
+        ll1.clear();
+        ll.clear();
+        split(l1, ll1,"\t");
+        for(int i = 2, len = ll1.size(); i < len ; ++i){
+            ll.push_back(string2Double(ll1[i]));
+        }
+        
+        bool pass =depthTest(ll,para->0,para->100,para->minDepth,para-> maxDepth,para->3);
+        if(pass){
+            j++;
+            OUT << ll1[0];
+            OUT << "\t";
+            OUT << ll1[1];
+            OUT << "\n";
+        }
+    }
+    log << "passed sites is: " << j  ;
+    f1.close();
+    OUT.close();
+    log.close();
+    return 1;
+}
 int filterDepth_bySimulation2(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
