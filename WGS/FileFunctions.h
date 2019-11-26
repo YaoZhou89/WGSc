@@ -2617,7 +2617,9 @@ int maf2pos(parameter *para){
             string chr = ll[1].substr(7,4) + subChr;
             snp.append(chr);
             snp.append("\t");
-            string ref(toupper(ll[6][0]),1);
+            string ref = ll[6];
+            std::transform(ref.begin(), ref.end(), ref.begin(), ::toupper);
+            cout << ref << endl;
             snp.append(Int2String(string2Int(ll[2])+1));
             snp.append("\t");
             snp.append(ref);
