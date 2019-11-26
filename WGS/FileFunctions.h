@@ -2617,8 +2617,7 @@ int maf2pos(parameter *para){
             string chr = ll[1].substr(7,4) + subChr;
             snp.append(chr);
             snp.append("\t");
-            string ref(ll[6][0],1);
-            transform(ref.begin(), ref.end(),ref.begin(), ::toupper);
+            string ref(toupper(ll[6][0]),1);
             snp.append(Int2String(string2Int(ll[2])+1));
             snp.append("\t");
             snp.append(ref);
@@ -2629,7 +2628,7 @@ int maf2pos(parameter *para){
             split(line,ll," \t");
             if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
-            string alt(ll[6][0],1);
+            string alt(toupper(ll[6][0]),1);
             if(alt == "-") {
                 write = false;
                 continue;
