@@ -2669,7 +2669,7 @@ int checkPos(parameter *para){
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
-        pos.insert(pair<string,string>(ll[1],ll[2]+"_"+ll[3]));
+        pos.insert(pair<string,string>(ll[1],ll[3]));
     }
     while(!inf.eof()){
         getline(inf,line);
@@ -2684,15 +2684,11 @@ int checkPos(parameter *para){
             continue;
         }
         ll.clear();
-        if(pos[ll[1]] == (ll[3]+"_"+ll[4])){
-            ouf << line << "\t";
-            ll.clear();
-            split(pos[ll[1]],ll,"_");
-            if (ll[0] == ll[1]){
-                ouf << "0/0" << "\n";
-            }else{
-                ouf << "1/1" << "\n";
-            }
+        if(pos[ll[1]] == (ll[3])){
+            ouf << line << "\t" << "0/0" << "\n";
+            
+        }else if (pos[ll[1]] == (ll[4])){
+            ouf << line << "\t" << "1/1" << "\n";
         }
     }
     ouf.close();
