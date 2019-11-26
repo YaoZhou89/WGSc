@@ -2615,13 +2615,13 @@ int maf2pos(parameter *para){
             split(line,ll," \t");
             if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
+            snp.append(chr);
+            snp.append("\t");
             string ref(ll[6][0],1);
-//            if(base.count(ref) == 0) {
-//                write = false;
-//                continue;
-//            }
             transform(ref.begin(), ref.end(),ref.begin(), ::toupper);
-            snp = chr + "\t" + Int2String(string2Int(ll[2])+1) + "\t" + ref ;
+            snp.append(Int2String(string2Int(ll[2])+1));
+            snp.append("\t");
+            snp.append(ref);
             newS = false;
             write = true;
         }else{
@@ -2634,12 +2634,9 @@ int maf2pos(parameter *para){
                 write = false;
                 continue;
             }
-//            if(base.count(alt) == 0){
-//                write = false;
-//                continue;
-//            }
             transform(alt.begin(), alt.end(),alt.begin(), ::toupper);
-            snp += "\t" + alt ;
+            snp.append("\t");
+            snp.append(alt);
         }
         
     }
