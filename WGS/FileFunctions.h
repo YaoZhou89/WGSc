@@ -2574,6 +2574,60 @@ int vcf2bed(parameter *para){
     
     return 0;
 }
+int maf2pos(parameter *para){
+    string fas = (para->inFile);
+    igzstream inf (fas.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "open File IN error: " << fas << endl;
+        return 0;
+    }
+    string outfile = (para->outFile);
+    ofstream ouf (outfile.c_str());
+    if(ouf.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    string line;
+    vector<string> ll;
+    string subChr = para->chr;
+    bool newS = false;
+    string snp = "";
+    set<string> base;
+    base.insert("A"); base.insert("T"); base.insert("G"); base.insert("C");
+    base.insert("a"); base.insert("t"); base.insert("g"); base.insert("c");
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        if(line[0] == 'a') {
+            newS = true;
+            snp = "";
+            continue;
+        }
+        if(newS){
+            ll.clear();
+            split(line,ll," \t");
+            string chr = ll[1].substr(7,4) + subChr;
+            string ref(ll[6][0],1);
+            if(base.count(ref) == 0) continue;
+            transform(ref.begin(), ref.end(),ref.begin(), ::toupper);
+            snp = chr + "\t" + Int2String(string2Int(ll[2])+1) + "\t" + ref ;
+            newS = false;
+        }else{
+            ll.clear();
+            split(line,ll," \t");
+            string chr = ll[1].substr(7,4) + subChr;
+            string alt(ll[6][0],1);
+            if(base.count(alt) == 0) continue;
+            transform(alt.begin(), alt.end(),alt.begin(), ::toupper);
+            snp += "\t" + alt ;
+        }
+        
+    }
+    ouf.close();
+    
+    return 0;
+}
 int GPMm(parameter *para){
     string fas = (para->inFile);
     igzstream inf (fas.c_str(),ifstream::in);
