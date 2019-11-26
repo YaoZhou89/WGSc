@@ -2567,7 +2567,7 @@ int vcf2bed(parameter *para){
         if(line.length() < 1) continue;
         if(line[0] == '#') continue;
         split(line,ll,"\t");
-        ouf << ll[0].substr(0,3) << "\t";
+        ouf << ll[0].substr(0,4) << "\t";
         ouf << Int2String(string2Int(ll[1])-1) << "\t" << ll[1] << "\n";
     }
     ouf.close();
