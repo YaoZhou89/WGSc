@@ -2283,6 +2283,38 @@ int getPos(parameter *para){
     outf2.close();
     return 1;
 }
+int filterBarley(parameter *para){
+    string input1 = (para->inFile);
+    igzstream inf (input1.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    string outfile = (para->outFile);
+    ogzstream ouf (outfile.c_str());
+    if(ouf.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    vector <string> ll;
+    string line;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0]== '#') {
+            ouf << line << "\n";
+        }else{
+            ll.clear();
+            split(line,ll,"\t");
+            if (ll[ll.size()-1][0] != '.'){
+                ouf << line << "\n";
+            }
+        }
+    }
+    ouf.close();
+       
+    return 0;
+}
 int calibarate(parameter *para){
     string input1 = (para->inFile);
     igzstream f1 (input1.c_str(),ifstream::in);
