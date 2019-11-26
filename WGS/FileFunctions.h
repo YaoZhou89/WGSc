@@ -2684,9 +2684,9 @@ int checkPos(parameter *para){
             continue;
         }
         ll.clear();
+        if (pos.count(ll[1]) == 0) continue;
         if(pos[ll[1]] == (ll[3])){
             ouf << line << "\t" << "0/0" << "\n";
-            
         }else if (pos[ll[1]] == (ll[4])){
             ouf << line << "\t" << "1/1" << "\n";
         }
