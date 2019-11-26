@@ -2298,6 +2298,7 @@ int filterBarley(parameter *para){
     }
     vector <string> ll;
     string line;
+    int passed = 0;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
@@ -2308,11 +2309,12 @@ int filterBarley(parameter *para){
             split(line,ll,"\t");
             if (ll[ll.size()-1][0] != '.'){
                 ouf << line << "\n";
+                passed++;
             }
         }
     }
     ouf.close();
-       
+    cout << "Passed Number is:\t" << passed << "\n";
     return 0;
 }
 int calibarate(parameter *para){
