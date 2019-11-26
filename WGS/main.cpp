@@ -132,6 +132,8 @@ int main(int argc, char * argv[]) {
                 het2depth(para);
             }else if ((para->type) == "vcf2RleateMap"){
                 vcf2RleateMap(para);
+            }else if ((para->type) == "vcf2bed"){
+                vcf2bed(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
