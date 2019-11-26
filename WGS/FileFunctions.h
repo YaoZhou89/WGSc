@@ -2630,7 +2630,7 @@ int maf2pos(parameter *para){
             if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
             string alt(ll[6][0],1);
-            if(alt="-") {
+            if(alt == "-") {
                 write = false;
                 continue;
             }
