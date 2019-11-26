@@ -2684,7 +2684,7 @@ int checkPos(parameter *para){
             continue;
         }
         ll.clear();
-        if(pos[ll[1]] == (ll[2]+"_"+ll[3])){
+        if(pos[ll[1]] == (ll[3]+"_"+ll[4])){
             ouf << line << "\t";
             ll.clear();
             split(pos[ll[1]],ll,"_");
