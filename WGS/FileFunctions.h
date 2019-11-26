@@ -2547,6 +2547,33 @@ int calibarate4(parameter *para){
     f1.close();
     return 1;
 }
+int vcf2bed(parameter *para){
+    string fas = (para->inFile);
+    igzstream inf (fas.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "open File IN error: " << fas << endl;
+        return 0;
+    }
+    string outfile = (para->outFile);
+    ofstream ouf (outfile.c_str());
+    if(ouf.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        ouf << ll[0].substr(0,3) << "\t";
+        ouf << Int2String(string2Int(ll[1])-1) << "\t" << ll[1] << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
 int GPMm(parameter *para){
     string fas = (para->inFile);
     igzstream inf (fas.c_str(),ifstream::in);
@@ -2564,6 +2591,7 @@ int GPMm(parameter *para){
     string line="";
     bool first = true;
     string N = string(80,'N');
+    bool un = false;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -2575,11 +2603,13 @@ int GPMm(parameter *para){
                 }else{
                     ouf << N << "\n";
                 }
+                un = true;
             }else{
                 split(line,ll," \t");
                 ouf << ll[0] << "\n";
             }
         }else{
+            
             ouf << line << "\n";
         }
     }
