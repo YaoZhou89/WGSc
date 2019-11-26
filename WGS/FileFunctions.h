@@ -2596,6 +2596,7 @@ int maf2pos(parameter *para){
     set<string> base;
     base.insert("A"); base.insert("T"); base.insert("G"); base.insert("C");
     base.insert("a"); base.insert("t"); base.insert("g"); base.insert("c");
+    cout << "MAF2POS..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
