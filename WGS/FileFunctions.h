@@ -2646,6 +2646,58 @@ int maf2pos(parameter *para){
     ouf.close();
     return 0;
 }
+int checkPos(parameter *para){
+    string vcffile = (para->inFile);
+    string posfile = (para->inFile2);
+    igzstream inf (vcffile.c_str(),ifstream::in);
+    igzstream inf2 (posfile.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "open File IN error: " << vcffile << endl;
+        return 0;
+    }
+    string outfile = (para->outFile);
+    ofstream ouf (outfile.c_str());
+    if(ouf.fail()){
+        cerr << "Open File out error" << outfile << endl;
+        return 0;
+    }
+    vector <string> ll ;
+    string line;
+    map<string,string> pos;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        pos.insert(pair<string,string>(ll[1],ll[2]+"_"+ll[3]));
+    }
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        if(line[0]=='#'){
+            ouf << line ;
+            if(line[1]=='C'){
+                ouf << "\t" <<"Barley";
+            }
+            ouf << "\n";
+            continue;
+        }
+        ll.clear();
+        if(pos[ll[1]] == (ll[2]+"_"+ll[3])){
+            ouf << line << "\t";
+            ll.clear();
+            split(pos[ll[1]],ll,"_");
+            if (ll[0] == ll[1]){
+                ouf << "0/0" << "\n";
+            }else{
+                ouf << "1/1" << "\n";
+            }
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int GPMm(parameter *para){
     string fas = (para->inFile);
     igzstream inf (fas.c_str(),ifstream::in);
