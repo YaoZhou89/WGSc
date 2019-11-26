@@ -265,6 +265,8 @@ int main(int argc, char * argv[]) {
                 snpID(para);
             }else if ((para->type) == "maf2pos"){
                 maf2pos(para);
+            }else if ((para->type) =="checkPos"){
+                checkPos(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
