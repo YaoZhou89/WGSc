@@ -2668,27 +2668,27 @@ int checkPos(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
-        split(line,ll,"\t");
+        split(line,ll," \t");
         pos.insert(pair<string,string>(ll[1],ll[3]));
     }
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        ll.clear();
-        if(line[0]=='#'){
+        if(line[0] == '#'){
             ouf << line ;
-            if(line[1]=='C'){
+            if(line[1] == 'C'){
                 ouf << "\t" <<"Barley";
             }
             ouf << "\n";
             continue;
         }
         ll.clear();
-        if (pos.count(ll[1]) == 0) continue;
-        if(pos[ll[1]] == (ll[3])){
-            ouf << line << "\t" << "0/0" << "\n";
+        split(line,ll,"\t");
+        if(pos.count(ll[1]) == 0) continue;
+        if(pos[ll[1]] == ll[3]){
+            ouf << line << "\t" << "0/0:10,0:0,0,10" << "\n";
         }else if (pos[ll[1]] == (ll[4])){
-            ouf << line << "\t" << "1/1" << "\n";
+            ouf << line << "\t" << "1/1:0,10:10,0,0" << "\n";
         }
     }
     ouf.close();
