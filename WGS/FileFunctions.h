@@ -2619,7 +2619,6 @@ int maf2pos(parameter *para){
             snp.append("\t");
             string ref = ll[6];
             std::transform(ref.begin(), ref.end(), ref.begin(), ::toupper);
-            cout << ref << endl;
             snp.append(Int2String(string2Int(ll[2])+1));
             snp.append("\t");
             snp.append(ref);
@@ -2630,12 +2629,12 @@ int maf2pos(parameter *para){
             split(line,ll," \t");
             if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
-            string alt(toupper(ll[6][0]),1);
+            string alt = ll[6];
             if(alt == "-") {
                 write = false;
                 continue;
             }
-            transform(alt.begin(), alt.end(),alt.begin(), ::toupper);
+            std::transform(alt.begin(), alt.end(), alt.begin(), ::toupper);
             snp.append("\t");
             snp.append(alt);
         }
