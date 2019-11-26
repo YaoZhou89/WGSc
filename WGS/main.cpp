@@ -263,6 +263,8 @@ int main(int argc, char * argv[]) {
 //                readtest(para);
             }else if ((para->type) == "snpID"){
                 snpID(para);
+            }else if ((para->type) == "maf2pos"){
+                maf2pos(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

@@ -2591,6 +2591,7 @@ int maf2pos(parameter *para){
     vector<string> ll;
     string subChr = para->chr;
     bool newS = false;
+    bool write = true;
     string snp = "";
     set<string> base;
     base.insert("A"); base.insert("T"); base.insert("G"); base.insert("C");
@@ -2601,6 +2602,9 @@ int maf2pos(parameter *para){
         if(line[0] == '#') continue;
         if(line[0] == 'a') {
             newS = true;
+            if (write){
+                ouf << snp  << "\n";
+            }
             snp = "";
             continue;
         }
@@ -2609,23 +2613,32 @@ int maf2pos(parameter *para){
             split(line,ll," \t");
             string chr = ll[1].substr(7,4) + subChr;
             string ref(ll[6][0],1);
-            if(base.count(ref) == 0) continue;
+            if(base.count(ref) == 0) {
+                write = false;
+                continue;
+            }
             transform(ref.begin(), ref.end(),ref.begin(), ::toupper);
             snp = chr + "\t" + Int2String(string2Int(ll[2])+1) + "\t" + ref ;
             newS = false;
+            write = true;
         }else{
             ll.clear();
             split(line,ll," \t");
             string chr = ll[1].substr(7,4) + subChr;
             string alt(ll[6][0],1);
-            if(base.count(alt) == 0) continue;
+            if(base.count(alt) == 0){
+                write = false;
+                continue;
+            }
             transform(alt.begin(), alt.end(),alt.begin(), ::toupper);
             snp += "\t" + alt ;
         }
         
     }
+    if (write){
+        ouf << snp  << "\n";
+    }
     ouf.close();
-    
     return 0;
 }
 int GPMm(parameter *para){
