@@ -2591,7 +2591,7 @@ int maf2pos(parameter *para){
     vector<string> ll;
     string subChr = para->chr;
     bool newS = false;
-    bool write = true;
+    bool write = false;
     string snp = "";
     set<string> base;
     base.insert("A"); base.insert("T"); base.insert("G"); base.insert("C");
@@ -2605,12 +2605,14 @@ int maf2pos(parameter *para){
             if (write){
                 ouf << snp  << "\n";
             }
+            write= false;
             snp = "";
             continue;
         }
         if(newS){
             ll.clear();
             split(line,ll," \t");
+            if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
             string ref(ll[6][0],1);
             if(base.count(ref) == 0) {
@@ -2624,6 +2626,7 @@ int maf2pos(parameter *para){
         }else{
             ll.clear();
             split(line,ll," \t");
+            if (ll[6].length() > 1) continue;
             string chr = ll[1].substr(7,4) + subChr;
             string alt(ll[6][0],1);
             if(base.count(alt) == 0){
