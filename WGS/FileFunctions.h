@@ -1489,13 +1489,26 @@ int chr2num(parameter *para){
             if(line.size()  < 1) continue ;
             split(line,ll,"\t");
             int lchr = ll.size();
-            vector<string> info = pos[chr[0]];
+            vector<string> info = pos[ll[0]];
             set<int> posChange = (para->pos);
-            OUT << info[3];
+            int p = string2Int(info[1]);
+            int po = string2Int(ll[1]);
+            string chr;
+            if (po > p){
+                chr = info[2];
+            }else {
+                chr = info[0];
+            }
+            OUT << chr;
             for (int iil = 1; iil < lchr; iil ++){
                 OUT << "\t";
                 if(posChange.count(iil) == 1){
-                    OUT << (atoi(ll[iil].c_str()) + atoi(info[4].c_str()));
+                    if (po > p){
+                        OUT << (atoi(ll[iil].c_str()) - p);
+                    }else{
+                        OUT << ll[iil];
+                    }
+                    
                 }else{
                     OUT << ll[iil];
                 }
