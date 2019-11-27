@@ -1402,6 +1402,44 @@ int vcf2RleateMap(parameter *para){
     ouf.close();
     return 0;
 }
+
+int V11_barley(parameter *para){
+    string input =(para->inFile);
+    string input2 =(para->inFile2);
+    ifstream inf (input.c_str());
+    ifstream inf2 (input2.c_str());
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> barley;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        barley.insert(pair<string,string>(ll[1],ll[ll.size()-1]));
+    }
+    while(!inf2.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        
+        if(line[0] == '#') {
+            ouf << line ;
+            if(line[1] == 'C'){
+                ouf << "\tBarley";
+            }
+            ouf << "\n";
+            continue;
+        };
+        split(line,ll,"\t");
+        if (barley.count(ll[1]) == 0) continue;
+        ouf << line << "\t" << barley[ll[1]]  << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
 int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
