@@ -134,6 +134,8 @@ int main(int argc, char * argv[]) {
                 vcf2RleateMap(para);
             }else if ((para->type) == "vcf2bed"){
                 vcf2bed(para);
+            }else if ((para->type) == "addBarley"){
+                V11_barley(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
