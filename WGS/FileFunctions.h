@@ -2706,6 +2706,7 @@ int GPMm(parameter *para){
     bool first = true;
     string N = string(80,'N');
     bool un = false;
+    string a;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -2715,6 +2716,10 @@ int GPMm(parameter *para){
                     ouf << ">ChrUn\n";
                     first = false;
                 }else{
+                    if (a.length() < line.length()){
+                        ouf << string(line.length() - a.length(),'N');
+                        ouf << "\n";
+                    }
                     ouf << N << "\n";
                 }
                 un = true;
@@ -2726,6 +2731,7 @@ int GPMm(parameter *para){
             
             ouf << line << "\n";
         }
+        a = line;
     }
     ouf.close();
     return 1;
