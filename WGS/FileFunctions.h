@@ -1443,125 +1443,69 @@ int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
     string ext;
-    ext = input.substr(input.rfind('.') ==string::npos ? input.length() : input.rfind('.') + 1);
-    //
-    if (ext == "gz"){
-        igzstream inFile (input.c_str(),ifstream::in);
-        if (inFile.fail()){
-            cerr << "open File IN error: " << (para->inFile) << endl;
-            return  0;
-        }
-        ifstream posFile(para->inFile2);
-        if((!posFile.good())){
-            cerr << "open pos File error: " << para->inFile2 << endl;
-            return  0;
-        }
-        string outFile =(para -> outFile);
-        //    ofstream OUT ((outFile).c_str());
-        //    cout << ext << endl;
-        
-        ogzstream OUT ((outFile).c_str());
-        if((!OUT.good())){
-            cerr << "open OUT File error: " << outFile << endl;
-            return  0;
-        }
-        map<string, vector<string>> pos ;
-        string line;
-        vector <string> chr;
-        while (getline(posFile,line)){
-            chr.clear();
-            split(line,chr,"\t");
-            pos.insert(map <string, vector<string>> :: value_type(chr[0],chr));
-        }
-        posFile.close();
-        string header = (para->headerC);
-        int lh = header.length() - 1;
-        bool isBed = para->isBed;
-        while (!inFile.eof()){
-            chr.clear();
-            getline(inFile, line);
-            if((line.substr(0,lh) == header) | (line[0] == '#')) {
-                OUT << line ;
-            }else {
-                chr.clear();
-                if(line.size()  < 1) {continue ;};
-                split(line,chr,"\t");
-                int lchr = chr.size();
-                vector<string> info = pos[chr[0]];
-                set<int> posChange = (para->pos);
-                OUT << info[3];
-                for (int iil = 1; iil < lchr; iil ++){
-                    OUT << "\t";
-                    if(posChange.count(iil) == 1){
-                        OUT << (atoi(chr[iil].c_str()) + atoi(info[4].c_str()));
-                    }else{
-                        OUT << chr[iil];
-                    }
-                }
-            }
-            OUT << "\n";
-        }
-        inFile.close();
-        OUT.close();
-    }else{
-        ifstream inFile (input.c_str());
-        if (inFile.fail())
-        {
-            cerr << "open File IN error: " << (para->inFile) << endl;
-            return  0;
-        }
-        ifstream posFile(para->inFile2);
-        if((!posFile.good())){
-            cerr << "open pos File error: " << para->inFile2 << endl;
-            return  0;
-        }
-        string outFile =(para -> outFile);
-        ofstream  OUT((outFile).c_str());
-        if((!OUT.good())){
-            cerr << "open OUT File error: " << outFile << endl;
-            return  0;
-        }
-        map<string, vector<string>> pos ;
-        string line;
-        vector <string> chr;
-        while (getline(posFile,line)){
-            chr.clear();
-            split(line,chr,"\t");
-            pos.insert(map <string, vector<string>> :: value_type(chr[0],chr));
-        }
-        posFile.close();
-        string header = (para->headerC);
-        int lh = header.length();
-        bool isBed = para->isBed;
-        while (!inFile.eof()){
-            chr.clear();
-            getline(inFile, line);
-            //            cout << "testing ..." << endl;
-            //            cout << line.substr(0,3) << endl;
-            if((line.substr(0,lh) == header)) {
-                OUT << line ;
-            }else {
-                chr.clear();
-                if(line.size()  < 1) {continue ;};
-                split(line,chr,"\t");
-                lint lchr = chr.size();
-                vector<string> info = pos[chr[0]];
-                set<int> posChange = (para->pos);
-                OUT << info[3];
-                for (int iil = 1; iil < lchr; iil ++){
-                    OUT << "\t";
-                    if(posChange.count(iil) == 1){
-                        OUT << (atoi(chr[iil].c_str()) + stoi(info[4].c_str()));
-                    }else{
-                        OUT << chr[iil];
-                    }
-                }
-            }
-            OUT << "\n";
-        }
-        inFile.close();
-        OUT.close();
+    igzstream inFile (input.c_str(),ifstream::in);
+    if (inFile.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
     }
+    ifstream posFile(para->inFile2);
+    if((!posFile.good())){
+        cerr << "open pos File error: " << para->inFile2 << endl;
+        return  0;
+    }
+    string outFile =(para -> outFile);
+    ofstream OUT ((outFile).c_str());
+    if((!OUT.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    map<string, vector<string>> pos ;
+    string line;
+    vector <string> ll;
+    while (getline(posFile,line)){
+        ll.clear();
+        split(line,ll,"\t");
+        if(pos.count(ll[3]) == 1){
+            vector<string> a = pos[ll[3]];
+            a.push_back(ll[0]);
+            pos[ll[3]] = a;
+        }else{
+            vector<string> a ;
+            a.push_back(ll[0]);
+            a.push_back(ll[5]);
+            pos.insert(pair<string, vector<string>>(ll[3],a));
+        }
+    }
+    posFile.close();
+    string header = (para->headerC);
+    int lh = header.length() - 1;
+    bool isBed = para->isBed;
+    while (!inFile.eof()){
+        getline(inFile, line);
+        if((line.substr(0,lh) == header) | (line[0] == '#')) {
+            OUT << line ;
+        }else {
+            ll.clear();
+            if(line.size()  < 1) continue ;
+            split(line,ll,"\t");
+            int lchr = ll.size();
+            vector<string> info = pos[chr[0]];
+            set<int> posChange = (para->pos);
+            OUT << info[3];
+            for (int iil = 1; iil < lchr; iil ++){
+                OUT << "\t";
+                if(posChange.count(iil) == 1){
+                    OUT << (atoi(ll[iil].c_str()) + atoi(info[4].c_str()));
+                }else{
+                    OUT << ll[iil];
+                }
+            }
+        }
+        OUT << "\n";
+    }
+    inFile.close();
+    OUT.close();
+    
     return 1;
 }
 
