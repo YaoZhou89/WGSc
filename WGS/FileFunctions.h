@@ -1406,8 +1406,8 @@ int vcf2RleateMap(parameter *para){
 int V11_barley(parameter *para){
     string input =(para->inFile);
     string input2 =(para->inFile2);
-    ifstream inf (input.c_str());
-    ifstream inf2 (input2.c_str());
+    igzstream inf (input.c_str());
+    igzstream inf2 (input2.c_str());
     string outFile =(para -> outFile);
     ofstream  ouf ((outFile).c_str());
     string line;
