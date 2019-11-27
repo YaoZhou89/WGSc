@@ -1421,9 +1421,8 @@ int V11_barley(parameter *para){
         barley.insert(pair<string,string>(ll[1],ll[ll.size()-1]));
     }
     while(!inf2.eof()){
-        getline(inf,line);
+        getline(inf2,line);
         if(line.length() < 1) continue;
-        
         if(line[0] == '#') {
             ouf << line ;
             if(line[1] == 'C'){
