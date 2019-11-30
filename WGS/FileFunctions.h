@@ -2117,17 +2117,17 @@ int Syn2HapScan(parameter *para){
         int b = pos2.count(ll[1]);
         if( a == 1 | b == 1){
             if (a == 0 ){
-                hapPosf << ll[0] + ll[1] << "\n";
-                allelef << ll[0] + ll[1] << "\t";
+                hapPosf << ll[0] << "\t" << ll[1] << "\n";
+                allelef << ll[0] << "\t" << ll[1] << "\t";
                 allelef << pos2[ll[1]] << "\n";
             }else if (b == 0){
-                hapPosf << ll[0] + ll[1] << "\n";
-                allelef << ll[0] + ll[1] << "\t";
+                hapPosf << ll[0] << "\t" << ll[1] << "\n";
+                allelef << ll[0] << "\t" << ll[1] << "\t";
                 allelef << pos1[ll[1]] << "\n";
             }else{
                 if (pos1[ll[1]] == pos2[ll[1]]){
-                    hapPosf << ll[0] + ll[1] << "\n";
-                    allelef << ll[0] + ll[1] << "\t";
+                    hapPosf << ll[0] << "\t" << ll[1] << "\n";
+                    allelef << line << "\t";
                     allelef << pos1[ll[1]] << "\n";
                 }
             }
