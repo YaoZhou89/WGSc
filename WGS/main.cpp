@@ -66,6 +66,8 @@ int main(int argc, char * argv[]) {
                 vcf2sNMF(para);
             }else if ((para->type) == "getHeader"){
                 getHeader(para);
+            }else if ((para->type) == "get2vcf"){
+                get2vcf(para);
             }else if((para->type) == "depthFilter"){
                 
             }else if((para->type) == "ct3"){
