@@ -2117,17 +2117,17 @@ int Syn2HapScan(parameter *para){
         int b = pos2.count(ll[1]);
         if( a == 1 | b == 1){
             if (a == 0 ){
-                hapPosf << line << "\n";
-                allelef << line << "\t";
+                hapPosf << ll[0] + ll[1] << "\n";
+                allelef << ll[0] + ll[1] << "\t";
                 allelef << pos2[ll[1]] << "\n";
             }else if (b == 0){
-                hapPosf << line << "\n";
-                allelef << line << "\t";
+                hapPosf << ll[0] + ll[1] << "\n";
+                allelef << ll[0] + ll[1] << "\t";
                 allelef << pos1[ll[1]] << "\n";
             }else{
                 if (pos1[ll[1]] == pos2[ll[1]]){
-                    hapPosf << line << "\n";
-                    allelef << line << "\t";
+                    hapPosf << ll[0] + ll[1] << "\n";
+                    allelef << ll[0] + ll[1] << "\t";
                     allelef << pos1[ll[1]] << "\n";
                 }
             }
@@ -3024,6 +3024,27 @@ int getHeader(parameter *para){
     inf.close();
     ouf.close();
     return 1;
+}
+int get2vcf(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    igzstream   inf ((inFile.c_str()),fstream::in);
+    igzstream inf2 ((inFile2.c_str()),fstream::in);
+    
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    if(inf2.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((para->outFile).c_str());
+    string line;
+    vector <string> ll;
+    int previous = 0;
+    
+    return 0;
 }
 int changePhy (parameter *para){
     string inFile = (para->inFile);
