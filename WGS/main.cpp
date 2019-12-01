@@ -138,6 +138,8 @@ int main(int argc, char * argv[]) {
                 vcf2bed(para);
             }else if ((para->type) == "addBarley"){
                 V11_barley(para);
+            }else if ((para->type) == "substract"){
+                substract(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
