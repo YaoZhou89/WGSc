@@ -1909,7 +1909,7 @@ int substract(parameter *para){
     string line;
     vector<string> ll;
     set<string> pos;
-    while (inf2.eof()){
+    while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         if(line[0] == '#') continue;
@@ -1917,7 +1917,7 @@ int substract(parameter *para){
         split(line,ll,"\t");
         pos.insert(ll[1]);
     }
-    while(inf1.eof()){
+    while(!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1 ) continue;
         if(line[0] == '#') {
