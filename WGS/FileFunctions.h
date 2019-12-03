@@ -1519,13 +1519,13 @@ int vcf2Major (parameter *para){
         }
         ouf << ll[8];
         ouf2 << ll[8];
-        vector<int> posR(0,go.size());
-        vector<int> posA(0,go.size());
-        vector<int> pos(0,go.size());
-        cout << "length of ords is:\t" << ords.size() << endl;
-        cout << "length of line is:\t" << ll.size() << endl;
+        vector<int> posR(go.size(),0);
+        vector<int> posA(go.size(),0);
+        vector<int> pos(go.size(),0);
+//        cout << "length of ords is:\t" << ords.size() << endl;
+//        cout << "length of line is:\t" << ll.size() << endl;
         for (int i = 9; i < ll.size(); ++i){
-            cout << ords[i-9] << endl;
+//            cout << ords[i-9] << endl;
             if (ll[i][0] == '0'){
                 posR[ords[i-9]] ++;
             }else if (ll[i][0]=='1'){
@@ -1533,7 +1533,7 @@ int vcf2Major (parameter *para){
             }
             pos[ords[i-9]]++;
         }
-        cout << "testing..." << endl;
+//        cout << "testing..." << endl;
         for(int i = 0; i < pos.size(); i++){
             if(posA[i] > posR[i]){
                 ouf << "\t" << "1/1;0,10;0,0,10";
