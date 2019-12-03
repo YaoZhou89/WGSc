@@ -1439,6 +1439,107 @@ int V11_barley(parameter *para){
     return 0;
 }
 
+int vcf2Major (parameter *para){
+    string input =(para->inFile);
+    string input2 =(para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if (inf.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    
+    string outFile =(para -> outFile);
+    ofstream ouf ((outFile +".vcf").c_str());
+    ofstream ouf2 ((outFile +".rate").c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    map<string,string> sg;
+    map<string,int> group;
+   
+    string line;
+    vector <string> ll;
+    vector <string> go;
+    int order = 0;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        sg.insert(pair<string, string>(ll[0],ll[1]));
+        if(group.count(ll[1]) == 0){
+            group.insert(pair<string,int>(ll[1],order));
+            go.push_back(ll[1]);
+            order++;
+        }
+    }
+    cout << "Total sample is:\t" << sg.size() << "\n";
+    cout << "Total group number is:\t" << group.size() << "\n";
+    vector<int> ords;
+    int totalSample;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#'){
+            if(line[1] == 'C'){
+                split(line,ll,"\t");
+                for (int i =0 ; i< 9; i++){
+                    ouf << ll[i] << "\t";
+                    ouf2 << ll[i] << "\t";
+                }
+                
+                for (int i = 0; i < go.size()-1; i++){
+                    ouf << go[i] << "\t";
+                    ouf2 <<go[i] << "\t";
+                }
+                
+                ouf << go[go.size()-1] << "\n";
+                ouf2 << go[go.size()-1] << "\n";
+                for(int i = 9; i < ll.size();++i){
+                    ords.push_back(group[sg[ll[i]]]);
+                }
+                totalSample = ll.size() - 9;
+            }else{
+               ouf << line << "\n";
+            }
+            
+        }
+        split(line,ll,"\t");
+        for (int i = 0; i< 8; i++){
+            ouf << ll[i] << "\t";
+            ouf2 << ll[i] << "\t";
+        }
+        ouf << ll[8];
+        ouf2 << ll[8];
+        vector<int> posR(0,group.size());
+        vector<int> posA(0,group.size());
+        vector<int> pos(0,group.size());
+        for (int i = 9; i < ll.size(); ++i){
+            if (ll[i][0]=='0'){
+                posR[group[ll[i]]] ++;
+            }else if (ll[i][0]=='1'){
+                posA[group[ll[i]]] ++;
+            }
+            pos[group[ll[i]]]++;
+        }
+        for(int i = 0; i < pos.size(); i++){
+            if(posA[i] > posR[i]){
+                ouf << "\t" << "1/1;0,10;0,0,10";
+                ouf2 << "\t" << setprecision(2) << posA[i]*1.0/(posA[i] + posR[i]);
+            }else{
+                ouf << "\t" << "0/0;10,0;10,0,0";
+                ouf2 << "\t" << setprecision(2) << posR[i]*1.0/(posA[i] + posR[i]);
+            }
+            
+            ouf << "\n";
+            ouf2 << "\n";
+        }
+    }
+    return 0;
+}
+
 int chr2num(parameter *para){
     cout << "Change file chromosome position..." << endl;
     string input =(para->inFile);
