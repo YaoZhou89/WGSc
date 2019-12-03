@@ -1469,16 +1469,12 @@ int vcf2Major (parameter *para){
         ll.clear();
         split(line,ll,"\t");
         sg.insert(pair<string, string>(ll[0],ll[1]));
-        if(group.count(ll[1]) == 0){
-            group.insert(pair<string,int>(ll[1],order));
-            go.push_back(ll[1]);
-            order++;
-        }
     }
-    cout << "Total sample is:\t" << sg.size() << "\n";
-    cout << "Total group number is:\t" << group.size() << "\n";
+    cout << "Total sample is:\t" << sg.size() << endl;
+    cout << "Total group number is:\t" << group.size() << endl;
     vector<int> ords;
     int totalSample;
+    set<string> ag;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -1489,22 +1485,33 @@ int vcf2Major (parameter *para){
                     ouf << ll[i] << "\t";
                     ouf2 << ll[i] << "\t";
                 }
-                
+                for(int i = 9; i < ll.size();++i){
+                    if(ag.count(sg[ll[i]]) == 0){
+                        ag.insert(sg[ll[i]]);
+                        go.push_back(sg[ll[i]]);
+                        group.insert(pair<string,int>(sg[ll[i]],order));
+                        ords.push_back(order);
+                        order++;
+                    }else{
+                        int index = group[sg[ll[i]]];
+                        ords.push_back(index);
+                    }
+                    cout << "sample is:\t"<<ll[i] << "\n group is:\t" << sg[ll[i]] <<"\ngroup order is:\t" << ords[ords.size()-1] << endl;
+                }
+                totalSample = ll.size() - 9;
+                cout << "Samples in vcf is:\t" << totalSample << endl;
+                cout << "Groups in vcf is:\t" << sg.size() << endl;
                 for (int i = 0; i < go.size()-1; i++){
                     ouf << go[i] << "\t";
                     ouf2 <<go[i] << "\t";
                 }
-                
                 ouf << go[go.size()-1] << "\n";
                 ouf2 << go[go.size()-1] << "\n";
-                for(int i = 9; i < ll.size();++i){
-                    ords.push_back(group[sg[ll[i]]]);
-                }
-                totalSample = ll.size() - 9;
+                
             }else{
                ouf << line << "\n";
             }
-            
+            continue;
         }
         split(line,ll,"\t");
         for (int i = 0; i< 8; i++){
