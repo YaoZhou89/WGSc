@@ -1470,8 +1470,7 @@ int vcf2Major (parameter *para){
         split(line,ll,"\t");
         sg.insert(pair<string, string>(ll[0],ll[1]));
     }
-    cout << "Total sample is:\t" << sg.size() << endl;
-    cout << "Total group number is:\t" << group.size() << endl;
+    cout << "Total sample in file2 is:\t" << sg.size() << endl;
     vector<int> ords;
     int totalSample;
     set<string> ag;
@@ -1496,11 +1495,11 @@ int vcf2Major (parameter *para){
                         int index = group[sg[ll[i]]];
                         ords.push_back(index);
                     }
-                    cout << "sample is:\t"<<ll[i] << "\n group is:\t" << sg[ll[i]] <<"\ngroup order is:\t" << ords[ords.size()-1] << endl;
+//                    cout << "sample is:\t"<<ll[i] << "\n group is:\t" << sg[ll[i]] <<"\ngroup order is:\t" << ords[ords.size()-1] << endl;
                 }
                 totalSample = ll.size() - 9;
                 cout << "Samples in vcf is:\t" << totalSample << endl;
-                cout << "Groups in vcf is:\t" << sg.size() << endl;
+                cout << "Groups in vcf is:\t" << ag.size() << endl;
                 for (int i = 0; i < go.size()-1; i++){
                     ouf << go[i] << "\t";
                     ouf2 <<go[i] << "\t";
@@ -1520,16 +1519,16 @@ int vcf2Major (parameter *para){
         }
         ouf << ll[8];
         ouf2 << ll[8];
-        vector<int> posR(0,group.size());
-        vector<int> posA(0,group.size());
-        vector<int> pos(0,group.size());
+        vector<int> posR(0,go.size());
+        vector<int> posA(0,go.size());
+        vector<int> pos(0,go.size());
         for (int i = 9; i < ll.size(); ++i){
             if (ll[i][0]=='0'){
-                posR[group[ll[i]]] ++;
+                posR[ords[i]] ++;
             }else if (ll[i][0]=='1'){
-                posA[group[ll[i]]] ++;
+                posA[ords[i]] ++;
             }
-            pos[group[ll[i]]]++;
+            pos[ords[i]]++;
         }
         for(int i = 0; i < pos.size(); i++){
             if(posA[i] > posR[i]){
@@ -1539,7 +1538,6 @@ int vcf2Major (parameter *para){
                 ouf << "\t" << "0/0;10,0;10,0,0";
                 ouf2 << "\t" << setprecision(2) << posR[i]*1.0/(posA[i] + posR[i]);
             }
-            
             ouf << "\n";
             ouf2 << "\n";
         }
