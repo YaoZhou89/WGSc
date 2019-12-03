@@ -1505,7 +1505,7 @@ int vcf2Major (parameter *para){
                 ouf << go[go.size()-1] << "\n";
                 ouf2 << go[go.size()-1] << "\n";
                 cout << "Samples in vcf is:\t" << totalSample << endl;
-                cout << "Groups in vcf is:\t" << ag.size() << endl;
+                cout << "Groups in vcf is:\t" << go.size() << endl;
             }else{
                ouf << line << "\n";
             }
@@ -1530,6 +1530,7 @@ int vcf2Major (parameter *para){
             }
             pos[ords[i-9]]++;
         }
+        cout << "testing..." << endl;
         for(int i = 0; i < pos.size(); i++){
             if(posA[i] > posR[i]){
                 ouf << "\t" << "1/1;0,10;0,0,10";
