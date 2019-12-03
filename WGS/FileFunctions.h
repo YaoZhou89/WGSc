@@ -1542,9 +1542,9 @@ int vcf2Major (parameter *para){
                 ouf << "\t" << "0/0;10,0;10,0,0";
                 ouf2 << "\t" << setprecision(2) << posR[i]*1.0/(posA[i] + posR[i]);
             }
-            ouf << "\n";
-            ouf2 << "\n";
         }
+        ouf << "\n";
+        ouf2 << "\n";
     }
     return 0;
 }
