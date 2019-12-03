@@ -1522,8 +1522,10 @@ int vcf2Major (parameter *para){
         vector<int> posR(0,go.size());
         vector<int> posA(0,go.size());
         vector<int> pos(0,go.size());
+        cout << "length of ords is:\t" << ords.size() << endl;
+        cout << "length of line is:\t" << ll.size() << endl;
         for (int i = 9; i < ll.size(); ++i){
-            if (ll[i][0]=='0'){
+            if (ll[i][0] == '0'){
                 posR[ords[i-9]] ++;
             }else if (ll[i][0]=='1'){
                 posA[ords[i-9]] ++;
