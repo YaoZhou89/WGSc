@@ -1525,6 +1525,7 @@ int vcf2Major (parameter *para){
         cout << "length of ords is:\t" << ords.size() << endl;
         cout << "length of line is:\t" << ll.size() << endl;
         for (int i = 9; i < ll.size(); ++i){
+            cout << ords[i-9] << endl;
             if (ll[i][0] == '0'){
                 posR[ords[i-9]] ++;
             }else if (ll[i][0]=='1'){
