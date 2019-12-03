@@ -1498,19 +1498,18 @@ int vcf2Major (parameter *para){
 //                    cout << "sample is:\t"<<ll[i] << "\n group is:\t" << sg[ll[i]] <<"\ngroup order is:\t" << ords[ords.size()-1] << endl;
                 }
                 totalSample = ll.size() - 9;
-                
                 for (int i = 0; i < go.size()-1; i++){
                     ouf << go[i] << "\t";
                     ouf2 <<go[i] << "\t";
                 }
                 ouf << go[go.size()-1] << "\n";
                 ouf2 << go[go.size()-1] << "\n";
-                
+                cout << "Samples in vcf is:\t" << totalSample << endl;
+                cout << "Groups in vcf is:\t" << ag.size() << endl;
             }else{
                ouf << line << "\n";
             }
-            cout << "Samples in vcf is:\t" << totalSample << endl;
-            cout << "Groups in vcf is:\t" << ag.size() << endl;
+            
             continue;
         }
         split(line,ll,"\t");
@@ -1525,11 +1524,11 @@ int vcf2Major (parameter *para){
         vector<int> pos(0,go.size());
         for (int i = 9; i < ll.size(); ++i){
             if (ll[i][0]=='0'){
-                posR[ords[i]] ++;
+                posR[ords[i-9]] ++;
             }else if (ll[i][0]=='1'){
-                posA[ords[i]] ++;
+                posA[ords[i-9]] ++;
             }
-            pos[ords[i]]++;
+            pos[ords[i-9]]++;
         }
         for(int i = 0; i < pos.size(); i++){
             if(posA[i] > posR[i]){
