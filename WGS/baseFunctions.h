@@ -484,6 +484,13 @@ void list_allDir(const std::string& dir, std::set<std::string>& files){
     }
     
 }
+bool find(const std::string& a,const std::string& b){
+    string::size_type idx = a.find(b);
+    if(idx == string::npos )
+        return false;
+    else
+        return true;
+}
 void list_dir(const std::string& dir, std::set<std::string>& files){
     DIR *dp;
     struct dirent *dirp;

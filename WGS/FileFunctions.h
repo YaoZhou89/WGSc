@@ -9986,11 +9986,13 @@ int SRA1 (parameter *para){
     vector<string> ll;
     map<string,string> filePos;
     int num = 0;
+    string subgenome = (para -> chr);
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
         split(line,ll," \t");
         if (ll[0] == "Taxa") continue;
+        if (!find(ll[3],subgenome)) continue;
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "intersectBed -abam " << ll[2] << "\t" << "-b " << infile2 << " > " << ll[0] +".bam & \n";
