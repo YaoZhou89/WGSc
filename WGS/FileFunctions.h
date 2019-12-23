@@ -10025,7 +10025,7 @@ int SRA2 (parameter *para){
         if (!find(ll[3],subgenome)) continue;
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
-        ouf << "samtools view -f 4 " << ll[2] << " > " << ll[0] +"." + subgenome + "unmapped.bam & \n";
+        ouf << "samtools view -f 4 " << ll[2] << " > " << ll[0] +"." + subgenome + ".unmapped.bam & \n";
         if (num % 100 == 0 ){
             ouf << "monitor intersectBed 10 300s\n";
             ouf << "monitor samtools 10 300s\n";
