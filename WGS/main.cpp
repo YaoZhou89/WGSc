@@ -377,6 +377,10 @@ int main(int argc, char * argv[]) {
             if((para->type) == "fastq"){
                 getKmer(para);
             }
+        }else if ((para->model) == "scripts"){
+            if ((para -> type) == "SRA1"){
+                SRA1(para);
+            }
         }
     }
     
