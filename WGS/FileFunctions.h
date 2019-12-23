@@ -9987,7 +9987,7 @@ int SRA1 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor intersectBed 10 320s\n";
+    ouf << "monitor bedtools 10 320s\n";
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -9998,7 +9998,7 @@ int SRA1 (parameter *para){
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "intersectBed\t-abam\t" << ll[2] << "\t" << "-b\t" << infile2 << "\t>\t" << ll[0] +"." + subgenome + ".bam & \n";
         if (num % 100 == 0 ){
-            ouf << "monitor intersectBed 10 300s\n";
+            ouf << "monitor bedtools 10 300s\n";
         }
     }
     ouf.close();
@@ -10016,7 +10016,7 @@ int SRA2 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor intersectBed 10 410s\n";
+    ouf << "monitor bedtools 10 410s\n";
     ouf << "monitor samtools 10 410s\n";
     while (!inf.eof()){
         getline(inf,line);
@@ -10028,7 +10028,7 @@ int SRA2 (parameter *para){
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "samtools view -f 4 " << ll[2] << " > " << ll[0] +"." + subgenome + ".unmapped.bam & \n";
         if (num % 100 == 0 ){
-            ouf << "monitor intersectBed 10 300s\n";
+            ouf << "monitor bedtools 10 300s\n";
             ouf << "monitor samtools 10 300s\n";
         }
     }
@@ -10047,7 +10047,7 @@ int SRA3 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor intersectBed 10 400s\n";
+    ouf << "monitor bedtools 10 400s\n";
     ouf << "monitor samtools 10 400s\n";
     while (!inf.eof()){
         getline(inf,line);
