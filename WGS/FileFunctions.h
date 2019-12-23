@@ -9976,7 +9976,32 @@ int ABBAsim(parameter *para){
     ouf.close();
     return 0;
 }
-
+int SRA1 (parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    int num = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] == "Taxa") continue;
+        num++;
+        filePos.insert(pair<string, string>(ll[0],ll[2]));
+        ouf << "intersectBed -abam " << ll[2] << "\t" << "-b " << infile2 << " > " << ll[0] +".bam & \n";
+        if (num % 100 == 0 ){
+            ouf << "monitor intersectBed 10 300s\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
 int getKmer(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para-> outFile);
