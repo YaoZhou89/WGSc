@@ -10035,6 +10035,38 @@ int SRA2 (parameter *para){
     
     return 0;
 }
+int SRA3 (parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    int num = 0;
+    string subgenome = (para -> chr);
+    ouf << "monitor intersectBed 10 300s\n";
+    ouf << "monitor samtools 10 300s\n";
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] == "Taxa") continue;
+        if (!find(ll[3],subgenome)) continue;
+        num++;
+        filePos.insert(pair<string, string>(ll[0],ll[2]));
+        ouf << "samtools view -f 4 " << ll[2] << " > " << ll[0] +"." + subgenome + ".unmapped.bam & \n";
+        if (num % 100 == 0 ){
+            ouf << "monitor intersectBed 10 300s\n";
+            ouf << "monitor samtools 10 300s\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
+
 int getKmer(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para-> outFile);
