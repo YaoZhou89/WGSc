@@ -9995,7 +9995,7 @@ int SRA1 (parameter *para){
         if (!find(ll[3],subgenome)) continue;
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
-        ouf << "intersectBed -abam " << ll[2] << "\t" << "-b " << infile2 << " > " << ll[0] +".bam & \n";
+        ouf << "intersectBed\t-abam\t" << ll[2] << "\t" << "-b\t" << infile2 << "\t>\t" << ll[0] +".subgenome"+".bam & \n";
         if (num % 100 == 0 ){
             ouf << "monitor intersectBed 10 300s\n";
         }
