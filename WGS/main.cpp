@@ -380,6 +380,8 @@ int main(int argc, char * argv[]) {
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){
                 SRA1(para);
+            }else if ((para -> type) == "SRA2"){
+                SRA2(para);
             }
         }
     }
