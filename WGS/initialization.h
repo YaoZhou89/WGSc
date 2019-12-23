@@ -76,7 +76,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> flag = argv[i];
         }
-        else if (flag  ==  "chr" ||  flag  == "chromosome" )
+        else if (flag  ==  "chr" ||  flag  == "chromosome" || flag == "subgenome")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
