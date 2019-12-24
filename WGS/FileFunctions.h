@@ -10125,8 +10125,8 @@ int SRA5 (parameter *para){
         if (line.length() < 1) continue;
         ll.clear();
         split(line,ll,".");
-        ouf << "SRAssembler -t dna -T /dev/shm -1 " << line << " -r pre_" << ll[0] << "." << subgenome
-        <<" -P -o " << ll[0] << "." << subgenome << " &\n";
+        ouf << "SRAssembler -t dna -T /dev/shm -1 " << line << " -r pre_" << ll[0] << "_" << subgenome
+        <<" -P -o " << ll[0] << "_" << subgenome << " &\n";
         
     }
     ouf.close();
