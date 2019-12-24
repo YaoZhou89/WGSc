@@ -10059,6 +10059,34 @@ int SRA3 (parameter *para){
     return 0;
 }
 
+int SRA4 (parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    int num = 0;
+    string subgenome = (para -> chr);
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        split(line,ll,"/");
+        num++;
+        filePos.insert(pair<string, string>(ll[0],ll[2]));
+        ouf << "bamToFastq -i " << line << " -fq " << ll[2] << ".fq &\n";
+        if (num % 50 == 0 ){
+            ouf << "sleep 60s\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
+
+
 int getKmer(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para-> outFile);
