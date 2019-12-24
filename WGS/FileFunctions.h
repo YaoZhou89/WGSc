@@ -10103,9 +10103,9 @@ int SRA4 (parameter *para){
         string g = (it -> first);
         ouf << "cat ";
         for (int i = 0; i < a.size(); ++i ){
-            ouf << a[i] << ".bam.fq ";
+            ouf << a[i] << "." << subgenome << ".bam.fq ";
         }
-        ouf << "> " << g << ".fq & \n";
+        ouf << "> " << g <<  "." << subgenome << ".fq & \n";
     }
     ouf.close();
     return 0;
