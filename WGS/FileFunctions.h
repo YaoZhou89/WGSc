@@ -10050,9 +10050,6 @@ int SRA3 (parameter *para){
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "bamToFastq -i " << line << " -fq " << ll[2] << ".fq\n";
-        if (num % 50 == 0 ){
-            ouf << "sleep 1200s\n";
-        }
     }
     ouf.close();
     
