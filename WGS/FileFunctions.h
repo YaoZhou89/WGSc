@@ -9987,7 +9987,6 @@ int SRA1 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor bedtools 10 320s\n";
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -9997,8 +9996,8 @@ int SRA1 (parameter *para){
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "intersectBed\t-abam\t" << ll[2] << "\t" << "-b\t" << infile2 << "\t>\t" << ll[0] +"." + subgenome + ".bam & \n";
-        if (num % 100 == 0 ){
-            ouf << "monitor bedtools 10 300s\n";
+        if (num % 50 == 0 ){
+            ouf << "sleep 1200s\n";
         }
     }
     ouf.close();
@@ -10016,8 +10015,6 @@ int SRA2 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor bedtools 10 410s\n";
-    ouf << "monitor samtools 10 410s\n";
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -10027,9 +10024,8 @@ int SRA2 (parameter *para){
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "samtools view -f 4 " << ll[2] << " > " << ll[0] +"." + subgenome + ".unmapped.bam & \n";
-        if (num % 100 == 0 ){
-            ouf << "monitor bedtools 10 300s\n";
-            ouf << "monitor samtools 10 300s\n";
+        if (num % 50 == 0 ){
+            ouf << "sleep 1200s\n";
         }
     }
     ouf.close();
@@ -10047,8 +10043,6 @@ int SRA3 (parameter *para){
     map<string,string> filePos;
     int num = 0;
     string subgenome = (para -> chr);
-    ouf << "monitor bedtools 10 400s\n";
-    ouf << "monitor samtools 10 400s\n";
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -10056,8 +10050,8 @@ int SRA3 (parameter *para){
         num++;
         filePos.insert(pair<string, string>(ll[0],ll[2]));
         ouf << "bamToFastq -i " << line << " -fq " << ll[2] << ".fq\n";
-        if (num % 100 == 0 ){
-            ouf << "monitor bamToFastq 10 300s\n";
+        if (num % 50 == 0 ){
+            ouf << "sleep 1200s\n";
         }
     }
     ouf.close();
