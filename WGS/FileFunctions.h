@@ -10060,29 +10060,53 @@ int SRA3 (parameter *para){
 }
 
 int SRA4 (parameter *para){
-    string infile = (para -> inFile);
-    string infile2 = (para -> inFile2);
+    string infile = (para -> inFile); // group file
+    string infile2 = (para -> inFile2); // taxa file
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string line;
     vector<string> ll;
     map<string,string> filePos;
-    int num = 0;
     string subgenome = (para -> chr);
+    map<string,string> ID_group;
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
-        split(line,ll,"/");
-        num++;
-        filePos.insert(pair<string, string>(ll[0],ll[2]));
-        ouf << "bamToFastq -i " << line << " -fq " << ll[2] << ".fq &\n";
-        if (num % 50 == 0 ){
-            ouf << "sleep 60s\n";
+        ll.clear();
+        split(line,ll," \t");
+        ID_group.insert(pair<string,string>(ll[0],ll[1]));
+    }
+    map<string,vector<string>> Group_ID;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(!find(ll[3],subgenome)) continue;
+        string g = ID_group[ll[0]];
+        if(Group_ID.count(g) == 0){
+            vector<string> a;
+            a.push_back(ll[0]);
+            Group_ID.insert(pair<string,vector<string>>(g,a));
+        }else{
+            vector<string> a = Group_ID[g];
+            a.push_back(ll[0]);
+            Group_ID.insert(pair<string,vector<string>>(g,a));
         }
     }
+    map<string,vector<string>>::iterator it;
+    for (it = Group_ID.begin(); it != Group_ID.end(); it++ ){
+        vector<string> a = (it -> second);
+        string g = (it -> first);
+        ouf << "cat ";
+        for (int i = 0; i < a.size(); ++i ){
+            ouf << a[i] << ".bam.fq ";
+        }
+        ouf << "> " << g << ".fq & \n"
+    }
     ouf.close();
-    
     return 0;
 }
 
