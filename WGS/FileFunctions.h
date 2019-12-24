@@ -10093,12 +10093,13 @@ int SRA4 (parameter *para){
         }else{
             vector<string> a = Group_ID[g];
             a.push_back(ll[0]);
-            Group_ID.insert(pair<string,vector<string>>(g,a));
+            Group_ID[g] = a;
         }
     }
     map<string,vector<string>>::iterator it;
     for (it = Group_ID.begin(); it != Group_ID.end(); it++ ){
         vector<string> a = (it -> second);
+        
         string g = (it -> first);
         ouf << "cat ";
         for (int i = 0; i < a.size(); ++i ){
