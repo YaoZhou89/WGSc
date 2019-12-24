@@ -10111,7 +10111,6 @@ int SRA4 (parameter *para){
     return 0;
 }
 
-
 int getKmer(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para-> outFile);
