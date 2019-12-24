@@ -10104,7 +10104,7 @@ int SRA4 (parameter *para){
         for (int i = 0; i < a.size(); ++i ){
             ouf << a[i] << ".bam.fq ";
         }
-        ouf << "> " << g << ".fq & \n"
+        ouf << "> " << g << ".fq & \n";
     }
     ouf.close();
     return 0;
