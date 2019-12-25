@@ -10196,11 +10196,10 @@ int blast2maf (parameter *para){
         if (!block_s & ll[0] != "Query" ) {
             continue;
         }
-        cout << ll[0] << endl;
-        if (ll[0] == "Query" | ll[0] == "|" | ll[0] == "Sbjct") {
+//        cout << ll[0] << endl;
+        if (ll[0][0] == 'Q' | ll[0][0] == '|' | ll[0][0] == 'S') {
             block_s = true;
         }else {
-            
             block_s = false;
             isPositive = true;
         }
@@ -10219,7 +10218,7 @@ int blast2maf (parameter *para){
         
         if (ll[0] == "Sbjct"){
             string rq ;
-            cout << line << endl;
+//            cout << line << endl;
             if(!isPositive){
                 rq = reverse_complementary(ll[2]);
             }else{
