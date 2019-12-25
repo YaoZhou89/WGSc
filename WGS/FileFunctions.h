@@ -10256,6 +10256,7 @@ int blast2maf (parameter *para){
     int b = 0;
     for (int i = 0 ; i <queryseq.size(); ++i ){
         b++;
+        if (queryseq[i] == "") continue;
         if (b % 100 == 0) ouf << "\n";
         ouf << queryseq[i];
     }
