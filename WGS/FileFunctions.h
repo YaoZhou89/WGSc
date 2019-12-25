@@ -10192,13 +10192,15 @@ int blast2maf (parameter *para){
         getline(inf,line);
         if (line.length() < 1) continue;
         ll.clear();
-        split(line,ll," \t");
+        split(line, ll," \t");
         if (!block_s & ll[0] != "Query" ) {
             continue;
         }
+        cout << ll[0] << endl;
         if (ll[0] == "Query" | ll[0] == "|" | ll[0] == "Sbjct") {
             block_s = true;
         }else {
+            
             block_s = false;
             isPositive = true;
         }
