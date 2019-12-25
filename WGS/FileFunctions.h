@@ -10138,7 +10138,8 @@ int SRA5 (parameter *para){
 }
 
 int SRA6 (parameter *para){
-    string infile = (para -> inFile);
+    string infile = (para -> inFile); // bed file
+    string infile2 = (para -> inFile2); // bam file
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
@@ -10146,14 +10147,37 @@ int SRA6 (parameter *para){
     vector<string> ll;
     map<string,string> filePos;
     string subgenome = (para -> chr);
+    int num = 0;
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
         ll.clear();
-        split(line,ll,".");
-        ouf << "SRAssembler -t dna -T /dev/shm -1 " << line << " -r pre_" << ll[0] << "." << subgenome
-        <<" -P -o " << ll[0] << "." << subgenome << " &\n";
+        split(line,ll,"_");
+        string t = ll[ll.size()-1];
+        ll.clear();
+        split(t,ll,".");
+        string geneID = ll[0];
         
+        igzstream inf2 ((infile2).c_str(),ifstream::in);
+        
+        string inf2name;
+        while(!inf2.eof()){
+            getline(inf2, inf2name);
+            if(inf2name.length() < 1) continue;
+            ll.clear();
+            split(inf2name,ll,".");
+            t = ll[0];
+            ll.clear();
+            split(t,ll,"/");
+            string ID = ll[ll.size()-1];
+            num++;
+            if (num % 50 == 0){
+                ouf << "intersectBed -abam " << inf2name << " -b " << line << " > " << ID << "_" << geneID << ".bam \n"  ;
+                ouf << "sleep 2s" << endl;
+            }else{
+                ouf << "intersectBed -abam " << inf2name << " -b " << line << " > " << ID << "_" << geneID << ".bam &\n"  ;
+            }
+        }
     }
     ouf.close();
     return 0;
