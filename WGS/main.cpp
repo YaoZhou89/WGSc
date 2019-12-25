@@ -19,11 +19,11 @@ int main(int argc, char * argv[]) {
     double duration;
 //    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
-//    string a = "ABDY";
-//    string b = "BDYA";
-//    for(int i =0; i < 4; i++){
-//        cout << "testing" << endl;
-//        cout << (a.substr(0,3) < b.substr(0,3)) << endl;
+//    string a = "Query  1     tatgtatgtatgtatgtatgtatgtatgtatgtatCAAGGGCAGGatataaatataaata  60";
+//    vector<string> b;
+//    split(a,b," \t" );
+//    for(int i = 0; i < b.size(); ++i){
+//        cout << b[i] << endl;
 //    }
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )

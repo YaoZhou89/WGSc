@@ -10159,6 +10159,107 @@ int SRA6 (parameter *para){
     return 0;
 }
 
+int blast2maf (parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    string group = (para->flag);
+    string line;
+    vector<string> ll;
+    string subseq;
+    string geneID;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        if(line[0] == '>'){
+            ll.clear();
+            geneID = ll[ll.size() - 1];
+        }else{
+            subseq.append(line);
+        }
+    }
+    cout << "Gene " << geneID << "'s length is: " << subseq.length() << endl;
+    ofstream ouf ((outfile + "_" + geneID+".fasta").c_str());
+    vector<string> queryseq(subseq.length(),"");
+    bool block_s = false;
+    bool isPositive = true;
+    string temp ;
+    int start = 0, end = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if (!block_s & ll[0] != "Query" ) {
+            continue;
+        }
+        if (ll[0] == "Query" | ll[0] == "|" | ll[0] == "Sbjct") {
+            block_s = true;
+        }else {
+            block_s = false;
+            isPositive = true;
+        }
+        if (ll[0] == "Query"){
+            
+            if (string2Int(ll[1]) > string2Int(ll[3])){
+                isPositive = false;
+                start = string2Int(ll[3]);
+                end = start = string2Int(ll[1]);
+            }else{
+                start = string2Int(ll[1]);
+                end = start = string2Int(ll[3]);
+            }
+            temp = ll[2];
+        }
+        if (ll[0] == "Sbjct"){
+            string rq ;
+            if(!isPositive){
+                rq = reverse_complementary(ll[2]);
+            }else{
+                rq = ll[2];
+            }
+            if (rq.length() != temp.length()){
+                cout << "Query is:\t" << temp << endl;
+                cout << "Sbjct is:\t" << ll[2] << endl;
+                cerr << "length differ, please check" << endl;
+            }
+            int gap = 0;
+            int sumgap = 0;
+            for(int i = 0; i < rq.length(); i++ ){
+                if(temp[i] != '-' & ll[2][i] != '-'){
+                    queryseq[start+i-1-sumgap] = ll[2].substr(i-gap,1+gap);
+                    gap = 0;
+                }else if (temp[i] == '-'){
+                    gap++;
+                    sumgap++;
+                }
+            }
+            if (gap != 0 ){
+                if(queryseq[end - 1] == ""){
+                    queryseq[end - 1] = ll[2].substr(rq.length() - gap -1,1+gap);
+                }else{
+                    string pre = queryseq[end - 1];
+                    string post = ll[2].substr(rq.length() - gap ,gap);
+                    pre.append(post);
+                    queryseq[end - 1] = pre;
+                }
+            }
+        }
+    }
+    ouf << ">" << group << "\n";
+    int b = 0;
+    for (int i = 0 ; i <queryseq.size(); ++i ){
+        b++;
+        if (b % 100 == 0) ouf << "\n";
+        ouf << queryseq[i];
+    }
+    ouf << "\n";
+    ouf.close();
+    return 0;
+}
+
 int getKmer(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para-> outFile);
