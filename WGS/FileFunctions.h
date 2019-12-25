@@ -10211,10 +10211,10 @@ int blast2maf (parameter *para){
             if (string2Int(ll[1]) > string2Int(ll[3])){
                 isPositive = false;
                 start = string2Int(ll[3]);
-                end = start = string2Int(ll[1]);
+                end = string2Int(ll[1]);
             }else{
                 start = string2Int(ll[1]);
-                end = start = string2Int(ll[3]);
+                end = string2Int(ll[3]);
             }
             string rq ;
 //            cout << line << endl;
@@ -10235,7 +10235,7 @@ int blast2maf (parameter *para){
                 if(ll[2][i] != '-' & rq[i] != '-'){
                     queryseq[start+i-1-sumgap] = rq.substr(i-gap,1+gap);
                     gap = 0;
-                }else if (rq[i] == '-'){
+                }else if (ll[2][i] == '-'){
                     gap++;
                     sumgap++;
                 }
@@ -10263,7 +10263,7 @@ int blast2maf (parameter *para){
         if (assembled[i] == '-') continue;
         b++;
         if (b % 100 == 0) ouf << "\n";
-        ouf << assembled[i];
+        ouf << (char)toupper(assembled[i]);
     }
     ouf << "\n";
     ouf.close();
