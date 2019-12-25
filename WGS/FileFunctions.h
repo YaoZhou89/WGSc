@@ -10311,8 +10311,8 @@ int gene2Single (parameter *para){
                 seq = "";
             }else{
                 first = false;
-                ID = ll[ll.size()-1];
             }
+            ID = ll[ll.size()-1];
         }else{
             seq.append(line+"\n");
         }
