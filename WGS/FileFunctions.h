@@ -10288,6 +10288,39 @@ int bed2single (parameter *para){
     }
     return 0;
 }
+int gene2Single (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    string seq="";
+    bool first = true;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        
+        if(line[0] == '>'){
+            ll.clear();
+            split(line,ll," \t");
+            if (!first){
+                ouf << seq ;
+                ouf.close();
+            }else{
+                first = false;
+            }
+            ofstream ouf ((outfile + ll[ll.size()-1]).c_str());
+            ouf << ">" << ll[ll.size()-1] << "\n";
+        }else{
+            seq.append(line);
+            seq.append("\n");
+        }
+        ouf << seq ;
+        ouf.close();
+    }
+    return 0;
+}
 
 int blast2maf (parameter *para){
     string infile = (para -> inFile);

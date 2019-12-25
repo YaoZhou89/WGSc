@@ -376,6 +376,8 @@ int main(int argc, char * argv[]) {
                 GPMm(para);
             }else if ((para-> type) =="GPM1"){
                 GPMm1(para);
+            }else if ((para->type) == "gene2Single"){
+                gene2Single(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
