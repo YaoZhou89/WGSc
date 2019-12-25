@@ -10303,7 +10303,7 @@ int SRA9 (parameter *para){
 }
 
 int SRA10 (parameter *para){
-    string infile = (para -> inFile); 
+    string infile = (para -> inFile);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
@@ -10318,9 +10318,9 @@ int SRA10 (parameter *para){
             split(line,ll," \t");
             num++;
             if(num % 50 == 0 ){
-                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl ";
+                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl \n";
             }else{
-                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl &";
+                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl &\n";
             }
         }
     }
