@@ -10214,8 +10214,10 @@ int blast2maf (parameter *para){
             }
             temp = ll[2];
         }
+        
         if (ll[0] == "Sbjct"){
             string rq ;
+            cout << line << endl;
             if(!isPositive){
                 rq = reverse_complementary(ll[2]);
             }else{
