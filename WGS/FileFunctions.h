@@ -10401,7 +10401,8 @@ int blast2maf (parameter *para){
         if(line[0] == '>'){
             ll.clear();
             split(line,ll," \t");
-            geneID = ll[ll.size() - 1].substr(1,ll.size() - 1);
+            string a =ll[ll.size() - 1];
+            geneID = a.substr(1,a.length() - 1);
         }else{
             subseq.append(line);
         }
