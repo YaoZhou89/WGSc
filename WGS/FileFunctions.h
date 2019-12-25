@@ -10158,6 +10158,26 @@ int SRA6 (parameter *para){
     ouf.close();
     return 0;
 }
+int bed2single (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    string subgenome = (para -> chr);
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        ofstream ouf ((outfile + ll[3] +".bed").c_str());
+        ouf << line << "\n";
+        ouf.close();
+    }
+    return 0;
+}
 
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
