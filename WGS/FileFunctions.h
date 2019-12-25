@@ -10308,6 +10308,7 @@ int gene2Single (parameter *para){
                 ouf << ">" << ID << "\n";
                 ouf << seq ;
                 ouf.close();
+                seq = "";
             }else{
                 first = false;
                 ID = ll[ll.size()-1];
