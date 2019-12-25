@@ -275,6 +275,8 @@ int main(int argc, char * argv[]) {
                 maf2pos(para);
             }else if ((para->type) =="checkPos"){
                 checkPos(para);
+            }else if ((para->type) == "blast2maf"){
+                blast2maf(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
