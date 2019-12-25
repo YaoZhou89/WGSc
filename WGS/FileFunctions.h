@@ -10302,6 +10302,32 @@ int SRA9 (parameter *para){
     return 0;
 }
 
+int SRA10 (parameter *para){
+    string infile = (para -> inFile); 
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    int num = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if(line[0] == '>'){
+            ll.clear();
+            split(line,ll," \t");
+            num++;
+            if(num % 50 == 0 ){
+                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl ";
+            }else{
+                ouf << "makeblastdb -in " << ll[ll.size()-1] << ".fasta -title " << ll[ll.size()-1] <<" -out " << ll[ll.size()-1] <<" -dbtype nucl &";
+            }
+        }
+    }
+    ouf.close();
+    return 0;
+}
+
 int bed2single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
