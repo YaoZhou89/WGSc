@@ -10233,7 +10233,41 @@ int SRA7 (parameter *para){
     ouf.close();
     return 0;
 }
-
+int SRA8 (parameter *para){
+    string infile = (para -> inFile); // group file
+    string infile2 = (para -> inFile2); // bed file
+    string outfile = (para -> outFile);
+    
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    string subgenome = (para -> chr);
+    map<string,string> ID_group;
+    int num = 0;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        string geneID = ll[3];
+        igzstream inf ((infile).c_str(),ifstream::in);
+        while(!inf.eof()){
+            getline(inf,line);
+            if(line.length() < 1 ) continue;
+            num++;
+            if (num % 50 == 0){
+                ouf << "bamToFastq -i " << line << "_" << geneID << ".bam" <<  " -fq " << line << "_" << geneID << ".fq \n";
+            }else{
+                ouf << "bamToFastq -i " << line << "_" << geneID << ".bam" <<  " -fq " << line << "_" << geneID << ".fq &\n";
+            }
+        }
+        inf.close();
+    }
+    ouf.close();
+    return 0;
+}
 int bed2single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
