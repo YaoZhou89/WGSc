@@ -10254,11 +10254,15 @@ int blast2maf (parameter *para){
     }
     ouf << ">" << group << "\n";
     int b = 0;
+    string assembled = "";
     for (int i = 0 ; i <queryseq.size(); ++i ){
+        if (queryseq[i] == "" || queryseq[i] == "-") continue;
+        assembled.append(queryseq[i]);
+    }
+    for (int i = 0 ; i <assembled.length(); ++i ){
         b++;
-        if (queryseq[i] == "") continue;
         if (b % 100 == 0) ouf << "\n";
-        ouf << queryseq[i];
+        ouf << assembled[i];
     }
     ouf << "\n";
     ouf.close();
