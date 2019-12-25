@@ -10294,8 +10294,8 @@ int SRA9 (parameter *para){
             if (group.length() < 1) continue;
             ouf << "SRAssembler -q " << infile2 << "/" << geneID << ".fasta" << " -t dna -p SRAssembler.conf -1 " << infile << "/" << group << "_" << geneID << ".fq"  << "  -r pre_" << group <<"_" << geneID <<  " -o " << group <<"_" << geneID << "\n";
             ouf << "blastn -query " <<  group <<"_" << geneID << "/all_contigs.fasta " << "-db " << infile2 << "/" << geneID << " -out " << group <<"_" << geneID << "/" << "blast.out \n";
-            ouf << "mkdir -f " << geneID << "\n";
-            ouf << " WGS --model file --type blast2maf --file " <<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag synteny --out " << geneID << "/" << group << "\n" ;
+            ouf << "mkdir -p " << geneID << "\n";
+            ouf << " WGS --model file --type blast2maf --file " <<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag " << group << " --out " << geneID << "/" << group << "\n" ;
         }
     }
     ouf.close();
@@ -10401,7 +10401,7 @@ int blast2maf (parameter *para){
         if(line[0] == '>'){
             ll.clear();
             split(line,ll," \t");
-            geneID = ll[ll.size() - 1];
+            geneID = ll[ll.size() - 1].substr(1,ll.size() - 1);
         }else{
             subseq.append(line);
         }
