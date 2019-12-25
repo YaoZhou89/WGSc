@@ -10223,7 +10223,7 @@ int SRA7 (parameter *para){
     for (it = Group_ID.begin(); it != Group_ID.end(); it++ ){
         vector<string> a = (it -> second);
         string g = (it -> first);
-        ouf << "samtools merege ";
+        ouf << "samtools merge ";
         ouf << g <<  "." << subgenome << ".bam ";
         for (int i = 0; i < a.size(); ++i ){
             ouf << a[i] << "." << subgenome << ".bam ";
