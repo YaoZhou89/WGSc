@@ -10268,6 +10268,34 @@ int SRA8 (parameter *para){
     ouf.close();
     return 0;
 }
+
+int SRA9 (parameter *para){
+    string infile = (para -> inFile); // fastq folder
+    string infile2 = (para -> inFile2); // gene folder
+    string infile3 = (para -> inFile3); // group file
+    string infile4 = (para -> subPop); // gene ID
+    
+    string outfile = (para -> outFile);
+    igzstream inf ((infile3).c_str(),ifstream::in);
+    igzstream inf2 ((infile4).c_str(),ifstream::in);
+    
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> filePos;
+    string subgenome = (para -> chr);
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"/");
+        
+        
+    }
+    ouf.close();
+    return 0;
+}
+
 int bed2single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
