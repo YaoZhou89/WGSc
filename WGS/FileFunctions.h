@@ -10204,7 +10204,10 @@ int blast2maf (parameter *para){
             isPositive = true;
         }
         if (ll[0] == "Query"){
-            
+            temp = ll[2];
+        }
+        
+        if (ll[0] == "Sbjct"){
             if (string2Int(ll[1]) > string2Int(ll[3])){
                 isPositive = false;
                 start = string2Int(ll[3]);
@@ -10213,39 +10216,36 @@ int blast2maf (parameter *para){
                 start = string2Int(ll[1]);
                 end = start = string2Int(ll[3]);
             }
-            temp = ll[2];
-        }
-        
-        if (ll[0] == "Sbjct"){
             string rq ;
 //            cout << line << endl;
             if(!isPositive){
-                rq = reverse_complementary(ll[2]);
+                rq = reverse_complementary(temp);
             }else{
-                rq = ll[2];
+                rq = temp;
             }
-            if (rq.length() != temp.length()){
+            
+            if (ll[2].length() != temp.length()){
                 cout << "Query is:\t" << temp << endl;
                 cout << "Sbjct is:\t" << ll[2] << endl;
                 cerr << "length differ, please check" << endl;
             }
             int gap = 0;
             int sumgap = 0;
-            for(int i = 0; i < rq.length(); i++ ){
-                if(temp[i] != '-' & ll[2][i] != '-'){
-                    queryseq[start+i-1-sumgap] = ll[2].substr(i-gap,1+gap);
+            for(int i = 0; i < temp.length(); i++ ){
+                if(ll[2][i] != '-' & rq[i] != '-'){
+                    queryseq[start+i-1-sumgap] = rq.substr(i-gap,1+gap);
                     gap = 0;
-                }else if (temp[i] == '-'){
+                }else if (rq[i] == '-'){
                     gap++;
                     sumgap++;
                 }
             }
             if (gap != 0 ){
                 if(queryseq[end - 1] == ""){
-                    queryseq[end - 1] = ll[2].substr(rq.length() - gap -1,1+gap);
+                    queryseq[end - 1] = rq.substr(rq.length() - gap -1,1+gap);
                 }else{
                     string pre = queryseq[end - 1];
-                    string post = ll[2].substr(rq.length() - gap ,gap);
+                    string post = rq.substr(rq.length() - gap ,gap);
                     pre.append(post);
                     queryseq[end - 1] = pre;
                 }
