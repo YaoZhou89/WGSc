@@ -10292,7 +10292,7 @@ int gene2Single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
-    ofstream ouf ((outfile).c_str());
+    ofstream ouf ;
     string line;
     vector<string> ll;
     string seq="";
@@ -10300,7 +10300,6 @@ int gene2Single (parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
-        
         if(line[0] == '>'){
             ll.clear();
             split(line,ll," \t");
@@ -10310,15 +10309,15 @@ int gene2Single (parameter *para){
             }else{
                 first = false;
             }
-            ofstream ouf ((outfile + ll[ll.size()-1]).c_str());
+            ofstream ouf ((outfile + ll[ll.size()-1] +".fasta").c_str());
             ouf << ">" << ll[ll.size()-1] << "\n";
         }else{
             seq.append(line);
             seq.append("\n");
         }
-        ouf << seq ;
-        ouf.close();
     }
+    ouf << seq ;
+    ouf.close();
     return 0;
 }
 
