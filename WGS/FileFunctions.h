@@ -10256,10 +10256,10 @@ int blast2maf (parameter *para){
     int b = 0;
     string assembled = "";
     for (int i = 0 ; i <queryseq.size(); ++i ){
-        if (queryseq[i] == "" || queryseq[i] == "-") continue;
         assembled.append(queryseq[i]);
     }
     for (int i = 0 ; i <assembled.length(); ++i ){
+        if (assembled[i] == '' || assembled[i] == '-') continue;
         b++;
         if (b % 100 == 0) ouf << "\n";
         ouf << assembled[i];
