@@ -10284,16 +10284,16 @@ int SRA9 (parameter *para){
     vector<string> ll;
     map<string,string> filePos;
     string subgenome = (para -> chr);
-    while (!inf.eof()){
-        getline(inf,geneID);
+    while (!inf2.eof()){
+        getline(inf2,geneID);
         if (geneID.length() < 1) continue;
         string group;
         
-        while(!inf2.eof()){
-            getline(inf2,group);
+        while(!inf.eof()){
+            getline(inf,group);
             if (group.length() < 1) continue;
-            ouf << "SRAssembler -q " << infile2 << "/" << geneID << ".fasta" << " -t dna -p SRAssembler.conf -1 " << group << "_" << geneID << ".fq"  << "  -r pre_" << group <<"_" << geneID <<  " -o " << group <<"_" << geneID ;
-            ouf << "blastn -query " <<  group <<"_" << geneID << "/all_contigs.fasta " << "-db " << infile2 << "/" << geneID << "-out " << group <<"_" << geneID << "/" << "blast.out \n";
+            ouf << "SRAssembler -q " << infile2 << "/" << geneID << ".fasta" << " -t dna -p SRAssembler.conf -1 " << infile << "/" << group << "_" << geneID << ".fq"  << "  -r pre_" << group <<"_" << geneID <<  " -o " << group <<"_" << geneID << "\n";
+            ouf << "blastn -query " <<  group <<"_" << geneID << "/all_contigs.fasta " << "-db " << infile2 << "/" << geneID << " -out " << group <<"_" << geneID << "/" << "blast.out \n";
             ouf << "mkdir -f " << geneID << "\n";
             ouf << " WGS --model file --type blast2maf --file " <<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag synteny --out " << geneID << "/" << group << "\n" ;
         }
