@@ -10336,12 +10336,8 @@ int SRA11 (parameter *para){
         getline(inf,line);
         if (line.length() < 1) continue;
         num++;
-        if (num % 50 == 0){
-            ouf << "samtools index " << line << "\n";
-        }else{
-            ouf << "samtools index " << line << " &\n";
-        }
-        
+        ouf << "echo " << line << "\n";
+        ouf << "samtools index " << line << "\n";
         
     }
     ouf.close();
