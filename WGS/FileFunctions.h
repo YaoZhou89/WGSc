@@ -10276,7 +10276,7 @@ int SRA9 (parameter *para){
     string infile4 = (para -> subPop); // gene ID
     
     string outfile = (para -> outFile);
-    
+    string subfold = (para -> chr);
     igzstream inf2 ((infile4).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string geneID;
@@ -10288,10 +10288,10 @@ int SRA9 (parameter *para){
         while(!inf.eof()){
             getline(inf,group);
             if (group.length() < 1) continue;
-            ouf << "SRAssembler -q " << infile2 << "/" << geneID << ".fasta" << " -t dna -p SRAssembler.conf -1 " << infile << "/" << group << "_" << geneID << ".fq"  << "  -r pre_" << group <<"_" << geneID <<  " -o " << group <<"_" << geneID << "\n";
-            ouf << "blastn -query " <<  group <<"_" << geneID << "/all_contigs.fasta " << "-db " << infile2 << "/" << geneID << " -out " << group <<"_" << geneID << "/" << "blast.out \n";
-            ouf << "mkdir -p " << geneID << "\n";
-            ouf << " WGS --model file --type blast2maf --file " <<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag " << group << " --out " << geneID << "/" << group << "\n" ;
+            ouf << "SRAssembler -q " << infile2 << "/" << geneID << ".fasta" << " -t dna -p SRAssembler.conf -1 " << infile << "/" << group << "_" << geneID << ".fq"  << "  -r pre_" << group <<"_" << geneID <<  " -o " << subfold << "/" << group <<"_" << geneID << "\n";
+            ouf << "blastn -query " << subfold << "/" <<  group <<"_" << geneID << "/all_contigs.fasta " << "-db " << infile2 << "/" << geneID << " -out " << subfold << "/" << group <<"_" << geneID << "/" << "blast.out \n";
+            ouf << "mkdir -p " << subfold << "/" <<  geneID << "\n";
+            ouf << " WGS --model file --type blast2maf --file " << subfold << "/"<<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag " << group << " --out " << subfold << "/" << geneID << "/" << group << "\n" ;
         }
         inf.close();
     }
