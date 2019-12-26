@@ -10325,6 +10325,25 @@ int SRA10 (parameter *para){
     return 0;
 }
 
+int SRA11 (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        
+        ouf << "samtools index " << line << "\n";
+        
+    }
+    ouf.close();
+    return 0;
+}
+
+
+
 int bed2single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
