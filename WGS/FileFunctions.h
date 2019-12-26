@@ -10276,19 +10276,15 @@ int SRA9 (parameter *para){
     string infile4 = (para -> subPop); // gene ID
     
     string outfile = (para -> outFile);
-    igzstream inf ((infile3).c_str(),ifstream::in);
-    igzstream inf2 ((infile4).c_str(),ifstream::in);
     
+    igzstream inf2 ((infile4).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string geneID;
-    vector<string> ll;
-    map<string,string> filePos;
-    string subgenome = (para -> chr);
     while (!inf2.eof()){
         getline(inf2,geneID);
         if (geneID.length() < 1) continue;
         string group;
-        
+        igzstream inf ((infile3).c_str(),ifstream::in);
         while(!inf.eof()){
             getline(inf,group);
             if (group.length() < 1) continue;
@@ -10297,6 +10293,7 @@ int SRA9 (parameter *para){
             ouf << "mkdir -p " << geneID << "\n";
             ouf << " WGS --model file --type blast2maf --file " <<  group <<"_" << geneID << "/" << "blast.out --file2 " << infile2 << "/" << geneID << ".fasta" << " --flag " << group << " --out " << geneID << "/" << group << "\n" ;
         }
+        inf.close();
     }
     ouf.close();
     return 0;
@@ -10408,7 +10405,7 @@ int blast2maf (parameter *para){
         }
     }
     cout << "Gene " << geneID << "'s length is: " << subseq.length() << endl;
-    ofstream ouf ((outfile + "_" + geneID+".fasta").c_str());
+    ofstream ouf ((outfile + "_" + geneID + ".fasta").c_str());
     vector<string> queryseq(subseq.length(),"");
     bool block_s = false;
     bool isPositive = true;
