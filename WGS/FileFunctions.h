@@ -10274,7 +10274,6 @@ int SRA9 (parameter *para){
     string infile2 = (para -> inFile2); // gene folder
     string infile3 = (para -> inFile3); // group file
     string infile4 = (para -> subPop); // gene ID
-    
     string outfile = (para -> outFile);
     string subfold = (para -> chr);
     igzstream inf2 ((infile4).c_str(),ifstream::in);
