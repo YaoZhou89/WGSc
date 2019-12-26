@@ -10331,7 +10331,7 @@ int SRA11 (parameter *para){
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string line;
-    int num = 0
+    int num = 0;
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
