@@ -10345,6 +10345,34 @@ int SRA11 (parameter *para){
 }
 
 
+int SRA12 (parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    int num = 0;
+    set<string> sample;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        sample.insert(line);
+    }
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(sample.count(ll[6])!=0){
+            ouf << line << "\n";
+        }
+        
+    }
+    ouf.close();
+    return 0;
+}
 
 int bed2single (parameter *para){
     string infile = (para -> inFile);
