@@ -10388,7 +10388,7 @@ int SRA13 (parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         split(line,ll,".");
-        ouf << "python /data1/home/xuebo/SRAssembler/code/bam_bed.py -a " << line << " -e " << infile2 << " -o " << outfile << "/" << ll[0] << "_"  << " &\n";
+        ouf << "python /data1/home/xuebo/SRAssembler/code/bam_bed.py -a " << line << " -e " << infile2 << " -o " << ll[0] << "_"  << " &\n";
     }
     ouf.close();
     return 0;
