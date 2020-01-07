@@ -10386,9 +10386,9 @@ int SRA13 (parameter *para){
    
     while (!inf.eof()){
         getline(inf,line);
-        if(line.length() < 0) continue;
+        if(line.length() < 1) continue;
         split(line,ll,".");
-        ouf << "python /data1/home/xuebo/SRAssembler/code/bam_bed.py -a " << line << " -e " << infile2 << "-o " << outfile << "/" << ll[ll.size()-1] << "." << subgenome << ".bam" << " &\n";
+        ouf << "python /data1/home/xuebo/SRAssembler/code/bam_bed.py -a " << line << " -e " << infile2 << " -o " << outfile << "/" << ll[ll.size()-1] << "." << subgenome << ".bam" << " &\n";
     }
     ouf.close();
     return 0;
