@@ -10374,6 +10374,27 @@ int SRA12 (parameter *para){
     return 0;
 }
 
+int SRA13 (parameter *para){
+    string infile = (para -> inFile); // group file
+    string infile2 = (para -> inFile2); //  bed file
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    string subgenome = (para -> chr);
+    ofstream ouf ((outfile + "/" + subgenome + ".sh").c_str());
+    string line;
+    vector<string> ll;
+   
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 0) continue;
+        split(line,ll,".");
+        ouf << "python /data1/home/xuebo/SRAssembler/code/bam_bed.py -a " << line << " -e " << infile2 << "-o " << outfile << "/" << ll[ll.size()-1] << "." << subgenome << ".bam" << " &\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+
 int bed2single (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);

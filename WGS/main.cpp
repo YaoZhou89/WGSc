@@ -408,6 +408,8 @@ int main(int argc, char * argv[]) {
                 SRA11(para);
             }else if ((para -> type) == "SRA12"){
                 SRA12(para);
+            }else if ((para -> type) == "SRA13"){
+                SRA13(para);
             }
         }
     }
