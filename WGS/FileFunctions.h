@@ -10394,6 +10394,38 @@ int SRA13 (parameter *para){
     return 0;
 }
 
+int SRA14 (parameter *para){
+    string infile = (para -> inFile); // path for fastq file
+    string infile2 = (para -> inFile2); // path for gene
+    string subPop = (para -> subPop); // taxa file for group
+    string bedFile = (para -> bedFile); // gene file for gene
+    string outfile = (para -> outFile);
+    igzstream inf ((subPop).c_str(),ifstream::in);
+    igzstream inf2 ((bedFile).c_str(),ifstream::in);
+    
+    string line;
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        string taxa = line;
+        ofstream ouf ((outfile + "/" + taxa + "_assembly.sh").c_str());
+        while(!inf2.eof()){
+            getline(inf2,line);
+            if(line.length() < 1 ) continue;
+            string gene = line;
+             ouf << "SRAssembler -q " << infile << "/" << gene << ".fasta" << "  -t dna -p parameter.conf -1 " << infile2 << " -r pre_" << taxa << "_" << gene << " -o " << taxa << "_" << gene << "\n";
+            ouf << "blastn -query " << taxa << "_" << gene << "/all_contigs.fasta -db " << infile << "/" << gene << "-out " << taxa << "_" << gene << "/blast.out \n";
+            ouf << "mkdir -p " << gene << "\n";
+            ouf << "WGS --model file --type blast2maf --file " << taxa << "_" << gene << "/blast.out --file2 " << infile << "/" << gene << ".fasta --flag " << taxa << " --out " << gene << "/" << taxa << "\n";
+            ouf << "rm -rf pre_" << taxa << "_" << gene << "\n";
+            ouf << "rm -rf " << taxa << "_" << gene << "\n";
+        }
+        ouf.close();
+    }
+    
+    return 0;
+}
 
 int bed2single (parameter *para){
     string infile = (para -> inFile);
