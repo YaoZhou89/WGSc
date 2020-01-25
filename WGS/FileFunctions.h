@@ -10409,7 +10409,7 @@ int SRA14 (parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         string taxa = line;
-        ofstream ouf ((outfile + "/" + taxa + "_assembly.sh").c_str());
+        ofstream ouf ((outfile + taxa + "_assembly.sh").c_str());
         igzstream inf2 ((bedFile).c_str(),ifstream::in);
         while(!inf2.eof()){
             getline(inf2,line);
