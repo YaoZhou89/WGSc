@@ -10719,20 +10719,19 @@ int BSAseq (parameter *para){
     ouf << "chr\tstart\tend\ttotal_number\tpassed_number\tindex\n";
     ouf <<setiosflags(ios::fixed)<<setprecision(2);
     string line;
-    int window_size = (para -> size) * 1000;
-    int step_size = (para -> step_size) * 1000;
-    int window_num = ceil(window_size/step_size*1.0);
+//    int window_size = (para -> size) * 1000;
+//    int step_size = (para -> step_size) * 1000;
+//    int window_num = ceil(window_size/step_size*1.0);
     
     vector<string> ll;
     string cur_line = "", pre_line = "";
-    vector<int> start(window_num,0);
-    vector<int> end(window_num,0);
-    vector<int> sum(window_num,0);
+//    vector<int> start(window_num,0);
+//    vector<int> end(window_num,0);
+//    vector<int> sum(window_num,0);
     int s = 0, e = 0, tn = 0, pn = 0;
     double  idx = 0;
     string chr = "";
-    string g1, g2, g3, g4;
-    
+    cout << "runing..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line[0] == '#') continue;
