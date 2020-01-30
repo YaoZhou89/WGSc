@@ -10768,7 +10768,7 @@ int BSAseq (parameter *para){
     }
     if ( (e - s) > 0) {
         idx = pn/tn * 1.0;
-        ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+        ouf << ch << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
         s = e; tn = 0; pn = 0; idx = 0;
     }
     ouf.close();
