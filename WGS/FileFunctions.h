@@ -10730,18 +10730,20 @@ int BSAseq (parameter *para){
 //    vector<int> sum(window_num,0);
     int s = 0, e = 0, tn = 0, pn = 0;
     double  idx = 0;
-    string chr = "";
+    string ch = "";
     cout << "runing..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if(line[0] == '#') continue;
         split(line,ll,"\t");
-        string ch = ll[0];
-        if (ch != chr){
+        string chr = ll[0];
+        if (chr != ch){
             if(s > 0){
                 ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
             }
-            s =0; e = 0; tn = 0; pn = 0; idx = 0;
+            ch = chr;
+            s = 0; e = 0; tn = 0; pn = 0; idx = 0;
+            continue;
         }
         if(s == 0) s = string2Int(ll[1]);
         e = string2Int(ll[1]);
@@ -10760,6 +10762,7 @@ int BSAseq (parameter *para){
                     }
                 }
             }
+            
         }
         
     }
