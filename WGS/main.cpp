@@ -279,6 +279,8 @@ int main(int argc, char * argv[]) {
                 blast2maf(para);
             }else if ((para -> type) == "bed2single"){
                 bed2single(para);
+            }else if ((para -> type) == "BSAseq") {
+                BSAseq(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
