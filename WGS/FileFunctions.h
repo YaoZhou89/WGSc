@@ -10742,7 +10742,7 @@ int BSAseq (parameter *para){
         
         if (chr != ch){
             if( ( e - s) > 0){
-                ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << pn << "\t" << idx << "\n";
+                ouf << ch << "\t" << s << "\t" << e << "\t" << tn << "\t" << pn << "\t" << idx << "\n";
             }
             ch = chr;
             s = 0; e = 0; tn = 0; pn = 0; idx = 0;
@@ -10754,7 +10754,7 @@ int BSAseq (parameter *para){
             if (tn > 0 ) {
                 idx = pn/tn * 1.0;
             }
-            ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t"  << pn << "\t" << idx << "\n";
+            ouf << ch << "\t" << s << "\t" << e << "\t" << tn << "\t"  << pn << "\t" << idx << "\n";
             s = e; tn = 0; pn = 0; idx = 0;
         }else{
             tn++;
