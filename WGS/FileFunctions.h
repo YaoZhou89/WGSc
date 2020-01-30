@@ -10735,6 +10735,7 @@ int BSAseq (parameter *para){
     while(!inf.eof()){
         getline(inf,line);
         if(line[0] == '#') continue;
+        cout << line << "\n";
         split(line,ll,"\t");
         string chr = ll[0];
         if (chr != ch){
