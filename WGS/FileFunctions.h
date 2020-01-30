@@ -10710,4 +10710,66 @@ int getKmer(parameter *para){
     ouf.close();
     return 0;
 }
+
+int BSAseq (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    ouf << "chr\tstart\tend\ttotal_number\tpassed_number\tindex\n";
+    ouf <<setiosflags(ios::fixed)<<setprecision(2);
+    string line;
+    int window_size = (para -> size) * 1000;
+    int step_size = (para -> step_size) * 1000;
+    int window_num = ceil(window_size/step_size*1.0);
+    
+    vector<string> ll;
+    string cur_line = "", pre_line = "";
+    vector<int> start(window_num,0);
+    vector<int> end(window_num,0);
+    vector<int> sum(window_num,0);
+    int s = 0, e = 0, tn = 0, pn = 0;
+    double  idx = 0;
+    string chr = "";
+    string g1, g2, g3, g4;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        string ch = ll[0];
+        if (ch != chr){
+            if(s > 0){
+                ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+            }
+            s =0; e = 0; tn = 0; pn = 0; idx = 0;
+        }
+        if(s == 0) s = string2Int(ll[1]);
+        e = string2Int(ll[1]);
+        if ( (e - s) > 1000000) {
+            idx = pn/tn * 1.0;
+            ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+            s = e; tn = 0; pn = 0; idx = 0;
+        }else{
+            tn++;
+            if( ll[9][0] != '.' && ll[10][0] != '.' && ll[11][0] != '.' && ll[12][0] != '.'){
+                if (ll[9][0] == ll[9][2] && ll[10][0] == ll[10][2] &&  ll[9][0] != ll[10][0] && ll[11][0] == ll[11][2]){
+                    if(ll[9][0] == ll[11][0] && (ll[12][0] != ll[9][0] | ll[12][2] != ll[9][0])){
+                        pn++;
+                    }
+                }
+            }
+        }
+        
+    }
+    if ( (e - s) > 0) {
+        idx = pn/tn * 1.0;
+        ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+        s = e; tn = 0; pn = 0; idx = 0;
+    }
+    ouf.close();
+    return 0;
+}
+
+
 #endif /* FileFunctions_h */

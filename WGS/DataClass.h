@@ -38,6 +38,7 @@ public:
     double b; // y = a + bx
     int size;
     int headLine;
+    int step_size;
     double threshold;
     int maxLength;
     double r;
@@ -79,6 +80,7 @@ public:
         maxLength = 500000000;
         chr = "chr1";
         threshold = -0.00001;
+        step_size = 0;
     }
 };
 
