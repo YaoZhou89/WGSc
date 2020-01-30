@@ -10734,25 +10734,27 @@ int BSAseq (parameter *para){
     cout << "runing..." << endl;
     while(!inf.eof()){
         getline(inf,line);
+        if(line.length() < 1) continue;
         if(line[0] == '#') continue;
-        cout << line << "\n";
+//        cout << line << "\n";
         split(line,ll,"\t");
         string chr = ll[0];
+        
         if (chr != ch){
-            if(s > 0){
-                ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+            if( ( e - s) > 0){
+                ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << pn << "\t" << idx << "\n";
             }
             ch = chr;
             s = 0; e = 0; tn = 0; pn = 0; idx = 0;
             continue;
         }
-        if(s == 0) s = string2Int(ll[1]);
+        if (s == 0) s = string2Int(ll[1]);
         e = string2Int(ll[1]);
         if ( (e - s) > 1000000) {
             if (tn > 0 ) {
                 idx = pn/tn * 1.0;
             }
-            ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
+            ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t"  << pn << "\t" << idx << "\n";
             s = e; tn = 0; pn = 0; idx = 0;
         }else{
             tn++;
@@ -10763,7 +10765,6 @@ int BSAseq (parameter *para){
                     }
                 }
             }
-            
         }
         
     }
