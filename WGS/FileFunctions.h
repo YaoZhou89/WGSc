@@ -10717,7 +10717,7 @@ int BSAseq (parameter *para){
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     ouf << "chr\tstart\tend\ttotal_number\tpassed_number\tindex\n";
-//    ouf <<setiosflags(ios::fixed)<<setprecision(2);
+    ouf <<setiosflags(ios::fixed)<<setprecision(2);
     string line;
     int window_size = (para -> size) * 1000;
     int step_size = (para -> step_size) * 1000;
@@ -10747,7 +10747,9 @@ int BSAseq (parameter *para){
         if(s == 0) s = string2Int(ll[1]);
         e = string2Int(ll[1]);
         if ( (e - s) > 1000000) {
-            idx = pn/tn * 1.0;
+            if (tn > 0 ) {
+                idx = pn/tn * 1.0;
+            }
             ouf << chr << "\t" << s << "\t" << e << "\t" << tn << "\t" << idx << "\n";
             s = e; tn = 0; pn = 0; idx = 0;
         }else{
