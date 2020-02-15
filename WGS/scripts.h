@@ -12,7 +12,7 @@ using namespace std;
 
 int getFastp(parameter *para){
     string infile = (para -> inFile);
-    string oufile = (para -> outFile);
+    string outfile = (para -> outFile);
     igzstream inf (infile.c_str(),ifstream::in);
     if(inf.fail()){
         cerr << "Open file error: " << infile << endl;
@@ -30,7 +30,7 @@ int getFastp(parameter *para){
     vector <string> ll;
     set<string> names;
     while(!inf.eof()){
-        getline(inF, line);
+        getline(inf, line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"_");

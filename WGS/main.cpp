@@ -13,6 +13,7 @@
 #include "initialization.h"
 #include "checkers.h"
 #include "FileFunctions.h"
+#include "scripts.h"
 #include "dataConvert.h"
 int main(int argc, char * argv[]) {
     clock_t start;
