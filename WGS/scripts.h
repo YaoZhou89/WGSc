@@ -41,7 +41,7 @@ int getFastp(parameter *para){
     ouf << "#!/bin/bash\n";
     for (it = names.begin(); it != names.end(); it++){
         ouf << "fastp -i " << *it << "_" <<  middle << "1." << suffix << " -I " << *it << "_" <<  middle <<  "2." << suffix <<
-        " --thread " << thread << " -o " << outfile  << *it << ".R1.fq.gz -O " << outfile << *it << ".R2.fq.gz\n" << " -h "
+        " --thread " << thread << " -o " << outfile  << *it << ".R1.fq.gz -O " << outfile << *it << ".R2.fq.gz" << " -h "
         << outfile  << *it << ".html -j " << outfile  << *it << ".json\n";
     }
     inf.close();
