@@ -41,13 +41,16 @@ public:
     int step_size;
     double threshold;
     int maxLength;
+    int thread;
     double r;
     bool isBed;
     bool recode;
     double mean;
     bool noNeg;
     string headerC;
+    string suffix;
     set<int> pos; // used for change chromosome pos;
+    
     parameter()
     {
         inFile = "";
@@ -80,6 +83,7 @@ public:
         maxLength = 500000000;
         chr = "chr1";
         threshold = -0.00001;
+        thread = 1;
         step_size = 0;
     }
 };

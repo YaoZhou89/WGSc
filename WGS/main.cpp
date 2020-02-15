@@ -414,6 +414,8 @@ int main(int argc, char * argv[]) {
                 SRA13(para);
             }else if ((para -> type) == "SRA14"){
                 SRA14(para);
+            }else if ((para -> type) == "fastp"){
+                getFastp(para);
             }
         }
     }

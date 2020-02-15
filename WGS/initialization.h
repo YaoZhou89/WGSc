@@ -64,8 +64,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> subPop = argv[i];
-        }
-        else if (flag  ==  "outFile" ||  flag  == "o" || flag == "out")
+        }else if (flag  ==  "outFile" ||  flag  == "o" || flag == "out")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
@@ -75,6 +74,11 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;
             para -> flag = argv[i];
+        }else if (flag  ==  "suffix" )
+        {
+            if(i + 1 == argc) {LogLackArg(flag); return 0;}
+            i++;
+            para -> suffix = argv[i];
         }
         else if (flag  ==  "chr" ||  flag  == "chromosome" || flag == "subgenome")
         {
@@ -156,6 +160,10 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> size = atoi(argv[i]);
+        }else if (flag == "processor"||  flag  == "thread" ){
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> thread = atoi(argv[i]);
         }else if (flag == "stepSize"||  flag  == "step" || flag == "step_size"){
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
