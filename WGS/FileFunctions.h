@@ -7462,7 +7462,7 @@ int changeBlast(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line, ll," \t");
-        ll[2] = ID[ll[1]];
+        ll[1] = ID[ll[1]];
         ouf << ll[0];
         for(int i = 1; i < ll.size(); i ++){
             ouf << "\t" <<  ll[i];
