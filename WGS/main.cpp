@@ -14,18 +14,13 @@
 #include "checkers.h"
 #include "FileFunctions.h"
 #include "scripts.h"
+#include "vcf.h"
 #include "dataConvert.h"
 int main(int argc, char * argv[]) {
     clock_t start;
     double duration;
 //    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
-//    string a = "Query  1     tatgtatgtatgtatgtatgtatgtatgtatgtatCAAGGGCAGGatataaatataaata  60";
-//    vector<string> b;
-//    split(a,b," \t" );
-//    for(int i = 0; i < b.size(); ++i){
-//        cout << b[i] << endl;
-//    }
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -222,6 +217,8 @@ int main(int argc, char * argv[]) {
                 mummerCountInDel(para);
             }else if((para->type)=="blast2Gene"){
                 blast2Gene(para);
+            }else if((para->type)=="changeBlast"){
+                changeBlast(para);
             }else if ((para->type) == "sog"){
                 getSOG(para);
             }else if ((para->type)=="getKaKs"){

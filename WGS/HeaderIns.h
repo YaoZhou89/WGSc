@@ -36,6 +36,7 @@
 #else
 #include <hash_map>
 #include <sys/io.h>
+#include <regex>
 #endif
 
 #endif /* HeaderIns_h */

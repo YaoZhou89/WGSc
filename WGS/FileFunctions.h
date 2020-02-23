@@ -7436,6 +7436,44 @@ int getKaKs(parameter *para){
     ouf.close();
     return 0;
 }
+int changeBlast(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    map<string,string> ID;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line.substr(0,1)!= ">") continue;
+        ll.clear();
+        split(line,ll," ");
+        string value = ll[0].substr(1,ll[0].length()-1);
+        ll.clear();
+        split(line,ll,"|");
+        string key = ll[1];
+        ID.insert(pair<string,string>(key,value));
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line, ll," \t");
+        ll[2] = ID[ll[1]];
+        ouf << ll[0];
+        for(int i = 1; i < ll.size(); i ++){
+            ouf << "\t" <<  ll[i];
+        }
+        ouf << "\n";
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
+
 int getSOG(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para->inFile2);

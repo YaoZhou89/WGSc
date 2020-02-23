@@ -35,6 +35,7 @@
 		C54EC7A421B62A6D00B474F1 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		C54EC7A521B62D6C00B474F1 /* HeaderIns.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeaderIns.h; sourceTree = "<group>"; };
 		C54EC7A621B63E9100B474F1 /* FileFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileFunctions.h; sourceTree = "<group>"; };
+		C5964F97240037B400F024B0 /* vcf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vcf.h; sourceTree = "<group>"; };
 		C5BB05CD23F8541000BAD8E6 /* scripts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scripts.h; sourceTree = "<group>"; };
 		C5F3C43421E37B9600B6A515 /* dataConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataConvert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +81,7 @@
 				C54EC79B21B6185E00B474F1 /* DataClass.h */,
 				C54EC79C21B61C6800B474F1 /* baseFunctions.h */,
 				C54EC7A621B63E9100B474F1 /* FileFunctions.h */,
+				C5964F97240037B400F024B0 /* vcf.h */,
 				C5BB05CD23F8541000BAD8E6 /* scripts.h */,
 				C54EC7A521B62D6C00B474F1 /* HeaderIns.h */,
 			);
