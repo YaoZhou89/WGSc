@@ -7473,6 +7473,38 @@ int changeBlast(parameter *para){
     ouf.close();
     return 0;
 }
+int filterMakerGff(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    map<string,string> ID;
+    vector<string> ll;
+    set<string> keywords;
+    keywords.insert("gene");
+    keywords.insert("mRNA");
+    keywords.insert("CDS");
+    keywords.insert("exom");
+    keywords.insert("three_prime_UTR");
+    keywords.insert("five_prime_UTR");
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line.substr(0,1)== "#") continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll.size()!=9) continue;
+        if(keywords.count(ll[2]) == 0) continue;
+        ouf << line << "\n";
+    }
+    
+    inf.close();
+    ouf.close();
+    return 0;
+}
+
 
 int getSOG(parameter *para){
     string infile = (para -> inFile);

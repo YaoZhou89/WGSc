@@ -299,6 +299,8 @@ int main(int argc, char * argv[]) {
                 gff2exon(para);
             }else if ((para->type) == "gff2geneBed"){
                 getGeneBed(para);
+            }else if ((para->type) === "filterMakerGff"){
+                filterMakerGff(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){
