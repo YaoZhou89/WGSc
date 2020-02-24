@@ -7489,6 +7489,7 @@ int filterMakerGff(parameter *para){
     keywords.insert("three_prime_UTR");
     keywords.insert("five_prime_UTR");
     bool w = true;
+    int n = 0;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -7497,9 +7498,10 @@ int filterMakerGff(parameter *para){
         split(line,ll,"\t");
         if(ll.size()!=9) continue;
         if(keywords.count(ll[2]) == 0) continue;
+        if(ll[2]=="gene") n++;
         ouf << line << "\n";
     }
-    
+    cout << n << " genes annotated!" << endl;
     inf.close();
     ouf.close();
     return 0;
