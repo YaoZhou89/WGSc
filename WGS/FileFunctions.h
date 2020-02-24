@@ -7485,10 +7485,10 @@ int filterMakerGff(parameter *para){
     keywords.insert("gene");
     keywords.insert("mRNA");
     keywords.insert("CDS");
-    keywords.insert("exom");
+    keywords.insert("exon");
     keywords.insert("three_prime_UTR");
     keywords.insert("five_prime_UTR");
-    
+    bool w = true;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
