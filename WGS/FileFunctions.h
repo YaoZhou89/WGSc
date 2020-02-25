@@ -7506,7 +7506,29 @@ int filterMakerGff(parameter *para){
     ouf.close();
     return 0;
 }
-
+int makerRemap(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line.substr(0,1)!= ">") continue;
+        ll.clear();
+        split(line,ll," ");
+        string value = ll[0].substr(1,ll[0].length()-1);
+        ll.clear();
+        split(line,ll,"|");
+        string key = ll[1];
+    }
+    
+    inf.close();
+    ouf.close();
+    return 0;
+}
 
 int getSOG(parameter *para){
     string infile = (para -> inFile);
