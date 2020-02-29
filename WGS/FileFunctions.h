@@ -468,8 +468,8 @@ int Read_depth_IN(parameter *para){
             split(ll[i],l1,":");
             ge.clear();
             split(l1[1],ge,",");
-            sum += string2Int(ll[0]);
-            sum += string2Int(ll[1]);
+            sum += string2Int(ge[0]);
+            sum += string2Int(ge[1]);
         }
         ouf << ll[0] << "\t" << ll[1] << "\t" << sum << "\n";
     }
