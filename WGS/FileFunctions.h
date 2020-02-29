@@ -439,7 +439,6 @@ int Read_VCF_IN(parameter *para, vcf *inVCF)
 
 int Read_depth_IN(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
-    
     if (inf.fail())
     {
         cerr << "open depth File IN File error: " << (para->inFile) << endl;
@@ -454,6 +453,7 @@ int Read_depth_IN(parameter *para){
     }
     vector<string> ll ;
     string line;
+    cout << "testing..." << endl;
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1  ) continue;
