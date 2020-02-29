@@ -3856,6 +3856,30 @@ int getFasta(parameter *para){
     ouf.close();
     return 0;
 }
+int splitByN(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    string seq="";
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ) continue;
+        seq.append(line + "\n");
+    }
+    cout << "Genome readed!" << endl;
+    split(seq,ll,"N");
+    for (int i = 0; i < ll.size(); ++i){
+        if(ll[i].length() < 150) continue;
+        ouf << ">" << i << "\n";
+        ouf << ll[i] <<"\n";
+    }
+    ouf.close();
+    return 0;
+}
 int ct1(parameter *para){
     string inFile1 = (para->inFile);
     string vcfFile = (para->bedFile);
