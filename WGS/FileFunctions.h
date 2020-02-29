@@ -457,6 +457,7 @@ int Read_depth_IN(parameter *para){
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1  ) continue;
+        if(line[0] == '#') continue;
         ll.clear();
         split(line,ll,"\t");
         vector<string> l1;
