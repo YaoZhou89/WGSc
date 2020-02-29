@@ -466,8 +466,10 @@ int Read_depth_IN(parameter *para){
             l1.clear();
             split(ll[i],l1,":");
             ge.clear();
+            if(l1[1][0] == '.') continue;
             split(l1[1],ge,",");
-            cout << l1[1] << endl;
+            
+            cout << ge[0] << endl;
             sum += string2Int(ge[0]);
             sum += string2Int(ge[1]);
         }
