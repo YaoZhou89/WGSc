@@ -453,14 +453,13 @@ int Read_depth_IN(parameter *para){
     }
     vector<string> ll ;
     string line;
-    cout << "testing..." << endl;
     vector<string> ge ;
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1  ) continue;
         if(line[0] == '#') continue;
         ll.clear();
-        split(line,ll,"\t");
+        split(line,ll," \t");
         vector<string> l1;
         int sum = 0;
         for (int i = 9; i < ll.size();i++){
@@ -468,7 +467,7 @@ int Read_depth_IN(parameter *para){
             split(ll[i],l1,":");
             ge.clear();
             split(l1[1],ge,",");
-            cout << ll[1] << endl;
+            cout << l1 << endl;
             sum += string2Int(ge[0]);
             sum += string2Int(ge[1]);
         }
