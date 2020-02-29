@@ -141,8 +141,7 @@ int main(int argc, char * argv[]) {
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
-                cout << "get Site.." << endl;
-                Read_depth_IN(para,inDepth);
+                Read_depth_IN(para);
             }else if((para->type) == "toBed"){
                 Depth2Bed(para);
             }else if ((para->type) == "merge"){
@@ -153,6 +152,8 @@ int main(int argc, char * argv[]) {
                 getUnMapped(para);
             }else if ((para->type) == "Mapped"){
                 getMapped(para);
+            }else if ((para->type) == "siteDepth"){
+                siteDepth(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){

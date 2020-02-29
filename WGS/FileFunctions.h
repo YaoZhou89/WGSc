@@ -437,7 +437,44 @@ int Read_VCF_IN(parameter *para, vcf *inVCF)
         return 1;
 }
 
-int Read_depth_IN(parameter *para, depth *inDepth){
+int Read_depth_IN(parameter *para){
+    igzstream inf ((para->inFile).c_str(),ifstream::in);
+    
+    if (inf.fail())
+    {
+        cerr << "open depth File IN File error: " << (para->inFile) << endl;
+        return  0;
+    }
+   
+    string outDepth =(para -> outFile);
+    ogzstream ouf ((outDepth).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outDepth << endl;
+        return  0;
+    }
+    vector<string> ll ;
+    string line;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1  ) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        vector<string> l1;
+        int sum = 0;
+        for (int i = 9; i < ll.size();i++){
+            split(ll[i],l1,":");
+            ll.clear();
+            split(l1[1],ll,",");
+            sum += string2Int(ll[0]);
+            sum += string2Int(ll[1]);
+        }
+        ouf << ll[0] << "\t" << ll[1] << "\t" << sum << "\n";
+    }
+    ouf.close();
+    return 1;
+}
+
+int siteDepth(parameter *para){
     igzstream DepthIN ((para->inFile).c_str(),ifstream::in);
     igzstream SampleList ((para->subPop).c_str(),ifstream::in);
     igzstream allSample ((para->inFile2).c_str(),ifstream::in);
@@ -544,8 +581,6 @@ int Read_depth_IN(parameter *para, depth *inDepth){
 //    (inDepth->depthList) = depthList;
     return 1;
 }
-
-
 inline int outDepthFile(parameter *para, depth *inDepth){
     string outDepth =(para -> outFile)+".depth.passed.gz";
     ogzstream OUT ((outDepth).c_str());
