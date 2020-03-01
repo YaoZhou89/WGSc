@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
             }else if((para->type) =="intersect"){
                 getIntersectVcf(para);
             }else if((para->type) =="unintersect"){
-                getIntersectVcf(para);
+                getUnIntersectVcf(para);
             }else if ((para->type) == "toEigenStrat"){
                 toEigenStrat(para);
             }else if((para->type) == "getSummary"){
