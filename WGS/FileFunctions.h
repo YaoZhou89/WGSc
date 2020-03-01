@@ -489,6 +489,7 @@ int getsynteny(parameter *para){
         getline(inf,line);
         if(line.length() < 1 ) continue;
         ll.clear();
+        split(line,ll," \t");
         if(string2Int(ll[2]) == 1){
             ouf << line << "\n";
         }
