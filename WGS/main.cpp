@@ -154,6 +154,8 @@ int main(int argc, char * argv[]) {
                 getMapped(para);
             }else if ((para->type) == "siteDepth"){
                 siteDepth(para);
+            }else if ((para->type) == "getsynteny"){
+                getsynteny(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){

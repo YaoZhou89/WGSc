@@ -478,6 +478,66 @@ int Read_depth_IN(parameter *para){
     ouf.close();
     return 1;
 }
+int getsynteny(parameter *para){
+    igzstream inf ((para->inFile).c_str(),ifstream::in);
+    string outDepth =(para -> outFile);
+    ogzstream ouf ((outDepth).c_str());
+    set<string> synteny;
+    vector<string> ll ;
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        ll.clear();
+        if(string2Int(ll[2]) == 1){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 1;
+}
+
+int divided2synteny(parameter *para){
+    igzstream inf ((para->inFile).c_str(),ifstream::in);
+    igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
+    string outDepth =(para -> outFile);
+    ogzstream ouf ((outDepth).c_str());
+    set<string> synteny;
+    vector<string> ll ;
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        ll.clear();
+        synteny.insert(ll[0]+"_"+ll[1]);
+    }
+    
+    
+    vector<string> ge ;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1  ) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        vector<string> l1;
+        int sum = 0;
+        for (int i = 9; i < ll.size();i++){
+            l1.clear();
+            split(ll[i],l1,":");
+            ge.clear();
+            if(l1[1][0] == '.') continue;
+            split(l1[1],ge,",");
+            
+//            cout << ge[0] << endl;
+            sum += string2Int(ge[0]);
+            sum += string2Int(ge[1]);
+        }
+        ouf << ll[0] << "\t" << ll[1] << "\t" << sum << "\n";
+    }
+    ouf.close();
+    return 1;
+}
 
 int siteDepth(parameter *para){
     igzstream DepthIN ((para->inFile).c_str(),ifstream::in);
