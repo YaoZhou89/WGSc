@@ -511,6 +511,7 @@ int divided2synteny(parameter *para){
         getline(inf2,line);
         if(line.length() < 1 ) continue;
         ll.clear();
+        split(line,ll," \t");
         synteny.insert(ll[1]);
     }
 
