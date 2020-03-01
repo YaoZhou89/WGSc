@@ -502,7 +502,8 @@ int divided2synteny(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
     igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
     string outDepth =(para -> outFile);
-    ogzstream ouf ((outDepth).c_str());
+    ogzstream ouf1 ((outDepth+".syn.txt").c_str());
+    ogzstream ouf2 ((outDepth+".unsyn.txt").c_str());
     set<string> synteny;
     vector<string> ll ;
     string line;
@@ -510,33 +511,23 @@ int divided2synteny(parameter *para){
         getline(inf2,line);
         if(line.length() < 1 ) continue;
         ll.clear();
-        synteny.insert(ll[0]+"_"+ll[1]);
+        synteny.insert(ll[1]);
     }
-    
-    
-    vector<string> ge ;
+
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1  ) continue;
         if(line[0] == '#') continue;
         ll.clear();
         split(line,ll," \t");
-        vector<string> l1;
-        int sum = 0;
-        for (int i = 9; i < ll.size();i++){
-            l1.clear();
-            split(ll[i],l1,":");
-            ge.clear();
-            if(l1[1][0] == '.') continue;
-            split(l1[1],ge,",");
-            
-//            cout << ge[0] << endl;
-            sum += string2Int(ge[0]);
-            sum += string2Int(ge[1]);
+        if(synteny.count(ll[1]) == 1){
+            ouf1 << line << "\n";
+        }else{
+            ouf2 << line << "\n";
         }
-        ouf << ll[0] << "\t" << ll[1] << "\t" << sum << "\n";
     }
-    ouf.close();
+    ouf1.close();
+    ouf2.close();
     return 1;
 }
 

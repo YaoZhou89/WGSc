@@ -156,6 +156,8 @@ int main(int argc, char * argv[]) {
                 siteDepth(para);
             }else if ((para->type) == "getsynteny"){
                 getsynteny(para);
+            }else if ((para->type) == "divided2synteny"){
+                divided2synteny(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){
