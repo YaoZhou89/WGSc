@@ -485,8 +485,8 @@ int getsynteny(parameter *para){
     set<string> synteny;
     vector<string> ll ;
     string line;
-    while(!inf2.eof()){
-        getline(inf2,line);
+    while(!inf.eof()){
+        getline(inf,line);
         if(line.length() < 1 ) continue;
         ll.clear();
         if(string2Int(ll[2]) == 1){
