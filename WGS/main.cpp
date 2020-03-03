@@ -286,6 +286,8 @@ int main(int argc, char * argv[]) {
                 bed2single(para);
             }else if ((para -> type) == "BSAseq") {
                 BSAseq(para);
+            }else if ((para -> type) =="checkNumber"){
+                checkNumber(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

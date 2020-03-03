@@ -532,6 +532,31 @@ int divided2synteny(parameter *para){
     return 1;
 }
 
+int checkNumber(parameter *para){
+    igzstream inf ((para->inFile).c_str(),ifstream::in);
+    igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
+    string prefix = (para->suffix);
+    set<string> genes;
+    vector<string> ll ;
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        genes.insert(prefix + "|" + line);
+    }
+    int num = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1  ) continue;
+        if(line[0] == '#') continue;
+        ll.clear();
+        split(line,ll," \t");
+        if(genes.count(ll[0])==1) num++;
+    }
+    cout <<"Number is: " << num << endl;
+    return 1;
+}
+
 int siteDepth(parameter *para){
     igzstream DepthIN ((para->inFile).c_str(),ifstream::in);
     igzstream SampleList ((para->subPop).c_str(),ifstream::in);
