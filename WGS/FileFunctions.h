@@ -5439,7 +5439,7 @@ int toXPCLR(parameter *para){
         if(ll[0]!=chr) continue;
         double bin = string2Double(ll[4])/1000000;
         if (bin == 0) bin = 0.001/1000000;
-        cout << "bin is:" << bin << endl;
+//        cout << "bin is:" << bin << endl;
         int begin = string2Int(ll[1]);
         int end = string2Int(ll[2]);
         for (int cp = begin; cp < end; ++cp ){
@@ -5449,7 +5449,7 @@ int toXPCLR(parameter *para){
         previous = end;
         recvalue += bin*1000000;
     }
-    cout << "value is: " << value[0][0] << "\t" << value[1400010][0] << endl;
+//    cout << "value is: " << value[0][0] << "\t" << value[1400010][0] << endl;
     vector<int> samplePos ;
     while(!invcf.eof()){
         getline(invcf,line);
