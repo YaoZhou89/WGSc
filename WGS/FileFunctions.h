@@ -10802,7 +10802,7 @@ int toPEfastq (parameter *para){
             }
             seq = "";
         }else{
-            seq.append(line+"\n");
+            seq.append(line);
         }
     }
     if (seq != ""){
