@@ -4018,6 +4018,7 @@ int splitByNAll(parameter *para){
                 ouf << ">" << contN << "\n";
                 ouf << ll[i] <<"\n";
             }
+            seq = "";
         };
         seq.append(line + "\n");
     }
