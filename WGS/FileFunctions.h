@@ -10762,6 +10762,75 @@ int gene2Single (parameter *para){
     ouf.close();
     return 0;
 }
+int toPEfastq (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf1 ((outfile +".1.fasta").c_str());
+    ofstream ouf2 ((outfile +".2.fasta").c_str());
+    string line;
+    vector<string> ll;
+    string seq = "";
+    string line1 = "@EAS139:136:FC706VJ:2:2104:";
+    string line3 = "+";
+    string line4 = string(150, '|');
+    int x = 1, y = 1;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(seq == "") continue;
+            split(seq, ll,"N");
+            for (int i = 0 ; i < ll.size(); ++i){
+                if(ll[i].length() < 300) continue;
+                string lseq = ll[i];
+//                string rseq = reverse_complementary(ll[i]);
+                for(int j = 0 ; j < lseq.length() - 150 ; j = j + 15){
+                    if((j+150) > lseq.length()) continue;
+                    x++;
+                    y++;
+                    ouf1 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
+                    ouf2 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
+                    ouf1 << lseq.substr(j,150) << "\n";
+                    string a = lseq.substr(j+150,150);
+                    ouf2 << reverse_complementary(a) << "\n";
+                    ouf1 << line3 << "\n";
+                    ouf2 << line3 << "\n";
+                    ouf1 << line4 << "\n";
+                    ouf2 << line4 << "\n";
+                }
+            }
+            seq = "";
+        }else{
+            seq.append(line+"\n");
+        }
+    }
+    if (seq != ""){
+        split(seq, ll,"N");
+        for (int i = 0 ; i < ll.size(); ++i){
+            if(ll[i].length() < 300) continue;
+            string lseq = ll[i];
+            for(int j = 0 ; j < lseq.length() - 150 ; j = j + 15){
+                if((j+150) > lseq.length()) continue;
+                x++;
+                y++;
+                ouf1 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
+                ouf2 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
+                ouf1 << lseq.substr(j,150) << "\n";
+                string a = lseq.substr(j+150,150);
+                ouf2 << reverse_complementary(a) << "\n";
+                ouf1 << line3 << "\n";
+                ouf2 << line3 << "\n";
+                ouf1 << line4 << "\n";
+                ouf2 << line4 << "\n";
+            }
+        }
+    }
+    
+    ouf1.close();
+    ouf2.close();
+    return 0;
+}
 
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
