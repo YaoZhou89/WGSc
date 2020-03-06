@@ -385,6 +385,8 @@ int main(int argc, char * argv[]) {
                 getFasta(para);
             }else if ((para-> type) =="splitByN"){
                 splitByN(para);
+            }else if ((para-> type) =="splitByNAll"){
+                splitByNAll(para);
             }else if ((para-> type) =="GPM"){
                 GPMm(para);
             }else if ((para-> type) =="GPM1"){

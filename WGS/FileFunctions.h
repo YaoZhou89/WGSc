@@ -3998,6 +3998,38 @@ int splitByN(parameter *para){
     ouf.close();
     return 0;
 }
+int splitByNAll(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    string seq="";
+    vector<string> ll;
+    int contN = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ) {
+            if(seq=="") continue;
+            split(seq,ll,"N");
+            for (int i = 0; i < ll.size(); ++i){
+                contN++;
+                ouf << ">" << contN << "\n";
+                ouf << ll[i] <<"\n";
+            }
+        };
+        seq.append(line + "\n");
+    }
+    split(seq,ll,"N");
+    for (int i = 0; i < ll.size(); ++i){
+        contN++;
+        ouf << ">" << contN << "\n";
+        ouf << ll[i] <<"\n";
+    }
+    ouf.close();
+    return 0;
+}
 int ct1(parameter *para){
     string inFile1 = (para->inFile);
     string vcfFile = (para->bedFile);
@@ -10810,7 +10842,7 @@ int toPEfastq (parameter *para){
         for (int i = 0 ; i < ll.size(); ++i){
             if(ll[i].length() < 300) continue;
             string lseq = ll[i];
-            for(int j = 0 ; j < lseq.length() - 150 ; j = j + 15){
+            for(int j = 0 ; j < lseq.length() - 150 ; j = j + 30){
                 if((j+150) > lseq.length()) continue;
                 x++;
                 y++;
