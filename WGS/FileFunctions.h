@@ -1822,6 +1822,30 @@ int mergeDepth(parameter *para){
     OUT.close();
     return 1;
 }
+int filterByDepth(parameter *para){
+    string input1 = (para->inFile);
+    igzstream inf (input1.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ogzstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int minDepth = (para -> minDepth) -1 ;
+    int maxDepth = (para -> maxDepth) + 1;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        int sum = 0;
+        for (int i = 2; i < ll.size(); i++){
+            sum += string2Int(ll[i]);
+        }
+        if(sum > minDepth & sum < maxDepth){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 1;
+}
 
 int filterDepth3(parameter *para){
     string input1 = (para->inFile);
