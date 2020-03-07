@@ -490,7 +490,7 @@ int getsynteny(parameter *para){
         if(line.length() < 1 ) continue;
         ll.clear();
         split(line,ll," \t");
-        if(string2Int(ll[2]) == 1){
+        if(string2Int(ll[2]) < 3){
             ouf << line << "\n";
         }
     }
@@ -502,8 +502,8 @@ int divided2synteny(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
     igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
     string outDepth =(para -> outFile);
-    ogzstream ouf1 ((outDepth+".syn.txt").c_str());
-    ogzstream ouf2 ((outDepth+".unsyn.txt").c_str());
+    ogzstream ouf1 ((outDepth+".syn.txt.gz").c_str());
+    ogzstream ouf2 ((outDepth+".unsyn.txt.gz").c_str());
     set<string> synteny;
     vector<string> ll ;
     string line;
