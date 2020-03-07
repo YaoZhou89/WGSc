@@ -1840,7 +1840,7 @@ int filterByDepth(parameter *para){
             sum += string2Int(ll[i]);
         }
         if(sum > minDepth & sum < maxDepth){
-            ouf << line << "\n";
+            ouf << ll[0] << "\t" << ll[1] << "\t" << sum << "\n";
         }
     }
     ouf.close();
