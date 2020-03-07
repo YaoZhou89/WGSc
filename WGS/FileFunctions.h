@@ -490,7 +490,7 @@ int getsynteny(parameter *para){
         if(line.length() < 1 ) continue;
         ll.clear();
         split(line,ll," \t");
-        if(string2Int(ll[2]) < 3){
+        if(string2Int(ll[2]) == 1 | string2Int(ll[2]) == 2){
             ouf << line << "\n";
         }
     }
