@@ -1866,6 +1866,9 @@ int vcfAddID(parameter *para){
         string IDs = ID.replace(0,3,"rs");
         ll[2] = IDs;
         ouf << ll[0];
+        string geno = ll[ll.size() - 1];
+        string gphased = geno.replace(1,1,"|");
+        ll[ll.size()-1] = geno;
         for (int i = 1 ; i < ll.size(); i++){
             ouf << "\t" << ll[i];
         }
