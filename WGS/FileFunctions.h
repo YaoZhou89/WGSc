@@ -1864,6 +1864,7 @@ int vcfAddID(parameter *para){
         }
         string ID = ll[0] + "_" + ll[1];
         string IDs = ID.replace(0,3,"rs");
+        ll[2] = IDs;
         ouf << ll[0];
         for (int i = 1 ; i < ll.size(); i++){
             ouf << "\t" << ll[i];
