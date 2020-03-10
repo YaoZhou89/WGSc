@@ -140,6 +140,8 @@ int main(int argc, char * argv[]) {
                 substract(para);
             }else if ((para->type) == "vcf2Major"){
                 vcf2Major(para);
+            }else if ((para->type) == "vcfAddID"){
+                vcfAddID(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

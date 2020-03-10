@@ -1846,7 +1846,33 @@ int filterByDepth(parameter *para){
     ouf.close();
     return 1;
 }
-
+int vcfAddID(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ogzstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        if(line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        string ID = ll[0] + "_" + ll[1];
+        string IDs = ID.replace(0,3,"rs");
+        ouf << ll[0];
+        for (int i = 1 ; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 1;
+}
 int filterDepth3(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
