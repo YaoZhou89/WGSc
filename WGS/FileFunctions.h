@@ -11210,6 +11210,6 @@ int BSAseq (parameter *para){
     ouf.close();
     return 0;
 }
-
+###
 
 #endif /* FileFunctions_h */
