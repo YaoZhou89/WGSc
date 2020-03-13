@@ -499,6 +499,7 @@ int DepthFilter(parameter *para){
         vector<string> dp;
         for (int i = 9; i < ll.size(); i++){
             split(ll[i],dp,":");
+            if(dp[2][0] == '.') continue;
             sum += string2Int(dp[2]);
         }
         if(sum > minDepth & sum < maxDepth){
