@@ -482,7 +482,7 @@ int DepthFilter(parameter *para){
     string input1 = (para->inFile);
     igzstream inf (input1.c_str(),ifstream::in);
     string outFile =(para -> outFile);
-    ogzstream  ouf((outFile).c_str());
+    ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
     int minDepth = (para -> minDepth) -1 ;
