@@ -65,7 +65,7 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "get2vcf"){
                 get2vcf(para);
             }else if((para->type) == "depthFilter"){
-                
+                DepthFilter(para);
             }else if((para->type) == "ct3"){
                 ct3(para); // snps shared among three groups
             }else if((para->type) == "ct2"){

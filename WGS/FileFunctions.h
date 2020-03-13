@@ -446,7 +446,7 @@ int Read_depth_IN(parameter *para){
     }
    
     string outDepth =(para -> outFile);
-    ogzstream ouf ((outDepth).c_str());
+    ofstream ouf ((outDepth).c_str());
     if((!ouf.good())){
         cerr << "open OUT File error: " << outDepth << endl;
         return  0;
@@ -477,6 +477,36 @@ int Read_depth_IN(parameter *para){
     }
     ouf.close();
     return 1;
+}
+int DepthFilter(parameter *para){
+    string input1 = (para->inFile);
+    igzstream inf (input1.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ogzstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int minDepth = (para -> minDepth) -1 ;
+    int maxDepth = (para -> maxDepth) + 1;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]== '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll," \t");
+        int sum = 0;
+        vector<string> dp;
+        for (int i = 9; i < ll.size(); i++){
+            split(ll[i],dp,":");
+            sum += string2Int(dp[2]);
+        }
+        if(sum > minDepth & sum < maxDepth){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
 }
 int getsynteny(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
