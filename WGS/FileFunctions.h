@@ -531,6 +531,7 @@ int toFastaRef(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[1] == 'C'){
+            ouf << line << "\n";
             ll.clear();
             split(line,ll,"\t");
             var=".\t.\t.\tGT:AD:GL";
@@ -579,7 +580,7 @@ int toFastaRef(parameter *para){
             ouf << snp[ll[1]] << "\n";
         }else{
             ouf << chr << "\t" << ll[1]  << "\t.\t" << seq.substr(string2Int(ll[1])-1,1)
-            << "\t" << seq.substr(string2Int(ll[1])-1,1) << "\t";
+            << "\t" << seq.substr(string2Int(ll[1])-1,1) << "\t" << var << "\n";
         }
     }
     ouf.close();
