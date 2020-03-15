@@ -41,6 +41,8 @@ int main(int argc, char * argv[]) {
                 Read_VCF_IN(para, inVCF);
             }else if((para->type)=="toFasta"){
                 
+            }else if((para->type)=="toFastaRef"){
+                toFastaRef(para);
             }else if((para->type)=="filterBarley"){
                 filterBarley(para);
             }else if((para->type) == "calibrate"){

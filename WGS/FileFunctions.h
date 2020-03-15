@@ -511,6 +511,80 @@ int DepthFilter(parameter *para){
     ouf.close();
     return 0;
 }
+int toFastaRef(parameter *para){
+    string input1 = (para->inFile); //vcf file
+    igzstream inf (input1.c_str(),ifstream::in);
+    string input2 = (para->inFile2); // genome file
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string input3 = (para->inFile3); // synteny site file
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    map<string,string> snp;
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    string chr = (para->chr);
+    
+// store the vcf site
+    string var="";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[1] == 'C'){
+            ll.clear();
+            split(line,ll,"\t");
+            var=".\t.\t.\tGT:AD:GL";
+            for (int i = 9; i < ll.size();++i){
+                var = var + "\t" + "1/1:10:100,0";
+            }
+            continue;
+        }
+        if(line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[0] != chr) continue;
+        snp.insert(pair<string,string>(ll[1],line));
+    }
+// store the genome
+    bool write = false;
+    string seq ="";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        if(line[0]=='>'){
+            string c = ">" + chr;
+            if(line == c){
+                write = true;
+            }else{
+                write = false;
+            }
+            continue;
+        }
+        if(write){
+            seq.append(line);
+        }else{
+            continue;
+        }
+    }
+    while(!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[0] != chr) continue;
+        if(snp.count(ll[1]) == 1){
+            ouf << snp[ll[1]] << "\n";
+        }else{
+            ouf << chr << "\t" << ll[1]  << "\t.\t" << seq.substr(string2Int(ll[1])-1,1)
+            << "\t" << seq.substr(string2Int(ll[1])-1,1) << "\t";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int getsynteny(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
     string outDepth =(para -> outFile);
