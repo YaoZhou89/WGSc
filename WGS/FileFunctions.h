@@ -536,7 +536,7 @@ int toFastaRef(parameter *para){
             split(line,ll,"\t");
             var=".\t.\t.\tGT:AD:GL";
             for (int i = 9; i < ll.size();++i){
-                var = var + "\t" + "1/1:10:100,0";
+                var = var + "\t" + "0/0:10:100,0";
             }
             continue;
         }
@@ -549,6 +549,7 @@ int toFastaRef(parameter *para){
         if(ll[0] != chr) continue;
         snp.insert(pair<string,string>(ll[1],line));
     }
+    cout << "vcf parsed!" << endl;
 // store the genome
     bool write = false;
     string seq ="";
@@ -570,6 +571,7 @@ int toFastaRef(parameter *para){
             continue;
         }
     }
+    cout << "genome file parsed!" << endl;
     while(!inf3.eof()){
         getline(inf3,line);
         if(line.length() < 1) continue;
