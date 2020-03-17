@@ -401,6 +401,8 @@ int main(int argc, char * argv[]) {
                 gene2Single(para);
             }else if ((para->type) == "toPEfastq"){
                 toPEfastq(para);
+            }else if ((para->type) == "modifyGenome"){
+                modifyGenome(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){

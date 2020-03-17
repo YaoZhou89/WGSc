@@ -511,6 +511,25 @@ int DepthFilter(parameter *para){
     ouf.close();
     return 0;
 }
+int modifyGenome(parameter *para){
+    string input1 = (para->inFile);
+    igzstream inf (input1.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>') {
+            ouf << line << " " << "\n"
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int toFastaRef(parameter *para){
     string input1 = (para->inFile); //vcf file
     igzstream inf (input1.c_str(),ifstream::in);
