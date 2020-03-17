@@ -1979,10 +1979,10 @@ int vcfAddID(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
     string outFile =(para -> outFile);
-    ogzstream  ouf((outFile).c_str());
+    ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
-    
+    int num = 0;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -2002,7 +2002,9 @@ int vcfAddID(parameter *para){
             ouf << "\t" << ll[i];
         }
         ouf << "\n";
+        num++;
     }
+    cout << "Total marker for " << input << ":\t" << num << endl;
     ouf.close();
     return 1;
 }
