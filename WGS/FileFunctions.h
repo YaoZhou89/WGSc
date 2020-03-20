@@ -555,6 +555,21 @@ int modifyPAF(parameter *para){
     chr.insert(pair<string,string>("chr10","chr10"));
     chr.insert(pair<string,string>("chr11","chr11"));
     chr.insert(pair<string,string>("chr12","chr12"));
+    
+    chr.insert(pair<string,string>("Chr00","seq00"));
+    chr.insert(pair<string,string>("Chr01","seq01"));
+    chr.insert(pair<string,string>("Chr02","seq02"));
+    chr.insert(pair<string,string>("Chr03","seq03"));
+    chr.insert(pair<string,string>("Chr04","seq04"));
+    chr.insert(pair<string,string>("Chr05","seq05"));
+    chr.insert(pair<string,string>("Chr06","seq06"));
+    chr.insert(pair<string,string>("Chr07","seq07"));
+    chr.insert(pair<string,string>("Chr08","seq08"));
+    chr.insert(pair<string,string>("Chr09","seq09"));
+    chr.insert(pair<string,string>("Chr10","seq10"));
+    chr.insert(pair<string,string>("Chr11","seq11"));
+    chr.insert(pair<string,string>("Chr12","seq12"));
+    
     vector<string> ll;
     while(!inf.eof()){
         getline(inf,line);
@@ -562,7 +577,9 @@ int modifyPAF(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         string c = chr[ll[5]];
+        string c1 = chr[ll[0]];
         ll[5] = c;
+        ll[0] = c1;
         ouf << ll[0];
         for (int i = 1; i < ll.size(); ++i){
             ouf << "\t" << ll[i] ;
