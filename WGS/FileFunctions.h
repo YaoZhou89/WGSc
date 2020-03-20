@@ -523,9 +523,9 @@ int modifyGenome(parameter *para){
         if(line.length() < 1) continue;
         if(line[0] == '>') {
             if(string2Int(line.substr(1,line.length()-1)) < 10){
-                ouf <<  ">chr0" << line.substr(1,line.length()-1) << "\n";
+                ouf <<  ">chr0" << line.substr(1,1) << "\n";
             }else{
-                 ouf <<  ">chr" << line.substr(1,line.length()-1) << "\n";
+                 ouf <<  ">chr" << line.substr(1,2) << "\n";
             }
            
         }else{
