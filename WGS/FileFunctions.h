@@ -522,7 +522,12 @@ int modifyGenome(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>') {
-            ouf <<  ">chr" << line.substr(1,line.length()-1) << "\n";
+            if(line.length()==2){
+                ouf <<  ">chr0" << line.substr(1,line.length()-1) << "\n";
+            }else{
+                 ouf <<  ">chr" << line.substr(1,line.length()-1) << "\n";
+            }
+           
         }else{
             ouf << line << "\n";
         }
