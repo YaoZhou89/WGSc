@@ -294,6 +294,8 @@ int main(int argc, char * argv[]) {
                 BSAseq(para);
             }else if ((para -> type) =="checkNumber"){
                 checkNumber(para);
+            }else if ((para -> type) == "modifyPAF" ){
+                modifyPAF(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

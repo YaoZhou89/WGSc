@@ -535,6 +535,44 @@ int modifyGenome(parameter *para){
     ouf.close();
     return 0;
 }
+int modifyPAF(parameter *para){
+    string input1 = (para->inFile);
+    igzstream inf (input1.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    map<string,string> chr;
+    chr.insert(pair<string,string>("chr0","chr00"));
+    chr.insert(pair<string,string>("chr1","chr01"));
+    chr.insert(pair<string,string>("chr2","chr02"));
+    chr.insert(pair<string,string>("chr3","chr03"));
+    chr.insert(pair<string,string>("chr4","chr04"));
+    chr.insert(pair<string,string>("chr5","chr05"));
+    chr.insert(pair<string,string>("chr6","chr06"));
+    chr.insert(pair<string,string>("chr7","chr07"));
+    chr.insert(pair<string,string>("chr8","chr08"));
+    chr.insert(pair<string,string>("chr9","chr09"));
+    chr.insert(pair<string,string>("chr10","chr10"));
+    chr.insert(pair<string,string>("chr11","chr11"));
+    chr.insert(pair<string,string>("chr12","chr12"));
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        string c = chr[ll[5]];
+        ll[5] = c;
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); ++i){
+            ouf << "\t" << ll[i] ;
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
 int toFastaRef(parameter *para){
     string input1 = (para->inFile); //vcf file
     igzstream inf (input1.c_str(),ifstream::in);
