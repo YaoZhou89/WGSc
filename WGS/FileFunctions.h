@@ -609,7 +609,7 @@ int C2VCF(parameter *para){
         pos.insert(ll[1]);
     }
     while(!inf.eof()){
-        getline(inf2,line);
+        getline(inf,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
