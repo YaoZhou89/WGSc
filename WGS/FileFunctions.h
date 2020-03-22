@@ -603,6 +603,7 @@ int C2VCF(parameter *para){
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
         ll.clear();
         split(line,ll,"\t");
         pos.insert(ll[1]);
