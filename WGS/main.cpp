@@ -166,6 +166,8 @@ int main(int argc, char * argv[]) {
                 divided2synteny(para);
             }else if ((para->type) == "filterByDepth"){
                 filterByDepth(para);
+            }eles if ((para->type) == "C2VCF"){
+                C2VCF(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){

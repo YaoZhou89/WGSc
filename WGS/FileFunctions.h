@@ -590,6 +590,38 @@ int modifyPAF(parameter *para){
     
     return 0;
 }
+int C2VCF(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    set<string> pos;
+    vector<string> ll;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        pos.insert(ll[1]);
+    }
+    while(!inf.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(pos.count(ll[1]) == 1) {
+            ouf << line << "\t" << "red" << "\n";
+        }else{
+            ouf << line << "\t" << "gray" << "\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
 int toFastaRef(parameter *para){
     string input1 = (para->inFile); //vcf file
     igzstream inf (input1.c_str(),ifstream::in);
