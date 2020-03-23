@@ -11122,7 +11122,7 @@ int toPEfastq (parameter *para){
             if(ll[i].length() < 300) continue;
             string lseq = ll[i];
             for(int j = 0 ; j < lseq.length() - 150 ; j = j + 30){
-                if((j+150) > lseq.length()) continue;
+                if((j+301) > lseq.length()) continue;
                 x++;
                 y++;
                 ouf1 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
