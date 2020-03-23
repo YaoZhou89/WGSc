@@ -11077,8 +11077,8 @@ int toPEfastq (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
-    ofstream ouf1 ((outfile +".1.fasta").c_str());
-    ofstream ouf2 ((outfile +".2.fasta").c_str());
+    ofstream ouf1 ((outfile +".R1.fq").c_str());
+    ofstream ouf2 ((outfile +".R2.fq").c_str());
     string line;
     vector<string> ll;
     string seq = "";
