@@ -11100,10 +11100,11 @@ int toPEfastq (parameter *para){
                     if((j+150) > lseq.length()) continue;
                     x++;
                     y++;
+                    string a = lseq.substr(j+150,150);
+                    if(a.length() < 150) continue;
                     ouf1 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
                     ouf2 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
                     ouf1 << lseq.substr(j,150) << "\n";
-                    string a = lseq.substr(j+150,150);
                     ouf2 << reverse_complementary(a) << "\n";
                     ouf1 << line3 << "\n";
                     ouf2 << line3 << "\n";
@@ -11125,10 +11126,11 @@ int toPEfastq (parameter *para){
                 if((j+301) > lseq.length()) continue;
                 x++;
                 y++;
+                string a = lseq.substr(j+150,150);
+                if(a.length() < 150) continue;
                 ouf1 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
                 ouf2 << line1 <<  x <<  ":" <<  y <<  " 1:Y:18:ATCACG" << "\n";
                 ouf1 << lseq.substr(j,150) << "\n";
-                string a = lseq.substr(j+150,150);
                 ouf2 << reverse_complementary(a) << "\n";
                 ouf1 << line3 << "\n";
                 ouf2 << line3 << "\n";
