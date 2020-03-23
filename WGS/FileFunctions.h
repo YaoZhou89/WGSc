@@ -11156,29 +11156,36 @@ int D2B(parameter *para){
     string chr="";
     int start = 0;
     int end = 0;
+    bool s = false;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
         if(chr != ll[0]){
-            if(string2Int(ll[2]) < 31) {
-                if((end - start) > 2000){
-                    ouf << chr <<"\t" << start << "\t" << end << "\n";
-                }
-                start = string2Int(ll[2]);
-                chr = ll[0];
-                end = 0;
-            }
-            continue;
-        }
-        if(string2Int(ll[2]) < 31){
-            end = string2Int(ll[1]);
-        }else{
-            if((end - start) > 2000){
+            if((start - end) > 100){
                 ouf << chr <<"\t" << start << "\t" << end << "\n";
             }
-            start=string2Int(ll[1]);
+            s = false;
+            start = 0;
+            chr = ll[0];
+            end = 0;
+            continue;
+        }
+        if(string2Int(ll[2]) == 20 ){
+            if(!s) {
+                start = string2Int(ll[1]);
+                s=true;
+            }else{
+                end = string2Int(ll[1]);
+            }
+        }else{
+            if((start - end) > 100){
+                ouf << chr <<"\t" << start << "\t" << end << "\n";
+            }
+            s = false;
+            end = 0;
+            start = 0;
         }
     }
     if((end - start) > 2000){
