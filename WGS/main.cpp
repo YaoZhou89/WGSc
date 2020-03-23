@@ -168,6 +168,8 @@ int main(int argc, char * argv[]) {
                 filterByDepth(para);
             }else if ((para->type) == "C2VCF"){
                 C2VCF(para);
+            }else if ((para->type) == "D2B"){
+                D2B(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){

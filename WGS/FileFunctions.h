@@ -11146,7 +11146,47 @@ int toPEfastq (parameter *para){
     ouf2.close();
     return 0;
 }
-
+int D2B(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    string chr="";
+    int start = 0;
+    int end = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(chr != ll[0]){
+            if(string2Int(ll[2]) < 31) {
+                if((end - start) > 2000){
+                    ouf << chr <<"\t" << start << "\t" << end << "\n";
+                }
+                start = string2Int(ll[2]);
+                chr = ll[0];
+                end = 0;
+            }
+            continue;
+        }
+        if(string2Int(ll[2]) < 31){
+            end = string2Int(ll[1]);
+        }else{
+            if((end - start) > 2000){
+                ouf << chr <<"\t" << start << "\t" << end << "\n";
+            }
+            start=string2Int(ll[1]);
+        }
+    }
+    if((end - start) > 2000){
+        ouf << chr <<"\t" << start << "\t" << end << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
