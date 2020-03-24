@@ -11242,10 +11242,11 @@ int KmerFrequence(parameter *para){
     }
     cout << "Total k-mer is:\t" << kf.size() << endl;
     inf.close();
+    igzstream inf1 ((infile).c_str(),ifstream::in);
     string chr;
     seq = "";
-    while(!inf.eof()){
-        getline(inf,line);
+    while(!inf1.eof()){
+        getline(inf1,line);
         if(line.length() < 1) continue;
         if (line[0] == '>'){
             cout << seq << endl;
