@@ -11243,6 +11243,7 @@ int KmerFrequence(parameter *para){
     cout << "Total k-mer is:\t" << kf.size() << endl;
     inf.close();
     string chr;
+    seq = "";
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
