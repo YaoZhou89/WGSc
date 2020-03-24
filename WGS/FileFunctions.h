@@ -11258,8 +11258,8 @@ int KmerFrequence(parameter *para){
                 }
             }
             chr = line.substr(1,line.length()-1);
-            continue;
             seq = "";
+            continue;
         }
         seq.append(line);
     }
