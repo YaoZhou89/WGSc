@@ -11228,6 +11228,7 @@ int getConcordance(parameter *para){
         cs[(ch-1)*1000000 + pos] = value;
     }
     vector<double> rate(101,0.0);
+    
     prechr = "";
     while(!inf.eof()){
         getline(inf,line);
@@ -11250,6 +11251,7 @@ int getConcordance(parameter *para){
         int a = cs[(ch-1)*1000000 + pos]*100;
         rate[a]++;
     }
+    rate[0] = 0;
     for (int i = 0; i < rate.size(); ++i){
         ouf << Double2String(0.01*i) << "\t" << rate[i] << "\n";
     }
@@ -11313,6 +11315,7 @@ int getConcordance_bed(parameter *para){
             rate[a]++;
         }
     }
+    rate[0] = 0;
     for (int i = 0; i < rate.size(); ++i){
         ouf << Double2String(0.01*i) << "\t" << rate[i] << "\n";
     }
