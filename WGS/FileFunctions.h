@@ -11205,6 +11205,7 @@ int KmerFrequence(parameter *para){
     string seq = "";
     string chr = "";
     unordered_map<uint64_t, int> kf;
+    int kmer = (para -> size);
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -11212,7 +11213,7 @@ int KmerFrequence(parameter *para){
            
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
-                    uint64_t key = encode(seq.substr(i,64));
+                    uint64_t key = encode(seq.substr(i,kmer));
 //                    cout << key << endl;
                     if (kf.count(key) == 1){
                         int v = kf[key];
@@ -11233,7 +11234,7 @@ int KmerFrequence(parameter *para){
     }
     if(seq != ""){
         for (int i = 0; i < seq.length(); ++i){
-            uint64_t key = encode(seq.substr(i,64));
+            uint64_t key = encode(seq.substr(i,kmer));
             if (kf.count(key) == 1){
                 int v = kf[key];
                 int nv = v + 1;
@@ -11257,7 +11258,7 @@ int KmerFrequence(parameter *para){
             cout << "Counting " << line.substr(1,line.length()-1) << endl;
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
-                    uint64_t key = encode(seq.substr(i,64));
+                    uint64_t key = encode(seq.substr(i,kmer));
                     if (key == s){
                         ouf << chr << "\t" << i << "\t" << 0 << "\n";
                     }else{
@@ -11273,7 +11274,7 @@ int KmerFrequence(parameter *para){
     }
     if(seq != ""){
         for (int i = 0; i < seq.length(); ++i){
-            uint64_t key = encode(seq.substr(i,64));
+            uint64_t key = encode(seq.substr(i,kmer));
             if (key == s ){
                 ouf << chr << "\t" << i << "\t" << 0 << "\n";
             }else{
