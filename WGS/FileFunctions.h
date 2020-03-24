@@ -11171,7 +11171,7 @@ int D2B(parameter *para){
             chr = ll[0];
             end = 0;
         }
-        if(string2Int(ll[2]) < 5 ){
+        if(string2Int(ll[2]) == 1 ){
             if(!s) {
                 start = string2Int(ll[1]);
                 s=true;
@@ -11191,6 +11191,9 @@ int D2B(parameter *para){
         ouf << chr <<"\t" << start << "\t" << end << "\n";
     }
     ouf.close();
+    return 0;
+}
+int getConcordance(parameter *para){
     return 0;
 }
 int KmerFrequence(parameter *para){
