@@ -11203,12 +11203,17 @@ int getConcordance(parameter *para){
     string line;
     vector<string> ll;
     vector<double> cs(1300000000,0.0);
+    string prechr = "";
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
         string chr = ll[0].substr(3,2);
+        if (chr != prechr) {
+            cout << "Proceessing chr" << chr << " for concordance file" <<endl;
+            prechr = chr;
+        }
         int ch;
         if (chr[0] == 'U'){
             ch = 13;
@@ -11223,6 +11228,7 @@ int getConcordance(parameter *para){
         cs[(ch-1)*1000000 + pos] = value;
     }
     vector<double> rate(101,0.0);
+    prechr = "";
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -11230,6 +11236,10 @@ int getConcordance(parameter *para){
         split(line,ll,"\t");
         if(ll[2] != "1") continue;
         string chr = ll[0].substr(3,2);
+        if (chr != prechr) {
+            cout << "Proceessing chr" << chr << " for sites file" <<endl;
+            prechr = chr;
+        }
         int ch;
         if (chr[0] == 'U'){
             ch = 13;
@@ -11256,12 +11266,17 @@ int getConcordance_bed(parameter *para){
     string line;
     vector<string> ll;
     vector<double> cs(1300000000,0.0);
+    string prechr = "";
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
         string chr = ll[0].substr(3,2);
+        if (chr != prechr) {
+            cout << "Proceessing chr" << chr << " for concordance file" <<endl;
+            prechr = chr;
+        }
         int ch;
         if (chr[0] == 'U'){
             ch = 13;
@@ -11276,13 +11291,17 @@ int getConcordance_bed(parameter *para){
         cs[(ch-1)*1000000 + pos] = value;
     }
     vector<double> rate(101,0.0);
+    prechr = "";
     while(!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
-        
         string chr = ll[0].substr(3,2);
+        if (chr != prechr) {
+            cout << "Proceessing chr" << chr << " for bed file" <<endl;
+            prechr = chr;
+        }
         int ch;
         if (chr[0] == 'U'){
             ch = 13;
