@@ -11201,7 +11201,7 @@ int KmerFrequence(parameter *para){
     string line;
     string seq = "";
     string chr = "";
-    map<uint64_t, int> kf;
+    unordered_map<uint64_t, int> kf;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
