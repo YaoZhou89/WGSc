@@ -11200,12 +11200,13 @@ int KmerFrequence(parameter *para){
     ofstream ouf ((outfile).c_str());
     string line;
     string seq = "";
+    string chr = "";
     map<uint64_t, int> kf;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>') {
-            cout << "Processing " << line.substr(1,line.length()-1) << endl;
+           
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
                     uint64_t key = encode(seq.substr(i,64));
@@ -11218,7 +11219,10 @@ int KmerFrequence(parameter *para){
                         kf.insert(pair<uint64_t,int>(key,1));
                     }
                 }
+                cout <<  chr << " finished! Length is: " << seq.length() << endl;
             }
+            chr = line.substr(1,line.length()-1) ;
+            cout << "Processing " << chr << endl;
             seq = "";
             continue;
         }
@@ -11235,11 +11239,12 @@ int KmerFrequence(parameter *para){
                 kf.insert(pair<uint64_t,int>(key,1));
             }
         }
+        cout <<  chr << " finished! Length is: " << seq.length() << endl;
     }
     cout << "Total k-mer is:\t" << kf.size() << endl;
     inf.close();
     igzstream inf1 ((infile).c_str(),ifstream::in);
-    string chr;
+    
     seq = "";
     uint64_t s = 0;
     while(!inf1.eof()){
