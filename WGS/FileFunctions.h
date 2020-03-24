@@ -11163,7 +11163,7 @@ int D2B(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         if(chr != ll[0]){
-            if((start - end) > 100){
+            if((end - start) > 100){
                 ouf << chr <<"\t" << start << "\t" << end << "\n";
             }
             s = false;
@@ -11179,7 +11179,7 @@ int D2B(parameter *para){
                 end = string2Int(ll[1]);
             }
         }else{
-            if((start - end) > 100){
+            if((end - start) > 100){
                 ouf << chr <<"\t" << start << "\t" << end << "\n";
             }
             s = false;
