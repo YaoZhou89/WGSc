@@ -11208,6 +11208,7 @@ int KmerFrequence(parameter *para){
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
                     uint64_t key = encode(seq.substr(i,64));
+                    cout << key << endl;
                     if(key != -1){
                         if (kf.count(key) == 1){
                             int v = kf[key];
