@@ -300,6 +300,8 @@ int main(int argc, char * argv[]) {
                 checkNumber(para);
             }else if ((para -> type) == "modifyPAF" ){
                 modifyPAF(para);
+            }else if ((para -> type) == "getConcordance"){
+                getConcordance(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
