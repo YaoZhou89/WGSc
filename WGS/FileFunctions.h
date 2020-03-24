@@ -11205,6 +11205,7 @@ int KmerFrequence(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>') {
+            cout << "Processing " << line.substr(1,line.length()-1) << endl;
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
                     uint64_t key = encode(seq.substr(i,64));
@@ -11249,7 +11250,7 @@ int KmerFrequence(parameter *para){
         getline(inf1,line);
         if(line.length() < 1) continue;
         if (line[0] == '>'){
-            cout << seq << endl;
+            cout << "Counting " << line.substr(1,line.length()-1) << endl;
             if(seq != ""){
                 for (int i = 0; i < seq.length(); ++i){
                     uint64_t key = encode(seq.substr(i,64));
@@ -11261,7 +11262,6 @@ int KmerFrequence(parameter *para){
                 }
             }
             chr = line.substr(1,line.length()-1);
-            cout <<"chr is:\t" << chr << endl;
             seq = "";
             continue;
         }
