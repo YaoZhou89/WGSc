@@ -11228,7 +11228,7 @@ int KmerFrequence(parameter *para){
     if(seq != ""){
         for (int i = 0; i < seq.length(); ++i){
             uint64_t key = encode(seq.substr(i,64));
-            cout << key << endl;
+//            cout << key << endl;
             if(key != -1){
                 if (kf.count(key) == 1){
                     int v = kf[key];
@@ -11240,7 +11240,7 @@ int KmerFrequence(parameter *para){
             }
         }
     }
-    cout << "Total k-mer is:\t" << kf.size() << endl;
+//    cout << "Total k-mer is:\t" << kf.size() << endl;
     inf.close();
     string chr;
     while(!inf.eof()){
