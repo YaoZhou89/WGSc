@@ -11246,6 +11246,60 @@ int getConcordance(parameter *para){
     ouf.close();
     return 0;
 }
+int getConcordance_bed(parameter *para){
+    string infile = (para -> inFile); // bed file
+    string infile2 = (para -> inFile2); // concordance file
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    vector<double> cs(1300000000,0.0);
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        string chr = ll[0].substr(3,2);
+        int ch;
+        if (chr[0] == 'U'){
+            ch = 13;
+        }else{
+            ch = string2Int(chr);
+        }
+        int pos = string2Int(ll[1]);
+        double value = 0.0;
+        if(ll.size() == 10){
+            value = string2Double(ll[5]);
+        }
+        cs[(ch-1)*1000000 + pos] = value;
+    }
+    vector<double> rate(101,0.0);
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        
+        string chr = ll[0].substr(3,2);
+        int ch;
+        if (chr[0] == 'U'){
+            ch = 13;
+        }else{
+            ch = string2Int(chr);
+        }
+        for (int i = string2Int(ll[1]); i < string2Int(ll[2]); ++i){
+            int a = cs[(ch-1)*1000000 + i]*100;
+            rate[a]++;
+        }
+    }
+    for (int i = 0; i < rate.size(); ++i){
+        ouf << Double2String(0.01*i) << "\t" << rate[i] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int KmerFrequence(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
