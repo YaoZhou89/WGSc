@@ -11259,6 +11259,7 @@ int KmerFrequence(parameter *para){
                 }
             }
             chr = line.substr(1,line.length()-1);
+            cout <<"chr is:\t" << chr << endl;
             seq = "";
             continue;
         }
