@@ -426,6 +426,10 @@ uint64_t encode(string original) {
     uint64_t result = 0;
     
     for (size_t i = 0; i < length; i++) {
+        if (original[i] == 'N'){
+            result = -1;
+            break;
+        }
         result = (result << 2) | ((original[i] >> 1) & TWO_BIT_MASK);
     }
     

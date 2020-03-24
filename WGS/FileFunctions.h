@@ -11170,7 +11170,6 @@ int D2B(parameter *para){
             start = 0;
             chr = ll[0];
             end = 0;
-            continue;
         }
         if(string2Int(ll[2]) == 20 ){
             if(!s) {
@@ -11194,6 +11193,64 @@ int D2B(parameter *para){
     ouf.close();
     return 0;
 }
+int KmerFrequence(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    string seq = "";
+    map<uint64_t, int> kf;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>') {
+            if(seq != ""){
+                for (int i = 0; i < seq.length(); ++i){
+                    uint64_t key = encode(seq.substr(i,64));
+                    if(key != -1){
+                        if (kf.count(key) == 1){
+                            int v = kf[key];
+                            int nv = v + 1;
+                            kf[key] = nv;
+                        }else{
+                            kf.insert(pair<uint64_t,int>(key,1));
+                        }
+                    }
+                }
+            }
+            seq = "";
+            continue;
+        }
+        seq.append(line);
+    }
+    cout << "Total k-mer is:\t" << kf.size() << endl;
+    inf.close();
+    string chr;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '>'){
+            if(seq != ""){
+                for (int i = 0; i < seq.length(); ++i){
+                    uint64_t key = encode(seq.substr(i,64));
+                    if (key == -1){
+                        ouf << chr << "\t" << i << "\t" << 0 << "\n";
+                    }else{
+                        ouf << chr << "\t" << i << "\t" << kf[key] << "\n";
+                    }
+                }
+            }
+            chr = line.substr(1,line.length()-1);
+            continue;
+            seq = "";
+        }
+        seq.append(line);
+    }
+    ouf.close();
+    return 0;
+}
+
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
