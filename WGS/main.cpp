@@ -302,7 +302,7 @@ int main(int argc, char * argv[]) {
                 modifyPAF(para);
             }else if ((para -> type) == "getConcordance"){
                 getConcordance(para);
-            }else if ((para -> type) == "getConcordance_bed"){
+            }else if ((para -> type) == "getConcordanceBed"){
                 getConcordance_bed(para);
             }
         }else if((para->model) == "gff3"){
