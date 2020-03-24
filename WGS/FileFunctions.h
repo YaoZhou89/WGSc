@@ -11241,6 +11241,7 @@ int KmerFrequence(parameter *para){
     igzstream inf1 ((infile).c_str(),ifstream::in);
     string chr;
     seq = "";
+    uint64_t s = 0;
     while(!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1) continue;
@@ -11250,7 +11251,7 @@ int KmerFrequence(parameter *para){
                 for (int i = 0; i < seq.length(); ++i){
                     uint64_t key = encode(seq.substr(i,64));
                     if (i == 43) cout << key << endl;
-                    if (key == 0){
+                    if (key == s){
                         ouf << chr << "\t" << i << "\t" << 0 << "\n";
                     }else{
                         ouf << chr << "\t" << i << "\t" << kf[key] << "\n";
@@ -11267,7 +11268,7 @@ int KmerFrequence(parameter *para){
         for (int i = 0; i < seq.length(); ++i){
             uint64_t key = encode(seq.substr(i,64));
             if (i == 43) cout << key << endl;
-            if (key == 0){
+            if (key == s ){
                 ouf << chr << "\t" << i << "\t" << 0 << "\n";
             }else{
                 ouf << chr << "\t" << i << "\t" << kf[key] << "\n";
