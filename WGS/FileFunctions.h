@@ -11171,7 +11171,7 @@ int D2B(parameter *para){
             chr = ll[0];
             end = 0;
         }
-        if(string2Int(ll[2]) == 20 ){
+        if(string2Int(ll[2]) < 5 ){
             if(!s) {
                 start = string2Int(ll[1]);
                 s=true;
