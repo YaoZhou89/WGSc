@@ -11225,6 +11225,21 @@ int KmerFrequence(parameter *para){
         }
         seq.append(line);
     }
+    if(seq != ""){
+        for (int i = 0; i < seq.length(); ++i){
+            uint64_t key = encode(seq.substr(i,64));
+            cout << key << endl;
+            if(key != -1){
+                if (kf.count(key) == 1){
+                    int v = kf[key];
+                    int nv = v + 1;
+                    kf[key] = nv;
+                }else{
+                    kf.insert(pair<uint64_t,int>(key,1));
+                }
+            }
+        }
+    }
     cout << "Total k-mer is:\t" << kf.size() << endl;
     inf.close();
     string chr;
@@ -11247,6 +11262,16 @@ int KmerFrequence(parameter *para){
             seq = "";
         }
         seq.append(line);
+    }
+    if(seq != ""){
+        for (int i = 0; i < seq.length(); ++i){
+            uint64_t key = encode(seq.substr(i,64));
+            if (key == -1){
+                ouf << chr << "\t" << i << "\t" << 0 << "\n";
+            }else{
+                ouf << chr << "\t" << i << "\t" << kf[key] << "\n";
+            }
+        }
     }
     ouf.close();
     return 0;
