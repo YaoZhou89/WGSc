@@ -4111,7 +4111,7 @@ int ct3(parameter *para){
     ouf << "c5\t" << c5 << "\n";
     ouf << "c6\t" << c6 << "\n";
     ouf << "c7\t" << c7 << "\n";
-    ouf << "c8\t" << c7 << "\n";
+    ouf << "c8\t" << c8 << "\n";
     inf1.close();
     inf2.close();
     inf3.close();
