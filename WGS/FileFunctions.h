@@ -3495,6 +3495,7 @@ int Q2CLUMPP(parameter *para){
         cerr << "Couldn't open inFile" << endl;
         return 0;
     }
+
     string outFile = (para ->outFile);
     ofstream ouf (outFile.c_str());
     string line;
@@ -4017,7 +4018,7 @@ int ct3(parameter *para){
     }
     vector <string> ll;
     set<int> gi1,gi2,gi3;
-    int c1 = 0, c2 = 0, c3 =0, c4 = 0,c5 = 0,c6 = 0, c7 = 0;
+    int c1 = 0, c2 = 0, c3 =0, c4 = 0,c5 = 0,c6 = 0, c7 = 0,c8=0;
     while(!vcf.eof()){
         getline(vcf,line);
         if(line.length()<1) continue;
@@ -4100,7 +4101,7 @@ int ct3(parameter *para){
         if(!s1 && !s2 && s3){
             c7++;
         }else{
-            c1++;
+            c8++;
         }
     }
     ouf << "c1\t" << c1 << "\n";
@@ -4110,6 +4111,7 @@ int ct3(parameter *para){
     ouf << "c5\t" << c5 << "\n";
     ouf << "c6\t" << c6 << "\n";
     ouf << "c7\t" << c7 << "\n";
+    ouf << "c8\t" << c7 << "\n";
     inf1.close();
     inf2.close();
     inf3.close();
@@ -4118,10 +4120,10 @@ int ct3(parameter *para){
     return 1;
 }
 int ct2(parameter *para){
-    string inFile1 = (para->inFile);
-    string inFile2 = (para->inFile2);
-    string bedFile = (para->bedFile);
-    string outFile = (para->outFile);
+    string inFile1 = (para->inFile);//group1
+    string inFile2 = (para->inFile2);//group2
+    string bedFile = (para->bedFile);//vcf
+    string outFile = (para->outFile);//output
     igzstream inf1 ((inFile1).c_str(),ifstream::in);
     igzstream inf2 ((inFile2).c_str(),ifstream::in);
     igzstream vcf ((bedFile).c_str(),ifstream::in);
