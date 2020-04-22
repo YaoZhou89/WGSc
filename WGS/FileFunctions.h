@@ -4299,6 +4299,45 @@ int ct1(parameter *para){
     ouf.close();
     return 1;
 }
+int dotdot(parameter *para){
+    string inFile1 = (para->inFile);//group1
+    string outFile = (para->outFile);//output
+    igzstream vcf ((inFile1).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    vector <string> ll;
+    int c1 = 0, c2 = 0;
+    string line;
+    while(!vcf.eof()){
+        getline(vcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' ) continue;
+        
+        ll.clear();
+        bool s1 = true,s2 = true;
+        int sum = 0;
+        split(line,ll," \t");
+        int pre = -1;
+        for(int i = 9; i<ll.size(); ++i){
+            if(ll[i][0] == '.') continue;
+            if(ll[i][0] == '0' & ll[i][2] == '0'){
+                if(pre < 0) pre = 0;
+                if (pre == 1) s1 = false;
+            }else if (ll[i][0] == '1' & ll[i][2] == '1') {
+                if(pre < 0) pre = 1;
+                if (pre == 0) s2 = false;
+            }
+        }
+        if(s1 && !s2 ){
+            c1++; // shared SNPs
+        }else if (!s1 && s2){
+            c2++;
+        }
+    }
+    ouf << "allelic in 0/0 or ./.: \t" << c1 << "\n";
+    ouf << "allelic in 1/1 or ./.: \t" << c2 << "\n";
+    ouf.close();
+    return 1;
+}
 int getFasta(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
