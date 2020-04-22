@@ -4048,6 +4048,7 @@ int ct3(parameter *para){
         int sum = 0;
         split(line,ll," \t");
         for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
+            if(ll[*it][0]=='.') continue;
             n++;
             if(ll[*it][0]=='1'){
                 sum++;
@@ -4061,6 +4062,7 @@ int ct3(parameter *para){
         n = 0;
         sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
+            if(ll[*it][0] == '.') continue;
             n++;
             if(ll[*it][0]=='1'){
                 sum++;
@@ -4074,6 +4076,7 @@ int ct3(parameter *para){
         n = 0;
         sum = 0;
         for(set<int>::iterator it=gi3.begin() ;it!=gi3.end();it++){
+            if(ll[*it][0]=='.') continue;
             n++;
             if(ll[*it][0]=='1'){
                 sum++;
