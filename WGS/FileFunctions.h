@@ -4321,10 +4321,17 @@ int dotdot(parameter *para){
             if(ll[i][0] == '.') continue;
             if(ll[i][0] == '0' & ll[i][2] == '0'){
                 if(pre < 0) pre = 0;
-                if (pre == 1) s1 = false;
+                if (pre == 1) {
+                    s1 = false;
+                    break;
+                }
+                
             }else if (ll[i][0] == '1' & ll[i][2] == '1') {
                 if(pre < 0) pre = 1;
-                if (pre == 0) s2 = false;
+                if (pre == 0) {
+                    s2 = false;
+                    break;
+                }
             }
         }
         if(s1 && !s2 ){
