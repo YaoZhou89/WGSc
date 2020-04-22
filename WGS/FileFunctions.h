@@ -4327,7 +4327,7 @@ int dotdot(parameter *para){
                 sum++;
             }
         }
-        if (sum==0) s1=true;
+        if (n != ll.size()-9 && sum==0 ) s1=true;
         if (sum == 2*n) s2= true;
         if(s1){
             c1++; // shared SNPs
