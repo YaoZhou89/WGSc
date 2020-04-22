@@ -4044,7 +4044,8 @@ int ct3(parameter *para){
         };
         ll.clear();
         bool s1 = false,s2 = false,s3 = false;
-        int n = 0,sum = 0;
+        int n = 0;
+        int sum = 0;
         split(line,ll," \t");
         for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
             n++;
@@ -4057,7 +4058,8 @@ int ct3(parameter *para){
         }
         if((2*n-sum)>0 && sum > 0) s1= true;
         
-        n = 0,sum = 0;
+        n = 0;
+        sum = 0;
         for(set<int>::iterator it=gi2.begin() ;it!=gi2.end();it++){
             n++;
             if(ll[*it][0]=='1'){
@@ -4069,7 +4071,8 @@ int ct3(parameter *para){
         }
         if((2*n-sum)>0 && sum > 0) s2= true;
         
-        n = 0,sum = 0;
+        n = 0;
+        sum = 0;
         for(set<int>::iterator it=gi3.begin() ;it!=gi3.end();it++){
             n++;
             if(ll[*it][0]=='1'){
@@ -4083,22 +4086,22 @@ int ct3(parameter *para){
         if(s1 && s2 && s3){
             c1++;
         }else
-        if(s1 && s2 && !s3){
+        if(s1 && s2 && (!s3)){
             c2++;
         }else
-        if(s1 && !s2 && s3){
+        if(s1 && (!s2) && s3){
             c3++;
         }else
-        if(!s1 && s2 && s3){
+        if((!s1) && s2 && s3){
             c4++;
         }else
-        if(s1 && !s2 && !s3){
+        if(s1 && (!s2) && (!s3)){
             c5++;
         }else
-        if(!s1 && s2 && !s3){
+        if((!s1) && s2 && (!s3)){
             c6++;
         }else
-        if(!s1 && !s2 && s3){
+        if((!s1) && (!s2) && s3){
             c7++;
         }else{
             c8++;
@@ -4279,10 +4282,6 @@ int ct1(parameter *para){
             }
         }
         if((2*n-sum)>0 && sum > 0) s1= true;
-        
-        
-        
-        
         if(s1 ){
             c1++; // shared SNPs
         }else{
