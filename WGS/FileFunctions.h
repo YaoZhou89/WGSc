@@ -4222,6 +4222,81 @@ int ct2(parameter *para){
     ouf.close();
     return 1;
 }
+int ct1(parameter *para){
+    string inFile1 = (para->inFile);//group1
+//    string inFile2 = (para->inFile2);//group2
+    string bedFile = (para->bedFile);//vcf
+    string outFile = (para->outFile);//output
+    igzstream inf1 ((inFile1).c_str(),ifstream::in);
+//    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    igzstream vcf ((bedFile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    set <string> g1;
+//    set <string> g2;
+    string line;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        g1.insert(line);
+    }
+    cout << "group1 readed!" << endl;
+
+    vector <string> ll;
+    set<int> gi1;
+    int c1 = 0, c2 = 0, c3 =0, c4 = 0;
+    while(!vcf.eof()){
+        getline(vcf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1]=='#') continue;
+        if(line[0]=='#' && line[1]=='C') {
+            cout << "headering.." << endl;
+            ll.clear();
+            split(line,ll," \t");
+            for(int i = 9; i < ll.size(); ++i){
+                if(g1.count(ll[i])==1){
+                    gi1.insert(i);
+                }else{
+                    continue;
+                }
+            }
+            cout << "group1 size is: " << gi1.size() << endl;
+            continue;
+        };
+        ll.clear();
+        bool s1 = false;
+        int n = 0,sum = 0;
+        split(line,ll," \t");
+        for(set<int>::iterator it=gi1.begin() ;it!=gi1.end();it++){
+            if(ll[*it][0]=='.'){
+                continue;
+            }
+            n++;
+            if(ll[*it][0]=='1'){
+                sum++;
+            }
+            if(ll[*it][2]=='1'){
+                sum++;
+            }
+        }
+        if((2*n-sum)>0 && sum > 0) s1= true;
+        
+        
+        
+        
+        if(s1 ){
+            c1++; // shared SNPs
+        }else{
+//            cerr << "No cater found! sum is: " << sum << endl;
+            c2++; // not allelic in both
+        }
+    }
+    ouf << "allelic in group1: \t" << c1 << "\n";
+    ouf << "non-allelic: \t" << c2 << "\n";
+    inf1.close();
+    vcf.close();
+    ouf.close();
+    return 1;
+}
 int getFasta(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
