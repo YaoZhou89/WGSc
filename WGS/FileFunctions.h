@@ -4313,30 +4313,25 @@ int dotdot(parameter *para){
         if(line[0]=='#' ) continue;
         
         ll.clear();
-        bool s1 = true,s2 = true;
-        int sum = 0;
+        bool s1 = false,s2 = false;
+        int n = 0,sum = 0;
         split(line,ll," \t");
         int pre = -1;
         for(int i = 9; i<ll.size(); ++i){
             if(ll[i][0] == '.') continue;
-            if(ll[i][0] == '0' & ll[i][2] == '0'){
-                if(pre < 0) pre = 0;
-                if (pre == 1) {
-                    s1 = false;
-                    break;
-                }
-                
-            }else if (ll[i][0] == '1' & ll[i][2] == '1') {
-                if(pre < 0) pre = 1;
-                if (pre == 0) {
-                    s2 = false;
-                    break;
-                }
+            n++;
+            if(ll[i][0] == '1'){
+                sum++;
+            }
+            if(ll[i][2] == '1'){
+                sum++;
             }
         }
-        if(s1 && !s2 ){
+        if (sum==0) s1=true;
+        if (sum == 2*n) s2= true;
+        if(s1){
             c1++; // shared SNPs
-        }else if (!s1 && s2){
+        }else if (s2){
             c2++;
         }
     }
