@@ -4326,6 +4326,7 @@ int dotdot(parameter *para){
             if(ll[i][0] == '1'){
                 sum++;
             }
+            
             if(ll[i][2] == '1'){
                 sum++;
             }
