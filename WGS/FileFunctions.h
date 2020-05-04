@@ -1326,18 +1326,24 @@ int SNPs100window(parameter *para){
     string line;
     vector <string> ll;
     vector<int> pos;
-    string chr;
+    string chr = (para -> chr);
     while(!inF.eof()){
         getline(inF, line);
         if(line.length() < 1) continue;
         if(line[0]=='#') continue;
         split(line,ll," \t");
+        if (ll[0] != chr) continue;
         int p = string2Int(ll[1]);
-        chr = ll[0];
         pos.push_back(p);
     }
-    for (int i = 0; i < pos.size() - 101; i = i + 100){
-        int a = pos[i+100] - pos[i];
+    for (int i = 0; i < pos.size() ; i = i + 50){
+        int b;
+        if ((i + 100) > (pos.size() - 1)){
+            b = pos.size() -1;
+        }else{
+            b = i + 100;
+        }
+        int a = pos[b] - pos[i];
         ouf <<  chr << "\t" << i << "\t" << i+100 << "\t" << a << "\n";
     }
     
