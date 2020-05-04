@@ -1312,6 +1312,38 @@ int meanBedpi(parameter *para){
     ouf.close();
     return 1;
 }
+int SNPs100window(parameter *para){
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string line;
+    vector <string> ll;
+    vector<int> pos;
+    string chr;
+    while(!inF.eof()){
+        getline(inF, line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#') continue;
+        split(line,ll," \t");
+        int p = string2Int(ll[1]);
+        chr = ll[0];
+        pos.push_back(p);
+    }
+    for (int i = 0; i < pos.size() - 101; i = i + 100){
+        int a = pos[i+100] - pos[i];
+        ouf <<  chr << "\t" << i << "\t" << i+100 << "\t" << a << "\n";
+    }
+    
+    ouf.close();
+    return 1;
+}
 int depthEvaluation(parameter *para){
     igzstream inf1 ((para->inFile).c_str(),ifstream::in);
     igzstream inf2 ((para->inFile2).c_str(),ifstream::in);
