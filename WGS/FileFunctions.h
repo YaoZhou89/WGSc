@@ -1338,7 +1338,7 @@ int SNPs100window(parameter *para){
         pos.push_back(p);
 
     }
-    for (int i = 0; i < pos.size() ; i = i + 50){
+    for (int i = 0; i < pos.size() ; i = i + 100){
         int b;
         if ((i + 100) > (pos.size() - 1)){
             b = pos.size() -1;
