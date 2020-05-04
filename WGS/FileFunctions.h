@@ -1313,6 +1313,7 @@ int meanBedpi(parameter *para){
     return 1;
 }
 int SNPs100window(parameter *para){
+    cout << "100-SNPs window size.." << endl;
     igzstream inF ((para->inFile).c_str(),ifstream::in);
     if(inF.fail()){
         cerr << "Open file error: " << (para->inFile) << endl;
