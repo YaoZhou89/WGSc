@@ -1336,6 +1336,7 @@ int SNPs100window(parameter *para){
         if (ll[0] != chr) continue;
         int p = string2Int(ll[1]);
         pos.push_back(p);
+
     }
     for (int i = 0; i < pos.size() ; i = i + 50){
         int b;
@@ -1345,7 +1346,7 @@ int SNPs100window(parameter *para){
             b = i + 100;
         }
         int a = pos[b] - pos[i];
-        ouf <<  chr << "\t" << i << "\t" << i+100 << "\t" << a << "\n";
+        ouf <<  chr << "\t" << pos[i] << "\t" << pos[b] << "\t" << a << "\n";
     }
     
     ouf.close();
