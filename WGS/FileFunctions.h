@@ -1328,6 +1328,7 @@ int SNPs100window(parameter *para){
     vector <string> ll;
     vector<int> pos;
     string chr = (para -> chr);
+    int step_size = (para ->step_size);
     while(!inF.eof()){
         getline(inF, line);
         if(line.length() < 1) continue;
@@ -1338,9 +1339,9 @@ int SNPs100window(parameter *para){
         pos.push_back(p);
 
     }
-    for (int i = 0; i < pos.size() ; i = i + 100){
+    for (int i = 0; i < pos.size() ; i = i + step_size){
         int b;
-        if ((i + 100) > (pos.size() - 1)){
+        if ((i + step_size) > (pos.size() - 1)){
             b = pos.size() -1;
         }else{
             b = i + 100;
