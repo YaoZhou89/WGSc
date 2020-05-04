@@ -1346,7 +1346,7 @@ int SNPs100window(parameter *para){
             b = i + 100;
         }
         int a = pos[b] - pos[i];
-        ouf <<  chr << "\t" << pos[i] << "\t" << pos[b] << "\t" << a << "\n";
+        ouf <<  chr << "\t" << pos[i]-1 << "\t" << pos[b]-1 << "\t" << a << "\n";
     }
     
     ouf.close();
