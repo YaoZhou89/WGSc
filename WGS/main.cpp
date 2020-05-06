@@ -148,6 +148,8 @@ int main(int argc, char * argv[]) {
                 vcfAddID(para);
             }else if ((para->type) == "SNPs100window"){
                 SNPs100window(para);
+            }else if ((para->type) == "siteOverlap"){
+                siteOverlap(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
