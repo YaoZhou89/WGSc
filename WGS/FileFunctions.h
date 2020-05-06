@@ -11826,6 +11826,7 @@ int getGenomeMasked (parameter *para){
             seq.append(line);
         }
     }
+    cout << chr <<" length is:\t" << seq.length() << endl;
     for (int i = 0; i < seq.length(); ++i){
         if (seq[i] == 'N') continue;
         ouf << chr << "\t" << i << "\n";
