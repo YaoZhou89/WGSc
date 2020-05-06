@@ -4038,7 +4038,6 @@ int splitByChrNoHeader(parameter *para){
     }
     vector<string> ll;
     string chr = "";
-    ofstream ouf ;
     bool first = true;
     string  line ;
     while(!inf.eof()){
