@@ -120,6 +120,8 @@ int main(int argc, char * argv[]) {
                 getGeneticDistanceRef(para);
             }else if((para->type) =="intersect"){
                 getIntersectVcf(para);
+            }else if ((para->type) == "getUnIntersectBed"){
+                getUnIntersectBed(para);
             }else if((para->type) =="unintersect"){
                 getUnIntersectVcf(para);
             }else if ((para->type) == "toEigenStrat"){

@@ -10228,6 +10228,56 @@ int getIntersectVcf(parameter *para){
     
     return 0;
 }
+int getUnIntersectBed(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2); //bed file
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> sites;
+    vector<string> ll;
+    vector<int> np;
+    
+    cout << "Reading sites..." << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,1)=="#") continue;
+        ll.clear();
+        split(line,ll,"\t");
+        for (int i = string2Int(ll[1]); i < string2Int(ll[2]); ++i){
+            sites.insert(ll[0]+"_"+Int2String(i));
+        }
+    }
+    cout << "Total sites is:\t" << sites.size() << endl;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,2) == "##") {
+            ouf << line << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if(line[0] == '#' && line[1] == 'C'){
+            cout << "Reading VCF file..." << endl;
+            ouf << line;
+            ouf << "\n";
+            continue;
+        }
+        if(sites.count(ll[0]+"_"+ll[1]) == 0 ){
+            ouf << line << "\n";
+        }
+    }
+    inf.close();
+    inf2.close();
+    ouf.close();
+    
+    return 0;
+}
 int siteOverlap(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
