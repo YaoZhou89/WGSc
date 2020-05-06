@@ -419,6 +419,8 @@ int main(int argc, char * argv[]) {
                 modifyGenome(para);
             }else if ((para->type) == "KmerFrequence"){
                 KmerFrequence(para);
+            }else if ((para -> type) == "getGenomeMasked"){
+                getGenomeMasked(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){

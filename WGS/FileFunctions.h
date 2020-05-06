@@ -11802,7 +11802,37 @@ int getKmer(parameter *para){
     ouf.close();
     return 0;
 }
-
+int getGenomeMasked (parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string chr = "";
+    string line;
+    string seq = "";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '>'){
+            if (seq == "") continue;
+            for (int i = 0; i < seq.length(); ++i){
+                if (seq[i] == 'N') continue;
+                ouf << chr <<" length is:\t" << seq.length() << endl;
+                ouf << chr << "\t" << i << "\n";
+            }
+            chr = line.substr(1,line.length()-1);
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    for (int i = 0; i < seq.length(); ++i){
+        if (seq[i] == 'N') continue;
+        ouf << chr << "\t" << i << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int BSAseq (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
