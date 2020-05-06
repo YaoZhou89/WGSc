@@ -4031,7 +4031,7 @@ int splitByChrNoHeader(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
     igzstream inf ((inFile.c_str()),fstream::in);
-    
+    ofstream ouf;
     if(inf.fail()){
         cerr << "Couldn't open inFile" << endl;
         return 0 ;
@@ -4055,13 +4055,13 @@ int splitByChrNoHeader(parameter *para){
                 first = false;
                 chr = ll[0];
                 string outname = outFile + "."  + chr + ".txt";
-                ofstream ouf ((outname.c_str()));
+                ouf ((outname.c_str()));
                 ouf << line << "\n" ;
-                continue;
             }else{
                 ouf.close();
+                chr = ll[0];
                 string outname = outFile + "." + chr + ".txt";
-                ofstream ouf ((outname.c_str()));
+                ouf ((outname.c_str()));
                 ouf << line << "\n" ;
             }
         }
