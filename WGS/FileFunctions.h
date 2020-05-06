@@ -4027,6 +4027,51 @@ int splitByChr(parameter *para){
     
     return 1;
 }
+int splitByChrNoHeader(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    vector<string> ll;
+    string chr = "";
+    ofstream ouf ;
+    bool first = true;
+    string  line ;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 )  {
+            continue  ;
+        }
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]==chr){
+            ouf << line << "\n" ;
+        }else{
+            if(first){
+                first = false;
+                chr = ll[0];
+                string outname = outFile + "."  + chr + ".txt";
+                ofstream ouf ((outname.c_str()));
+                ouf << line << "\n" ;
+                continue;
+            }else{
+                ouf.close();
+                string outname = outFile + "." + chr + ".txt";
+                ofstream ouf ((outname.c_str()));
+                ouf << line << "\n" ;
+            }
+        }
+    }
+    
+    inf.close();
+    ouf.close();
+    
+    return 1;
+}
 int ct3(parameter *para){
     string inFile1 = (para->inFile);
     string inFile2 = (para->inFile2);
