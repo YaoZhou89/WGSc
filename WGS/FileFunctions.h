@@ -4031,14 +4031,14 @@ int splitByChrNoHeader(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
     igzstream inf ((inFile.c_str()),fstream::in);
-    ofstream ouf;
     if(inf.fail()){
         cerr << "Couldn't open inFile" << endl;
         return 0 ;
     }
+    ofstream ouf ((outFile.c_str()));
     vector<string> ll;
-    string chr = "";
-    bool first = true;
+    string chr = (para->chr);
+    
     string  line ;
     while(!inf.eof()){
         getline(inf,line);
@@ -4049,20 +4049,6 @@ int splitByChrNoHeader(parameter *para){
         split(line,ll," \t");
         if(ll[0]==chr){
             ouf << line << "\n" ;
-        }else{
-            if(first){
-                first = false;
-                chr = ll[0];
-                string outname = outFile + "."  + chr + ".txt";
-                ouf ((outname.c_str()));
-                ouf << line << "\n" ;
-            }else{
-                ouf.close();
-                chr = ll[0];
-                string outname = outFile + "." + chr + ".txt";
-                ouf ((outname.c_str()));
-                ouf << line << "\n" ;
-            }
         }
     }
     
