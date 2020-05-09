@@ -6432,37 +6432,41 @@ int GeneratepsmcDiploid(parameter *para){
     string chr;
     string seq = "";
     map<string,string> genome;
-    
+    bool start = true;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>'){
             chr = line.substr(1,line.length()-1);
-            if(seq != "") {
+            if(!start) {
                 genome.insert(pair<string, string>(chr,seq));
             }
+            start = false;
             seq = "";
         }else{
             seq.append(line);
         }
     }
     genome.insert(pair<string, string>(chr,seq));
-    cout << genome.size() << " chromosomes readed!" << endl;
+    cout << genome.size() << " chromosomes readed for genome1!" << endl;
     map<string,string> genome2;
     seq = "";
+    start = true;
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         if(line[0] == '>'){
             chr = line.substr(1,line.length()-1);
-            if(seq != "") {
+            if(!start) {
                 genome2.insert(pair<string, string>(chr,seq));
             }
+            start = false;
             seq = "";
         }else{
             seq.append(line);
         }
     }
+    cout << genome.size() << " chromosomes readed for genome2!" << endl;
     map<string,string> table;
     table.insert(pair<string,string>("AC","M"));
     table.insert(pair<string,string>("AT","W"));
@@ -6487,6 +6491,7 @@ int GeneratepsmcDiploid(parameter *para){
     
     for (int i = 1; i < 43;++i){
         string c = Int2String(i);
+        if(genome.count(c) == 0) continue;
         string seq1 = genome[c];
         string seq2 = genome2[c];
         ouf << ">" << c << "\n";
