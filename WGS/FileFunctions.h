@@ -6368,6 +6368,58 @@ int pwFrequence(parameter *para){
     ouf.close();
     return 0;
 }
+int GenerateDiploid(parameter *para){
+    string infile = (para->inFile);
+    string group = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    set<string> name1 ;
+    set<string> name2;
+    vector<string> n1 ;
+    vector<string> n2;
+    getName(name1,name2,n1,n2,group);
+    vector<int> na1;
+    vector<int> na2;
+    vector<int> na;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#' && line[1] == '#') {
+            ouf << line << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll," \t");
+        if(line[0]=='#' && line[1] == 'C') {
+            na1 = getPos(ll,name1);
+            na2 = getPos(ll,name2);
+            for (int i = 0 ; i < 8; ++i){
+                ouf << ll[i] << "\t";
+            }
+            ouf << ll[8];
+            for (int i = 0; i < na1.size();++i){
+                ouf << "\t" << n1[i] << "_" << n2[i];
+            }
+            ouf << "\n";
+            continue;
+        }
+        for (int i = 0; i< 8;++i){
+            ouf << ll[i] << "\t";
+        }
+        ouf << ll[8] ;
+        for (int i = 0; i< na1.size();++i){
+            int p = rand() % 2;
+            if (p==1) p++;
+            ouf <<"\t" << ll[na1[i]][p] << "|" << ll[na1[i]][p];
+        }
+    }
+    
+    ouf.close();
+    return 0;
+}
 
 int writeMAF(parameter *para){
     string infile = (para->inFile);

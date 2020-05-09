@@ -228,6 +228,22 @@ set <string> getSubgroup(string& inFile){
     inf.close();
     return names;
 }
+void getName(set<string> &name1,set<string> &name2, vector<string> &n1, vector<string> &n2, string &inFile){
+    igzstream inf ((inFile.c_str()),ifstream::in);
+    if(inf.fail()) throw std::runtime_error("invalid subgroup files!");
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        name1.insert(ll[0]);
+        name2.insert(ll[1]);
+        n1.push_back(ll[0]);
+        n2.push_back(ll[1]);
+    }
+}
 set <string> getSubgroup(string& inFile,int pos){
     set<string> names ;
     igzstream inf ((inFile.c_str()),ifstream::in);
