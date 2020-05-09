@@ -6495,6 +6495,7 @@ int GeneratepsmcDiploid(parameter *para){
         string seq1 = genome[c];
         string seq2 = genome2[c];
         ouf << ">" << c << "\n";
+        if (seq1.length()!=seq2.length()) cerr << "length is different!" << endl;
         for (int j = 0; j < seq1.length();j++){
             if(seq1[j] == seq2[j]){
                 ouf << seq1[j];
