@@ -427,6 +427,8 @@ int main(int argc, char * argv[]) {
                 KmerFrequence(para);
             }else if ((para -> type) == "getGenomeMasked"){
                 getGenomeMasked(para);
+            }else if ((para -> type) == "GeneratepsmcDiploid"){
+                GeneratepsmcDiploid(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){

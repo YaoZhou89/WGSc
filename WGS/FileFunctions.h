@@ -6421,6 +6421,91 @@ int GenerateDiploid(parameter *para){
     ouf.close();
     return 0;
 }
+int GeneratepsmcDiploid(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    string chr;
+    string seq = "";
+    map<string,string> genome;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            chr = line.substr(1,line.length()-1);
+            if(seq != "") {
+                genome.insert(pair<string, string>(chr,seq));
+            }
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    genome.insert(pair<string, string>(chr,seq));
+    cout << genome.size() << " chromosomes readed!" << endl;
+    map<string,string> genome2;
+    seq = "";
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            chr = line.substr(1,line.length()-1);
+            if(seq != "") {
+                genome2.insert(pair<string, string>(chr,seq));
+            }
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    map<string,string> table;
+    table.insert(pair<string,string>("AC","M"));
+    table.insert(pair<string,string>("AT","W"));
+    table.insert(pair<string,string>("AG","R"));
+    table.insert(pair<string,string>("CA","M"));
+    table.insert(pair<string,string>("CG","S"));
+    table.insert(pair<string,string>("CT","Y"));
+    table.insert(pair<string,string>("GA","R"));
+    table.insert(pair<string,string>("GC","S"));
+    table.insert(pair<string,string>("GT","K"));
+    table.insert(pair<string,string>("TA","W"));
+    table.insert(pair<string,string>("TC","Y"));
+    table.insert(pair<string,string>("TG","K"));
+    table.insert(pair<string,string>("AN","N"));
+    table.insert(pair<string,string>("TN","N"));
+    table.insert(pair<string,string>("GN","N"));
+    table.insert(pair<string,string>("CN","N"));
+    table.insert(pair<string,string>("NA","N"));
+    table.insert(pair<string,string>("NT","N"));
+    table.insert(pair<string,string>("NG","N"));
+    table.insert(pair<string,string>("NC","N"));
+    
+    for (int i = 1; i < 43;++i){
+        string c = Int2String(i);
+        string seq1 = genome[c];
+        string seq2 = genome2[c];
+        ouf << ">" << c << "\n";
+        for (int j = 0; j < seq1.length();j++){
+            if(seq1[j] == seq2[j]){
+                ouf << seq1[j];
+            }else{
+                string key = seq1.substr(j,1) + seq2.substr(j,1);
+                ouf << table[key];
+            }
+            if((j+1) % 100 == 0){
+                ouf << "\n";
+            }
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 
 int writeMAF(parameter *para){
     string infile = (para->inFile);
