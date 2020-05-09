@@ -6399,7 +6399,7 @@ int GenerateDiploid(parameter *para){
             for (int i = 0 ; i < 8; ++i){
                 ouf << ll[i] << "\t";
             }
-            ouf << "GT";
+            ouf << ll[8];
             for (int i = 0; i < na1.size();++i){
                 ouf << "\t" << n1[i] << "_" << n2[i] ;
             }
@@ -6409,7 +6409,7 @@ int GenerateDiploid(parameter *para){
         for (int i = 0; i< 8;++i){
             ouf << ll[i] << "\t";
         }
-        ouf << ll[8] ;
+        ouf << "GT" ;
         for (int i = 0; i< na1.size();++i){
             int p = rand() % 2;
             if (p==1) p++;
