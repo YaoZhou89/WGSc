@@ -6969,6 +6969,46 @@ int gff2exon(parameter *para){
     }
     return 0;
 }
+int gff2exon10Kb(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector <string> ll;
+    string chr = (para->chr);
+    cout << "reading gff3 file..." << endl;
+    gff3 g3 = gff3(infile,chr);
+    map<string,transcript> trans = g3.long_transcripts;
+    map<string,transcript>::iterator it;
+    it = trans.begin();
+    cout << "genes number is:\t"<< trans.size() << endl;
+    vector<int> exon(500000000,0);
+    while(it != trans.end()){
+        transcript tr = it->second;
+        string ID = tr.ID;
+        vector<CDS> CDSs = g3.CDSs[ID];
+        int csize = CDSs.size();
+        if(tr.chr != chr){
+            it++;
+            continue;
+        }
+        for (int j = 0; j < csize; j++){
+            int cs = CDSs[j].start-10000;
+            int ce = CDSs[j].end+10000;
+            for(int i = cs; i < ce+1; ++i){
+                exon[i] = 1;
+            }
+        }
+        it++;
+    }
+    for(int i = 0; i < 500000000;++i){
+        if(exon[i]==1){
+            ouf << chr << "\t" << i << "\n";
+        }
+    }
+    
+    return 0;
+}
 int gff2genicsite(parameter *para){
     string infile = (para->inFile);
     string outfile = (para->outFile);
