@@ -6532,7 +6532,7 @@ int frq2dxy(parameter *para){
         split(line2,ll2,"\t");
         if(ll[1] != ll2[1]) cerr << "Frequency files do not matcht, stoped!" << endl;
         ouf << ll[0] << "\t" << ll[1] << "\t";
-        if (ll[3] == "0") {
+        if (ll[3][0] == '0' | ll2[3][0] == '0') {
             ouf << 0 << "\n";
             continue;
         }
