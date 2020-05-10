@@ -6512,6 +6512,44 @@ int GeneratepsmcDiploid(parameter *para){
     ouf.close();
     return 0;
 }
+int frq2dxy(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line,line2;
+    vector<string> ll,ll2;
+    double p1 = 0, p2 = 0;
+    while(!inf.eof()){
+        getline(inf,line);
+        getline(inf2,line2);
+        if(line.length() < 1) continue;
+        if(line2.length() < 1) continue;
+        if(line[0] == 'C') continue;
+        split(line,ll,"\t");
+        split(line2,ll2,"\t");
+        if(ll[1] != ll2[1]) cerr << "Frequency files do not matcht, stoped!" << endl;
+        ouf << ll[0] << "\t" << ll[1] << "\t";
+        if (ll[3] == "0") {
+            ouf << 0 << "\n";
+            continue;
+        }
+        string a1 = ll[4];
+        string a2 = ll2[4];
+        ll.clear();
+        ll2.clear();
+        split(a1,ll,":");
+        split(a2,ll2,":");
+        p1 = string2Double(ll[1]);
+        p2 = string2Double(ll2[1]);
+        double dxy = p1*(1-p2) + p2*(1-p1);
+        ouf << dxy << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 
 int writeMAF(parameter *para){
     string infile = (para->inFile);

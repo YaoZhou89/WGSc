@@ -312,6 +312,8 @@ int main(int argc, char * argv[]) {
                 getConcordance(para);
             }else if ((para -> type) == "getConcordanceBed"){
                 getConcordance_bed(para);
+            }else if ((para -> type) == "frq2dxy"){
+                frq2dxy(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
