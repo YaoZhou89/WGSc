@@ -346,6 +346,20 @@ vector <int> getPos(vector <string> & ll, set<string> na){
     }
     return pos;
 }
+void getPos(vector <string> & ll, vector<string> &ll1, vector<string> &ll2, vector<int> &l1, vector<int> &l2){
+    map<string,int> pos;
+    
+    for(int i =9; i<ll.size(); ++i){
+        pos.insert(pair<string,int>(ll[i],i));
+    }
+    for (int i =0; i < ll1.size();++i){
+        l1.push_back(pos[ll1[i]]);
+    }
+    for (int i = 0; i<ll2.size();++i){
+        l2.push_back(pos[ll2[i]]);
+    }
+    
+}
 vector <int> getPos(vector <string> & ll, set<string> na,int start){
     vector<int> pos;
     for(int i = start; i<ll.size();++i){

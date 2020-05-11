@@ -6394,8 +6394,7 @@ int GenerateDiploid(parameter *para){
         ll.clear();
         split(line,ll," \t");
         if(line[0]=='#' && line[1] == 'C') {
-            na1 = getPos(ll,name1);
-            na2 = getPos(ll,name2);
+            getPos(ll,n1,n2,na1,na2);
             for (int i = 0 ; i < 8; ++i){
                 ouf << ll[i] << "\t";
             }
