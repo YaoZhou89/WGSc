@@ -6474,9 +6474,9 @@ int GeneratepsmcDiploid(parameter *para){
                 genome1.insert(pair<string, string>(chr,seq1));
                 gq1.insert(pair<string,string>(chr,qs1));
                 seqfinished = false;
-                cout << "seq length is:\t" << seq1.length() << endl;
-                cout << "quality length is:\t" << qs1.length() << endl;
-                cout << qs1[0] << endl;
+//                cout << "seq length is:\t" << seq1.length() << endl;
+//                cout << "quality length is:\t" << qs1.length() << endl;
+//                cout << qs1[0] << endl;
             }
             start = false;
             seq1 = "";
@@ -6484,6 +6484,7 @@ int GeneratepsmcDiploid(parameter *para){
         }else{
             if(line[0] == '+' && line.length() < 2){
                 seqfinished = true;
+                continue;
             }
             if(seqfinished){
                 qs1.append(line);
