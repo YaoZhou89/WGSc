@@ -6548,7 +6548,7 @@ int concensusGenome(parameter *para){
         if(pos.count(i) == 0){
             ouf << "N";
         }else{
-            ouf << pos[i];
+            ouf << seq[i];
         }
         if(i%80 == 0) {
             ouf << "\n";
