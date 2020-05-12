@@ -6551,7 +6551,7 @@ int concensusGenome(parameter *para){
         }else{
             ouf << seq[i];
         }
-        if(i%80 == 0) {
+        if((i+1)%80 == 0) {
             ouf << "\n";
         }
     }
