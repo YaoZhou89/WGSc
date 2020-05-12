@@ -6476,7 +6476,7 @@ int GeneratepsmcDiploid(parameter *para){
                 seqfinished = false;
                 cout << "seq length is:\t" << seq1.length() << endl;
                 cout << "quality length is:\t" << qs1.length() << endl;
-                cout << qs1[qs1.length()-1] << endl;
+                cout << qs1[0] << endl;
             }
             start = false;
             seq1 = "";
