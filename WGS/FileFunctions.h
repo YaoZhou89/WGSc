@@ -6518,7 +6518,7 @@ int concensusGenome(parameter *para){
     string line;
     string chr = (para->chr);
     bool run = false;
-    string seq="";
+    string seq = "";
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -6535,12 +6535,13 @@ int concensusGenome(parameter *para){
             }
         }
     }
+    cout << "chromosome readed!" << endl;
     set<int> pos;
     vector<string> ll;
     while(!inf2.eof()){
         getline(inf2,line);
-        if(line.length() < 0) continue;
-        split(line,ll);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
         pos.insert(string2Int(ll[1])-1);
     }
     ouf << ">" << chr << "\n";
