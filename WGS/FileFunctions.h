@@ -6494,7 +6494,7 @@ int GeneratepsmcDiploid(parameter *para){
     gq1.insert(pair<string,string>(chr,qs1));
     cout << genome2.size() << " chromosomes readed for genome2!" << endl;
     
-    for (int i = 1; i < 43;++i){
+    for (int i = 1; i < 43; i++){
         string c = Int2String(i);
         if(genome1.count(c) == 0) continue;
         if(genome2.count(c) == 0) continue;
