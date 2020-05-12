@@ -6526,7 +6526,7 @@ int GeneratepsmcDiploid(parameter *para){
     cout << genome2.size() << " chromosomes readed for genome2!" << endl;
     string seq ="";
     string sq = "";
-    for (int i = 1; i < chrs.size(); i++){
+    for (int i = 0; i < chrs.size(); i++){
         string c = chrs[i];
         if (string2Int(c) > 42) continue;
         if(genome1.count(c) == 0) continue;
