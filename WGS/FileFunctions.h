@@ -6427,6 +6427,34 @@ int GeneratepsmcDiploid(parameter *para){
     igzstream inf ((infile.c_str()),ifstream::in);
     igzstream inf2 ((infile2.c_str()),ifstream::in);
     ofstream ouf (outfile.c_str());
+    map<string,string> table;
+    table.insert(pair<string,string>("AC","M"));
+    table.insert(pair<string,string>("AT","W"));
+    table.insert(pair<string,string>("AG","R"));
+    table.insert(pair<string,string>("CA","M"));
+    table.insert(pair<string,string>("CG","S"));
+    table.insert(pair<string,string>("CT","Y"));
+    table.insert(pair<string,string>("GA","R"));
+    table.insert(pair<string,string>("GC","S"));
+    table.insert(pair<string,string>("GT","K"));
+    table.insert(pair<string,string>("TA","W"));
+    table.insert(pair<string,string>("TC","Y"));
+    table.insert(pair<string,string>("TG","K"));
+    table.insert(pair<string,string>("AN","n"));
+    table.insert(pair<string,string>("TN","n"));
+    table.insert(pair<string,string>("GN","n"));
+    table.insert(pair<string,string>("CN","n"));
+    table.insert(pair<string,string>("NA","n"));
+    table.insert(pair<string,string>("NT","n"));
+    table.insert(pair<string,string>("NG","n"));
+    table.insert(pair<string,string>("NC","n"));
+    table.insert(pair<string,string>("NN","n"));
+    table.insert(pair<string,string>("M","AC"));
+    table.insert(pair<string,string>("W","AT"));
+    table.insert(pair<string,string>("R","AG"));
+    table.insert(pair<string,string>("S","CG"));
+    table.insert(pair<string,string>("Y","CT"));
+    table.insert(pair<string,string>("K","GT"));
     string line;
     string chr;
     string seq1 = "", qs1 = "", seq2 = "", qs2 = "";
@@ -6435,11 +6463,13 @@ int GeneratepsmcDiploid(parameter *para){
     map<string,string> gq1;
     map<string,string> gq2;
     bool start = true, seqfinished = false;
+    vector<string> chrs;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '@' && line.length() < 10){
             chr = line.substr(1,line.length()-1);
+            chrs.push_back(chr);
             if(!start) {
                 genome1.insert(pair<string, string>(chr,seq1));
                 gq1.insert(pair<string,string>(chr,qs1));
@@ -6464,28 +6494,9 @@ int GeneratepsmcDiploid(parameter *para){
     cout << genome1.size() << " chromosomes readed for genome1!" << endl;
     
     seq2 = "";
-    start = true, seqfinished = false;
-    map<string,string> table;
-    table.insert(pair<string,string>("AC","M"));
-    table.insert(pair<string,string>("AT","W"));
-    table.insert(pair<string,string>("AG","R"));
-    table.insert(pair<string,string>("CA","M"));
-    table.insert(pair<string,string>("CG","S"));
-    table.insert(pair<string,string>("CT","Y"));
-    table.insert(pair<string,string>("GA","R"));
-    table.insert(pair<string,string>("GC","S"));
-    table.insert(pair<string,string>("GT","K"));
-    table.insert(pair<string,string>("TA","W"));
-    table.insert(pair<string,string>("TC","Y"));
-    table.insert(pair<string,string>("TG","K"));
-    table.insert(pair<string,string>("AN","N"));
-    table.insert(pair<string,string>("TN","N"));
-    table.insert(pair<string,string>("GN","N"));
-    table.insert(pair<string,string>("CN","N"));
-    table.insert(pair<string,string>("NA","N"));
-    table.insert(pair<string,string>("NT","N"));
-    table.insert(pair<string,string>("NG","N"));
-    table.insert(pair<string,string>("NC","N"));
+    start = true;
+    seqfinished = false;
+    
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -6515,8 +6526,9 @@ int GeneratepsmcDiploid(parameter *para){
     cout << genome2.size() << " chromosomes readed for genome2!" << endl;
     string seq ="";
     string sq = "";
-    for (int i = 1; i < 43; i++){
-        string c = Int2String(i);
+    for (int i = 1; i < chrs.size(); i++){
+        string c = chrs[i];
+        if (string2Int(c) > 42) continue;
         if(genome1.count(c) == 0) continue;
         if(genome2.count(c) == 0) continue;
         string seq1 = genome1[c];
@@ -6527,30 +6539,34 @@ int GeneratepsmcDiploid(parameter *para){
         int b = seq2.length();
         int small = a;
         if (a > b) small = b;
+        ouf << "@" << c << "\n";
+        for (int i = 0; i < small; i++){
+            string key ="";
+            if(seq1[i] == 'n' || seq2[i] == 'n'){
+                ouf << "n";
+            }else if ((char)toupper(seq1[i]) == (char)toupper(seq2[i])){
+                ouf << seq1[i];
+            }else{
+                key.push_back((char)toupper(seq1[i]));
+                key.push_back((char)toupper(seq2[i]));
+                string value = table[key];
+                ouf << value;
+            }
+            if((i+1)%60==0){
+                ouf << "\n";
+            }
+        }
+        if (small%60 != 0) ouf << "\n";
+        ouf << "+\n";
         for (int i = 0; i < small; i++){
             int av = (int)sq1[i];
             int bv = (int)sq2[i];
             int mv = (av + bv)/2;
-            sq += (char)mv;
-            string key ="";
-            key.push_back((char)toupper(seq1[i]));
-            key.push_back((char)toupper(seq2[i]));
-            string value = table[key];
-            seq.append(value);
-        }
-        ouf << "@" << chr << "\n";
-        for (int i = 0; i < seq.length(); i++){
-            ouf << seq[i];
+            ouf << (char)mv;
             if((i+1)%60==0) ouf << "\n";
         }
-        if (seq.length()%60 != 0) ouf << "\n";
-        ouf << "+\n";
-        for (int i = 0; i < sq.length(); i++){
-            ouf << sq[i];
-            if((i+1)%60==0) ouf << "\n";
-        }
-        if (seq.length()%60 != 0) ouf << "\n";
-        ouf << "finshed!" << endl;
+        if (small%60 != 0) ouf << "\n";
+        
     }
     ouf.close();
     return 0;
