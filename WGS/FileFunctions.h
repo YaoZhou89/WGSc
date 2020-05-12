@@ -6508,6 +6508,60 @@ int GeneratepsmcDiploid(parameter *para){
     ouf.close();
     return 0;
 }
+int concensusGenome(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para -> inFile2 );
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    string chr = (para->chr);
+    bool run = false;
+    string seq="";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            string c = line.substr(1,line.length()-1);
+            if(c == chr) {
+                run = true;
+            }else{
+                run = false;
+            }
+        }else{
+            if(run){
+                seq.append(line);
+            }
+        }
+    }
+    set<int> pos;
+    vector<string> ll;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 0) continue;
+        split(line,ll);
+        pos.insert(string2Int(ll[1])-1);
+    }
+    ouf << ">" << chr << "\n";
+    for(int i = 0; i< seq.length();i++){
+        if(pos.count(i) == 0){
+            ouf << "N";
+        }else{
+            ouf << pos[i];
+        }
+        if(i%80 == 0) {
+            ouf << "\n";
+        }
+    }
+    if (seq.length()% 80 != 0){
+        ouf << "\n";
+    }
+    cout << "chr" << chr << " length is: " << seq.length() << ", finished." << endl;
+    ouf.close();
+    
+    return 0;
+}
 int frq2dxy(parameter *para){
     string infile = (para->inFile);
     string infile2 = (para -> inFile2 );
