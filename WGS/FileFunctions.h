@@ -6474,6 +6474,7 @@ int GeneratepsmcDiploid(parameter *para){
                 genome1.insert(pair<string, string>(chr,seq1));
                 gq1.insert(pair<string,string>(chr,qs1));
                 seqfinished = false;
+                
             }
             start = false;
             seq1 = "";
@@ -6488,9 +6489,11 @@ int GeneratepsmcDiploid(parameter *para){
                 seq1.append(line);
             }
         }
+        
     }
     genome1.insert(pair<string, string>(chr,seq1));
     gq1.insert(pair<string,string>(chr,qs1));
+    cout << qs1[qs1.length()-1] << endl;
     cout << genome1.size() << " chromosomes readed for genome1!" << endl;
     
     seq2 = "";
