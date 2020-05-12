@@ -6465,7 +6465,27 @@ int GeneratepsmcDiploid(parameter *para){
     
     seq2 = "";
     start = true, seqfinished = false;
-    
+    map<string,string> table;
+    table.insert(pair<string,string>("AC","M"));
+    table.insert(pair<string,string>("AT","W"));
+    table.insert(pair<string,string>("AG","R"));
+    table.insert(pair<string,string>("CA","M"));
+    table.insert(pair<string,string>("CG","S"));
+    table.insert(pair<string,string>("CT","Y"));
+    table.insert(pair<string,string>("GA","R"));
+    table.insert(pair<string,string>("GC","S"));
+    table.insert(pair<string,string>("GT","K"));
+    table.insert(pair<string,string>("TA","W"));
+    table.insert(pair<string,string>("TC","Y"));
+    table.insert(pair<string,string>("TG","K"));
+    table.insert(pair<string,string>("AN","N"));
+    table.insert(pair<string,string>("TN","N"));
+    table.insert(pair<string,string>("GN","N"));
+    table.insert(pair<string,string>("CN","N"));
+    table.insert(pair<string,string>("NA","N"));
+    table.insert(pair<string,string>("NT","N"));
+    table.insert(pair<string,string>("NG","N"));
+    table.insert(pair<string,string>("NC","N"));
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -6490,31 +6510,47 @@ int GeneratepsmcDiploid(parameter *para){
             }
         }
     }
-    genome1.insert(pair<string, string>(chr,seq1));
-    gq1.insert(pair<string,string>(chr,qs1));
+    genome2.insert(pair<string, string>(chr,seq2));
+    gq2.insert(pair<string,string>(chr,qs2));
     cout << genome2.size() << " chromosomes readed for genome2!" << endl;
-    
+    string seq ="";
+    string sq = "";
     for (int i = 1; i < 43; i++){
         string c = Int2String(i);
         if(genome1.count(c) == 0) continue;
         if(genome2.count(c) == 0) continue;
         string seq1 = genome1[c];
         string seq2 = genome2[c];
+        string sq1 = gq1[c];
+        string sq2 = gq2[c];
         int a = seq1.length();
         int b = seq2.length();
         int small = a;
         if (a > b) small = b;
         for (int i = 0; i < small; i++){
-            int av = (int)seq1[i];
-            int bv = (int)seq2[i];
+            int av = (int)sq1[i];
+            int bv = (int)sq2[i];
             int mv = (av + bv)/2;
-            ouf << (char)mv;
-            
+            sq += (char)mv;
+            string key ="";
+            key.push_back((char)toupper(seq1[i]));
+            key.push_back((char)toupper(seq2[i]));
+            string value = table[key];
+            seq.append(value);
         }
-        cout << c << " length is: " << genome1[c].length() << " in genome1." << endl;
-        cout << c << " length is: " << genome2[c].length() << " in genome2." << endl;
-        cout << c << " quality length is: " << gq1[c].length() << " in genome1." << endl;
-        cout << c << " quality length is: " << gq2[c].length() << " in genome2." << endl;
+        ouf << "@" << chr << "\n";
+        for (int i = 0; i < seq.length(); i++){
+            ouf << seq[i];
+            if((i+1)%60==0) ouf << "\n";
+        }
+        if (seq.length()%60 != 0) ouf << "\n";
+        ouf << "+\n";
+        for (int i = 0; i < sq.length(); i++){
+            ouf << sq[i];
+            if((i+1)%60==0) ouf << "\n";
+        }
+        if (seq.length()%60 != 0) ouf << "\n";
+        ouf << "finshed!" << endl;
     }
     ouf.close();
     return 0;
