@@ -6429,84 +6429,81 @@ int GeneratepsmcDiploid(parameter *para){
     ofstream ouf (outfile.c_str());
     string line;
     string chr;
-    string seq = "";
-    map<string,string> genome;
-    bool start = true;
+    string seq1 = "", qs1 = "", seq2 = "", qs2 = "";
+    map<string,string> genome1;
+    map<string,string> genome2;
+    map<string,string> gq1;
+    map<string,string> gq2;
+    bool start = true, seqfinished = false;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if(line[0] == '>'){
+        if(line[0] == '@' && line.length() < 10){
             chr = line.substr(1,line.length()-1);
             if(!start) {
-                genome.insert(pair<string, string>(chr,seq));
+                genome1.insert(pair<string, string>(chr,seq1));
+                gq1.insert(pair<string,string>(chr,qs1));
+                seqfinished = false;
             }
             start = false;
-            seq = "";
+            seq1 = "";
+            qs1 = "";
         }else{
-            seq.append(line);
+            if(line[0] == '+' && line.length() < 10){
+                seqfinished = true;
+            }
+            if(seqfinished){
+                qs1.append(line);
+            }else{
+                seq1.append(line);
+            }
         }
     }
-    genome.insert(pair<string, string>(chr,seq));
-    cout << genome.size() << " chromosomes readed for genome1!" << endl;
-    map<string,string> genome2;
-    seq = "";
-    start = true;
-    while (!inf2.eof()){
+    genome1.insert(pair<string, string>(chr,seq1));
+    gq1.insert(pair<string,string>(chr,qs1));
+    cout << genome1.size() << " chromosomes readed for genome1!" << endl;
+    
+    seq2 = "";
+    start = true, seqfinished = false;
+    
+    while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        if(line[0] == '>'){
+        if(line[0] == '@' && line.length() < 10){
             chr = line.substr(1,line.length()-1);
             if(!start) {
-                genome2.insert(pair<string, string>(chr,seq));
+                genome2.insert(pair<string, string>(chr,seq2));
+                gq2.insert(pair<string,string>(chr,qs2));
+                seqfinished = false;
             }
             start = false;
-            seq = "";
+            seq2 = "";
+            qs2 = "";
         }else{
-            seq.append(line);
+            if(line[0] == '+' && line.length() < 10){
+                seqfinished = true;
+            }
+            if(seqfinished){
+                qs2.append(line);
+            }else{
+                seq2.append(line);
+            }
         }
     }
-    cout << genome.size() << " chromosomes readed for genome2!" << endl;
-    map<string,string> table;
-    table.insert(pair<string,string>("AC","M"));
-    table.insert(pair<string,string>("AT","W"));
-    table.insert(pair<string,string>("AG","R"));
-    table.insert(pair<string,string>("CA","M"));
-    table.insert(pair<string,string>("CG","S"));
-    table.insert(pair<string,string>("CT","Y"));
-    table.insert(pair<string,string>("GA","R"));
-    table.insert(pair<string,string>("GC","S"));
-    table.insert(pair<string,string>("GT","K"));
-    table.insert(pair<string,string>("TA","W"));
-    table.insert(pair<string,string>("TC","Y"));
-    table.insert(pair<string,string>("TG","K"));
-    table.insert(pair<string,string>("AN","N"));
-    table.insert(pair<string,string>("TN","N"));
-    table.insert(pair<string,string>("GN","N"));
-    table.insert(pair<string,string>("CN","N"));
-    table.insert(pair<string,string>("NA","N"));
-    table.insert(pair<string,string>("NT","N"));
-    table.insert(pair<string,string>("NG","N"));
-    table.insert(pair<string,string>("NC","N"));
+    genome1.insert(pair<string, string>(chr,seq1));
+    gq1.insert(pair<string,string>(chr,qs1));
+    cout << genome2.size() << " chromosomes readed for genome2!" << endl;
     
     for (int i = 1; i < 43;++i){
         string c = Int2String(i);
-        if(genome.count(c) == 0) continue;
-        string seq1 = genome[c];
+        if(genome1.count(c) == 0) continue;
+        if(genome2.count(c) == 0) continue;
+        string seq1 = genome1[c];
         string seq2 = genome2[c];
-        ouf << ">" << c << "\n";
-        if (seq1.length() != seq2.length()) cerr <<  "length is different for " << c << endl;
-        for (int j = 0; j < seq1.length();j++){
-            if(seq1[j] == seq2[j]){
-                ouf << seq1[j];
-            }else{
-                string key = seq1.substr(j,1) + seq2.substr(j,1);
-                ouf << table[key];
-            }
-            if((j+1) % 100 == 0){
-                ouf << "\n";
-            }
-        }
-        ouf << "\n";
+        cout << c << " length is: " << genome1[c].length() << " in genome1." << endl;
+        cout << c << " length is: " << genome2[c].length() << " in genome2." << endl;
+        cout << c << " quality length is: " << gq1[c].length() << " in genome1." << endl;
+        cout << c << " quality length is: " << gq2[c].length() << " in genome2." << endl;
     }
     ouf.close();
     return 0;
