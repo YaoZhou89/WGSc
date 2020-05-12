@@ -6500,6 +6500,17 @@ int GeneratepsmcDiploid(parameter *para){
         if(genome2.count(c) == 0) continue;
         string seq1 = genome1[c];
         string seq2 = genome2[c];
+        int a = seq1.length();
+        int b = seq2.length();
+        int small = a;
+        if (a > b) small = b;
+        for (int i = 0; i < small; i++){
+            int av = (int)seq1[i];
+            int bv = (int)seq2[i];
+            int mv = (av + bv)/2;
+            ouf << (char)mv;
+            
+        }
         cout << c << " length is: " << genome1[c].length() << " in genome1." << endl;
         cout << c << " length is: " << genome2[c].length() << " in genome2." << endl;
         cout << c << " quality length is: " << gq1[c].length() << " in genome1." << endl;
