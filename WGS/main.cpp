@@ -333,7 +333,9 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "gff2exon"){
                 gff2exon(para);
             }else if ((para->type) == "gff2exon10Kb"){
-                gff2exon(para);
+                gff2exon10Kb(para);
+            }else if ((para->type) == "gff2exon10Kbexcluded"){
+                gff2exon10Kbexcluded(para);
             }else if ((para->type) == "gff2geneBed"){
                 getGeneBed(para);
             }else if ((para->type) == "filterMakerGff"){
