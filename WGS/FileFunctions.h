@@ -2126,7 +2126,7 @@ int vcfAddID(parameter *para){
             continue;
         }
         string ID = ll[0] + "_" + ll[1];
-        string IDs = ID.replace(0,3,"rs");
+        string IDs = "rs"+ID;
         ll[2] = IDs;
         ouf << ll[0];
 //        string geno = ll[ll.size() - 1];
