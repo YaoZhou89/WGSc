@@ -7296,6 +7296,7 @@ int gff2exon10Kb(parameter *para){
         }
         for (int j = 0; j < csize; j++){
             int cs = CDSs[j].start-10000;
+            if (cs<0) cs = 0;
             int ce = CDSs[j].end+10000;
             for(int i = cs; i < ce+1; ++i){
                 exon[i] = 1;
