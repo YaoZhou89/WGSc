@@ -118,6 +118,8 @@ int main(int argc, char * argv[]) {
                 getGeneticDistance(para);
             }else if ((para->type) == "GeneticDistanceRef"){
                 getGeneticDistanceRef(para);
+            }else if ((para ->type) == "getMinDxy"){
+                getGeneticDistance2(para);
             }else if((para->type) =="intersect"){
                 getIntersectVcf(para);
             }else if ((para->type) == "getUnIntersectBed"){
