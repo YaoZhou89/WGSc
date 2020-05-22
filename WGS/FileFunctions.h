@@ -10550,7 +10550,7 @@ int getGeneticDistance2(parameter *para){
             double tmp;
             tmp = distance[0];
             int max = 0;
-            bool multiple = true;
+            bool multiple = false;
             for(int i = 1; i < distance.size(); i++){
                 if (distance[i] = tmp){
                     multiple = true;
@@ -10562,6 +10562,8 @@ int getGeneticDistance2(parameter *para){
                     }
                 }
             }
+            cout << "max is:\t" << max << endl;
+            cout << "multiple is:\t" << multiple << endl;
             for (int i = 0; i < ll1.size()-1;++i){
                 ouf << ll1[i] << "\t";
             }
