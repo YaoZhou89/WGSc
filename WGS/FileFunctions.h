@@ -10485,7 +10485,7 @@ int getGeneticDistance2(parameter *para){
             if(ll[i][0] == '.'){
                 genotype.push_back(-2);
             }else{
-                genotype.push_back((int)ll[i][0] + (int)ll[i][2] - 1);
+                genotype.push_back(string2Int(ll[i].substr(0,1)) + string2Int(ll[i].substr(2,1) - 1);
                 cout << genotype[i-9] << endl;
             }
         }
