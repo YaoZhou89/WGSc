@@ -10552,11 +10552,11 @@ int getGeneticDistance2(parameter *para){
             int max = 0;
             bool multiple = false;
             for(int i = 1; i < distance.size(); i++){
-                if (distance[i] = tmp){
-                    cout << "true" << endl;
+                if ((distance[i] - tmp) == 0){
+                    cout << distance[i] << "\t" << tmp  << endl;
                     multiple = true;
                 }else{
-                    if(distance[i] > tmp){
+                    if((distance[i] - tmp)>0){
                         max = i;
                         multiple = false;
                         tmp = distance[i];
