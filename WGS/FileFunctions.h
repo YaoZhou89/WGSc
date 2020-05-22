@@ -10558,6 +10558,7 @@ int getGeneticDistance2(parameter *para){
                     if(distance[i] > tmp){
                         max = i;
                         multiple = false;
+                        tmp = distance[i];
                     }
                 }
             }
