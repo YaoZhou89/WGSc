@@ -10475,6 +10475,8 @@ int getGeneticDistance2(parameter *para){
             split(line,ll,"\t");
             for(int i = 9; i < ll.size(); i++){
                 idp.insert(pair<string,int>(ll[i],i));
+                cout << ll[i] << endl;
+                cout << idp[ll[i]] << endl;
             }
             continue;
         }
