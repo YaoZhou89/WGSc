@@ -10561,6 +10561,7 @@ int getGeneticDistance2(parameter *para){
                         tmp = distance[i];
                     }
                 }
+                cout << "multipleC is:\t" << multiple << endl;
             }
             cout << "max is:\t" << max << endl;
             cout << "multiple is:\t" << multiple << endl;
