@@ -10545,7 +10545,7 @@ int getGeneticDistance2(parameter *para){
                 }
 //                cout << "distance1 "  << i << " is:\t" << distance[i] << endl;
                 distance[i] = distance[i]/marker;
-                cout << "distance "  << i << " is:\t" << distance[i] << endl;
+//                cout << "distance "  << i << " is:\t" << distance[i] << endl;
             }
             double tmp;
             tmp = distance[0];
