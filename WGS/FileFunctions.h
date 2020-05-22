@@ -10553,6 +10553,7 @@ int getGeneticDistance2(parameter *para){
             bool multiple = false;
             for(int i = 1; i < distance.size(); i++){
                 if (distance[i] = tmp){
+                    cout << "true" << endl;
                     multiple = true;
                 }else{
                     if(distance[i] > tmp){
