@@ -10500,7 +10500,9 @@ int getGeneticDistance2(parameter *para){
             ouf << line << "\n";
             continue;
         }
+        split(line,ll,"\t");
         if(ll[0] != chr) continue;
+        
         if(string2Double(ll[5]) < threshold) continue;
         int start = string2Int(ll[1]);
         int end = string2Int(ll[2]);
@@ -10510,10 +10512,10 @@ int getGeneticDistance2(parameter *para){
         split(ids,ll,",");
         if (ll.size() == 1) {
             ouf << line << "\n";
-            cout << "checking..." << endl;
+//            cout << "checking..." << endl;
         }else{
             vector<double> distance(ll.size(),0);
-            cout << "name is:\t" << name << endl;
+//            cout << "name is:\t" << name << endl;
             int k1 = idp[name];
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
