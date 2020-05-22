@@ -10514,11 +10514,13 @@ int getGeneticDistance2(parameter *para){
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
                 int k2 = idp[ID[ll[i]]];
+                int marker = 0;
                 for(int p = start; p < end; p++){
                     string c = chr + "_" + Int2String(p);
                     if(vcf.count(c)==0) continue;
                     vector<int> genotype = vcf[c];
                     if (genotype[k1] < -1 | genotype[k2] < -1) continue;
+                    marker++;
                     double f = genotype[k1] * genotype[k2];
                     if (f < 0 ){
                         f = 0;
@@ -10529,6 +10531,7 @@ int getGeneticDistance2(parameter *para){
                     }
                     distance[i] += f;
                 }
+                distance[i] = distance[i]/marker;
             }
             double tmp;
             tmp = distance[0];
