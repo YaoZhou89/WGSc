@@ -10518,16 +10518,14 @@ int getGeneticDistance2(parameter *para){
         }else{
             vector<double> distance(ll.size(),0);
             int k1 = idp[name];
-            cout << "K1 is:\t" << k1 << endl;
-            cout << "Name is:\t" << name << endl;
+//            cout << "K1 is:\t" << k1 << endl;
+//            cout << "Name is:\t" << name << endl;
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
-                int k2 = idp[ID[ll[i]]];
-                if(idp.count(ID[ll[i]]) == 0){
-                    cout << ID[ll[i]] << "A" << endl;
-                }
+                string name2=ID[ll[i]];
+                int k2 = idp[name2];
+                cout << "ID is:\t" << name2 << endl;
                 cout << "K2 is:\t" << k2 << endl;
-                cout << "ID is:\t" << ID[ll[i]] << endl;
                 int marker = 0;
                 for(int p = start; p < end; p++){
                     string c = chr + "_" + Int2String(p);
