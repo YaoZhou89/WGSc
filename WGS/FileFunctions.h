@@ -10513,6 +10513,7 @@ int getGeneticDistance2(parameter *para){
             cout << "checking..." << endl;
         }else{
             vector<double> distance(ll.size(),0);
+            cout << "name is:\t" << name << endl;
             int k1 = idp[name];
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
