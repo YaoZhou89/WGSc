@@ -10463,6 +10463,7 @@ int getGeneticDistance2(parameter *para){
         split(line,ll,"\t");
         ID.insert(pair<string,string>(ll[0],ll[1]));
     }
+    cout << "ID file readed!" << endl;
 // VCF file
     map <string,vector<int>> vcf;
     map<string,int> idp;
@@ -10489,6 +10490,7 @@ int getGeneticDistance2(parameter *para){
         }
         vcf.insert(pair<string,vector<int>>(key,genotype));
     }
+    cout << "vcf file readed!" << endl;
     // read final file
     while(!inf2.eof()){
         getline(inf2,line);
