@@ -10486,6 +10486,7 @@ int getGeneticDistance2(parameter *para){
                 genotype.push_back(-2);
             }else{
                 genotype.push_back((int)ll[i][0] + (int)ll[i][2] - 1);
+                cout << genotype[i-9] << endl;
             }
         }
         vcf.insert(pair<string,vector<int>>(key,genotype));
@@ -10512,10 +10513,8 @@ int getGeneticDistance2(parameter *para){
         split(ids,ll,",");
         if (ll.size() == 1) {
             ouf << line << "\n";
-//            cout << "checking..." << endl;
         }else{
             vector<double> distance(ll.size(),0);
-//            cout << "name is:\t" << name << endl;
             int k1 = idp[name];
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
