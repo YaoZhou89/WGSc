@@ -10527,6 +10527,8 @@ int getGeneticDistance2(parameter *para){
                     string c = chr + "_" + Int2String(p);
                     if(vcf.count(c)==0) continue;
                     vector<int> genotype = vcf[c];
+                    cout << "genotype1 is: " << genotype[k1] << endl;
+                    cout << "genotype2 is: " << genotype[k2] << endl;
                     if (genotype[k1] < -1 | genotype[k2] < -1) continue;
                     marker++;
                     double f = genotype[k1] * genotype[k2];
