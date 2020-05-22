@@ -10442,6 +10442,7 @@ int getGeneticDistance(parameter *para){
     return 0;
 }
 int getGeneticDistance2(parameter *para){
+    cout << "new version!" << endl;
     string infile = (para -> inFile); // vcf文件
     string infile2 = (para -> inFile2); // final文件
     string infile3 = (para -> inFile3); // ID顺序文件，A.list+B.list
