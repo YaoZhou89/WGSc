@@ -10540,7 +10540,7 @@ int getGeneticDistance2(parameter *para){
                     distance[i] += f;
                 }
                 distance[i] = distance[i]/marker;
-                cout << "distance "  << i << " is:\t" << f << endl;
+                cout << "distance "  << i << " is:\t" << distance[i] << endl;
             }
             double tmp;
             tmp = distance[0];
