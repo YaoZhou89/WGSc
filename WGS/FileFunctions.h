@@ -10520,7 +10520,7 @@ int getGeneticDistance2(parameter *para){
             int k1 = idp[name];
             for(int i = 0; i < ll.size(); i++){
                 // calcualte dxy
-                string name2=ID[ll[i]];
+                string name2 = ID[ll[i]];
                 int k2 = idp[name2];
                 int marker = 0;
                 for(int p = start; p < end; p++){
@@ -10540,6 +10540,7 @@ int getGeneticDistance2(parameter *para){
                     distance[i] += f;
                 }
                 distance[i] = distance[i]/marker;
+                cout << "distance "  << i << " is:\t" << f << endl;
             }
             double tmp;
             tmp = distance[0];
