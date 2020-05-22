@@ -10461,7 +10461,7 @@ int getGeneticDistance2(parameter *para){
         getline(inf3,line);
         if(line.length() < 1) continue;
         split(line,ll,"\t");
-        ID.insert(pair<string,string>(ll[0],ll[1]));
+        ID.insert(pair<string,string>(ll[0],ll[1].substr(0,4)));
     }
     cout << "ID file readed!" << endl;
 // VCF file
@@ -10524,7 +10524,7 @@ int getGeneticDistance2(parameter *para){
                 // calcualte dxy
                 string name2=ID[ll[i]];
                 int k2 = idp[name2];
-                cout << "IID is:\t" << k2 << ":ABB"<< endl;
+                cout << "IID is:\t" << name2 << ":ABB"<< endl;
                 cout << "K2 is:\t" << k2 << endl;
                 cout << idp["B026"] << endl;
                 int marker = 0;
