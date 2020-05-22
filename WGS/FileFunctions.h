@@ -10441,6 +10441,124 @@ int getGeneticDistance(parameter *para){
     
     return 0;
 }
+int getGeneticDistance2(parameter *para){
+    string infile = (para -> inFile); // vcf文件
+    string infile2 = (para -> inFile2); // final文件
+    string infile3 = (para -> inFile3); // ID顺序文件，A.list+B.list
+    string outFile = (para -> outFile);
+    string name = (para-> flag); // 指定ID
+    double threshold = (para ->threshold);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    igzstream inf3 ((infile3).c_str(),ifstream::in);
+    string chr = (para->chr);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> ID;
+// ID file
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        ID.insert(pair<string,string>(ll[0],ll[1]));
+    }
+// VCF file
+    map <string,vector<int>> vcf;
+    map<string,int> idp;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if(line[0] == '#'){
+            if (line[1] == '#') continue;
+            split(line,ll,"\t");
+            for(int i = 9; i < ll.size(); i++){
+                idp.insert(pair<string,int>(ll[i],i));
+            }
+            continue;
+        }
+        split(line,ll,"\t");
+        string key = ll[1] + "_" + ll[2];
+        vector<int> genotype;
+        for (int i = 9; i < ll.size(); i++){
+            if(ll[i][0] == '.'){
+                genotype.push_back(-2);
+            }else{
+                genotype.push_back((int)ll[i][0] + (int)ll[i][2] - 1);
+            }
+        }
+        vcf.insert(pair<string,vector<int>>(key,genotype));
+    }
+    // read final file
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        if(line[0] == 's'){
+            ouf << line << "\n";
+            continue;
+        }
+        if(ll[0] != chr) continue;
+        if(string2Double(ll[5]) < threshold) continue;
+        int start = string2Int(ll[1]);
+        int end = string2Int(ll[2]);
+        string ids = ll[6];
+        vector<string> ll1 = ll;
+        ll.clear();
+        split(ids,ll,",");
+        if (ll.size() == 1) {
+            ouf << line << "\n";
+        }else{
+            vector<double> distance(ll.size(),0);
+            int k1 = idp[name];
+            for(int i = 0; i < ll.size(); i++){
+                // calcualte dxy
+                int k2 = idp[ID[ll[i]]];
+                for(int p = start; p < end; p++){
+                    string c = chr + "_" + Int2String(p);
+                    if(vcf.count(c)==0) continue;
+                    vector<int> genotype = vcf[c];
+                    if (genotype[k1] < -1 | genotype[k2] < -1) continue;
+                    double f = genotype[k1] * genotype[k2];
+                    if (f < 0 ){
+                        f = 0;
+                    }else if (f = 0){
+                        f = 0.5;
+                    }else{
+                        f = 1;
+                    }
+                    distance[i] += f;
+                }
+            }
+            double tmp;
+            tmp = distance[0];
+            int max = 0;
+            bool multiple = true;
+            for(int i = 1; i < distance.size(); i++){
+                if (distance[i] = tmp){
+                    multiple = true;
+                }else{
+                    if(distance[i] > tmp){
+                        max = i;
+                        multiple = false;
+                    }
+                }
+            }
+            for (int i = 0; i < ll1.size()-1;++i){
+                ouf << ll1[i] << "\t";
+            }
+            if (multiple){
+                ouf << "NA" << "\n";
+            }else{
+                ouf << ll[max] << "\n";
+            }
+        }
+        
+    }
+    ouf.close();
+    
+    return 0;
+}
 int getGeneticDistanceRef(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
@@ -12301,6 +12419,7 @@ int getKmer(parameter *para){
     ouf.close();
     return 0;
 }
+
 int getGenomeMasked (parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
