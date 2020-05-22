@@ -10510,6 +10510,7 @@ int getGeneticDistance2(parameter *para){
         split(ids,ll,",");
         if (ll.size() == 1) {
             ouf << line << "\n";
+            cout << "checking..." << endl;
         }else{
             vector<double> distance(ll.size(),0);
             int k1 = idp[name];
