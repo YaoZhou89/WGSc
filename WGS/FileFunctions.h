@@ -10481,7 +10481,7 @@ int getGeneticDistance2(parameter *para){
             continue;
         }
         split(line,ll,"\t");
-        string key = ll[1] + "_" + ll[2];
+        string key = ll[0] + "_" + ll[1];
         vector<int> genotype;
         for (int i = 9; i < ll.size(); i++){
             if(ll[i][0] == '.'){
@@ -10524,7 +10524,7 @@ int getGeneticDistance2(parameter *para){
                 int marker = 0;
                 for(int p = start; p < end; p++){
                     string c = chr + "_" + Int2String(p);
-                    cout << "c is:\t"  << c << endl;
+//                    cout << "c is:\t"  << c << endl;
         
                     if(vcf.count(c)==0) continue;
                     vector<int> genotype = vcf[c];
