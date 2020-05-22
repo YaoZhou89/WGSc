@@ -10524,7 +10524,7 @@ int getGeneticDistance2(parameter *para){
                 // calcualte dxy
                 string name2=ID[ll[i]];
                 int k2 = idp[name2];
-                cout << "ID is:\t" << name2 << "A"<< endl;
+                cout << "IID is:\t" << name2 << ":ABB"<< endl;
                 cout << "K2 is:\t" << k2 << endl;
                 cout << idp["B026"] << endl;
                 int marker = 0;
