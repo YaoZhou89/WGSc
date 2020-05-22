@@ -10486,7 +10486,7 @@ int getGeneticDistance2(parameter *para){
                 genotype.push_back(-2);
             }else{
                 genotype.push_back((int)ll[i][0] + (int)ll[i][2] -97);
-                cout << genotype[i-9] << endl;
+//                cout << genotype[i-9] << endl;
             }
         }
         vcf.insert(pair<string,vector<int>>(key,genotype));
