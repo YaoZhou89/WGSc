@@ -437,6 +437,8 @@ int main(int argc, char * argv[]) {
                 GeneratepsmcDiploid(para);
             } else if ((para ->type) == "concensusGenome"){
                 concensusGenome(para);
+            }else if ((para->type) =="generateSyntenyGenome"){
+                generateSyntenyGenome(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
