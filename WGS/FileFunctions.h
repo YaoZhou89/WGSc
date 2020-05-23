@@ -10646,16 +10646,13 @@ int generateSyntenyGenome(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>'){
-            if (seq == "") {
-                seq = "";
-                int len = line.length() -1;
-                if (len >2) len = 2;
-                chrkey = line.substr(1,len);
-                if (chrkey == chr) {
-                    getc = true;
-                }else{
-                    getc = false;
-                }
+            int len = line.length() -1;
+            if (len >2) len = 2;
+            chrkey = line.substr(1,len);
+            if (chrkey == chr) {
+                getc = true;
+            }else{
+                getc = false;
             }
         }
         if (getc){
