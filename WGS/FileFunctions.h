@@ -10654,12 +10654,13 @@ int generateSyntenyGenome(parameter *para){
             }else{
                 getc = false;
             }
+            continue;
         }
         if (getc){
             seq.append(line);
         }
     }
-    cout << chrkey <<" length is:\t" << seq.length() << endl;
+    cout << chr <<" length is:\t" << seq.length() << endl;
     genome.insert(pair<string,string>(chr,seq));
     cout << genome.size() << " chromosomes added!" << endl;
     set<int> pos;
@@ -10672,7 +10673,7 @@ int generateSyntenyGenome(parameter *para){
         int p = string2Int(ll[1]) -1 ;
         pos.insert(p);
     }
-    cout << pos.size() <<  "pos added!" << endl;
+    cout << pos.size() <<  " pos added!" << endl;
     ouf << ">" << chr << "\n";
     for (int i = 0;i<seq.length();i++){
         if(pos.count(i) == 1){
