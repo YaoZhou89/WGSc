@@ -10742,6 +10742,9 @@ int generateAltGenome(parameter *para){
     ouf << ">" << ID << "\n";
     for(int i = 0; i < seq.length(); i++ ){
         if(alt.count(i) ==1){
+            if(alt[i] == "N") {
+                cerr << "N counted" << endl;
+            }
             ouf << alt[i] ;
         }else{
             ouf << seq[i];
