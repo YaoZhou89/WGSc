@@ -10688,6 +10688,71 @@ int generateSyntenyGenome(parameter *para){
     ouf.close();
     return 0;
 }
+
+int generateAltGenome(parameter *para){
+    string infile = (para -> inFile); // genome
+    string infile2 = (para -> inFile2); // vcf file
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    map<string,string> genome;
+    string chr = (para->chr);
+    string seq = "";
+    string chrkey = "";
+    string ID = (para->flag);
+    bool getc = false;
+    string line;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            int len = line.length() -1;
+            if (len >2) len = 2;
+            chrkey = line.substr(1,len);
+            if (chrkey == chr) {
+                getc = true;
+            }else{
+                getc = false;
+            }
+            continue;
+        }
+        if (getc){
+            seq.append(line);
+        }
+    }
+    
+    cout << chr <<" length is:\t" << seq.length() << endl;
+    genome.insert(pair<string,string>(chr,seq));
+    cout << genome.size() << " chromosomes added!" << endl;
+    set<int> pos;
+    vector<string> ll;
+    map<int,string> alt;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        if(ll[9][0] == '0' && ll[9][2] == '0'  ) continue;
+        if (ll[9][0] == '.') continue;
+        if(ll[0] != chr) continue;
+        if (ll[4].length() !=1) continue;
+        alt.insert(pair<int,string>(string2Int(ll[1])-1,ll[4]));
+    }
+    ouf << ">" << ID << "\n";
+    for(int i = 0; i < seq.length(); i++ ){
+        if(alt.count(i) ==1){
+            ouf << alt[i] ;
+        }else{
+            ouf << seq[i];
+        }
+        if((i+1)%60 ==0){
+            ouf << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int vcfoverlap(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);

@@ -439,6 +439,8 @@ int main(int argc, char * argv[]) {
                 concensusGenome(para);
             }else if ((para->type) =="generateSyntenyGenome"){
                 generateSyntenyGenome(para);
+            }else if ((para->type) == "generateAltGenome"){
+                generateAltGenome(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
