@@ -10773,6 +10773,8 @@ int splitGenome(parameter *para){
 //    double start = (para->a) -1;
 //    double len = (para->b) - start;
     while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
         if(line[0] == '>'){
             if(key != ""){
                 genome.insert(pair<string,string>(key,seq));
