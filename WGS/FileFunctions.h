@@ -10799,20 +10799,24 @@ int splitGenome(parameter *para){
         ofstream ouf ((outFile+"."+ll[1]+".fa").c_str());
         int start = string2Int(ll[1]) -1;
         int end = string2Int(ll[2]) ;
+        int len = end-start;
         map<string,string>::iterator it;
         it = genome.begin();
-        int s = 0;
+//        int s = 0;
         while(it != genome.end()){
             ouf << it->first << "\n";
             seq = (it->second);
-            for (int i = start; i < end; i++){
-                s++;
-                ouf << seq[i] ;
-                if(s%60 == 0) {
-                    ouf << "\n";
-                }
-            }
-            if(s%60 !=0) ouf << "\n";
+            ouf << seq.substr(start,len);
+//            for (int i = start; i < end; i++){
+//                s++;
+//                ouf << seq[i] ;
+//                if(s%60 == 0) {
+//                    ouf << "\n";
+//                }
+//            }
+            
+//            if(s%60 !=0) ouf << "\n";
+            it ++;
         }
         ouf.close();
     }
