@@ -10777,7 +10777,7 @@ int splitGenome(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>'){
-            cout << "length is:\t" << line.length() <<endl;
+//            cout << "length is:\t" << line.length() <<endl;
             if(key != ""){
                 genome.insert(pair<string,string>(key,seq));
 //                ouf << seq.substr(start,len);
@@ -10809,6 +10809,7 @@ int splitGenome(parameter *para){
         int s = 0;
         while(it != genome.end()){
             ouf << it->first << "\n";
+            cout << "length is:\t" << it->first <<endl;
             seq = (it->second);
 //            ouf << seq.substr(start,len);
             if (end > seq.length()) end = seq.length();
