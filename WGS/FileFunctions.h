@@ -10798,8 +10798,10 @@ int splitGenome(parameter *para){
         if(line.length() < 1 ) continue;
         split(line,ll,"\t");
         ofstream ouf ((outFile+"."+ll[1]+".fa").c_str());
-        int start = string2Int(ll[1]) -1;
-        int end = string2Int(ll[2]) ;
+        int start = string2Int(ll[1]) - 1000001;
+        if (start < 1) start = 1;
+        int end = string2Int(ll[2]) + 1000000 ;
+        
         int len = end-start;
         map<string,string>::iterator it;
         it = genome.begin();
@@ -10808,6 +10810,7 @@ int splitGenome(parameter *para){
             ouf << it->first << "\n";
             seq = (it->second);
 //            ouf << seq.substr(start,len);
+            if (end > seq.length()) end = seq.length();
             for (int i = start; i < end; i++){
                 s++;
                 ouf << seq[i] ;
