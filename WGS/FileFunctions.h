@@ -10802,21 +10802,22 @@ int splitGenome(parameter *para){
         int len = end-start;
         map<string,string>::iterator it;
         it = genome.begin();
-//        int s = 0;
+        int s = 0;
         while(it != genome.end()){
             ouf << it->first << "\n";
             seq = (it->second);
-            ouf << seq.substr(start,len);
-//            for (int i = start; i < end; i++){
-//                s++;
-//                ouf << seq[i] ;
-//                if(s%60 == 0) {
-//                    ouf << "\n";
-//                }
-//            }
+//            ouf << seq.substr(start,len);
+            for (int i = start; i < end; i++){
+                s++;
+                ouf << seq[i] ;
+                if(s%60 == 0) {
+                    ouf << "\n";
+                }
+            }
             
-//            if(s%60 !=0) ouf << "\n";
+            if(s%60 !=0) ouf << "\n";
             it ++;
+//            ouf << "\n";
         }
         ouf.close();
     }
