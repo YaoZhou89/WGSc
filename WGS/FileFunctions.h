@@ -10777,6 +10777,7 @@ int splitGenome(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '>'){
+            cout << "length is:\t" << line.length() <<endl;
             if(key != ""){
                 genome.insert(pair<string,string>(key,seq));
 //                ouf << seq.substr(start,len);
@@ -10798,9 +10799,9 @@ int splitGenome(parameter *para){
         if(line.length() < 1 ) continue;
         split(line,ll,"\t");
         ofstream ouf ((outFile+"."+ll[1]+".fa").c_str());
-        int start = string2Int(ll[1]) - 10000001;
+        int start = string2Int(ll[1])-1;
         if (start < 1) start = 1;
-        int end = string2Int(ll[2]) + 10000000 ;
+        int end = string2Int(ll[2]) ;
         
         int len = end-start;
         map<string,string>::iterator it;
