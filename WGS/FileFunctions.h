@@ -10685,6 +10685,7 @@ int generateSyntenyGenome(parameter *para){
             ouf << "\n";
         }
     }
+    if(seq.length()%60!=0) ouf << "\n";
     ouf.close();
     return 0;
 }
