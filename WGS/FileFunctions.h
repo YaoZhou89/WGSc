@@ -10761,32 +10761,60 @@ int generateAltGenome(parameter *para){
 }
 int splitGenome(parameter *para){
     string infile = (para -> inFile);
-    string outFile = (para -> outFile);
+    string infile2 = (para -> inFile2);
+    
     igzstream inf ((infile).c_str(),ifstream::in);
-    ofstream ouf ((outFile).c_str());
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    
     string line;
     string seq;
     string key = "";
-//    map<string,string> genome;
-    double start = (para->a) -1;
-    double len = (para->b) - start;
+    map<string,string> genome;
+//    double start = (para->a) -1;
+//    double len = (para->b) - start;
     while (!inf.eof()){
         if(line[0] == '>'){
             if(key != ""){
-//                genome.insert(pair<string,string>(key,seq));
-                ouf << seq.substr(start,len);
-                ouf << "\n";
+                genome.insert(pair<string,string>(key,seq));
+//                ouf << seq.substr(start,len);
+//                ouf << "\n";
             }
-//            key = line.substr(1,line.length()-1);
-            ouf << line << "\n";
-            seq = "";
+            key = line;
+//            ouf << line << "\n";
+//            seq = "";
         }else{
             seq.append(line);
         }
     }
-//    genome.insert(pair<string,string>(key,seq));
-//    cout << genome.size() << " sequences added!" << endl;
-    ouf << seq.substr(start,len);
+    genome.insert(pair<string,string>(key,seq));
+    cout << genome.size() << " sequences added!" << endl;
+    string outFile = (para -> outFile);
+    vector<string> ll;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll,"\t");
+        ofstream ouf ((outFile+"."+ll[1]+".fa").c_str());
+        int start = string2Int(ll[1]) -1;
+        int end = string2Int(ll[2]) ;
+        map<string,string>::iterator it;
+        it = genome.begin();
+        int s = 0;
+        while(it != genome.end()){
+            ouf << it->first << "\n";
+            seq = (it->second);
+            for (int i = start; i < end; i++){
+                s++;
+                ouf << seq[i] ;
+                if(s%60 == 0) {
+                    ouf << "\n";
+                }
+            }
+            if(s%60 !=0) ouf << "\n";
+        }
+        ouf.close();
+    }
+//    ouf << seq.substr(start,len);
     
     return 0;
 }
