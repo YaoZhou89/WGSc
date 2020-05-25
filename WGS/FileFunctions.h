@@ -10759,6 +10759,37 @@ int generateAltGenome(parameter *para){
     ouf.close();
     return 0;
 }
+int splitGenome(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    string seq;
+    string key = "";
+//    map<string,string> genome;
+    double start = (para->a) -1;
+    double len = (para->b) - start;
+    while (!inf.eof()){
+        if(line[0] == '>'){
+            if(key != ""){
+//                genome.insert(pair<string,string>(key,seq));
+                ouf << seq.substr(start,len);
+                ouf << "\n";
+            }
+//            key = line.substr(1,line.length()-1);
+            ouf << line << "\n";
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+//    genome.insert(pair<string,string>(key,seq));
+//    cout << genome.size() << " sequences added!" << endl;
+    ouf << seq.substr(start,len);
+    
+    return 0;
+}
 int vcfoverlap(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);

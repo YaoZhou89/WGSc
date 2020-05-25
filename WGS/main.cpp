@@ -441,6 +441,8 @@ int main(int argc, char * argv[]) {
                 generateSyntenyGenome(para);
             }else if ((para->type) == "generateAltGenome"){
                 generateAltGenome(para);
+            }else if ((para ->type) =="splitGenome"){
+                splitGenome(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
