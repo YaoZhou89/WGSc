@@ -316,6 +316,8 @@ int main(int argc, char * argv[]) {
                 getConcordance_bed(para);
             }else if ((para -> type) == "frq2dxy"){
                 frq2dxy(para);
+            }else if ((para ->type) == "changeGeneticDistance"){
+                changeGeneticDistance(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

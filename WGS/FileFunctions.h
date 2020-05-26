@@ -10831,6 +10831,44 @@ int splitGenome(parameter *para){
     
     return 0;
 }
+int changeGeneticDistance(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    string seq;
+    string key = "";
+    map<string,string> snps;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        snps.insert(pair<string,string>(ll[0],ll[2]));
+    }
+    cout << "All snps readed!" << endl;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(snps.count(ll[0])== 0){
+            cerr << "SNPs not found!" << endl;
+        }
+        ll[2] = snps[ll[0]];
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); i++ ){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int vcfoverlap(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
