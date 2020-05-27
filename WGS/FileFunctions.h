@@ -10836,7 +10836,7 @@ int elai_summary(parameter *para){
     string outFile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
     ofstream ouf_sum ((outFile+".sum.txt").c_str()); // total ratio
-    
+    double t = (para->threshold);
     string line;
     vector<string> ll;
     while (!inf.eof()){
@@ -10847,7 +10847,7 @@ int elai_summary(parameter *para){
 //        cout << "snps size is:\t" << ll.size()/2 << endl;
         for (int i = 0; i < ll.size(); i+=2){
             double r = string2Double(ll[i]);
-            if(r>0.8) sum += r;
+            if(r > t) sum ++;
         }
         ouf_sum << sum << "\t" << ll.size()/2 << "\t" << sum/ll.size() << "\n";
     }
