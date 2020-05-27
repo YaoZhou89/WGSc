@@ -318,6 +318,8 @@ int main(int argc, char * argv[]) {
                 frq2dxy(para);
             }else if ((para ->type) == "changeGeneticDistance"){
                 changeGeneticDistance(para);
+            }else if ((para->type) == "elai_summary"){
+                elai_summary(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

@@ -10831,6 +10831,28 @@ int splitGenome(parameter *para){
     
     return 0;
 }
+int elai_summary(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf_sum ((outFile+".sum.txt").c_str()); // total ratio
+    
+    string line;
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        int sum = 0;
+        for (int i = 0; i < ll.size(); i+=2){
+            double r =string2Double(ll[i]);
+            if(r>0.8) sum++;
+        }
+        ouf_sum << sum << "\t" << ll.size()/2 << "\t" << (sum*2.0)/ll.size() << "\n";
+    }
+    ouf_sum.close();
+    return 0;
+}
 int changeGeneticDistance(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
