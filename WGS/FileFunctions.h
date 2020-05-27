@@ -10842,7 +10842,7 @@ int elai_summary(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        split(line,ll,"\t");
+        split(line,ll," \t");
         int sum = 0;
         cout << "snps size is:\t" << ll.size()/2 << endl;
         for (int i = 0; i < ll.size(); i+=2){
