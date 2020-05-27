@@ -10843,13 +10843,13 @@ int elai_summary(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
-        int sum = 0;
+        double sum = 0;
 //        cout << "snps size is:\t" << ll.size()/2 << endl;
         for (int i = 0; i < ll.size(); i+=2){
             double r = string2Double(ll[i]);
-            if(r>0.8) sum++;
+            if(r>0.8) sum += r;
         }
-        ouf_sum << sum << "\t" << ll.size()/2 << "\t" << (sum*2.0)/ll.size() << "\n";
+        ouf_sum << sum << "\t" << ll.size()/2 << "\t" << sum/ll.size() << "\n";
     }
     ouf_sum.close();
     return 0;
