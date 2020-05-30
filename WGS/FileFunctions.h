@@ -10854,6 +10854,34 @@ int elai_summary(parameter *para){
     ouf_sum.close();
     return 0;
 }
+
+int elai_region(parameter *para){
+    string infile = (para -> inFile);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    double t = (para->threshold);
+    string line;
+    vector<string> ll;
+    int cl = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        cl++;
+        ofstream ouf_sum ((outFile + "." + Int2String(cl) + ".sites.txt").c_str()); // total ratio
+        for (int i = 0; i < ll.size(); i+=2){
+            double r = string2Double(ll[i]);
+            if(r > t) {
+                ouf_sum << "1\n";
+            }else{
+                ouf_sum << "0\n";
+            }
+        }
+        ouf_sum.close();
+    }
+    return 0;
+}
+
 int changeGeneticDistance(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);

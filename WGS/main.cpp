@@ -320,6 +320,8 @@ int main(int argc, char * argv[]) {
                 changeGeneticDistance(para);
             }else if ((para->type) == "elai_summary"){
                 elai_summary(para);
+            }else if ((para->type) == "elai_region"){
+                elai_region(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
