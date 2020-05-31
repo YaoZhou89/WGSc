@@ -324,6 +324,8 @@ int main(int argc, char * argv[]) {
                 elai_region(para);
             }else if ((para->type) == "elai_regions"){
                 elai_regions(para);
+            }else if ((para->type) == "elai2bed"){
+                elai2bed(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

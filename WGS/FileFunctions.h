@@ -1014,6 +1014,7 @@ int Depth2Bed(parameter *para){
     ouf.close();
     return 1;
 }
+
 int getUnMapped(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
     ofstream ouf ((para->outFile).c_str());
@@ -10920,6 +10921,54 @@ int elai_regions(parameter *para){
         }
         ouf_sum.close();
     }
+    return 0;
+}
+int elai2bed(parameter *para){
+    string infile = (para -> inFile); // snps file
+    string infile2 = (para -> inFile2); // site file
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str()); // total ratio
+    string line;
+    vector<string> ll;
+    vector<int> pos;
+    string chr;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#') continue;
+        split(line,ll," \t");
+        if(ll[0] == "rs") continue;
+        chr=ll[4];
+        pos.push_back(string2Int(ll[5]));
+    }
+    int start = 0, end = 0;
+    bool cont = false;
+    int cl = 0;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        int v = string2Int(line);
+        if (v == 0){
+            if (cont &(end!=start) ){
+                ouf << chr << "\t" << start << "\t" << end << "\n";
+            }
+            cont = false;
+        }else{
+            if(!cont){
+                start = pos[cl];
+                cont = true;
+            }else{
+               end = pos[cl];
+            }
+        }
+        cl++;
+    }
+    if (cont &(end!=start) ){
+        ouf << chr << "\t" << start << "\t" << end << "\n";
+    }
+    ouf.close();
     return 0;
 }
 
