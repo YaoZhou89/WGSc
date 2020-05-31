@@ -10881,6 +10881,46 @@ int elai_region(parameter *para){
     }
     return 0;
 }
+int elai_regions(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string infile3 = (para -> inFile3);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    igzstream inf3 ((infile3).c_str(),ifstream::in);
+    
+    double t = (para->threshold);
+    string line;
+    string line2;
+    string line3;
+    vector<string> ll;
+    vector<string> ll2;
+    vector<string> ll3;
+    int cl = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        getline(inf2,line2);
+        getline(inf3,line3);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        cl++;
+        ofstream ouf_sum ((outFile + "." + Int2String(cl) + ".sites.txt").c_str()); // total ratio
+        for (int i = 0; i < ll.size(); i+=2){
+            double r = string2Double(ll[i]);
+            double r2 = string2Double(ll2[i]);
+            double r3 = string2Double(ll3[i]);
+            if((r+r2+r3)/3 > t) {
+                ouf_sum << "1\n";
+            }else{
+                ouf_sum << "0\n";
+            }
+        }
+        ouf_sum.close();
+    }
+    return 0;
+}
+
 
 int changeGeneticDistance(parameter *para){
     string infile = (para -> inFile);
