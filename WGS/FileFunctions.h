@@ -10904,6 +10904,8 @@ int elai_regions(parameter *para){
         getline(inf3,line3);
         if(line.length() < 1) continue;
         split(line,ll," \t");
+        split(line2,ll2," \t");
+        split(line3,ll3," \t");
         cl++;
         ofstream ouf_sum ((outFile + "." + Int2String(cl) + ".sites.txt").c_str()); // total ratio
         for (int i = 0; i < ll.size(); i+=2){
