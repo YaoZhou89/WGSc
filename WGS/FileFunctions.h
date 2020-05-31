@@ -10951,7 +10951,7 @@ int elai2bed(parameter *para){
         if(line.length() < 1) continue;
         int v = string2Int(line);
         if (v == 0){
-            if (cont &(end!=start) ){
+            if (cont & (end > start) ){
                 ouf << chr << "\t" << start << "\t" << end << "\n";
             }
             cont = false;
@@ -10965,7 +10965,7 @@ int elai2bed(parameter *para){
         }
         cl++;
     }
-    if (cont &(end!=start) ){
+    if (cont &(end > start) ){
         ouf << chr << "\t" << start << "\t" << end << "\n";
     }
     ouf.close();
