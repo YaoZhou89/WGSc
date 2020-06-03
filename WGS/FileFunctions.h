@@ -10977,27 +10977,31 @@ int elai2bed(parameter *para){
     int start = 0, end = 0;
     bool cont = false;
     int cl = 0;
+    int counted = 0;
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         int v = string2Int(line);
         if (v == 0){
             if (cont & (end > start) ){
-                ouf << chr << "\t" << start << "\t" << end << "\n";
+                ouf << chr << "\t" << start << "\t" << end << "\t"<< counted<< "\n";
             }
+            counted = 0;
             cont = false;
         }else{
             if(!cont){
                 start = pos[cl];
                 cont = true;
+                counted++;
             }else{
-               end = pos[cl];
+                counted++;
+                end = pos[cl];
             }
         }
         cl++;
     }
     if (cont &(end > start) ){
-        ouf << chr << "\t" << start << "\t" << end << "\n";
+        ouf << chr << "\t" << start << "\t" << end << "\t"<< counted << "\n";
     }
     ouf.close();
     return 0;
