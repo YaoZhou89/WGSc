@@ -10691,7 +10691,7 @@ int getIBSdistance_bed(parameter *para){
         split(line,ll,"\t");
         int p = string2Int(ll[1]);
         if (p < start[0]) continue;
-        if (p > end[r] && p < start[r+1]){
+        if (p > end[r]){
             r++;
             cal = false;
             ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
@@ -10734,6 +10734,7 @@ int getIBSdistance_bed(parameter *para){
             }
             ibd_tmp[i] = 0;
         }
+        ouf << "\n";
     }
 //    cout << "ending" << endl;
     ouf.close();
