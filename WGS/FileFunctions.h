@@ -10658,7 +10658,7 @@ int getIBSdistance_bed(parameter *para){
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
-        if(string2Int(ll[3]) < 3) continue;
+//        if(string2Int(ll[3]) < 3) continue;
         start.push_back(string2Int(ll[1]));
         end.push_back(string2Int(ll[2]));
     }
