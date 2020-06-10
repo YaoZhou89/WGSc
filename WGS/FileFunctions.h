@@ -10695,10 +10695,8 @@ int getIBSdistance_bed(parameter *para){
             r++;
             cal = false;
             ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
-            std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
-//            cout << "smallest find!" << endl;
+            std::vector<double>::iterator smallest = std::max_element(std::begin(ibd_tmp), std::end(ibd_tmp));
             double s = *smallest;
-//            cout << "smallest value is " << *smallest << endl;
             for (int i = 0; i < ibd_tmp.size();i++){
                 if(ibd_tmp[i] == s) {
                     ouf << ID2p[pos2[i]] <<";";
@@ -10726,9 +10724,6 @@ int getIBSdistance_bed(parameter *para){
         }
         
     }
-//    cout << "all finded!" << endl;
-//    cout << "r is: " << r << endl;
-//    cout << "start size is: " << start.size() << endl;
     if(cal){
         ouf << ll[0] << "\t" << start[r] << "\t" << end[r] << "\t";
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
@@ -10742,7 +10737,6 @@ int getIBSdistance_bed(parameter *para){
     }
 //    cout << "ending" << endl;
     ouf.close();
-    cout << "testing" << endl;
     return 0;
 }
 int getGeneticDistanceRef(parameter *para){
