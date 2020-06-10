@@ -10652,7 +10652,6 @@ int getIBSdistance_bed(parameter *para){
     vector<int> end;
     string ID1 = (para -> flag);
     int pos1;
-    
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -10676,7 +10675,7 @@ int getIBSdistance_bed(parameter *para){
         if(line.length() < 1) continue;
         if(line[0]=='#' && line[1] == '#') continue;
         if(line[1] == 'C'){
-            cout << "readed header!" << endl;
+//            cout << "readed header!" << endl;
             ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size();i++){
@@ -10697,9 +10696,9 @@ int getIBSdistance_bed(parameter *para){
             cal = false;
             ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
             std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
-            cout << "smallest find!" << endl;
+//            cout << "smallest find!" << endl;
             double s = *smallest;
-            cout << "smallest value is " << *smallest << endl;
+//            cout << "smallest value is " << *smallest << endl;
             for (int i = 0; i < ibd_tmp.size();i++){
                 if(ibd_tmp[i] == s) {
                     ouf << ID2p[pos2[i]] <<";";
@@ -10727,9 +10726,9 @@ int getIBSdistance_bed(parameter *para){
         }
         
     }
-    cout << "all finded!" << endl;
-    cout << "r is: " << r << endl;
-    cout << "start size is: " << start.size() << endl;
+//    cout << "all finded!" << endl;
+//    cout << "r is: " << r << endl;
+//    cout << "start size is: " << start.size() << endl;
     if(cal){
         ouf << ll[0] << "\t" << start[r] << "\t" << end[r] << "\t";
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
@@ -10740,9 +10739,8 @@ int getIBSdistance_bed(parameter *para){
             }
             ibd_tmp[i] = 0;
         }
-        ouf << "\n";
     }
-    cout << "ending" << endl;
+//    cout << "ending" << endl;
     ouf.close();
     return 0;
 }
