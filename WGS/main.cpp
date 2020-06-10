@@ -328,6 +328,8 @@ int main(int argc, char * argv[]) {
                 elai_regions(para);
             }else if ((para->type) == "elai2bed"){
                 elai2bed(para);
+            }else if ((para ->type) == "getIBSdistance_bed"){
+                getIBSdistance_bed(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
