@@ -10731,7 +10731,7 @@ int getIBSdistance_bed(parameter *para){
     cout << "r is: " << r << endl;
     cout << "start size is: " << start.size() << endl;
     if(cal){
-        ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
+        ouf << ll[0] << "\t" << start[r] << "\t" << end[r] << "\t";
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
         double s = *smallest;
         for (int i = 0; i < ibd_tmp.size();i++){
@@ -10742,6 +10742,7 @@ int getIBSdistance_bed(parameter *para){
         }
         ouf << "\n";
     }
+    cout << "ending" << endl;
     ouf.close();
     return 0;
 }
