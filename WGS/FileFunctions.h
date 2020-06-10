@@ -10742,6 +10742,7 @@ int getIBSdistance_bed(parameter *para){
     }
 //    cout << "ending" << endl;
     ouf.close();
+    cout << "testing" << endl;
     return 0;
 }
 int getGeneticDistanceRef(parameter *para){
