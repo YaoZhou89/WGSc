@@ -10697,7 +10697,9 @@ int getIBSdistance_bed(parameter *para){
             cal = false;
             ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
             std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
+            cout << "smallest find!" << endl;
             double s = *smallest;
+            cout << "smallest value is " << *smallest << endl;
             for (int i = 0; i < ibd_tmp.size();i++){
                 if(ibd_tmp[i] == s) {
                     ouf << ID2p[pos2[i]] <<";";
