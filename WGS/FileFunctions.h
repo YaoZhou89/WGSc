@@ -10691,7 +10691,6 @@ int getIBSdistance_bed(parameter *para){
         split(line,ll,"\t");
         int p = string2Int(ll[1]);
         if (p < start[r]) continue;
-        
         if (p > end[r] & p < start[r+1]){
             r++;
             cal = false;
@@ -10702,8 +10701,12 @@ int getIBSdistance_bed(parameter *para){
             }
             std::vector<double>::iterator smallest = std::max_element(std::begin(ibd_tmp), std::end(ibd_tmp));
             double s = *smallest;
+            if (s == 0){
+                ouf << "NA" << "\n";
+                continue;
+            }
             for (int i = 0; i < ibd_tmp.size();i++){
-                if(ibd_tmp[i] == s) {
+                if( ibd_tmp[i] == s) {
                     ouf << ID2p[pos2[i]] <<";";
                 }
                 ibd_tmp[i] = 0;
