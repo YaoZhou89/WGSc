@@ -10706,7 +10706,7 @@ int getIBSdistance_bed(parameter *para){
                 continue;
             }
             for (int i = 0; i < ibd_tmp.size();i++){
-                if( ibd_tmp[i] == s) {
+                if(ibd_tmp[i] == s) {
                     ouf << ID2p[pos2[i]] <<";";
                 }
                 ibd_tmp[i] = 0;
