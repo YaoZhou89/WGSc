@@ -10662,6 +10662,7 @@ int getIBSdistance_bed(parameter *para){
         start.push_back(string2Int(ll[1]));
         end.push_back(string2Int(ll[2]));
     }
+    cout << "readed file2!" << endl;
     bool cal = false;
     map<int,string> ID2p;
     vector<int> pos2;
@@ -10675,6 +10676,7 @@ int getIBSdistance_bed(parameter *para){
         if(line.length() < 1) continue;
         if(line[0]=='#' && line[1] == '#') continue;
         if(line[1] == 'C'){
+            cout << "readed header!" << endl;
             ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size();i++){
