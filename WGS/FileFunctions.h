@@ -10692,10 +10692,6 @@ int getIBSdistance_bed(parameter *para){
         int p = string2Int(ll[1]);
         if (p < start[r]) continue;
         
-        if (p > start[r+1]){
-            r++;
-            ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t" << "NA\n";
-        }
         if (p > end[r] & p < start[r+1]){
             r++;
             cal = false;
