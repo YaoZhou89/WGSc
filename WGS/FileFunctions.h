@@ -10728,6 +10728,8 @@ int getIBSdistance_bed(parameter *para){
         
     }
     cout << "all finded!" << endl;
+    cout << "r is: " << r << endl;
+    cout << "start size is: " << start.size() << endl;
     if(cal){
         ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
