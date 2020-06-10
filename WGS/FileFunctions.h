@@ -10608,6 +10608,136 @@ int getGeneticDistance2(parameter *para){
     
     return 0;
 }
+int getIBSdistance_site(parameter *para){
+    /*
+     This was designed to get calculate the IBS distance among one and a population ;
+     input: site file indicating passed or not;
+     input: vcf files;
+     input: sample files;
+     output: IBS distance using passed sites only;
+     */
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string infile3 = (para -> inFile3);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // vcf file
+    igzstream inf2 ((infile2).c_str(),ifstream::in); // site file
+//    igzstream inf3 ((infile3).c_str(),ifstream::in); // ID file
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> IDs = getSubgroup(infile3);
+    string ID1 = (para -> flag);
+    
+    return 0;
+}
+int getIBSdistance_bed(parameter *para){
+    /*
+     This was designed to get calculate the IBS distance among one and a population and report the most smallest ones;
+     input: bed file;
+     input: vcf files;
+     input: sample files;
+     */
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string infile3 = (para -> inFile3);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // vcf file
+    igzstream inf2 ((infile2).c_str(),ifstream::in); // bed file
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> IDs = getSubgroup(infile3);
+    vector<int> start;
+    vector<int> end;
+    string ID1 = (para -> flag);
+    int pos1;
+    
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(string2Int(ll[3]) < 3) continue;
+        start.push_back(string2Int(ll[1]));
+        end.push_back(string2Int(ll[2]));
+    }
+    bool cal = false;
+    map<int,string> ID2p;
+    vector<int> pos2;
+    int r = 0;
+    double ibs = 0;
+    vector<double> ibd(start.size(),0);
+    vector<string> selected(start.size(),"");
+    vector<double> ibd_tmp (IDs.size(),0);
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]=='#' && line[1] == '#') continue;
+        if(line[1] == 'C'){
+            ll.clear();
+            split(line,ll,"\t");
+            for(int i = 9; i < ll.size();i++){
+                if(ll[i] == ID1) pos1 = i;
+                if(IDs.count(ll[i]) == 1){
+                    pos2.push_back(i);
+                    ID2p.insert(pair<int,string>(i,ll[i]));
+                }
+            }
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        int p = string2Int(ll[1]);
+        if (p < start[0]) continue;
+        if (p > end[r] && p < start[r+1]){
+            r++;
+            cal = false;
+            ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
+            std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
+            double s = *smallest;
+            for (int i = 0; i < ibd_tmp.size();i++){
+                if(ibd_tmp[i] == s) {
+                    ouf << ID2p[pos2[i]] <<";";
+                }
+                ibd_tmp[i] = 0;
+            }
+            ouf << "\n";
+            continue;
+        }
+        cal = true;
+        for (int i = 0; i < pos2.size();i++){
+            if(ll[pos1][0] == '.') continue;
+            if (ll[pos1][0] == ll[pos1][2]){
+                if(ll[pos1][0] == ll[pos2[i]][0]){
+                    if(ll[pos2[i]][0] == ll[pos2[i]][2]){
+                        ibd_tmp[r] += 1;
+                    }else{
+                        ibd_tmp[r] += 0.5;
+                    }
+                }
+            }else{
+                if(ll[pos2[i]][0] == '.') continue;
+                ibd_tmp[r] += 0.5;
+            }
+        }
+        
+    }
+    if(cal){
+        ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
+        std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
+        double s = *smallest;
+        for (int i = 0; i < ibd_tmp.size();i++){
+            if(ibd_tmp[i] == s) {
+                ouf << ID2p[pos2[i]] <<";";
+            }
+            ibd_tmp[i] = 0;
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int getGeneticDistanceRef(parameter *para){
     string infile = (para -> inFile);
     string outFile = (para -> outFile);
