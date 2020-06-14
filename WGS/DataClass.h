@@ -142,6 +142,16 @@ public:
     }
 };
 
+class range {
+public:
+    int from;
+    int to;
+
+public:
+    range(): from(-1), to(-1) {}
+    range(int f, int t): from(f), to(t) {}
+};
+
 int **imatrix(long nrl, long nrh, long ncl, long nch)
 /* allocate a int matrix with subscript range m[nrl..nrh][ncl..nch] */
 {

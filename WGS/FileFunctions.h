@@ -10651,6 +10651,7 @@ int getIBSdistance_bed(parameter *para){
     vector<int> start;
     vector<int> end;
     string ID1 = (para -> flag);
+    map<range*,int> bedpairs;
     int pos1;
     while(!inf2.eof()){
         getline(inf2,line);
@@ -12643,10 +12644,10 @@ int getConcordance_bed(parameter *para){
         }
         int pos = string2Int(ll[1]);
         double value = 0.0;
-        if(ll.size() == 10){
+        if(ll.size() > 5){
             value = string2Double(ll[5]);
         }
-        cs[(ch-1)*1000000 + pos] = value;
+        cs[(ch-1)*100000000 + pos] = value;
     }
     vector<double> rate(101,0.0);
     prechr = "";
@@ -12667,11 +12668,11 @@ int getConcordance_bed(parameter *para){
             ch = string2Int(chr);
         }
         for (int i = string2Int(ll[1]); i < string2Int(ll[2]); ++i){
-            int a = cs[(ch-1)*1000000 + i]*100;
+            int a = cs[(ch-1)*100000000 + i]*100;
             rate[a]++;
         }
     }
-    rate[0] = 0;
+//    rate[0] = 0;
     for (int i = 0; i < rate.size(); ++i){
         ouf << Double2String(0.01*i) << "\t" << rate[i] << "\n";
     }
