@@ -3835,6 +3835,17 @@ int merge2vcf (parameter *para){
     ouf.close();
     return 1;
 }
+int union3vcf(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string inFile3 = (para->inFile3);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    igzstream inf2  ((inFile2.c_str()),fstream::in);
+    igzstream inf3  ((inFile3.c_str()),fstream::in);
+    
+    string outFile = (para->outFile);
+    return 0;
+}
 int add2vcf (parameter *para){
     string inFile = (para->inFile);
     string inFile2 = (para->inFile2);
@@ -10648,19 +10659,24 @@ int getIBSdistance_bed(parameter *para){
     string line;
     vector<string> ll;
     set<string> IDs = getSubgroup(infile3);
-    vector<int> start;
-    vector<int> end;
+    vector<int> ranges;
+    vector<int> orders;
     string ID1 = (para -> flag);
-    map<range*,int> bedpairs;
+//    map<range*,int> bedpairs;
+//    vector <int> range;
     int pos1;
+    int order = 0;
+   
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll,"\t");
 //        if(string2Int(ll[3]) < 3) continue;
-        start.push_back(string2Int(ll[1]));
-        end.push_back(string2Int(ll[2]));
+        ranges.push_back(string2Int(ll[1]));
+        ranges.push_back(string2Int(ll[2]));
+        orders.push_back(order);
+        order++;
     }
     cout << "readed file2!" << endl;
     bool cal = false;
@@ -10668,15 +10684,15 @@ int getIBSdistance_bed(parameter *para){
     vector<int> pos2;
     int r = 0;
     double ibs = 0;
-    vector<double> ibd(start.size(),0);
-    vector<string> selected(start.size(),"");
+    vector<double> ibd(orders.size(),0);
+    vector<string> selected(orders.size(),"");
     vector<double> ibd_tmp (IDs.size(),0);
+    map<int,vector<double>> ibsv;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if(line[0]=='#' && line[1] == '#') continue;
+        if(line[0] == '#' && line[1] == '#') continue;
         if(line[1] == 'C'){
-//            cout << "readed header!" << endl;
             ll.clear();
             split(line,ll,"\t");
             for(int i = 9; i < ll.size();i++){
@@ -10691,50 +10707,19 @@ int getIBSdistance_bed(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         int p = string2Int(ll[1]);
-        if (p < start[r]) continue;
-        if (p > end[r] & p < start[r+1]){
-            r++;
-            cal = false;
-            ouf << ll[0] << "\t" << start[r-1] << "\t" << end[r-1] << "\t";
-            if (p > start[r]) {
-                ouf << "NA" << "\n";
-                continue;
-            }
-            std::vector<double>::iterator smallest = std::max_element(std::begin(ibd_tmp), std::end(ibd_tmp));
-            double s = *smallest;
-            if (s == 0){
-                ouf << "NA" << "\n";
-                continue;
-            }
-            for (int i = 0; i < ibd_tmp.size();i++){
-                if(ibd_tmp[i] == s) {
-                    ouf << ID2p[pos2[i]] <<";";
-                }
-                ibd_tmp[i] = 0;
-            }
-            ouf << "\n";
-            continue;
+        int c = bianrysearch(ranges,orders,orders.size(),p);
+        if (c == -1) continue;
+        if (ibsv.count(c) == 0){
+            initialize(ibd_tmp);
+        }else{
+            ibd_tmp = ibsv[c];
         }
-        cal = true;
-        for (int i = 0; i < pos2.size();i++){
-            if(ll[pos1][0] == '.') continue;
-            if (ll[pos1][0] == ll[pos1][2]){
-                if(ll[pos1][0] == ll[pos2[i]][0]){
-                    if(ll[pos2[i]][0] == ll[pos2[i]][2]){
-                        ibd_tmp[r] += 1;
-                    }else{
-                        ibd_tmp[r] += 0.5;
-                    }
-                }
-            }else{
-                if(ll[pos2[i]][0] == '.') continue;
-                ibd_tmp[r] += 0.5;
-            }
-        }
-        
+        calibs(pos2,ll,pos1,ibd_tmp);
+        ibsv.insert(pair<int,vector<double>>(c,ibd_tmp));
     }
-    if(cal){
-        ouf << ll[0] << "\t" << start[r] << "\t" << end[r] << "\t";
+    for (int i = 0; i < orders.size(); ++i){
+        ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i+1] << "\t";
+        ibd_tmp = ibsv[i];
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
         double s = *smallest;
         for (int i = 0; i < ibd_tmp.size();i++){
@@ -10745,7 +10730,6 @@ int getIBSdistance_bed(parameter *para){
         }
         ouf << "\n";
     }
-//    cout << "ending" << endl;
     ouf.close();
     return 0;
 }

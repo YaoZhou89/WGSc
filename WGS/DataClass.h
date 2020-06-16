@@ -151,7 +151,11 @@ public:
     range(): from(-1), to(-1) {}
     range(int f, int t): from(f), to(t) {}
 };
-
+struct intComp {
+    bool operator() (const int& lhs, const int& rhs) const{
+        return lhs > rhs;
+    }
+};
 int **imatrix(long nrl, long nrh, long ncl, long nch)
 /* allocate a int matrix with subscript range m[nrl..nrh][ncl..nch] */
 {

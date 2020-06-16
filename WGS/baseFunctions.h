@@ -228,6 +228,38 @@ set <string> getSubgroup(string& inFile){
     inf.close();
     return names;
 }
+int bianrysearch(vector<int> ranges,vector<int> results, int size, int c){
+    if(size <= 1) return -1;
+
+    int start, end, mid;
+    start = 0;
+    end = size - 1;
+
+    while(start <= end) {
+        if(c < ranges[start] || c > ranges[end]) return -1;
+        mid = start + (end - start) / 2;
+        if(c == ranges[mid]) return results[mid / 2];
+        if(c < ranges[mid]) {
+            if(mid % 2 == 1) {
+                if(c >= ranges[mid - 1]) return results[mid / 2];
+                else end = mid - 2;
+            }
+            else end = mid - 1;
+        }
+        else {
+            if(mid % 2 == 0) {
+                if(c <= ranges[mid + 1]) return results[mid / 2];
+                else start = mid + 2;
+            }
+            else start = mid + 1;
+        }
+    }
+
+    return -1;  // not found.
+
+    return -1;
+    
+}
 void getName(set<string> &name1,set<string> &name2, vector<string> &n1, vector<string> &n2, string &inFile){
     igzstream inf ((inFile.c_str()),ifstream::in);
     if(inf.fail()) throw std::runtime_error("invalid subgroup files!");
@@ -259,6 +291,29 @@ set <string> getSubgroup(string& inFile,int pos){
     cout << "subgroup file readed! " << names.size() << " samples!" << endl;
     inf.close();
     return names;
+}
+void  calibs(vector<int> pos2, vector<string> ll, int pos1, vector<double> &ibd_tmp){
+    for (int i = 0; i < pos2.size();i++){
+        if(ll[pos1][0] == '.') continue;
+        if (ll[pos1][0] == ll[pos1][2]){
+            if(ll[pos1][0] == ll[pos2[i]][0]){
+                if(ll[pos2[i]][0] == ll[pos2[i]][2]){
+                    ibd_tmp[i] += 1;
+                }else{
+                    ibd_tmp[i] += 0.5;
+                }
+            }
+        }else{
+            if(ll[pos2[i]][0] == '.') continue;
+            ibd_tmp[i] += 0.5;
+        }
+    }
+}
+
+void initialize(vector<double> &v){
+    for (int i = 0; i < v.size(); i++){
+        v[i] = 0.0;
+    }
 }
 double MAF(vector <string> & ll, vector<int> na){
     double maf = 0;
