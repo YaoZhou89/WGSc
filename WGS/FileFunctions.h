@@ -10694,7 +10694,7 @@ int getIBSdistance_bed(parameter *para){
     vector<double> ibd_tmp (IDs.size(),0);
     vector<double> maker_tmp (IDs.size(),0);
     vector<double> IBD_tmp (IDs.size(),0);
-    vector<double> MAKER_tmp (IDs.size(),0);
+    vector<double> MARKER_tmp (IDs.size(),0);
     map<int,vector<double>> ibsv;
     map<int,vector<double>> makerv;
     int passed = 0;
@@ -10735,8 +10735,8 @@ int getIBSdistance_bed(parameter *para){
         initialize(ibd_tmp);
         calibs(pos2,ll,pos1,ibd_tmp,maker_tmp);
         for(int i = 0; i < ibd_tmp.size();i++){
-            MARKER_tmp += maker_tmp[i];
-            IBD_tmp += ibd_tmp[i];
+            MARKER_tmp[i] += maker_tmp[i];
+            IBD_tmp[i] += ibd_tmp[i];
         }
         cout << MARKER_tmp[8] << endl;
         ibsv.insert(pair<int,vector<double>>(c,IBD_tmp));
