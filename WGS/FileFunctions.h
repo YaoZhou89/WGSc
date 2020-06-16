@@ -10690,7 +10690,7 @@ int getIBSdistance_bed(parameter *para){
     map<int,vector<double>> ibsv;
     cout << "57215 order is:\t" << bianrysearch(ranges,orders,orders.size(),57215) << endl;
     cout << "252809 order is:\t" << bianrysearch(ranges,orders,orders.size(),252809) << endl;
-    cout << "803734 order is:\t" << bianrysearch(ranges,orders,orders.size(),803734) << endl;
+    cout << "21931250 order is:\t" << bianrysearch(ranges,orders,orders.size(),21931250) << endl;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -10714,7 +10714,7 @@ int getIBSdistance_bed(parameter *para){
         if (c == -1) continue;
         if (ibsv.count(c) == 0){
             initialize(ibd_tmp);
-            cout << "c is: "<< c <<"; bid_tmp[8] = " << ibd_tmp[8] << endl;
+//            cout << "c is: "<< c <<"; bid_tmp[8] = " << ibd_tmp[8] << endl;
         }else{
             ibd_tmp = ibsv[c];
         }
