@@ -10675,6 +10675,8 @@ int getIBSdistance_bed(parameter *para){
 //        if(string2Int(ll[3]) < 3) continue;
         ranges.push_back(string2Int(ll[1]));
         ranges.push_back(string2Int(ll[2]));
+        cout << ll[1] << ": " << string2Int(ll[1]);
+        cout << ll[2] << ": " << string2Int(ll[2]);
         orders.push_back(order);
         order++;
     }
