@@ -10720,6 +10720,7 @@ int getIBSdistance_bed(parameter *para){
     for (int i = 0; i < orders.size(); ++i){
         ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i+1] << "\t";
         ibd_tmp = ibsv[i];
+        cout << "ibd size is:\t" << ibd_tmp.size() << endl;
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
         double s = *smallest;
         for (int i = 0; i < ibd_tmp.size();i++){
