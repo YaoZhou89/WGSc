@@ -10734,6 +10734,7 @@ int getIBSdistance_bed(parameter *para){
         initialize(maker_tmp);
         initialize(ibd_tmp);
         calibs(pos2,ll,pos1,ibd_tmp,maker_tmp);
+        cout << "C is:\t" << c <<"; marker 8 is:\t" << maker_tmp[8] << endl;
         for(int i = 0; i < ibd_tmp.size();i++){
             MARKER_tmp[i] += maker_tmp[i];
             IBD_tmp[i] += ibd_tmp[i];
