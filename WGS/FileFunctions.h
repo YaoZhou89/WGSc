@@ -10774,7 +10774,10 @@ int getIBSdistance_bed(parameter *para){
 //        for(int i = 0; i < ibs_dis.size();i++){
 //            cout << "i is:\t" << i <<",value is:\t" << ibs_dis[i] << endl;
 //        }
-        if(ibs_dis.size() == 0 ) continue;
+        if(ibs_dis.size() == 0 ) {
+            ouf << "NA\tNA\n";
+            continue;
+        };
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibs_dis), std::end(ibs_dis));
         double s = *smallest;
 //        cout << "debug3..." << endl;
