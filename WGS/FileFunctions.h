@@ -10693,6 +10693,8 @@ int getIBSdistance_bed(parameter *para){
 //    vector<string> selected(orders.size(),"");
     vector<double> ibd_tmp (IDs.size(),0);
     vector<double> maker_tmp (IDs.size(),0);
+    vector<double> IBD_tmp (IDs.size(),0);
+    vector<double> MAKER_tmp (IDs.size(),0);
     map<int,vector<double>> ibsv;
     map<int,vector<double>> makerv;
     int passed = 0;
@@ -10718,21 +10720,27 @@ int getIBSdistance_bed(parameter *para){
         int c = bianrysearch(ranges,orders,ranges.size(),p);
         if (c == -1) continue;
         if (ibsv.count(c) == 0){
-            initialize(ibd_tmp);
+            initialize(IBD_tmp);
 //            cout << "c is: "<< c <<"; bid_tmp[8] = " << ibd_tmp[8] << endl;
         }else{
-            ibd_tmp = ibsv[c];
+            IBD_tmp = ibsv[c];
         }
         if (makerv.count(c) == 0){
-            initialize(maker_tmp);
+            initialize(MARKER_tmp);
         }else{
-            maker_tmp = makerv[c];
+            MARKER_tmp = makerv[c];
         }
         passed++;
+        initialize(maker_tmp);
+        initialize(ibd_tmp);
         calibs(pos2,ll,pos1,ibd_tmp,maker_tmp);
-        cout << maker_tmp[8] << endl;
-        ibsv.insert(pair<int,vector<double>>(c,ibd_tmp));
-        makerv.insert(pair<int,vector<double>>(c,maker_tmp));
+        for(int i = 0; i < ibd_tmp.size();i++){
+            MARKER_tmp += maker_tmp[i];
+            IBD_tmp += ibd_tmp[i];
+        }
+        cout << MARKER_tmp[8] << endl;
+        ibsv.insert(pair<int,vector<double>>(c,IBD_tmp));
+        makerv.insert(pair<int,vector<double>>(c,MARKER_tmp));
     }
     cout << "Passed number is:\t" << passed++ << endl;
     for (int i = 0; i < orders.size(); ++i){
