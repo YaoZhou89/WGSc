@@ -10759,6 +10759,7 @@ int getIBSdistance_bed(parameter *para){
 //        cout << "ibd size is:\t" << ibd_tmp.size() << endl;
         maker_tmp = makerv[i];
         vector <double> ibs_dis(ibd_tmp.size(),0);
+        cout << "debug1..." << endl;
         for(int i = 0; i < ibd_tmp.size();i++){
 //            cout <<"marker number is:\t" << maker_tmp[i] << endl;
 //            cout <<"ibd_tmp  is:\t:" << ibd_tmp[i] << endl;
@@ -10768,8 +10769,10 @@ int getIBSdistance_bed(parameter *para){
                 ibs_dis[i] = 1 - ibd_tmp[i]/maker_tmp[i];
             }
         }
+        cout << "debug2..." << endl;
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibs_dis), std::end(ibs_dis));
         double s = *smallest;
+        cout << "debug3..." << endl;
         for (int i = 0; i < ibs_dis.size();i++){
             if(ibs_dis[i] == s) {
                 ouf << ID2p[pos2[i]] <<";";
