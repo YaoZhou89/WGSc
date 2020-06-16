@@ -10738,7 +10738,11 @@ int getIBSdistance_bed(parameter *para){
         maker_tmp = makerv[i];
         vector <double> ibs_dis(ibd_tmp.size(),0);
         for(int i = 0; i < ibd_tmp.size();i++){
-            ibs_dis[i] = 1 - ibd_tmp[i]/maker_tmp[i];
+            if(maker_tmp[i] == 0){
+                ibs_dis[i] = 1
+            }else{
+                ibs_dis[i] = 1 - ibd_tmp[i]/maker_tmp[i];
+            }
         }
         std::vector<double>::iterator smallest = std::min_element(std::begin(ibs_dis), std::end(ibs_dis));
         double s = *smallest;
