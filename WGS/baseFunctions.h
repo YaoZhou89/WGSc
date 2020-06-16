@@ -230,13 +230,15 @@ set <string> getSubgroup(string& inFile){
 }
 int bianrysearch(vector<int> ranges,vector<int> results, int size, int c){
     if(size <= 1) return -1;
-
     int start, end, mid;
     start = 0;
     end = size - 1;
 
     while(start <= end) {
         if(c < ranges[start] || c > ranges[end]) return -1;
+        if(c==21931250){
+            cout << "mid is:\t" << endl;
+        }
         mid = start + (end - start) / 2;
         if(c == ranges[mid]) return results[mid / 2];
         if(c < ranges[mid]) {
@@ -248,6 +250,9 @@ int bianrysearch(vector<int> ranges,vector<int> results, int size, int c){
         }
         else {
             if(mid % 2 == 0) {
+                if(c==21931250){
+                    cout << "mid is:\t" << endl;
+                }
                 if(c <= ranges[mid + 1]) return results[mid / 2];
                 else start = mid + 2;
             }
