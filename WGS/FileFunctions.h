@@ -10739,7 +10739,7 @@ int getIBSdistance_bed(parameter *para){
         vector <double> ibs_dis(ibd_tmp.size(),0);
         for(int i = 0; i < ibd_tmp.size();i++){
             if(maker_tmp[i] == 0){
-                ibs_dis[i] = 1
+                ibs_dis[i] = 1;
             }else{
                 ibs_dis[i] = 1 - ibd_tmp[i]/maker_tmp[i];
             }
