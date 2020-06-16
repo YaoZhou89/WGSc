@@ -10738,6 +10738,9 @@ int getIBSdistance_bed(parameter *para){
         maker_tmp = makerv[i];
         vector <double> ibs_dis(ibd_tmp.size(),0);
         for(int i = 0; i < ibd_tmp.size();i++){
+            
+            cout <<"marker number is:\t:" << maker_tmp[i] << endl;
+            cout <<"ibd_tmp  is:\t:" << ibd_tmp[i] << endl;
             if(maker_tmp[i] == 0){
                 ibs_dis[i] = 1;
             }else{
