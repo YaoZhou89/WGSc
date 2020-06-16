@@ -10739,7 +10739,7 @@ int getIBSdistance_bed(parameter *para){
             MARKER_tmp[i] += maker_tmp[i];
             IBD_tmp[i] += ibd_tmp[i];
         }
-        cout << "C is:\t" << c <<"; marker 8 is:\t" << MARKER_tmp[8] << endl;
+        cout << "C is:\t" << c <<"; MARKER 8 is:\t" << MARKER_tmp[8] << endl;
         ibsv.insert(pair<int,vector<double>>(c,IBD_tmp));
         makerv.insert(pair<int,vector<double>>(c,MARKER_tmp));
     }
