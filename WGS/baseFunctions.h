@@ -235,9 +235,6 @@ int bianrysearch(vector<int> ranges,vector<int> results, int size, int c){
     end = size - 1;
     while(start <= end) {
         if(c < ranges[start] || c > ranges[end]) return -1;
-        if(c==21931250){
-            cout << "mid is:\t" << endl;
-        }
         mid = start + (end - start) / 2;
         if(c == ranges[mid]) return results[mid / 2];
         if(c < ranges[mid]) {
