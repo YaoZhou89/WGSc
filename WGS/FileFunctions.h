@@ -10739,7 +10739,7 @@ int getIBSdistance_bed(parameter *para){
             MARKER_tmp[i] += maker_tmp[i];
             IBD_tmp[i] += ibd_tmp[i];
         }
-        cout << "C is:\t" << c <<"; ibd_tmp 8 is:\t" << IBD_tmp[8] << endl;
+//        cout << "C is:\t" << c <<"; ibd_tmp 8 is:\t" << IBD_tmp[8] << endl;
         if (ibsv.count(c) == 0){
             ibsv.insert(pair<int,vector<double>>(c,IBD_tmp));
         }else{
@@ -10752,9 +10752,9 @@ int getIBSdistance_bed(parameter *para){
         }
         
     }
-    cout << "Passed number is:\t" << passed++ << endl;
+//    cout << "Passed number is:\t" << passed++ << endl;
     for (int i = 0; i < orders.size(); ++i){
-        ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i+1] << "\t";
+        ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i*2+1] << "\t";
         ibd_tmp = ibsv[i];
 //        cout << "ibd size is:\t" << ibd_tmp.size() << endl;
         maker_tmp = makerv[i];
