@@ -10679,6 +10679,9 @@ int getIBSdistance_bed(parameter *para){
         order++;
     }
     cout << "File2 size is:\t" << orders.size() << endl;
+    for(int i = 0; i < orders.size(); i++){
+        cout << orders[i] << endl;
+    }
 //    bool cal = false;
     map<int,string> ID2p;
     vector<int> pos2;
@@ -10688,8 +10691,7 @@ int getIBSdistance_bed(parameter *para){
     vector<string> selected(orders.size(),"");
     vector<double> ibd_tmp (IDs.size(),0);
     map<int,vector<double>> ibsv;
-    cout << "57215 order is:\t" << bianrysearch(ranges,orders,orders.size(),57215) << endl;
-    cout << "252809 order is:\t" << bianrysearch(ranges,orders,orders.size(),252809) << endl;
+    
     cout << "21931250 order is:\t" << bianrysearch(ranges,orders,orders.size(),21931250) << endl;
     while (!inf.eof()){
         getline(inf,line);
