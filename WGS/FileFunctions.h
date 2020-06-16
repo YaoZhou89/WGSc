@@ -10752,7 +10752,7 @@ int getIBSdistance_bed(parameter *para){
         }
         
     }
-//    cout << "Passed number is:\t" << passed++ << endl;
+    cout << "Passed number is:\t" << passed++ << endl;
     for (int i = 0; i < orders.size(); ++i){
         ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i*2+1] << "\t";
         ibd_tmp = ibsv[i];
