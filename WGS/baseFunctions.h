@@ -291,7 +291,7 @@ set <string> getSubgroup(string& inFile,int pos){
     return names;
 }
 void  calibs(vector<int> pos2, vector<string> ll, int pos1, vector<double> &ibd_tmp, vector<double> &maker_tmp){
-    while(ll[pos1][0] != '.'){
+    if(ll[pos1][0] != '.'){
         for (int i = 0; i < pos2.size();i++){
             if (ll[pos1][0] == ll[pos1][2]){
                 if(ll[pos1][0] == ll[pos2[i]][0]){
