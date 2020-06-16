@@ -10695,6 +10695,7 @@ int getIBSdistance_bed(parameter *para){
     vector<double> maker_tmp (IDs.size(),0);
     map<int,vector<double>> ibsv;
     map<int,vector<double>> makerv;
+    int passed = 0;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -10727,10 +10728,12 @@ int getIBSdistance_bed(parameter *para){
         }else{
             maker_tmp = makerv[c];
         }
+        passed++;
         calibs(pos2,ll,pos1,ibd_tmp,maker_tmp);
         ibsv.insert(pair<int,vector<double>>(c,ibd_tmp));
         makerv.insert(pair<int,vector<double>>(c,maker_tmp));
     }
+    cout << "Passed number is:\t" << passed++ << endl;
     for (int i = 0; i < orders.size(); ++i){
         ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i+1] << "\t";
         ibd_tmp = ibsv[i];
@@ -10738,8 +10741,7 @@ int getIBSdistance_bed(parameter *para){
         maker_tmp = makerv[i];
         vector <double> ibs_dis(ibd_tmp.size(),0);
         for(int i = 0; i < ibd_tmp.size();i++){
-            
-            cout <<"marker number is:\t:" << maker_tmp[i] << endl;
+            cout <<"marker number is:\t" << maker_tmp[i] << endl;
             cout <<"ibd_tmp  is:\t:" << ibd_tmp[i] << endl;
             if(maker_tmp[i] == 0){
                 ibs_dis[i] = 1;
