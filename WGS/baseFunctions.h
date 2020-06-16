@@ -290,7 +290,7 @@ set <string> getSubgroup(string& inFile,int pos){
     inf.close();
     return names;
 }
-void  calibs(vector<int> pos2, vector<string> ll, int pos1, vector<double> &ibd_tmp){
+void  calibs(vector<int> pos2, vector<string> ll, int pos1, vector<double> &ibd_tmp, vector<double> &maker_tmp){
     for (int i = 0; i < pos2.size();i++){
         if(ll[pos1][0] == '.') continue;
         if (ll[pos1][0] == ll[pos1][2]){
@@ -300,10 +300,12 @@ void  calibs(vector<int> pos2, vector<string> ll, int pos1, vector<double> &ibd_
                 }else{
                     ibd_tmp[i] += 0.5;
                 }
+                maker_tmp[i] ++;
             }
         }else{
             if(ll[pos2[i]][0] == '.') continue;
             ibd_tmp[i] += 0.5;
+            maker_tmp[i] ++;
         }
     }
 }

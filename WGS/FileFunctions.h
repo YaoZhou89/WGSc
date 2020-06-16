@@ -10681,9 +10681,9 @@ int getIBSdistance_bed(parameter *para){
         order++;
     }
     cout << "File2 size is:\t" << orders.size() << endl;
-    for(int i = 0; i < orders.size(); i++){
-        cout << orders[i] << endl;
-    }
+//    for(int i = 0; i < orders.size(); i++){
+//        cout << orders[i] << endl;
+//    }
 //    bool cal = false;
     map<int,string> ID2p;
     vector<int> pos2;
@@ -10692,9 +10692,9 @@ int getIBSdistance_bed(parameter *para){
 //    vector<double> ibd(orders.size(),0);
 //    vector<string> selected(orders.size(),"");
     vector<double> ibd_tmp (IDs.size(),0);
+    vector<double> maker_tmp (IDs.size(),0);
     map<int,vector<double>> ibsv;
-    
-    cout << "21931250 order is:\t" << bianrysearch(ranges,orders,ranges.size(),21931250) << endl;
+    map<int,vector<double>> makerv;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -10722,22 +10722,34 @@ int getIBSdistance_bed(parameter *para){
         }else{
             ibd_tmp = ibsv[c];
         }
-        calibs(pos2,ll,pos1,ibd_tmp);
+        if (makerv.count(c) == 0){
+            initialize(maker_tmp);
+        }else{
+            maker_tmp = makerv[c];
+        }
+        calibs(pos2,ll,pos1,ibd_tmp,maker_tmp);
         ibsv.insert(pair<int,vector<double>>(c,ibd_tmp));
+        makerv.insert(pair<int,vector<double>>(c,maker_tmp));
     }
     for (int i = 0; i < orders.size(); ++i){
         ouf << ll[0] << "\t" << ranges[i*2] << "\t" << ranges[i+1] << "\t";
         ibd_tmp = ibsv[i];
 //        cout << "ibd size is:\t" << ibd_tmp.size() << endl;
-        std::vector<double>::iterator smallest = std::min_element(std::begin(ibd_tmp), std::end(ibd_tmp));
+        maker_tmp = makerv[i];
+        vector <double> ibs_dis(ibd_tmp.size(),0);
+        for(int i = 0; i < ibd_tmp.size();i++){
+            ibs_dis[i] = 1 - ibd_tmp[i]/maker_tmp[i];
+        }
+        std::vector<double>::iterator smallest = std::min_element(std::begin(ibs_dis), std::end(ibs_dis));
         double s = *smallest;
-        for (int i = 0; i < ibd_tmp.size();i++){
-            if(ibd_tmp[i] == s) {
+        for (int i = 0; i < ibs_dis.size();i++){
+            if(ibs_dis[i] == s) {
                 ouf << ID2p[pos2[i]] <<";";
             }
-            ibd_tmp[i] = 0;
+//            ibs_dis[i] = 0;
         }
-        ouf << "\n";
+        ouf << "\t";
+        ouf << s << "\n";
     }
     ouf.close();
     return 0;
