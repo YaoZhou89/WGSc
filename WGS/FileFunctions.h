@@ -11461,6 +11461,58 @@ int getUnIntersectVcf(parameter *para){
     
     return 0;
 }
+
+int concatVCFsite(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> sites;
+    vector<string> ll;
+    cout << "Reading sites..." << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,1) == "#"){
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        sites.insert(ll[0]+"_"+ll[1]);
+        for(int i = 0; i < 9; i++){
+            ouf << ll[i] << "\t";
+        }
+        ouf << ll[9] << "\n";
+    }
+    cout << "Total sites is:\t" << sites.size() << endl;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,1) == "#") {
+            ouf << line << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if(sites.count(ll[0]+"_"+ll[1])==0){
+            for(int i = 0; i < 9; i++){
+                ouf << ll[i] << "\t";
+            }
+            ouf << ll[9] << "\n";
+        }
+    }
+    inf.close();
+    inf2.close();
+    ouf.close();
+    
+    return 0;
+}
+
 int getDistanceAll(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
