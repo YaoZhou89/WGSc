@@ -11476,12 +11476,18 @@ int concatVCFsite(parameter *para){
     while(!inf2.eof()){
         getline(inf2,line);
         if(line.length()<1) continue;
-        if(line.substr(0,1) == "#"){
+        if(line.substr(0,2) == "##"){
             ouf << line << "\n";
             continue;
         }
         ll.clear();
         split(line,ll,"\t");
+        if(line.substr(0,2) == "#C"){
+            for(int i = 0; i < 9; i++){
+                ouf << ll[i] << "\t";
+            }
+            continue;
+        }
         sites.insert(ll[0]+"_"+ll[1]);
         for(int i = 0; i < 9; i++){
             ouf << ll[i] << "\t";
