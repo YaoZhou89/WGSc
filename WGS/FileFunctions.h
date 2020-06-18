@@ -11486,6 +11486,7 @@ int concatVCFsite(parameter *para){
             for(int i = 0; i < 9; i++){
                 ouf << ll[i] << "\t";
             }
+            ouf << ll[9] << "\n";
             continue;
         }
         sites.insert(ll[0]+"_"+ll[1]);
