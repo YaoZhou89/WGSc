@@ -11501,7 +11501,7 @@ int concatVCFsite(parameter *para){
         getline(inf,line);
         if(line.length()<1) continue;
         if(line.substr(0,1) == "#") {
-            ouf << line << "\n";
+//            ouf << line << "\n";
             continue;
         };
         ll.clear();
