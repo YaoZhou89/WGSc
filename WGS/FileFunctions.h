@@ -13234,6 +13234,7 @@ int readAllFolder(parameter *para){
         string str = files[i];
         vector<string> ll;
         split(str,ll,"/");
+        if(ll.size() != 11) continue;
         string tmp = ll[9];
         ll.clear();
         split(tmp,ll,"_");
