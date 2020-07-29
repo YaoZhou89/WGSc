@@ -13226,6 +13226,7 @@ int readAllFolder(parameter *para){
     ofstream ouf ((outfile).c_str());
     string pattern = (para->pattern);
     vector<string> files = getSubFoldfiles(infile,suffix);
+    cout << "files size is:\t" << files.size() << endl;
     for(int i = 0; i < files.size(); i++){
         smatch result;
         string str = files[i];
