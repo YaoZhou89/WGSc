@@ -681,7 +681,8 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
             {
                 cout << "suffix is:\t" << suffix << endl;
                 cout << "name is:\t" << dirp->d_name << endl;
-                if(regex_search(dirp->d_name, regex("gz")))
+                string name = dirp->d_name;
+                if(name.substr(name.length-suffix.length-1,suffix.length) == suffix)
                 {
                     string full_path = curr_path + "/" + dirp->d_name;
                     files.push_back(full_path);
