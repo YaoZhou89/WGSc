@@ -12,6 +12,7 @@
 #define BITS_PER_BYTE (8)
 #define BIG_ENOUGH (1024)
 #include <vector>
+#include <dirent.h>
 
 using namespace std;
 typedef long int  lint ;
@@ -609,5 +610,81 @@ double radian (double d){
 }
 bool isNA(string a){
     return a == "-nan" || a == "nan" || a == "na" || a == "NA"|| a == "Inf"|| a == "-Inf" || a == "inf"|| a == "-inf";
+}
+
+std::vector<std::string> getCurrentFoldfiles(std::string path, std::string suffix)
+{
+    std::vector<std::string> files;
+    files.clear();
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp = opendir(path.c_str())) == NULL)
+    {
+        cout << "Can not open " << path << endl;
+        return files;
+    }
+    regex reg_obj(suffix, regex::icase);
+    while((dirp = readdir(dp)) != NULL)
+    {
+//        cout << "type is: " << dirp -> d_type << endl;
+        if(dirp -> d_type == 8)  // 4 means catalog; 8 means file; 0 means unknown
+        {
+//            cout << "name is: " << dirp->d_name <<  endl;
+            if(regex_search(dirp->d_name, reg_obj))
+            {
+                string all_path = path + dirp->d_name;
+//                cout << all_path  << endl;
+                files.push_back(all_path);
+//                cout << dirp->d_name << " " << dirp->d_ino << " " << dirp->d_reclen << " " << dirp->d_type << endl;
+            }
+        }
+    }
+    closedir(dp);
+    return files;
+}
+
+std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
+{
+    std::vector<std::string> files;
+//    files.clear();
+    regex reg_obj(suffix, regex::icase);
+
+    std::vector<std::string> paths;
+    paths.push_back(path);
+
+    for(int i = 0; i < paths.size(); i++)
+    {
+        string curr_path = paths[i];
+        DIR *dp;
+        struct dirent *dirp;
+        if((dp = opendir(curr_path.c_str())) == NULL)
+        {
+            cerr << "can not open this file." << endl;
+            continue;
+        }
+        while((dirp = readdir(dp)) != NULL)
+        {
+            if(dirp->d_type == 4)
+            {
+                if((dirp->d_name)[0] == '.') // 这里很奇怪，每个文件夹下都会有两个文件： '.'  和   '..'
+                    continue;
+//                cout << dirp->d_name << " ";
+                string tmp_path = curr_path + "/" + dirp->d_name;
+//                cout << tmp_path << " ";
+                paths.push_back(tmp_path);
+//                cout << paths[paths.size() - 1] << endl;
+            }
+            else if(dirp->d_type == 8)
+            {
+                if(regex_search(dirp->d_name, reg_obj))
+                {
+                    string full_path = curr_path + "/" + dirp->d_name;
+                    files.push_back(full_path);
+                }
+            }
+        }
+        closedir(dp);
+    }
+    return files;
 }
 #endif /* baseFunctions_h */

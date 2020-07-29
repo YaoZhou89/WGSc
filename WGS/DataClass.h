@@ -25,6 +25,7 @@ public:
     string logFile;
     string chr;
     string flag;
+    string pattern;
     double  MQ;
     double FS;
     double MQRankSum;
@@ -85,6 +86,7 @@ public:
         threshold = -0.00001;
         thread = 1;
         step_size = 0;
+        pattern = "";
     }
 };
 

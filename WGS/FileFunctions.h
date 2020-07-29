@@ -13199,4 +13199,44 @@ int BSAseq (parameter *para){
     ouf.close();
     return 0;
 }
+int readCurrentFolder(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    string suffix = (para->suffix);
+    ofstream ouf ((outfile).c_str());
+    string pattern = (para->pattern);
+    vector<string> files = getCurrentFoldfiles(infile,suffix);
+    for(int i = 0; i < files.size(); i++){
+        smatch result;
+        string str = files[i];
+        string::const_iterator iterStart = str.begin();
+        string::const_iterator iterEnd = str.end();
+        regex pattern(pattern);
+        regex_search(iterStart, iterEnd, result, pattern);
+        ouf <<  str << "\t" << result[0] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+int readAllFolder(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    string suffix = (para -> suffix);
+    ofstream ouf ((outfile).c_str());
+    string pattern = (para->pattern);
+    vector<string> files = getSubFoldfiles(infile,suffix);
+    for(int i = 0; i < files.size(); i++){
+        smatch result;
+        string str = files[i];
+        string::const_iterator iterStart = str.begin();
+        string::const_iterator iterEnd = str.end();
+        regex pattern(pattern);
+        regex_search(iterStart, iterEnd, result, pattern);
+        ouf <<  str << "\t" << result[0] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
 #endif /* FileFunctions_h */
