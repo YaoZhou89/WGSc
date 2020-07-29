@@ -664,6 +664,7 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
         }
         while((dirp = readdir(dp)) != NULL)
         {
+            cout << "type is:\t" << dirp->d_type << endl;
             if(dirp->d_type == 4)
             {
                 if((dirp->d_name)[0] == '.') // 这里很奇怪，每个文件夹下都会有两个文件： '.'  和   '..'
