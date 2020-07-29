@@ -665,7 +665,7 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
         while((dirp = readdir(dp)) != NULL)
         {
 //            cout << "type is:\t" << dirp->d_type << endl;
-            cout << "name is:\t" << dirp->d_name << endl;
+//            cout << "name is:\t" << dirp->d_name << endl;
             if(dirp->d_type == 4)
             {
                 
@@ -679,6 +679,7 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
             }
             else if(dirp->d_type == 8)
             {
+                cout << "name is:\t" << dirp->d_name << endl;
                 if(regex_search(dirp->d_name, reg_obj))
                 {
                     string full_path = curr_path + "/" + dirp->d_name;
@@ -688,6 +689,7 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
         }
         closedir(dp);
     }
+    cout << "files size is:\t" << files.size() << endl;
     return files;
 }
 #endif /* baseFunctions_h */
