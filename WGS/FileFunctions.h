@@ -13222,7 +13222,7 @@ int readCurrentFolder(parameter *para){
 int readAllFolder(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
-    string suffix = (para -> suffix);
+    string suffix = "fastq.gz";
     ofstream ouf ((outfile).c_str());
     string pattern = (para->pattern);
     cout << "infile is:\t" << infile << endl;
