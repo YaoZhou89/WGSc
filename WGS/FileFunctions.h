@@ -13225,18 +13225,20 @@ int readAllFolder(parameter *para){
     string suffix = (para -> suffix);
     ofstream ouf ((outfile).c_str());
     string pattern = (para->pattern);
-    cout << "infile is:\t" << infile << endl;
-    cout << "suffix is:\t" << suffix << endl;
+//    cout << "infile is:\t" << infile << endl;
+//    cout << "suffix is:\t" << suffix << endl;
     vector<string> files = getSubFoldfiles(infile,suffix);
-    
-    cout << "files size is:\t" << files.size() << endl;
+    cout << "Number of files matched is:\t" << files.size() << endl;
     for(int i = 0; i < files.size(); i++){
         smatch result;
         string str = files[i];
+        cout << "string is:\t" << str << endl;
         string::const_iterator iterStart = str.begin();
         string::const_iterator iterEnd = str.end();
-        regex pattern("L\\d{3}");
+        regex pattern(pattern);
+        cout << "testing 1..." << endl;
         regex_search(iterStart, iterEnd, result, pattern);
+        cout << "testing 2..." << endl;
         ouf <<  str << "\t" << result[0] << "\n";
     }
     ouf.close();
