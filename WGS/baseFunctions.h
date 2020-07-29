@@ -680,8 +680,10 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
             else if(dirp->d_type == 8)
             {
                 cout << "suffix is:\t" << suffix << endl;
+               
                 if(regex_search(dirp->d_name, reg_obj))
                 {
+                    cout << "name is:\t" << dirp->d_name << endl;
                     string full_path = curr_path + "/" + dirp->d_name;
                     files.push_back(full_path);
                 }
