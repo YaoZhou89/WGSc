@@ -13246,7 +13246,7 @@ int readAllFolder(parameter *para){
 //        cout << "pattern is:\t" << pattern << endl;
 //        regex_search(iterStart, iterEnd, result, regex(pattern));
 //        cout << "testing 2..." << endl;
-        ouf <<  str << "\t" << ll[3] << "\n";
+        ouf <<  str << "\t" << ll[ll.size()-1] << "\n";
     }
     ouf.close();
     return 0;
