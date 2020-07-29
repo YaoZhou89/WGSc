@@ -24,8 +24,8 @@ int main(int argc, char * argv[]) {
     start = clock();
 //    string infile = "/Users/yaozhou/Downloads/";
 //    string suffix = "fq.gz";
-//    vector<string> files = getCurrentFoldfiles(infile,suffix);
-////    cout << "runing " << files.size() << endl;
+//    vector<string> files = getSubFoldfiles(infile,suffix);
+//    cout << "runing " << files.size() << endl;
 //    for(int i = 0; i < files.size(); i++){
 //        smatch result;
 //        string str = files[i];

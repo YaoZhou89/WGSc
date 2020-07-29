@@ -13231,7 +13231,7 @@ int readAllFolder(parameter *para){
         string str = files[i];
         string::const_iterator iterStart = str.begin();
         string::const_iterator iterEnd = str.end();
-        regex pattern(pattern);
+        regex pattern("L\\d{3}");
         regex_search(iterStart, iterEnd, result, pattern);
         ouf <<  str << "\t" << result[0] << "\n";
     }
