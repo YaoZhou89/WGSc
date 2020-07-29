@@ -13235,7 +13235,7 @@ int readAllFolder(parameter *para){
         vector<string> ll;
         split(str,ll,"/");
         if(ll.size() != 11 & ll.size() != 12) continue;
-        string tmp = ll[9];
+        string tmp = ll[ll.size()-2];
         ll.clear();
         split(tmp,ll,"_");
 //        cout << "string is:\t" << str << endl;
