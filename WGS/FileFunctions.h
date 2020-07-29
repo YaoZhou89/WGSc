@@ -13232,15 +13232,20 @@ int readAllFolder(parameter *para){
     for(int i = 0; i < files.size(); i++){
         smatch result;
         string str = files[i];
-        cout << "string is:\t" << str << endl;
-        string::const_iterator iterStart = str.begin();
-        string::const_iterator iterEnd = str.end();
+        vector<string> ll;
+        split(str,ll,"/");
+        string tmp = ll[9];
+        ll.clear();
+        split(tmp,ll,"_");
+//        cout << "string is:\t" << str << endl;
+//        string::const_iterator iterStart = str.begin();
+//        string::const_iterator iterEnd = str.end();
 //        regex pattern(pattern);
-        cout << "testing 1..." << endl;
-        cout << "pattern is:\t" << pattern << endl;
-        regex_search(iterStart, iterEnd, result, regex(pattern));
-        cout << "testing 2..." << endl;
-        ouf <<  str << "\t" << result[0] << "\n";
+//        cout << "testing 1..." << endl;
+//        cout << "pattern is:\t" << pattern << endl;
+//        regex_search(iterStart, iterEnd, result, regex(pattern));
+//        cout << "testing 2..." << endl;
+        ouf <<  str << "\t" << ll[3] << "\n";
     }
     ouf.close();
     return 0;
