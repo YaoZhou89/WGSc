@@ -12874,7 +12874,8 @@ int KmerFrequence(parameter *para){
 int FastqKmerFrequence(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
-    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf ((infile+"1.fq.gz").c_str(),ifstream::in);
+    igzstream inf2 ((infile+"2.fq.gz").c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string line;
     unordered_map<uint64_t, int> kf;
@@ -12894,6 +12895,46 @@ int FastqKmerFrequence(parameter *para){
             continue;
         }
 //        cout << line << endl;
+        if(line.length() > kmer){
+            for (int i = 0; i < line.length() - kmer - 1; i = i + kmer){
+                uint64_t key = encode(line.substr(i,kmer));
+                if (kf.count(key) == 1){
+                    int v = kf[key];
+                    int nv = v + 1;
+                    kf[key] = nv;
+                }else{
+                    kf.insert(pair<uint64_t,int>(key,1));
+                }
+            }
+        }
+        string rl = reverse_complementary(line);
+        if(rl != ""){
+            for (int i = 0; i < rl.length() - kmer - 1; i=i+kmer){
+                uint64_t key = encode(rl.substr(i,kmer));
+                if (kf.count(key) == 1){
+                    int v = kf[key];
+                    int nv = v + 1;
+                    kf[key] = nv;
+                }else{
+                    kf.insert(pair<uint64_t,int>(key,1));
+                }
+            }
+        }
+    }
+    
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if (line[0]=='@') {
+            next = true;
+            continue;
+        }
+        if (next){
+            next = false;
+        }else{
+            continue;
+        }
+    //       cout << line << endl;
         if(line.length() > kmer){
             for (int i = 0; i < line.length() - kmer - 1; i = i + kmer){
                 uint64_t key = encode(line.substr(i,kmer));
