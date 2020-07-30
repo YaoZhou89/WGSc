@@ -20,20 +20,7 @@
 int main(int argc, char * argv[]) {
     clock_t start;
     double duration;
-//    cout << encode("CCTCTAATTGTGATAATGCCAAATTTCTGACT") << endl;
     start = clock();
-//    string infile = "/Users/yaozhou/Downloads/";
-//    string suffix = "fq.gz";
-//    vector<string> files = getSubFoldfiles(infile,suffix);
-//    for(int i = 0; i < files.size(); i++){
-//        smatch result;
-//        string str = files[i];
-//        string::const_iterator iterStart = str.begin();
-//        string::const_iterator iterEnd = str.end();
-//        regex pattern("L\\d{3}");
-//        regex_search(iterStart, iterEnd, result, pattern);
-//        cout <<  str << "\t" << result[0] << endl;
-//    }
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -41,7 +28,6 @@ int main(int argc, char * argv[]) {
         return 1 ;
     }
     
-//    checkOUT(para);
     vcf *inVCF = new vcf;
     depth *inDepth = new depth;
     // testing:
@@ -483,7 +469,8 @@ int main(int argc, char * argv[]) {
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
-                getKmer(para);
+//                getKmer(para);
+                FastqKmerFrequence(para);
             }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){
