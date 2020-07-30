@@ -12988,7 +12988,7 @@ int countFastaKmer(parameter *para){
     int threshold = (para->threshold);
     vector<string> ll;
     int kmer_len;
-    while (inf2.eof()){
+    while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
@@ -12998,7 +12998,7 @@ int countFastaKmer(parameter *para){
         uint64_t key = encode(ll[0]);
         kmer.insert(key);
     }
-    cout << "library readed!" << endl;
+    cout << "library readed! size is:\t" << kmer.size() << endl;
     bool next = false;
     string seq = "";
     string readID = "";
