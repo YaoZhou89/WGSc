@@ -12883,7 +12883,7 @@ int FastqKmerFrequence(parameter *para){
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if (line=="+") {
+        if (line[0]=='@') {
             next = true;
             continue;
         }
@@ -12892,6 +12892,7 @@ int FastqKmerFrequence(parameter *para){
         }else{
             continue;
         }
+//        cout << line << endl;
         if(line != ""){
             for (int i = 0; i < line.length() - kmer - 1; ++i){
                 uint64_t key = encode(line.substr(i,kmer));
@@ -12923,8 +12924,10 @@ int FastqKmerFrequence(parameter *para){
     for(iter = kf.begin(); iter != kf.end(); iter++){
         uint64_t key = iter->first;
         char *reads;
+//        cout << "reads freq is\t" << iter->second << endl;
         decode(key,reads,false);
-        ouf << reads << "\t" << iter->second << "\n";
+        cout << "finished" << endl;
+        ouf << &reads << "\t" << iter->second << "\n";
     }
     ouf.close();
     return 0;
