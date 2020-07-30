@@ -12871,6 +12871,64 @@ int KmerFrequence(parameter *para){
     ouf.close();
     return 0;
 }
+int FastqKmerFrequence(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    unordered_map<uint64_t, int> kf;
+    int kmer = (para -> size);
+    bool next = false;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line=="+") {
+            next = true;
+            continue;
+        }
+        if (next){
+            next = false;
+        }else{
+            continue;
+        }
+        if(line != ""){
+            for (int i = 0; i < line.length() - kmer - 1; ++i){
+                uint64_t key = encode(line.substr(i,kmer));
+                if (kf.count(key) == 1){
+                    int v = kf[key];
+                    int nv = v + 1;
+                    kf[key] = nv;
+                }else{
+                    kf.insert(pair<uint64_t,int>(key,1));
+                }
+            }
+        }
+        string rl = reverse_complementary(line);
+        if(rl != ""){
+            for (int i = 0; i < rl.length() - kmer - 1; i=i+kmer){
+                uint64_t key = encode(rl.substr(i,kmer));
+                if (kf.count(key) == 1){
+                    int v = kf[key];
+                    int nv = v + 1;
+                    kf[key] = nv;
+                }else{
+                    kf.insert(pair<uint64_t,int>(key,1));
+                }
+            }
+        }
+    }
+    cout << "Total k-mer is:\t" << kf.size() << endl;
+    unordered_map<uint64_t,int>::iterator iter;
+    for(iter = kf.begin(); iter != kf.end(); iter++){
+        uint64_t key = iter->first;
+        char *reads;
+        decode(key,reads,false);
+        ouf << reads << "\t" << iter->second << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
