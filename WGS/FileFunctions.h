@@ -12992,7 +12992,7 @@ int countFastaKmer(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         ll.clear();
-        split(line,ll,"\t");
+        split(line,ll," \t");
         kmer_len = ll[0].length();
         cout << "length is: " << kmer_len << endl;
         uint64_t key = encode(ll[0]);
