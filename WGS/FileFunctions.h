@@ -12995,7 +12995,6 @@ int countFastaKmer(parameter *para){
         split(line,ll," \t");
         kmer_len = ll[0].length();
         uint64_t key = encode(ll[0]);
-        cout << "key is:\t" << key << endl;
         kmer.insert(key);
     }
     cout << "library readed! size is:\t" << kmer.size() << endl;
