@@ -473,7 +473,7 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "fqLib"){
                 FastqKmerFrequence(para);
             }else if((para->type) == "countFasta"){
-                FastqKmerFrequence(para);
+                countFastaKmer(para);
             }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){

@@ -12976,6 +12976,71 @@ int FastqKmerFrequence(parameter *para){
     return 0;
 }
 
+int countFastaKmer(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    igzstream inf2 ((infile2).c_str(),ifstream::in); // library file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    set<uint64_t> kmer;
+    int threshold = (para->threshold);
+    vector<string> ll;
+    int kmer_len;
+    while (inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        kmer_len = ll[0].length();
+        uint64_t key = encode(ll[0]);
+        kmer.insert(key);
+    }
+    bool next = false;
+    string seq = "";
+    string readID = "";
+    unordered_map<string,int> freq;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(seq != ""){
+                //To do kmer counting;
+                int seqlength = seq.length();
+                int counted = 0;
+                for(int i = 0; i < seqlength - kmer_len; i++){
+                    uint64_t key = encode(seq.substr(i,kmer_len));
+                    if(kmer.count(key) == 1) counted++;
+                }
+                double f = counted*1.0/seqlength*1.0;
+                if (f < threshold ) continue;
+                ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
+            }
+            readID = line.substr(1,line.length()-1);
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    if(seq != ""){
+        //To do kmer counting;
+        int seqlength = seq.length();
+        int counted = 0;
+        for(int i = 0; i < seqlength - kmer_len; i++){
+            uint64_t key = encode(seq.substr(i,kmer_len));
+            if(kmer.count(key) == 1) counted++;
+        }
+        double f = counted*1.0/seqlength*1.0;
+        if (f > threshold ) {
+             ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
+        }
+       
+    }
+    ouf.close();
+    return 0;
+}
+
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
