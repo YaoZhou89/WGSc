@@ -12981,7 +12981,7 @@ int countFastaKmer(parameter *para){
     string infile2 = (para -> inFile2);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in); // fasta file
-    igzstream inf2 ((infile2).c_str(),ifstream::in); // library file
+    ifstream inf2 (infile2.c_str()); // library file
     ofstream ouf ((outfile).c_str());
     string line;
     set<uint64_t> kmer;
@@ -12997,10 +12997,11 @@ int countFastaKmer(parameter *para){
         uint64_t key = encode(ll[0]);
         kmer.insert(key);
     }
+    cout << "library readed!" << endl;
     bool next = false;
     string seq = "";
     string readID = "";
-    unordered_map<string,int> freq;
+//    unordered_map<string,int> freq;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
