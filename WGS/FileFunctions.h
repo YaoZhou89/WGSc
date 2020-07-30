@@ -12894,7 +12894,8 @@ int FastqKmerFrequence(parameter *para){
         }else{
             continue;
         }
-        cout << line << endl;
+//        cout << line << endl;
+        if(line.length() < kmer + 1) continue;
         if(line.length() > kmer){
             for (int i = 0; i < line.length() - kmer - 1; i = i + kmer){
                 uint64_t key = encode(line.substr(i,kmer));
@@ -12934,7 +12935,7 @@ int FastqKmerFrequence(parameter *para){
         }else{
             continue;
         }
-        cout << line << endl;
+        if(line.length() < kmer + 1) continue;
         if(line.length() > kmer){
             for (int i = 0; i < line.length() - kmer - 1; i = i + kmer){
                 uint64_t key = encode(line.substr(i,kmer));
