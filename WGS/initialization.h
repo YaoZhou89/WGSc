@@ -144,6 +144,11 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> pattern = argv[i];
+        }else if (flag == "freq")
+        {
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> freq = atoi(argv[i]);
         }
         else if (flag == "maxDepth")
         {

@@ -48,6 +48,7 @@ public:
     bool recode;
     double mean;
     bool noNeg;
+    int freq;
     string headerC;
     string suffix;
     set<int> pos; // used for change chromosome pos;
@@ -87,6 +88,7 @@ public:
         thread = 1;
         step_size = 0;
         pattern = "";
+        freq = 1;
     }
 };
 

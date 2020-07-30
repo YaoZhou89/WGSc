@@ -12878,6 +12878,7 @@ int FastqKmerFrequence(parameter *para){
     ofstream ouf ((outfile).c_str());
     string line;
     unordered_map<uint64_t, int> kf;
+    int freq = (para->freq);
     int kmer = (para -> size);
     bool next = false;
     while(!inf.eof()){
@@ -12925,7 +12926,9 @@ int FastqKmerFrequence(parameter *para){
         uint64_t key = iter->first;
         char reads[kmer];
         decode(key,reads,false);
-        ouf << reads << "\t" << iter->second << "\n";
+        if (iter->second > freq){
+            ouf << reads << "\t" << iter->second << "\n";
+        }
     }
     ouf.close();
     return 0;
