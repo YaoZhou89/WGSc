@@ -12994,8 +12994,8 @@ int countFastaKmer(parameter *para){
         ll.clear();
         split(line,ll," \t");
         kmer_len = ll[0].length();
-        cout << "length is: " << kmer_len << endl;
         uint64_t key = encode(ll[0]);
+        cout << "key is:\t" << key << endl;
         kmer.insert(key);
     }
     cout << "library readed! size is:\t" << kmer.size() << endl;
@@ -13012,11 +13012,12 @@ int countFastaKmer(parameter *para){
                 int seqlength = seq.length();
                 int counted = 0;
                 for(int i = 0; i < seqlength - kmer_len; i++){
-                    cout << seq.substr(i,kmer_len) << endl;
                     uint64_t key = encode(seq.substr(i,kmer_len));
                     if(kmer.count(key)) counted++;
+                    cout << "key is:\t" << key << endl;
+                    cout << "counted is:\t" << counted << endl;
                 }
-                cout << "counted is:\t" << counted << endl;
+                
                 double f = counted*1.0/seqlength*1.0;
                 if (f > threshold ){
                     ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
