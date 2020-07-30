@@ -13012,6 +13012,7 @@ int countFastaKmer(parameter *para){
                 int seqlength = seq.length();
                 int counted = 0;
                 for(int i = 0; i < seqlength - kmer_len; i++){
+                    cout << seq.substr(i,kmer_len) << endl;
                     uint64_t key = encode(seq.substr(i,kmer_len));
                     if(kmer.count(key)) counted++;
                 }
