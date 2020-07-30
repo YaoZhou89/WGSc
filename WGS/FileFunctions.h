@@ -12984,7 +12984,7 @@ int countFastaKmer(parameter *para){
     ifstream inf2 (infile2.c_str()); // library file
     ofstream ouf ((outfile).c_str());
     string line;
-    set<uint64_t> kmer;
+    unordered_map<uint64_t, int> kmer;
     int threshold = (para->threshold);
     vector<string> ll;
     int kmer_len;
@@ -12995,7 +12995,7 @@ int countFastaKmer(parameter *para){
         split(line,ll," \t");
         kmer_len = ll[0].length();
         uint64_t key = encode(ll[0]);
-        kmer.insert(key);
+        kmer.insert(pair<uint64_t,int>(key,1));
     }
     cout << "library readed! size is:\t" << kmer.size() << endl;
     bool next = false;
@@ -13010,13 +13010,15 @@ int countFastaKmer(parameter *para){
                 //To do kmer counting;
                 int seqlength = seq.length();
                 int counted = 0;
-                for(int i = 0; i < seqlength - kmer_len; i++){
+                set<uint64_t> maxKmer;
+                for(int i = 0; i < seqlength - kmer_len - 8; i += 8){
                     uint64_t key = encode(seq.substr(i,kmer_len));
+                    maxKmer.insert(key);
                     if(kmer.count(key)) counted++;
                 }
                 double f = (double)counted/seqlength;
                 if (f > threshold ){
-                    ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
+                    ouf << readID << "\t" << seqlength << "\t" << maxKmer.size() << "\t" << counted << "\t" << f << "\n";
                 }
                
             }
@@ -13030,13 +13032,15 @@ int countFastaKmer(parameter *para){
         //To do kmer counting;
         int seqlength = seq.length();
         int counted = 0;
-        for(int i = 0; i < seqlength - kmer_len; i++){
+        set<uint64_t> maxKmer;
+        for(int i = 0; i < seqlength - kmer_len - 8; i+=8){
             uint64_t key = encode(seq.substr(i,kmer_len));
+             maxKmer.insert(key);
             if(kmer.count(key) == 1) counted++;
         }
-        double f = counted*1.0/seqlength*1.0;
+        double f = (double)counted/seqlength;
         if (f > threshold ) {
-             ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
+             ouf << readID << "\t" << seqlength << "\t" << maxKmer.size() << "\t" << counted << "\t" << f << "\n";
         }
        
     }
