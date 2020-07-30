@@ -13014,11 +13014,8 @@ int countFastaKmer(parameter *para){
                 for(int i = 0; i < seqlength - kmer_len; i++){
                     uint64_t key = encode(seq.substr(i,kmer_len));
                     if(kmer.count(key)) counted++;
-                    cout << "key is:\t" << key << endl;
-                    cout << "counted is:\t" << counted << endl;
                 }
-                
-                double f = counted*1.0/seqlength*1.0;
+                double f = (double)counted/seqlength;
                 if (f > threshold ){
                     ouf << readID << "\t" << seqlength << "\t" << counted << "\t" << f << "\n";
                 }
