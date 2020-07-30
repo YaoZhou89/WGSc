@@ -12923,11 +12923,9 @@ int FastqKmerFrequence(parameter *para){
     unordered_map<uint64_t,int>::iterator iter;
     for(iter = kf.begin(); iter != kf.end(); iter++){
         uint64_t key = iter->first;
-        char *reads;
-//        cout << "reads freq is\t" << iter->second << endl;
+        char reads[kmer];
         decode(key,reads,false);
-        cout << "finished" << endl;
-        ouf << &reads << "\t" << iter->second << "\n";
+        ouf << reads << "\t" << iter->second << "\n";
     }
     ouf.close();
     return 0;
