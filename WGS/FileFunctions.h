@@ -4490,6 +4490,44 @@ int getFasta(parameter *para){
     ouf.close();
     return 0;
 }
+int getReads(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    string inFile2 = (para->inFile2);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string chr = (para -> chr);
+    map<string,string> genome;
+    string line;
+    string seq;
+    string key;
+    bool first = true;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ){
+            if(!first){
+                genome.insert(pair<string,string>(key,seq));
+            }
+            first = false;
+            key = line;
+            seq = "";
+        }else{
+            seq.append(line + "\n");
+        }
+    }
+    genome.insert(pair<string,string>(key,seq));
+    cout << "Genome readed!" << endl;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        ouf << ">" + line + "\n" ;
+        ouf << genome[">" + line] ;
+    }    
+    ouf.close();
+    return 0;
+}
 int splitByN(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
@@ -13011,7 +13049,7 @@ int countFastaKmer(parameter *para){
                 int seqlength = seq.length();
                 int counted = 0;
                 set<uint64_t> maxKmer;
-                for(int i = 0; i < seqlength - kmer_len - 8; i += 8){
+                for(int i = 0; i < seqlength - kmer_len - 8; i+=8){
                     uint64_t key = encode(seq.substr(i,kmer_len));
                     maxKmer.insert(key);
                     if(kmer.count(key)) counted++;

@@ -438,6 +438,8 @@ int main(int argc, char * argv[]) {
                 GenomeStatistic(para);
             }else if ((para -> type) == "getChr"){
                 getFasta(para);
+            }else if ((para -> type) == "getReads"){
+                getReads(para);
             }else if ((para-> type) =="splitByN"){
                 splitByN(para);
             }else if ((para-> type) =="splitByNAll"){
