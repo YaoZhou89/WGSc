@@ -4524,7 +4524,7 @@ int getReads(parameter *para){
         if(line.length() < 1 ) continue;
         ouf << ">" + line + "\n" ;
         ouf << genome[">" + line] ;
-    }    
+    }
     ouf.close();
     return 0;
 }
