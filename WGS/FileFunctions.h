@@ -4497,20 +4497,42 @@ int summaryRate(parameter *para){
     igzstream inf ((inFile).c_str(),ifstream::in);
     igzstream inf2 ((inFile2).c_str(),ifstream::in);
     ofstream ouf ((outFile).c_str());
-    set<string> readsID;
+    unordered_map<string, vector<double>> readsID;
+    vector<double> initialVector(400);
     string line;
-    string seq;
     string key;
-    bool first = true;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
         if(line[0] == '>' ){
-            readsID.insert(line.substr(1,line.length()-1));
+            readsID.insert(pair<string, vector<double>>(line.substr(1,line.length()-1),initialVector));
         }
     }
+    int cl = 0;
     while (!inf2.eof()){
-        
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        igzstream inf3 ((line).c_str(),ifstream::in);
+        vector<string> ll;
+        while(!inf3.eof()){
+            getline(inf3,line);
+            if(line.length() < 1 ) continue;
+            split(line,ll,"\t");
+            string key = ll[0];
+            vector<double> value = readsID[key];
+            value[cl] = string2Double(ll[4]);
+            readsID[key] = value;
+        }
+        cl++;
+    }
+    unordered_map<string, vector<double>>::iterator iter;
+    for(iter = readsID.begin(); iter != readsID.end(); iter++){
+        ouf << iter->first;
+        vector<double> value = iter->second;
+        for(int i = 0; i < value.size(); i++){
+            ouf << "\t" << value[i];
+        }
+        ouf << "\n";
     }
     ouf.close();
     return 0;
