@@ -13090,7 +13090,7 @@ int splitIntoPool(parameter *para){
             readsToPool.insert(pair<int,set<string>>(maxElementIndex,v));
         }
     }
-    
+    cout << "summary data readed!" << endl;
     int cl = 0;
     while(!inf2.eof()){
         getline(inf2,line);
