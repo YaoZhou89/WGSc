@@ -13098,7 +13098,7 @@ int splitIntoPool(parameter *para){
         split(line,ll,".");
         string ID = ll[0];
         set<string> reads = readsToPool[cl];
-        ofstream ouf ((outfile+"/"+ID+".pool.txt").c_str());
+        ofstream ouf ((outfile + ID + ".pool.txt").c_str());
         set<string>::iterator iter;
         for(iter = reads.begin(); iter != reads.end(); iter++){
             ouf << *iter << "\n";
