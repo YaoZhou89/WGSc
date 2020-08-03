@@ -13070,6 +13070,8 @@ int splitIntoPool(parameter *para){
     string line;
     unordered_map<int, set<string>> readsToPool;
     vector<string> ll;
+    
+    
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
