@@ -478,6 +478,8 @@ int main(int argc, char * argv[]) {
                 FastqKmerFrequence(para);
             }else if((para->type) == "countFasta"){
                 countFastaKmer(para);
+            }else if((para->type) == "splitIntoPool"){
+                splitIntoPool(para);
             }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){

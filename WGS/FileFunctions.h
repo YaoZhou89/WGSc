@@ -13061,6 +13061,57 @@ int FastqKmerFrequence(parameter *para){
     return 0;
 }
 
+int splitIntoPool(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
+    string infile3 = (para -> inFile3);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // rate_summary file
+    ifstream inf2 (infile2.c_str()); // pool ID order
+    
+    string line;
+    unordered_map<int, set<string>> readsToPool;
+    unordered_map<int, set<string>> poolID;
+    vector<string> ll;
+    while (!inf.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        vector<double> value;
+        for(int i = 1; i < ll.size(); i++){
+            value.push_back(string2Double(ll[i]));
+        }
+        int maxElementIndex = std::max_element(value.begin(),value.end()) - value.begin();
+        if(readsToPool.count(maxElementIndex)){
+            set<string> v = readsToPool[maxElementIndex];
+            v.insert(ll[0]);
+            readsToPool[maxElementIndex] = v;
+        }else{
+            set<string> v;
+            v.insert(ll[0]);
+            readsToPool.insert(pair<int,set<string>>(maxElementIndex,v));
+        }
+    }
+    int cl = 0;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll,".");
+        string ID = ll[0];
+        set<string> reads = readsToPool[cl];
+        ofstream ouf ((outfile+"/"+ID+".pool.txt").c_str());
+        set<string>::iterator iter;
+        for(iter = reads.begin(); iter != reads.end(); iter++){
+            ouf << *iter << "\n";
+        }
+        cl++;
+        ouf.close();
+    }
+    
+    return 0;
+}
+
 int countFastaKmer(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
@@ -13132,7 +13183,6 @@ int countFastaKmer(parameter *para){
     ouf.close();
     return 0;
 }
-
 int blast2maf (parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
