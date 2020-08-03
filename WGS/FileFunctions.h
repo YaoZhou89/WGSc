@@ -13064,17 +13064,14 @@ int FastqKmerFrequence(parameter *para){
 int splitIntoPool(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
-    string infile3 = (para -> inFile3);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in); // rate_summary file
     ifstream inf2 (infile2.c_str()); // pool ID order
-    
     string line;
     unordered_map<int, set<string>> readsToPool;
-    unordered_map<int, set<string>> poolID;
     vector<string> ll;
     while (!inf.eof()){
-        getline(inf2,line);
+        getline(inf,line);
         if(line.length() < 1) continue;
         ll.clear();
         split(line,ll," \t");
@@ -13093,6 +13090,7 @@ int splitIntoPool(parameter *para){
             readsToPool.insert(pair<int,set<string>>(maxElementIndex,v));
         }
     }
+    
     int cl = 0;
     while(!inf2.eof()){
         getline(inf2,line);
