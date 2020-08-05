@@ -481,6 +481,10 @@ int main(int argc, char * argv[]) {
             }else if((para->type) == "splitIntoPool"){
                 splitIntoPool(para);
             }
+        }else if ((para->model) == "fastq"){
+            if((para->type) == "substract"){
+                substractFQ(para);
+            }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){
                 SRA1(para);

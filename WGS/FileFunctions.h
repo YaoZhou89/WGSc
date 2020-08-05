@@ -2513,6 +2513,46 @@ int substract(parameter *para){
     return 0;
     
 }
+int substractFQ(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    vector<string> ll;
+    set<string> readsID;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        readsID.insert(ll[1]);
+    }
+    bool write=false;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '@') {
+            write = false;
+            if(readsID.count(line)) write = true;
+        }
+        if(write){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+    
+}
 int filterDepth(parameter *para){
     string input1 = (para->inFile);
     igzstream f1 (input1.c_str(),ifstream::in);
