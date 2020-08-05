@@ -2513,7 +2513,7 @@ int substract(parameter *para){
     return 0;
     
 }
-int substractFQ(parameter *para){
+int subtractFQ(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
     igzstream inf1 (input1.c_str(),ifstream::in);
@@ -2535,8 +2535,9 @@ int substractFQ(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         if(line[0] == '#') continue;
-        readsID.insert(ll[1]);
+        readsID.insert(line);
     }
+    cout << "ID readed!" << endl;
     bool write=false;
     while(!inf1.eof()){
         getline(inf1,line);
