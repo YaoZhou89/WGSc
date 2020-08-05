@@ -2539,9 +2539,14 @@ int subtractFQ(parameter *para){
     }
     cout << "ID readed!" << endl;
     bool write=false;
+    int cl = 0;
     while(!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1 ) continue;
+        cl++;
+        if (cl % 100000 == 0){
+            cout << "Current line: " << cl/1000 << "K..." << endl;
+        }
         if(line[0] == '@') {
             write = false;
             if(readsID.count(line)) write = true;
