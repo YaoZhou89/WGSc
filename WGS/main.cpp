@@ -483,7 +483,7 @@ int main(int argc, char * argv[]) {
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
-                substractFQ(para);
+                subtractFQ(para);
             }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){
