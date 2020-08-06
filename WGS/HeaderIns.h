@@ -22,7 +22,7 @@
 #include <cstdlib>
 #include <zlib.h>
 #include "include/gzstream/gzstream.c"
-#include <bam.h>
+//#include <bam.h>
 #include <algorithm>
 #include <functional>
 #include <random>
