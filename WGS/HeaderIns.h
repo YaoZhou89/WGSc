@@ -21,7 +21,9 @@
 #include <math.h>
 #include <cstdlib>
 #include <zlib.h>
-#include "./include/gzstream/gzstream.c"
+#include "include/gzstream/gzstream.c"
+#include "api/BamMultiReader.h"
+#include "./api/BamWriter.h"
 #include <algorithm>
 #include <functional>
 #include <random>
