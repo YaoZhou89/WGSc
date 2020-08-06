@@ -4515,6 +4515,7 @@ int getFasta(parameter *para){
     string seq;
     string key;
     bool first = true;
+    vector<string> ll;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
@@ -4523,7 +4524,8 @@ int getFasta(parameter *para){
                 genome.insert(pair<string,string>(key,seq));
             }
             first = false;
-            key = line;
+            split(line,ll," \t");
+            key = ll[0];
             seq = "";
         }else{
             seq.append(line + "\n");
