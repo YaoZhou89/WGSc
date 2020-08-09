@@ -13175,8 +13175,7 @@ int FastaKmerFrequence(parameter *para){
         if(line.length() < 1) continue;
         if (line[0]=='>') {
             next = true;
-            if (seq != ""){
-                if(seq.length() < kmer + 1) continue;
+            if (seq.length()  > kmer){
                 for (int i = 0; i < seq.length(); i++){
                     uint64_t key = encode(seq.substr(i,kmer));
                     if (kf.count(key) == 1){
@@ -13208,8 +13207,7 @@ int FastaKmerFrequence(parameter *para){
             seq.append(line);
         }
     }
-    if (seq != ""){
-        if(seq.length() < kmer + 1) continue;
+    if (seq.length() > kmer){
         for (int i = 0; i < seq.length(); i++){
             uint64_t key = encode(seq.substr(i,kmer));
             if (kf.count(key) == 1){
