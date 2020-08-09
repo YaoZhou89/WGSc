@@ -13160,6 +13160,92 @@ int splitIntoPool(parameter *para){
     return 0;
 }
 
+int FastaKmerFrequence(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    unordered_map<uint64_t, int> kf;
+    int kmer = (para -> size);
+    bool next = false;
+    string seq = "";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0]=='>') {
+            next = true;
+            if (seq != ""){
+                if(seq.length() < kmer + 1) continue;
+                for (int i = 0; i < seq.length(); i++){
+                    uint64_t key = encode(seq.substr(i,kmer));
+                    if (kf.count(key) == 1){
+                        int v = kf[key];
+                        int nv = v + 1;
+                        kf[key] = nv;
+                    }else{
+                        kf.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+                string rl = reverse_complementary(seq);
+                for (int i = 0; i < rl.length(); i++){
+                    uint64_t key = encode(rl.substr(i,kmer));
+                    if (kf.count(key) == 1){
+                        int v = kf[key];
+                        int nv = v + 1;
+                        kf[key] = nv;
+                    }else{
+                        kf.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+            }
+            continue;
+        }
+        if (next){
+            next = false;
+            seq = line;
+        }else{
+            seq.append(line);
+        }
+    }
+    if (seq != ""){
+        if(seq.length() < kmer + 1) continue;
+        for (int i = 0; i < seq.length(); i++){
+            uint64_t key = encode(seq.substr(i,kmer));
+            if (kf.count(key) == 1){
+                int v = kf[key];
+                int nv = v + 1;
+                kf[key] = nv;
+            }else{
+                kf.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+        string rl = reverse_complementary(seq);
+        for (int i = 0; i < rl.length(); i++){
+            uint64_t key = encode(rl.substr(i,kmer));
+            if (kf.count(key) == 1){
+                int v = kf[key];
+                int nv = v + 1;
+                kf[key] = nv;
+            }else{
+                kf.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+    }
+    
+    cout << "Total k-mer is:\t" << kf.size() << endl;
+    unordered_map<uint64_t,int>::iterator iter;
+    for(iter = kf.begin(); iter != kf.end(); iter++){
+        uint64_t key = iter->first;
+        char reads[kmer];
+        decode(key,reads,false);
+        ouf << reads << "\t" << iter->second << "\n";
+    
+    }
+    ouf.close();
+    return 0;
+}
+
 int countFastaKmer(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);

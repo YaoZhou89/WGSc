@@ -474,6 +474,8 @@ int main(int argc, char * argv[]) {
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
                 getKmer(para);
+            }else if((para->type) == "faLib"){
+                FastaKmerFrequence(para);
             }else if((para->type) == "fqLib"){
                 FastqKmerFrequence(para);
             }else if((para->type) == "countFasta"){
