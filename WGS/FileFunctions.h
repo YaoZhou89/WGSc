@@ -13109,6 +13109,31 @@ int FastqKmerFrequence(parameter *para){
     return 0;
 }
 
+int getReadsID(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // rate_summary file
+    string line;
+    double r = (para ->threshold);
+    ofstream ouf ((outfile).c_str());
+    vector<string> ll;
+    int pb = 0; // Passed bases;
+    int pn = 0; // Passed number
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        double v = string2Double(ll[4]);
+        if(v > r){
+            ouf << ll[0] << "\n";
+            pn++;
+            pb += string2Int(ll[1]);
+        }
+    }
+    cout << "Number of passed reads is:\t" << pn << endl;
+    cout << "Number of passed bases is:\t" << pb << endl;
+    return 0;
+}
 int splitIntoPool(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
