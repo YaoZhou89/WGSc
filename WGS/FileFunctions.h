@@ -13117,7 +13117,7 @@ int getReadsID(parameter *para){
     double r = (para ->threshold);
     ofstream ouf ((outfile).c_str());
     vector<string> ll;
-    int pb = 0; // Passed bases;
+    long int pb = 0; // Passed bases;
     int pn = 0; // Passed number
     while (!inf.eof()){
         getline(inf,line);
