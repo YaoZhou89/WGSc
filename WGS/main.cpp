@@ -482,6 +482,8 @@ int main(int argc, char * argv[]) {
                 countFastaKmer(para);
             }else if((para->type) == "splitIntoPool"){
                 splitIntoPool(para);
+            }else if((para->type) == "getReadID"){
+                getReadsID(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
