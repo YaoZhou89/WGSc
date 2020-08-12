@@ -2909,6 +2909,45 @@ int intersectFile(parameter *para){
     OUT.close();
     return 1;
 }
+int diffFile(parameter *para){
+    /* Object: different file, if the position in File2 are not contained in File1
+     output the content in file2
+     */
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream f1 (input1.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    igzstream f2 (input2.c_str(),ifstream::in);
+    if(f1.fail()){
+        cerr << "open File IN error: " << input2 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  OUT((outFile).c_str());
+    set < string > pos;
+    string l1;
+    vector<string> ll1;
+    while(!f1.eof()){
+        getline(f1, l1);
+        if(l1.length() < 1) continue;
+        pos.insert(l1);
+    }
+    f1.close();
+    while(!f2.eof()){
+        getline(f2, l1);
+        if(l1.length() < 1) continue;
+        if(pos.count(l1)==0){
+            OUT << l1;
+            OUT << "\n";
+        }
+    }
+    f2.close();
+    OUT.close();
+    return 1;
+}
 int getPos(parameter *para){
     string input1 = (para->inFile);
     string output2 = (para->inFile2); // pos txt
@@ -13266,6 +13305,20 @@ int FastaKmerFrequence(parameter *para){
     
     }
     ouf.close();
+    return 0;
+}
+
+int buildFaKmerLibrary(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    unordered_map<uint64_t, int> kf;
+    int kmer = (para -> size);
+    bool next = false;
+    string seq = "";
+    
     return 0;
 }
 

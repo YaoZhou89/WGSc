@@ -227,6 +227,8 @@ int main(int argc, char * argv[]) {
                 filterDepth_bySimulation2(para);
             }else if((para->type) == "intersect"){
                 intersectFile(para);
+            }else if((para->type) == "diff"){
+                diffFile(para);
             }else if ((para->type) == "getPos"){
                 getPos(para);
             }else if((para->type) =="getMax"){
