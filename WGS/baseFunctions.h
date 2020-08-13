@@ -517,7 +517,7 @@ uint64_t encode(string original) {
             result = 0;
             break;
         }
-        result = (result << 2) | ((original[i] >> 1) & TWO_BIT_MASK);
+        result = (result << 2) | (((char)toupper(original[i]) >> 1) & TWO_BIT_MASK);
     }
     
     return result;

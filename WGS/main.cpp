@@ -21,6 +21,22 @@ int main(int argc, char * argv[]) {
     clock_t start;
     double duration;
     start = clock();
+    
+    //Testing
+//    string seq  = "NNNNNTNNNNNNNNNNNNNNATCGCATCATACTATACATACTACTNNNNNNN";
+//    int s = 0;
+//    for(int i = 0; i < 8 + s; i++){
+//        if(seq[i] == 'N'){
+//            s = i;
+////            cout <<s<<endl;
+//        }else{
+////            cout <<  i << endl;   ;
+//        }
+//        cout << s <<endl;// check "N"
+//    }
+//    cout << seq[s+1] <<endl;
+//    cout << nr << endl;
+    
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -30,7 +46,6 @@ int main(int argc, char * argv[]) {
     
     vcf *inVCF = new vcf;
     depth *inDepth = new depth;
-    // testing:
     
     if (!(para->inFile).empty())
     {
@@ -488,6 +503,8 @@ int main(int argc, char * argv[]) {
                 splitIntoPool(para);
             }else if((para->type) == "getReadID"){
                 getReadsID(para);
+            }else if ((para->type) == "KS"){
+                FastaKmerScore(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){

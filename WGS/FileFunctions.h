@@ -13308,17 +13308,129 @@ int FastaKmerFrequence(parameter *para){
     return 0;
 }
 
-int buildFaKmerLibrary(parameter *para){
+int FastaKmerScore(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
-    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
     ofstream ouf ((outfile).c_str());
     string line;
-    unordered_map<uint64_t, int> kf;
-    int kmer = (para -> size);
-    bool next = false;
+    unordered_map<uint64_t, int> kmer;
     string seq = "";
+    int kmer_len = (para->size);
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(seq != ""){
+                //To do kmer counting;
+                long int seqlength = seq.length();
+                if(seqlength < kmer_len + 1) continue;
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(seq.substr(i,kmer_len));
+                    if(key == 0) continue;
+                    int v ;
+                    if(kmer.count(key)){
+                        v = kmer[key];
+                        v++;
+                        kmer[key] = v;
+                    }else{
+                        kmer.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+                string rs = reverse_complementary(seq);
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(rs.substr(i,kmer_len));
+                    if(key == 0) continue;
+                    int v ;
+                    if(kmer.count(key)){
+                        v = kmer[key];
+                        v++;
+                        kmer[key] = v;
+                    }else{
+                        kmer.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+            }
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    long int seqlength = seq.length();
+    if(seqlength > kmer_len + 1){
+        for(int i = 0; i < seqlength - kmer_len ; i++){
+            uint64_t key = encode(seq.substr(i,kmer_len));
+            if(key == 0) continue;
+            int v ;
+            if(kmer.count(key)){
+                v = kmer[key];
+                v++;
+                kmer[key] = v;
+            }else{
+                kmer.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+        string rs = reverse_complementary(seq);
+        for(int i = 0; i < seqlength - kmer_len ; i++){
+            uint64_t key = encode(rs.substr(i,kmer_len));
+            if(key == 0) continue;
+            int v ;
+            if(kmer.count(key)){
+                v = kmer[key];
+                v++;
+                kmer[key] = v;
+            }else{
+                kmer.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+    }
+    cout << "Kmer counted!" << endl;
     
+    inf.close();
+    igzstream inf1 ((infile).c_str(),ifstream::in);
+    string contig;
+    vector<string> ll;
+    uint64_t key;
+    seq="";
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(seq != ""){
+                //To do kmer counting;
+                long int seqlength = seq.length();
+                if(seqlength < kmer_len + 1) continue;
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    key = encode(seq.substr(i,kmer_len));
+                    ouf << contig << "\t" << i << "\t" << kmer[key] << "\n";
+                }
+                for(int i = seqlength - kmer_len; i < seqlength; i++ ){
+                    ouf << contig << "\t" << i << "\t" << kmer[key] << "\n";
+                }
+            }
+            seq = "";
+            split(line,ll," \t");
+            contig = ll[0].substr(1,ll[0].length()-1);
+        }else{
+            seq.append(line);
+        }
+    }
+    cout << "contig is:\t" << contig << endl;
+    if(seq != ""){
+        //To do kmer counting;
+        long int seqlength = seq.length();
+        if(seqlength > kmer_len + 1){
+            for(int i = 0; i < seqlength - kmer_len ; i++){
+                key = encode(seq.substr(i,kmer_len));
+                ouf << contig << "\t" << i << "\t" << kmer[key] << "\n";
+            }
+            for(int i = seqlength - kmer_len; i < seqlength; i++ ){
+                ouf << contig << "\t" << i << "\t" << kmer[key] << "\n";
+            }
+        }
+        
+    }
+    ouf.close();
     return 0;
 }
 
