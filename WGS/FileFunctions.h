@@ -13337,19 +13337,19 @@ int FastaKmerScore(parameter *para){
                         kmer.insert(pair<uint64_t,int>(key,1));
                     }
                 }
-//                string rs = reverse_complementary(seq);
-//                for(int i = 0; i < seqlength - kmer_len ; i++){
-//                    uint64_t key = encode(rs.substr(i,kmer_len));
-//                    if(key == 0) continue;
-//                    int v ;
-//                    if(kmer.count(key)){
-//                        v = kmer[key];
-//                        v++;
-//                        kmer[key] = v;
-//                    }else{
-//                        kmer.insert(pair<uint64_t,int>(key,1));
-//                    }
-//                }
+                string rs = reverse_complementary(seq);
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(rs.substr(i,kmer_len));
+                    if(key == 0) continue;
+                    int v ;
+                    if(kmer.count(key)){
+                        v = kmer[key];
+                        v++;
+                        kmer[key] = v;
+                    }else{
+                        kmer.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
             }
             seq = "";
         }else{
