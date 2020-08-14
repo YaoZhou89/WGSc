@@ -13463,6 +13463,7 @@ int changeID(parameter *para){
     ofstream ouf ((outfile).c_str());
     string line;
     int a=0;
+    vector<string> ll;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -13470,7 +13471,15 @@ int changeID(parameter *para){
             ouf << ">contig" << a << "\n";
             a++;
         }else{
-            ouf << line << "\n";
+            split(line,ll,"N");
+            if(ll.size()>1){
+                for(int i = 0; i<ll.size();i++){
+                    ouf << ll[i] << "\n";
+                }
+            }else{
+                 ouf << line << "\n";
+            }
+           
         }
     }
     ouf.close();
