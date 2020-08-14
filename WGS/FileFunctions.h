@@ -13456,6 +13456,26 @@ int kmerFreq(parameter *para){
     ouf.close();
     return 0;
 }
+int changeID(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);// fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    int a=0;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            ouf << ">contig" << a << "\n";
+            a++;
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int countFastaKmer(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);

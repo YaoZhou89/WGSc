@@ -507,6 +507,8 @@ int main(int argc, char * argv[]) {
                 FastaKmerScore(para);
             }else if ((para->type) == "kmerFreq"){
                 kmerFreq(para);
+            }else if ((para->type) == "changeContigID"){
+                changeID(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
