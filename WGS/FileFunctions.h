@@ -13434,6 +13434,28 @@ int FastaKmerScore(parameter *para){
     return 0;
 }
 
+int kmerFreq(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    vector<int> freq(201,0);
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        int idx = string2Int(ll[2]);
+        if(idx > 200) idx = 200;
+        freq[idx]++;
+    }
+    for(int i = 0; i < freq.size(); i++){
+        ouf << i << "\t" << freq[i] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int countFastaKmer(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
