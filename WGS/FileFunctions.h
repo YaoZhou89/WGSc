@@ -13433,6 +13433,113 @@ int FastaKmerScore(parameter *para){
     ouf.close();
     return 0;
 }
+int singleFastaKmerScore(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    string seq = "";
+    int kmer_len = (para->size);
+    string contigID = "";
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(seq != ""){
+                //To do kmer counting;
+                unordered_map<uint64_t, int> kmer;
+                long int seqlength = seq.length();
+                if(seqlength < kmer_len + 1) continue;
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(seq.substr(i,kmer_len));
+                    if(key == 0) continue;
+                    int v ;
+                    if(kmer.count(key)){
+                        v = kmer[key];
+                        v++;
+                        kmer[key] = v;
+                    }else{
+                        kmer.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+                string rs = reverse_complementary(seq);
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(rs.substr(i,kmer_len));
+                    if(key == 0) continue;
+                    int v ;
+                    if(kmer.count(key)){
+                        v = kmer[key];
+                        v++;
+                        kmer[key] = v;
+                    }else{
+                        kmer.insert(pair<uint64_t,int>(key,1));
+                    }
+                }
+                ouf << contigID  ;
+                long int v;
+                for(int i = 0; i < seqlength - kmer_len ; i++){
+                    uint64_t key = encode(seq.substr(i,kmer_len));
+                    v = kmer[key];
+                    ouf << "\t" << i << "\t" << v ;
+                }
+                for(int i = seqlength - kmer_len;i < seqlength ;i++){
+                    ouf << "\t" << v;
+                }
+                ouf << "\n";
+            }
+            ll.clear();
+            split(line,ll," \t");
+            contigID = ll[0].substr(1,ll[0].length()-1);
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    long int seqlength = seq.length();
+    if(seqlength > kmer_len + 1){
+        unordered_map<uint64_t, int> kmer;
+        for(int i = 0; i < seqlength - kmer_len ; i++){
+            uint64_t key = encode(seq.substr(i,kmer_len));
+            if(key == 0) continue;
+            int v ;
+            if(kmer.count(key)){
+                v = kmer[key];
+                v++;
+                kmer[key] = v;
+            }else{
+                kmer.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+        string rs = reverse_complementary(seq);
+        for(int i = 0; i < seqlength - kmer_len ; i++){
+            uint64_t key = encode(rs.substr(i,kmer_len));
+            if(key == 0) continue;
+            int v ;
+            if(kmer.count(key)){
+                v = kmer[key];
+                v++;
+                kmer[key] = v;
+            }else{
+                kmer.insert(pair<uint64_t,int>(key,1));
+            }
+        }
+        ouf << contigID  ;
+        long int v;
+        for(int i = 0; i < seqlength - kmer_len ; i++){
+            uint64_t key = encode(seq.substr(i,kmer_len));
+            v = kmer[key];
+            ouf << "\t" << i << "\t" << v ;
+        }
+        for(int i = seqlength - kmer_len;i < seqlength ;i++){
+            ouf << "\t" << v;
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 
 int kmerFreq(parameter *para){
     string infile = (para -> inFile);

@@ -505,6 +505,8 @@ int main(int argc, char * argv[]) {
                 getReadsID(para);
             }else if ((para->type) == "KS"){
                 FastaKmerScore(para);
+            }else if ((para->type) == "singleKS"){
+                singleFastaKmerScore(para);
             }else if ((para->type) == "kmerFreq"){
                 kmerFreq(para);
             }else if ((para->type) == "kmerFoldFreq"){
