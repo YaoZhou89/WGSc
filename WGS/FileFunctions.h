@@ -13477,17 +13477,17 @@ int singleFastaKmerScore(parameter *para){
                         kmer.insert(pair<uint64_t,int>(key,1));
                     }
                 }
-                ouf << contigID  ;
+               
                 long int v;
                 for(int i = 0; i < seqlength - kmer_len ; i++){
                     uint64_t key = encode(seq.substr(i,kmer_len));
                     v = kmer[key];
-                    ouf << "\t" << i << "\t" << v ;
+                     ouf << contigID << "\t" << i << "\t" << v << "\n" ;
                 }
                 for(int i = seqlength - kmer_len;i < seqlength ;i++){
-                    ouf << "\t" << v;
+                    ouf << contigID << "\t" << i <<"\t" << v << "\n";
                 }
-                ouf << "\n";
+               
             }
             ll.clear();
             split(line,ll," \t");
@@ -13525,15 +13525,15 @@ int singleFastaKmerScore(parameter *para){
                 kmer.insert(pair<uint64_t,int>(key,1));
             }
         }
-        ouf << contigID  ;
+        
         long int v;
         for(int i = 0; i < seqlength - kmer_len ; i++){
             uint64_t key = encode(seq.substr(i,kmer_len));
             v = kmer[key];
-            ouf << "\t" << i << "\t" << v ;
+            ouf << contigID << "\t" << i << "\t" << v << "\n" ;
         }
         for(int i = seqlength - kmer_len;i < seqlength ;i++){
-            ouf << "\t" << v;
+            ouf << contigID << "\t" << i << "\t" << v << "\n" ;
         }
         ouf << "\n";
     }
