@@ -13488,7 +13488,7 @@ int KmerReadScore(parameter *para){
     string line;
     vector<string> ll;
     vector<int> freq(1001,0);
-    int KS_sum = 0, len = 0;
+    long int KS_sum = 0, len = 0;
     string readID="";
     
     while(!inf.eof()){
