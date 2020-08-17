@@ -13456,6 +13456,30 @@ int kmerFreq(parameter *para){
     ouf.close();
     return 0;
 }
+int kmerFoldFreq(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    vector<int> freq(1001,0);
+    int fold = (para -> size);
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        int id1 = string2Int(ll[2]);
+        int idx = id1/fold;
+        if(idx > 1000) idx = 1000;
+        freq[idx]++;
+    }
+    for(int i = 0; i < freq.size(); i++){
+        ouf << i << "\t" << freq[i] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int changeID(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
