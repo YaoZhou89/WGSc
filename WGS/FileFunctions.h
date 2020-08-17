@@ -13480,6 +13480,38 @@ int kmerFoldFreq(parameter *para){
     ouf.close();
     return 0;
 }
+int KmerReadScore(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    vector<int> freq(1001,0);
+    int KS_sum = 0, len = 0;
+    string readID="";
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        if(ll[0] == readID){
+            KS_sum += string2Int(ll[2]);
+            len++;
+        }else{
+            if(readID !=""){
+                ouf << readID << "\t" << len << "\t" << KS_sum <<  "\n";
+            }
+            readID = ll[0];
+            len = 1;
+            KS_sum = string2Int(ll[2]);
+        }
+    }
+    ouf << readID << "\t" << len << "\t" << KS_sum <<  "\n";
+   
+    ouf.close();
+    return 0;
+}
 int changeID(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);

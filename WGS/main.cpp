@@ -509,6 +509,8 @@ int main(int argc, char * argv[]) {
                 kmerFreq(para);
             }else if ((para->type) == "kmerFoldFreq"){
                 kmerFoldFreq(para);
+            }else if ((para->type) == "KmerReadScore"){
+                KmerReadScore(para);
             }else if ((para->type) == "changeContigID"){
                 changeID(para);
             }
