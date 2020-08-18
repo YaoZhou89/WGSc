@@ -13582,6 +13582,7 @@ int ClusterBasedOnKmer(parameter *para){
         seq = genome[contigID];
         if(freq > 0.5*depth && freq < 1.3*depth){
             int pos = string2Int(ll[1]);
+            if (pos > seq.length()-kmer_len) continue;
             uint64_t key = encode(seq.substr(pos,kmer_len));
             set<string> value;
             if (matched.count(key) == 1){
