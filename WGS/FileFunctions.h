@@ -13540,7 +13540,64 @@ int singleFastaKmerScore(parameter *para){
     ouf.close();
     return 0;
 }
-
+int ClusterBasedOnKmer(parameter *para){
+    string infile = (para -> inFile); //fasta file
+    string infile2 = (para -> inFile2);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    unordered_map<uint64_t, set<string>> matched;
+    string contigID = "";
+    int kmer_len = (para->size);
+    double depth = (para->mean);
+    map<string,string> genome;
+    string seq = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>'){
+            if(contigID != ""){
+                genome.insert(pair<string,string>(contigID,seq));
+            }
+            ll.clear();
+            split(line,ll," \t");
+            contigID = ll[0].substr(1,ll[0].length()-1);
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    genome.insert(pair<string,string>(contigID,seq));
+    cout << "Genome file readed! Contig number is:\t" << genome.size() << endl;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        long int freq = string2Int(ll[2]);
+        contigID = ll[0];
+        seq = genome[contigID];
+        if(freq > 0.5*depth && freq < 1.3*depth){
+            int pos = string2Int(ll[1]);
+            uint64_t key = encode(seq.substr(pos,kmer_len));
+            set<string> value;
+            if (matched.count(key) == 1){
+                value = matched[key];
+                value.insert(contigID);
+                matched[key] = value;
+            }else{
+                value.insert(contigID);
+                matched.insert(pair<uint64_t,set<string>>(key,value));
+            }
+        }
+    }
+    cout << "Fasta file readed! Unique K-mer number is:\t" << genome.size() << endl;
+    return 0 ;
+}
+    
 int kmerFreq(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
