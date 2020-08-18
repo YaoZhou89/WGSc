@@ -507,6 +507,8 @@ int main(int argc, char * argv[]) {
                 FastaKmerScore(para);
             }else if ((para->type) == "singleKS"){
                 singleFastaKmerScore(para);
+            }else if ((para->type) == "ClusterBasedOnKmer"){
+                ClusterBasedOnKmer(para);
             }else if ((para->type) == "kmerFreq"){
                 kmerFreq(para);
             }else if ((para->type) == "kmerFoldFreq"){
