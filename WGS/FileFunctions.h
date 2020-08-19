@@ -13578,12 +13578,13 @@ int ClusterBasedOnKmer(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         long int freq = string2Int(ll[2]);
-        if(freq > 0.5*depth && freq < 1.3*depth){
+        if( freq < 1.3 * depth && freq > 0.5*depth  ){
             contigID = ll[0];
             seq = genome[contigID];
             int pos = string2Int(ll[1]);
             if (pos > seq.length()- kmer_len - 1) continue;
             uint64_t key = encode(seq.substr(pos,kmer_len));
+            cout << key << endl;
             set<string> value;
             if (matched.count(key) == 1){
                 value = matched[key];
