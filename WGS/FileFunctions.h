@@ -13595,7 +13595,7 @@ int ClusterBasedOnKmer(parameter *para){
             }
         }
     }
-    cout << "Fasta file readed! Unique K-mer number is:\t" << genome.size() << endl;
+    cout << "Fasta file readed! Unique K-mer number is:\t" << matched.size() << endl;
     return 0 ;
 }
     
