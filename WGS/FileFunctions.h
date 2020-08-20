@@ -13599,7 +13599,41 @@ int ClusterBasedOnKmer(parameter *para){
     cout << "Fasta file readed! Unique K-mer number is:\t" << matched.size() << endl;
     return 0 ;
 }
-    
+int removeBlackFasta(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in); // fasta file
+    ofstream ouf ((outfile).c_str());
+    string chr = "";
+    string seq = "";
+    map<string,string> genome;
+    string line;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if( chr != "" && seq != ""){
+                genome.insert(pair<string,string>(chr,seq));
+            }
+            chr = line;
+            seq = "";
+        }else{
+            seq.append(line);
+            seq.append("\n");
+        }
+        
+    }
+    if( chr != "" && seq != ""){
+        genome.insert(pair<string,string>(chr,seq));
+    }
+    map<string,string>::iterator iter;
+    iter=genome.begin();
+    while( iter != genome.end()){
+        ouf << iter->first << "\n";
+        ouf << iter-> second;
+    }
+    return 0;
+}
 int kmerFreq(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);

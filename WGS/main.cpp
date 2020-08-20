@@ -509,6 +509,8 @@ int main(int argc, char * argv[]) {
                 singleFastaKmerScore(para);
             }else if ((para->type) == "ClusterBasedOnKmer"){
                 ClusterBasedOnKmer(para);
+            }else if ((para->type) == "removeBlankFasta"){
+                removeBlackFasta(para);
             }else if ((para->type) == "kmerFreq"){
                 kmerFreq(para);
             }else if ((para->type) == "kmerFoldFreq"){
