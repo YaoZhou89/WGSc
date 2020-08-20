@@ -13632,6 +13632,7 @@ int removeBlackFasta(parameter *para){
         ouf << iter->first << "\n";
         ouf << iter-> second;
     }
+    ouf.close();
     return 0;
 }
 int kmerFreq(parameter *para){
