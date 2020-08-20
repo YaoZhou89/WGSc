@@ -13613,9 +13613,8 @@ int removeBlackFasta(parameter *para){
         if(line.length() < 1) continue;
         if(line[0] == '>'){
             if( chr != "" && seq != ""){
-                genome.insert(pair<string,string>(chr,seq));
-                cout << line << " length is:\t" << seq.length() << endl;
-                seq = "";
+                ouf << chr << "\n";
+                ouf << seq ;
             }
             chr = line;
             seq = "";
@@ -13626,14 +13625,10 @@ int removeBlackFasta(parameter *para){
     }
     
     if( seq != ""){
-        genome.insert(pair<string,string>(chr,seq));
+        ouf << chr << "\n";
+        ouf << seq ;
     }
-    map<string,string>::iterator iter;
-    iter = genome.begin();
-    while( iter != genome.end()){
-        ouf << iter->first << "\n";
-        ouf << iter-> second;
-    }
+    
     ouf.close();
     return 0;
 }
