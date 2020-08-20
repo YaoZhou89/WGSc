@@ -13627,7 +13627,7 @@ int removeBlackFasta(parameter *para){
         genome.insert(pair<string,string>(chr,seq));
     }
     map<string,string>::iterator iter;
-    iter=genome.begin();
+    iter = genome.begin();
     while( iter != genome.end()){
         ouf << iter->first << "\n";
         ouf << iter-> second;
