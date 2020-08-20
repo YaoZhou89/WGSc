@@ -13614,6 +13614,8 @@ int removeBlackFasta(parameter *para){
         if(line[0] == '>'){
             if( chr != "" && seq != ""){
                 genome.insert(pair<string,string>(chr,seq));
+                cout << line << " length is:\t" << seq.length() << endl;
+                seq = "";
             }
             chr = line;
             seq = "";
