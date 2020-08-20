@@ -13621,9 +13621,9 @@ int removeBlackFasta(parameter *para){
             seq.append(line);
             seq.append("\n");
         }
-        
     }
-    if( chr != "" && seq != ""){
+    
+    if( seq != ""){
         genome.insert(pair<string,string>(chr,seq));
     }
     map<string,string>::iterator iter;
