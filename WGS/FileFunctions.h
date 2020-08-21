@@ -1076,25 +1076,27 @@ int Pos2Bed(parameter *para){
         if (first||next) {
             startPos = startPosN;
             endPos = startPos;
+            first = false;
+            next = false;
             continue;
         }
         if(chr != chrN){
             if( (endPos - startPos) > 1000 ){
                 ouf << chr << "\t" << startPos << "\t" << endPos << "\n";
             }
-            chr = chrN;
-            endPos = startPos;
             first = true;
         }else{
             if((startPosN - endPos) > 100){
-                ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
+                if((endPos - startPos) > 1000){
+                     ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
+                }
                 next = true;
             }else{
                 next = false;
             }
-            endPos = startPos;
         }
-        
+        chr = chrN;
+        endPos = startPos;
     }
     if((endPos - startPos) > 100){
         ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
