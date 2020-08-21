@@ -1060,7 +1060,6 @@ int Pos2Bed(parameter *para){
     string line;
     vector < string > ll;
     lint startPos = 1;
-    lint count = 0;
     lint endPos = 1;
     int startPosN = 0;
     string chr = "";
@@ -1096,7 +1095,7 @@ int Pos2Bed(parameter *para){
             }
         }
         chr = chrN;
-        endPos = startPos;
+        endPos = startPosN;
     }
     if((endPos - startPos) > 100){
         ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
