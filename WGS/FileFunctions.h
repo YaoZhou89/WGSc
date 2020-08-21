@@ -1046,6 +1046,65 @@ int Depth2Bed(parameter *para){
     return 1;
 }
 
+int Pos2Bed(parameter *para){
+    igzstream inF ((para->inFile).c_str(),ifstream::in);
+    if(inF.fail()){
+        cerr << "Open file error: " << (para->inFile) << endl;
+        return 0;
+    }
+    ofstream ouf ((para -> outFile).c_str());
+    if(ouf.fail()){
+        cerr << "Couldn't open outFile" << endl;
+        return 0;
+    }
+    string line;
+    vector < string > ll;
+    lint startPos = 1;
+    lint count = 0;
+    lint endPos = 1;
+    int startPosN = 0;
+    string chr = "";
+    bool first = true;
+    bool next = false;
+    while(!inF.eof()){
+        getline(inF, line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        startPosN = string2Int(ll[1]);
+        string chrN = ll[0];
+        if (first||next) {
+            startPos = startPosN;
+            endPos = startPos;
+            continue;
+        }
+        if(chr != chrN){
+            if( (endPos - startPos) > 1000 ){
+                ouf << chr << "\t" << startPos << "\t" << endPos << "\n";
+            }
+            chr = chrN;
+            endPos = startPos;
+            first = true;
+        }else{
+            if((startPosN - endPos) > 100){
+                ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
+                next = true;
+            }else{
+                next = false;
+            }
+            endPos = startPos;
+        }
+        
+    }
+    if((endPos - startPos) > 100){
+        ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
+        next = true;
+    }
+    ouf.close();
+    return 1;
+}
+
+
 int getUnMapped(parameter *para){
     igzstream inf ((para->inFile).c_str(),ifstream::in);
     ofstream ouf ((para->outFile).c_str());

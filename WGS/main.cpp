@@ -199,6 +199,8 @@ int main(int argc, char * argv[]) {
                 C2VCF(para);
             }else if ((para->type) == "D2B"){
                 D2B(para);
+            }else if ((para->type) == "Pos2Bed"){
+                Pos2Bed(para);
             }
 //            outDepthFile(para,inDepth);
         }else if ((para->model) == "pos"){
