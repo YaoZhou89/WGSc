@@ -1086,7 +1086,7 @@ int Pos2Bed(parameter *para){
             }
             first = true;
         }else{
-            if((startPosN - endPos) > 100){
+            if((startPosN - endPos) > 500){
                 if((endPos - startPos) > 1000){
                      ouf << chr << "\t" << startPos << "\t" << endPos  << "\n";
                 }
