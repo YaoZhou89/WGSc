@@ -23,19 +23,8 @@ int main(int argc, char * argv[]) {
     start = clock();
     
     //Testing
-//    string seq  = "NNNNNTNNNNNNNNNNNNNNATCGCATCATACTATACATACTACTNNNNNNN";
-//    int s = 0;
-//    for(int i = 0; i < 8 + s; i++){
-//        if(seq[i] == 'N'){
-//            s = i;
-////            cout <<s<<endl;
-//        }else{
-////            cout <<  i << endl;   ;
-//        }
-//        cout << s <<endl;// check "N"
-//    }
-//    cout << seq[s+1] <<endl;
-//    cout << nr << endl;
+    
+    
     
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
