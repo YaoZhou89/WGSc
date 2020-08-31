@@ -165,8 +165,8 @@ int main(int argc, char * argv[]) {
                 siteOverlap(para);
             }else if ((para->type) == "concatVCFsite"){
                 concatVCFsite(para);
-            }else if ((para->type) == "reorderInd"){
-                reorderInd(para);
+            }else if ((para->type) == "keep"){
+                keep(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

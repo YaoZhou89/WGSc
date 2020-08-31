@@ -47,7 +47,7 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             i++;
             para -> inFile2 = argv[i];
         }
-        else if (flag  == "inFile3" || flag == "file3" || flag == "i3"||flag =="group2"||flag=="keep")
+        else if (flag  == "inFile3" || flag == "file3" || flag == "i3"||flag =="group2")
         {
             if(i + 1 == argc) {LogLackArg(flag); return 0;}
             i++;

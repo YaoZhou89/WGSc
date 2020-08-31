@@ -11751,6 +11751,63 @@ int concatVCFsite(parameter *para){
     
     return 0;
 }
+int keep(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> subPop);
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    cout << "Reading subfiles..." << endl;
+    vector<string> ID;
+    vector<int> order;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ID.push_back(line);
+    }
+    cout << "ID number is:\t" << ID.size() << endl;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line.substr(0,2) == "##") {
+            ouf << line << "\n";
+            continue;
+        };
+        ll.clear();
+        split(line,ll,"\t");
+        if (line.substr(0,2) == "#C"){
+            for(int i = 9; i<ll.size();i++){
+                for(int j = 0; j < ID.size(); j++){
+                    if(ll[i] == ID[j]){
+                        order.push_back(i);
+                        break;
+                    }
+                }
+            }
+            cout << order.size() << " samples found, the order is:\t";
+            for (int i = 0; i<order.size(); i++){
+                cout << order[i] << "; ";
+            }
+            cout << endl;
+            continue;
+        }
+        ouf << ll[0];
+        for(int i = 1; i < 9; i++){
+            ouf << "\t" << ll[i];
+        }
+        for (int i = 0; i < order.size(); i++){
+            ouf << "\t" << ll[order[i]];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
 
 int getDistanceAll(parameter *para){
     string infile = (para -> inFile);
