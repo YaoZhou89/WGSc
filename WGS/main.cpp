@@ -23,8 +23,11 @@ int main(int argc, char * argv[]) {
     start = clock();
     
     //Testing
-    
-    
+    string gene1 = "AAGGCTAG";
+    string gene2 = "AGGCTA";
+    int misMatchPenalty = 10;
+    int gapPenalty = 2;
+    getMinimumPenalty(gene1, gene2,misMatchPenalty, gapPenalty);
     
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
