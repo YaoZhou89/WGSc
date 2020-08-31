@@ -11760,6 +11760,8 @@ int keep(parameter *para){
     ofstream ouf ((outFile).c_str());
     string line;
     vector<string> ll;
+    vector<string> ll2;
+    
     cout << "Reading subfiles..." << endl;
     vector<string> ID;
     vector<int> order;
@@ -11782,8 +11784,10 @@ int keep(parameter *para){
             while(!inf2.eof()){
                 getline(inf2,line);
                 if(line.length()<1) continue;
+                ll2.clear();
+                split(line,ll2," \t");
                 for(int i = 0; i < ID.size(); i++){
-                    if(ll[i] == line) order.push_back(i);
+                    if(ll[i] == ll2[0]) order.push_back(i);
                 }
             }
             cout << order.size() << " samples found, the order is:\t";
