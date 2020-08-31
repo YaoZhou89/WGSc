@@ -11763,11 +11763,7 @@ int keep(parameter *para){
     cout << "Reading subfiles..." << endl;
     vector<string> ID;
     vector<int> order;
-    while(!inf2.eof()){
-        getline(inf2,line);
-        if(line.length()<1) continue;
-        ID.push_back(line);
-    }
+   
     cout << "ID number is:\t" << ID.size() << endl;
     
     while(!inf.eof()){
@@ -11780,12 +11776,14 @@ int keep(parameter *para){
         ll.clear();
         split(line,ll,"\t");
         if (line.substr(0,2) == "#C"){
-            for(int i = 9; i<ll.size();i++){
-                for(int j = 0; j < ID.size(); j++){
-                    if(ll[i] == ID[j]){
-                        order.push_back(i);
-                        break;
-                    }
+            for(int i = 0; i<ll.size();i++){
+                ID.push_back(ll[i]);
+            }
+            while(!inf2.eof()){
+                getline(inf2,line);
+                if(line.length()<1) continue;
+                for(int i = 0; i < ID.size(); i++){
+                    if(ll[i] == line) order.push_back(i);
                 }
             }
             cout << order.size() << " samples found, the order is:\t";
