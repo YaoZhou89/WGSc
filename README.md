@@ -1,31 +1,30 @@
-# WGSc
-## 1. Installation:
+# WGS: Wheat genome sequencing analysis tool
+This was primarily coded for our wheat genus level sequencing [manuscript](https://www.biorxiv.org/content/10.1101/2020.03.21.001362v1).
+## Installation:
     git clone https://github.com/YaoZhou89/WGSc.git
-#### For mac users:
-    open the project directly, and add the libz.tbz in the linked Frameworks and libraries
-#### For linux users:
     cd WGSc
     make
-the executable WGS is now at bin folder. You can just add the bin folder into environment.
+the executable file is bin/WGS. Please add this into environmental path firslty.
    
-## 2. Functions   
-### 2.1 count lines for a .gz file (gzip compressed)
-    WGS --model wc --file depth.1.txt.gz
-### 2.2 random choose from a file
-    WGS --model file --type random --file all.depth.txt.gz --out test.txt.gz --r 0.001
-### 
-###  select barley  as calibrate
-    WGS --model vcf --type calibrate --file chr1.vcf.gz --out chr1.cal.vcf.gz
-###  change the position from numeric to chr1
-    WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
-### Change the bam site depth to bed file ;
-    WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
-### get candidate region by simulation
-    WGS  --model file --type filterBySim --file depth.A.txt --out AB3.txt --mean 3.137899
-### estimate diversity 
+## Functions
+### Handling vcf file
+#### SNPs filtering pipeline
+
+#### estimate diversity 
     WGS --model diversity --type window-pi --file chr1.vcf.gz --windowSize 1000000 --out chr1.window.pi
-### 
-### 
-### 
-### 
-### 
+    
+####  change the position from numeric to character
+    WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
+    
+### Handling general file
+#### count lines for a .gz file (gzip compressed)
+    WGS --model wc --file depth.1.txt.gz
+    
+#### random choose from a file
+    WGS --model file --type random --file all.depth.txt.gz --out test.txt.gz --r 0.001
+    
+#### Change the bam site depth to bed file ;
+    WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
+    
+### Handlling fasta file
+
