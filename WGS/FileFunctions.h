@@ -4669,7 +4669,7 @@ int getFastas(parameter *para){
     genome.insert(pair<string,string>(key,seq));
     cout << "Genome readed!" << endl;
     while(!inf2.eof()){
-        getline(inf,line);
+        getline(inf2,line);
         if(line.length() < 1 ) continue;
         chr = line;
         ouf << genome[">" + chr] ;
