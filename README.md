@@ -27,4 +27,7 @@ the executable file is bin/WGS. Please add this into environmental path firslty.
     WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
     
 ### Handlling fasta file
-
+#### subtract given chromosomes from the genome
+```
+WGS --model fasta --type getChrs --file genome.fasta --file2 candidateChr.txt --out genome.selected.fasta
+```
