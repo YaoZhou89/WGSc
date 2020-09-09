@@ -4672,6 +4672,7 @@ int getFastas(parameter *para){
         getline(inf2,line);
         if(line.length() < 1 ) continue;
         chr = line;
+        ouf << ">" << line << "\n";
         ouf << genome[">" + chr] ;
     }
     
