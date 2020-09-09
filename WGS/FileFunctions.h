@@ -4637,6 +4637,47 @@ int getFasta(parameter *para){
     ouf.close();
     return 0;
 }
+int getFastas(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string chr ;
+    map<string,string> genome;
+    string line;
+    string seq;
+    string key;
+    bool first = true;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ){
+            if(!first){
+                genome.insert(pair<string,string>(key,seq));
+            }
+            first = false;
+            split(line,ll," \t");
+            key = ll[0];
+            seq = "";
+        }else{
+            seq.append(line + "\n");
+        }
+    }
+    genome.insert(pair<string,string>(key,seq));
+    cout << "Genome readed!" << endl;
+    while(!inf2.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        chr = line;
+        ouf << genome[">" + chr] ;
+    }
+    
+    ouf.close();
+    return 0;
+}
 int summaryRate(parameter *para){
     string inFile = (para->inFile);
     string inFile2 = (para->inFile2);

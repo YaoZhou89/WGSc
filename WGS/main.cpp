@@ -483,8 +483,8 @@ int main(int argc, char * argv[]) {
                 generateAltGenome(para);
             }else if ((para ->type) =="splitGenome"){
                 splitGenome(para);
-            }else if ((para ->type) ==""){
-                splitGenome(para);
+            }else if ((para -> type) == "getChrs"){
+                getFastas(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
