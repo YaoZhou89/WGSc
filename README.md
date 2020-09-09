@@ -17,13 +17,11 @@ the executable file is bin/WGS. Please add this into environmental path firslty.
     WGS --model pos --type changePos --file chr1.vcf.gz --file2 pos.txt --out changed.vcf.gz --pos 2,3
     
 ### Handling general file
-#### count lines for a .gz file (gzip compressed)
-    WGS --model wc --file depth.1.txt.gz
-    
-#### random choose from a file
+
+#### random subtract lines from a file with certain rate
     WGS --model file --type random --file all.depth.txt.gz --out test.txt.gz --r 0.001
     
-#### Change the bam site depth to bed file ;
+#### Change the bam site depth to bed file
     WGS --model depth --type toBed --file chr1.txt --out chr1.bed --windowSize 1000000
     
 ### Handlling fasta file
