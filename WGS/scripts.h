@@ -49,4 +49,30 @@ int getFastp(parameter *para){
     return 1;
 }
 
+int cpFolder(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile) + "/";
+    igzstream inf (infile.c_str(),ifstream::in);
+    if(inf.fail()){
+        cerr << "Open file error: " << infile << endl;
+        return 0;
+    }
+    string oun = "cp.sh";
+    ofstream ouf (oun.c_str());
+    string suffix = (para -> suffix);
+    vector<string> files = getSubFoldfiles(infile,suffix);
+    cout << "Number of files matched is:\t" << files.size() << endl;
+    vector<string> ll;
+    for(int i = 0; i < files.size(); i++){
+        string str = files[i];
+        ll.clear();
+        split(str,ll,"/");
+        str = str.replace(str.find(ll[ll.size()-1]),1,"");
+        ouf << "mkdir -p outfile/" << str << "\n";
+        ouf << "cp " << files[i] << "oufile/" << str << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
 #endif /* scripts_h */

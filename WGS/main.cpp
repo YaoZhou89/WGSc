@@ -551,6 +551,8 @@ int main(int argc, char * argv[]) {
                 SRA14(para);
             }else if ((para -> type) == "fastp"){
                 getFastp(para);
+            }else if ((para -> type) == "cp"){
+                cpFolder(para);
             }
         }
     }
