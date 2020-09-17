@@ -63,7 +63,6 @@ int cpFolder(parameter *para){
     vector<string> ll;
     vector<string> files = getSubFoldfiles(infile,suffix);
     cout << "Number of files matched is:\t" << files.size() << endl;
-   
     for(int i = 0; i < files.size(); i++){
         string str = files[i];
         ll.clear();
