@@ -694,6 +694,7 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
     }
     return files;
 }
+
 int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int pgap)
 {
     int i, j; // intialising variables

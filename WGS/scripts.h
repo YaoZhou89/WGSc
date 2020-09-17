@@ -57,12 +57,13 @@ int cpFolder(parameter *para){
         cerr << "Open file error: " << infile << endl;
         return 0;
     }
-    string oun = "cp.sh";
-    ofstream ouf (oun.c_str());
     string suffix = (para -> suffix);
+    string oun = "cp_"+suffix+".sh";
+    ofstream ouf (oun.c_str());
+    vector<string> ll;
     vector<string> files = getSubFoldfiles(infile,suffix);
     cout << "Number of files matched is:\t" << files.size() << endl;
-    vector<string> ll;
+   
     for(int i = 0; i < files.size(); i++){
         string str = files[i];
         ll.clear();
