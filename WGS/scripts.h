@@ -67,9 +67,11 @@ int cpFolder(parameter *para){
         string str = files[i];
         ll.clear();
         split(str,ll,"/");
-        str = str.replace(str.find(ll[ll.size()-1]),1,"");
-        ouf << "mkdir -p outfile/" << str << "\n";
-        ouf << "cp " << files[i] << "oufile/" << str << "\n";
+        string sub = ll[ll.size()-1] ;
+        str = str.replace(str.find(sub),sub.length(),"");
+        cout << str << endl;
+        ouf << "mkdir -p " << outfile << "/" << str << "\n";
+        ouf << "cp " << files[i] << " " << outfile << "/" << str << "\n";
     }
     ouf.close();
     return 0;
