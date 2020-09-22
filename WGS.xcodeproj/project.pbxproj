@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C540C10D2519E80500D126F2 /* asset.c in Sources */ = {isa = PBXBuildFile; fileRef = C540C1092519E80500D126F2 /* asset.c */; };
+		C540C10E2519E80500D126F2 /* bamlite.c in Sources */ = {isa = PBXBuildFile; fileRef = C540C10C2519E80500D126F2 /* bamlite.c */; };
+		C540C1142519E82600D126F2 /* sdict.c in Sources */ = {isa = PBXBuildFile; fileRef = C540C1122519E82600D126F2 /* sdict.c */; };
 		C54EC79221B617EF00B474F1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54EC79121B617EF00B474F1 /* main.cpp */; };
 		C54EC79A21B617FE00B474F1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C54EC79921B617FE00B474F1 /* libz.tbd */; };
 /* End PBXBuildFile section */
@@ -24,6 +27,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C540C1092519E80500D126F2 /* asset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = asset.c; sourceTree = "<group>"; };
+		C540C10A2519E80500D126F2 /* bamlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bamlite.h; sourceTree = "<group>"; };
+		C540C10B2519E80500D126F2 /* asset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asset.h; sourceTree = "<group>"; };
+		C540C10C2519E80500D126F2 /* bamlite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bamlite.c; sourceTree = "<group>"; };
+		C540C10F2519E81A00D126F2 /* kvec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kvec.h; sourceTree = "<group>"; };
+		C540C1102519E81A00D126F2 /* kseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kseq.h; sourceTree = "<group>"; };
+		C540C1112519E81A00D126F2 /* ksort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ksort.h; sourceTree = "<group>"; };
+		C540C1122519E82600D126F2 /* sdict.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sdict.c; sourceTree = "<group>"; };
+		C540C1132519E82600D126F2 /* sdict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdict.h; sourceTree = "<group>"; };
+		C540C1152519E85E00D126F2 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
+		C540C1162519EB0700D126F2 /* bam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bam.h; sourceTree = "<group>"; };
 		C54EC78E21B617EF00B474F1 /* WGS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WGS; sourceTree = BUILT_PRODUCTS_DIR; };
 		C54EC79121B617EF00B474F1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C54EC79921B617FE00B474F1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -72,6 +86,16 @@
 		C54EC79021B617EF00B474F1 /* WGS */ = {
 			isa = PBXGroup;
 			children = (
+				C540C1152519E85E00D126F2 /* khash.h */,
+				C540C1122519E82600D126F2 /* sdict.c */,
+				C540C1132519E82600D126F2 /* sdict.h */,
+				C540C1102519E81A00D126F2 /* kseq.h */,
+				C540C1112519E81A00D126F2 /* ksort.h */,
+				C540C10F2519E81A00D126F2 /* kvec.h */,
+				C540C1092519E80500D126F2 /* asset.c */,
+				C540C10B2519E80500D126F2 /* asset.h */,
+				C540C10C2519E80500D126F2 /* bamlite.c */,
+				C540C10A2519E80500D126F2 /* bamlite.h */,
 				C54EC7A421B62A6D00B474F1 /* include */,
 				C54EC79121B617EF00B474F1 /* main.cpp */,
 				C54EC79F21B6239D00B474F1 /* initialization.h */,
@@ -84,6 +108,7 @@
 				C5964F97240037B400F024B0 /* vcf.h */,
 				C5BB05CD23F8541000BAD8E6 /* scripts.h */,
 				C54EC7A521B62D6C00B474F1 /* HeaderIns.h */,
+				C540C1162519EB0700D126F2 /* bam.h */,
 			);
 			path = WGS;
 			sourceTree = "<group>";
@@ -152,7 +177,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C540C10E2519E80500D126F2 /* bamlite.c in Sources */,
+				C540C10D2519E80500D126F2 /* asset.c in Sources */,
 				C54EC79221B617EF00B474F1 /* main.cpp in Sources */,
+				C540C1142519E82600D126F2 /* sdict.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -554,6 +554,10 @@ int main(int argc, char * argv[]) {
             }else if ((para -> type) == "cp"){
                 cpFolder(para);
             }
+        }else if((para->model) == "bam"){
+            if ((para -> type) == "test"){
+                testBam(para);
+            }
         }
     }
     
