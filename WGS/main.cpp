@@ -15,7 +15,7 @@
 #include "FileFunctions.h"
 #include "scripts.h"
 #include "vcf.h"
-
+#include "bam.h"
 #include "dataConvert.h"
 int main(int argc, char * argv[]) {
     clock_t start;

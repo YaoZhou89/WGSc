@@ -86,6 +86,7 @@
 		C54EC79021B617EF00B474F1 /* WGS */ = {
 			isa = PBXGroup;
 			children = (
+				C54EC79121B617EF00B474F1 /* main.cpp */,
 				C540C1152519E85E00D126F2 /* khash.h */,
 				C540C1122519E82600D126F2 /* sdict.c */,
 				C540C1132519E82600D126F2 /* sdict.h */,
@@ -97,7 +98,6 @@
 				C540C10C2519E80500D126F2 /* bamlite.c */,
 				C540C10A2519E80500D126F2 /* bamlite.h */,
 				C54EC7A421B62A6D00B474F1 /* include */,
-				C54EC79121B617EF00B474F1 /* main.cpp */,
 				C54EC79F21B6239D00B474F1 /* initialization.h */,
 				C5F3C43421E37B9600B6A515 /* dataConvert.h */,
 				C54EC7A021B6282000B474F1 /* checkers.h */,
