@@ -15,7 +15,6 @@
 #include "FileFunctions.h"
 #include "scripts.h"
 #include "vcf.h"
-#include "bam.h"
 #include "dataConvert.h"
 int main(int argc, char * argv[]) {
     clock_t start;
@@ -556,7 +555,7 @@ int main(int argc, char * argv[]) {
             }
         }else if((para->model) == "bam"){
             if ((para -> type) == "test"){
-                testBam(para);
+               
             }else if ((para ->type) == "cigarSimilarity"){
                 cigarSimilarity(para);
             }
