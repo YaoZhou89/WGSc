@@ -14349,5 +14349,109 @@ int readAllFolder(parameter *para){
     ouf.close();
     return 0;
 }
+int cigarSimilarity(parameter *para){
+    string infile = (para -> inFile);
+    string infile2 = (para -> inFile2); // bed file
+    string outfile = (para -> outFile);
+    ofstream ouf ((outfile).c_str());
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    vector<string> ll;
+    map<string,int> contig_length;
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        contig_length.insert(pair<string,int>(ll[0],string2Int(ll[2])));
+    }
+    cout << contig_length.size() << " contigs found!" << endl;
+    map<string,vector<int>> ar ;
+    vector<string> ri ;
+    bool t1 = false,t2 = false;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+//        cout << ll[0]  << "\t" << contig_length[ll[1]] << "\t" << string2Int(ll[2]) << endl;
+        vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
+        
+        ar.insert(pair<string,vector<int>>(ll[0],array));
+        ri.push_back(ll[0]);
+    }
+    cout <<  ri.size() << " CIGAR values readed!" << endl;
+    vector<set<string>> pa;
+    for (int i = 0; i < ri.size() - 1; i++){
+        string id1 = ri[i];
+        vector<int> vi1 = ar[ri[i]];
+        for (int j = i+1; j < ri.size(); j++){
+            string id2 = ri[j];
+            vector<int> vi2 = ar[ri[j]];
+            int sum = 0;
+            int diff = 0;
+            for (int idx = 0; idx < vi1.size(); idx++){
+                if (vi2[idx] == -1 || vi1[idx] == -1 ) continue;
+                int a1 = abs(vi2[idx] - vi1[idx]);
+                if (a1 > 2) {
+                    int a2  , a3 ;
+                    a2 = abs(vi2[idx] - vi1[idx+1]);
+                    a3 = abs(vi2[idx+1] - vi1[idx]);
+                    int a = smallest(a1,a2,a3);
+                    diff += a;
+                }else{
+                    diff += a1;
+                }
+                sum++;
+            }
 
+            if (((double)diff/sum*1.0) < 0.01 && sum > 1000) {
+                if (pa.size() > 0){
+                    bool inserted = false;
+                    for (int p = 0; p < pa.size(); p++){
+                        set<string> value = pa[p];
+                        if(value.count(id1) == 1 ){
+                            value.insert(id2);
+                            pa[p] = value;
+                            inserted = true;
+                        }else if ( value.count(id2) == 1){
+                            value.insert(id1);
+                            pa[p] = value;
+                            inserted = true;
+                        }
+                    }
+                    if (!inserted){
+                        set<string> nv;
+                        nv.insert(id1);
+                        nv.insert(id2);
+                        pa.push_back(nv);
+                    }
+                }else{
+                    set<string> value;
+                    value.insert(id1);
+                    value.insert(id2);
+                    pa.push_back(value);
+                }
+            }
+//            ouf << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
+        }
+    }
+    if ( pa.size() == 0){
+        cout << "None group found!" << endl;
+        return 0;
+    }
+    cout << pa.size() << " groups found!" << endl;
+    for (int i = 0; i < pa.size(); i++){
+        set<string> value = pa[i];
+        set<string>::iterator it = value.begin();
+        while (it != value.end()){
+            ouf << *it << ";";
+            it++;
+        }
+        ouf << "\n";
+    }
+    
+    ouf.close();
+    
+    return 0;
+}
 #endif /* FileFunctions_h */

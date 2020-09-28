@@ -69,7 +69,7 @@ int chl_col_ctgs(char *bam_fn, sdict_t *ctgs)
     }
     h = bam_header_read(fp);
     b = bam_init1();
-    
+   
     int i;
     for ( i = 0; i < h->n_targets; ++i) {
         char *name = h->target_name[i];
@@ -104,8 +104,10 @@ int proc_bam(char *bam_fn, int min_mq, uint32_t max_is, sdict_t *ctgs, int opt, 
     aln_inf_t aln;
     int aln_cnt = 0;
     uint8_t rev;
+    
     while (1) {
         //segment were mapped
+        
         if (bam_read1(fp, b) >= 0 ) {
             if (!cur_qn || strcmp(cur_qn, bam1_qname(b)) != 0) {
                 /*fprintf(stderr, "%d\t%d\t%d\n", aln_cnt, rev, aln.mq);*/
@@ -127,8 +129,61 @@ int proc_bam(char *bam_fn, int min_mq, uint32_t max_is, sdict_t *ctgs, int opt, 
             }
             if (opt && b->core.isize < 0)
                 aln.e = b->core.pos + 1;
-            
-            
+            uint32_t *cigar = bam1_cigar(b);
+            int k,pos;
+            for (k = 0,  pos = b->core.pos; k < b->core.n_cigar; ++k) {
+                int op = cigar[k] & BAM_CIGAR_MASK;
+                int cl = cigar[k] >> BAM_CIGAR_SHIFT;
+                printf("op: %d",op);
+                switch (op) {
+                case BAM_CMATCH:
+                    printf("M");
+                    printf("[%d-%d]", pos, pos + cl - 1);
+                    pos+=cl;
+                    break;
+
+               case BAM_CHARD_CLIP:
+                    printf("H");
+                    /* printf("[%d]", pos);  // No coverage */
+                    /* pos is not advanced by this operation */
+                    break;
+
+               case BAM_CSOFT_CLIP:
+                    printf("S");
+                    /* printf("[%d]", pos);  // No coverage */
+                    /* pos is not advanced by this operation */
+                    break;
+
+               case BAM_CDEL:
+                    printf("D");
+                    /* printf("[%d-%d]", pos, pos + cl - 1);  // Spans positions, No Coverage */
+                    pos+=cl;
+                    break;
+
+               case BAM_CPAD:
+                    printf("P");
+                    /* printf("[%d-%d]", pos, pos + cl - 1); // Spans positions, No Coverage */
+                    pos+=cl;
+                    break;
+
+               case BAM_CINS:
+                    printf("I");
+                    /* printf("[%d]", pos); // Special case - adds <cl> bp "throughput", but not genomic position "coverage" */
+                    /* How you handle this is application dependent */
+                    /* pos is not advanced by this operation */
+                    break;
+
+               case BAM_CREF_SKIP:
+                    printf("S");
+                    /* printf("[%d-%d]", pos, pos + cl - 1); /* Spans positions, No Coverage */
+                    pos+=cl;
+                    break;
+                      
+               default:
+                    fprintf(stderr, "Unhandled cigar_op %d:%d\n", op, cl);
+//                    printf("?");
+              }
+            }
             if ((++bam_cnt % 1000000) == 0) fprintf(stderr, "[M::%s] processing %ld bams\n", __func__, bam_cnt);
         } else {
             /*fprintf(stderr, "%d\t%d\t%d\n", aln_cnt, rev, aln.mq);*/
@@ -238,7 +293,49 @@ int ngscstat(char *bam_fn[], int n_bam, int min_mq, uint32_t max_is, int max_cov
 
 }
 
+int testNGS(char *bam_fn, int n_bam, int min_mq, uint32_t max_is, int max_cov, int opt, char *out_dir)
+{
 
+    sdict_t *ctgs = sd_init();
+    chl_col_ctgs(bam_fn, ctgs);
+    if (!ctgs->n_seq) {
+        fprintf(stderr, "[M::%s] No contigs found in bam file, quit\n", __func__);
+        return 0;
+    }
+    int i;
+        
+    cord_t *cc = (cord_t*)calloc(ctgs->n_seq, sizeof(cord_t));
+
+    for ( i = 0; i < n_bam; ++i) {
+        if (proc_bam(bam_fn, min_mq, max_is, ctgs, opt, cc)) {
+            return -1;
+        }
+    }
+    ctg_pos_t *d = col_pos(cc, ctgs->n_seq, ctgs);
+    cord_destroy(cc, ctgs->n_seq);
+    cov_ary_t *ca = cal_cov(d, ctgs);
+
+    ctg_pos_destroy(d);
+    if (!ca) {
+        fprintf(stderr, "[W::%s] low quality alignments\n", __func__);
+        return 0;
+    }
+        
+    /*csel_sup_reg(ca, min_cov_rat, min_cov, max_cov_rat, max_cov, ctgs);*/
+
+    char *type = "TX";
+    char *desc = "10x data";
+
+    print_coverage_stat(ca, max_cov, ctgs, type, out_dir);
+    print_base_coverage(ca, ctgs, type, out_dir);
+    
+    cov_ary_destroy(ca, ctgs->n_seq); //a little bit messy
+    sd_destroy(ctgs);
+
+    fprintf(stderr, "Program finished successfully\n");
+    return 0;
+
+}
 
 int testBam(parameter *para)
 {
@@ -250,10 +347,11 @@ int testBam(parameter *para)
     char *out_dir = ".";
     int option = 0; //the way to calculate molecule length //internal parameters not allowed to adjust by users
     
-    char **bam_fn ;
+    char *bam_fn = const_cast<char *>((para->inFile).c_str());
     int n_bam = 1;
     fprintf(stderr, "Program starts\n");
-    ngscstat(bam_fn, n_bam,  min_mq, max_is, max_cov, option, out_dir);
+    testNGS(bam_fn, n_bam,  min_mq, max_is, max_cov, option, out_dir);
+    
     fprintf(stderr, "Program ends\n");
     return 0;
 }

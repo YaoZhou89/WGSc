@@ -694,7 +694,162 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
     }
     return files;
 }
+vector<int> parseCIGAR(string cigar, int len, int start){
+    vector<int> v(len,-1);
+/* CIGAR character to ASCII int
+ M: 77; -> 0
+ I: 73; -> 1
+ D: 68; -> 1
+ N: 78; -> 5
+ S: 83; -> skip
+ H: 72; -> skip
+ P: 80; -> 5
+ =: 61; -> 0
+ X: 88; -> 20
+ B: 66; -> 5
+*/
+    int l = 0;
+    for (int i = 0; i < cigar.length(); i++){
+        int value = (int) cigar[i];
+//        cout << cigar[i] << endl;
+        switch(value){
+            case 48: // 0
+                l++;
+                break;
+            case 49:
+                l++;
+                break;
+            case 50:
+                l++;
+                break;
+            case 51:
+                l++;
+                break;
+            case 52:
+                l++;
+                break;
+            case 53:
+                l++;
+                break;
+            case 54:
+                l++;
+                break;
+            case 55:
+                l++;
+                break;
+            case 56:
+                l++;
+                break;
+            case 57: // 9
+                l++;
+                break;
+            case 61: // =/match
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    int a = start ;
+                    int b = start + value ;
+                    for (int p = a ; p < b; p++){
+                        v[p] = 0;
+                    }
+                    start = b;
+                }
+                l = 0;
+                break;
+            case 73: // insertion
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    v[start-1] += value;
+                }
+                l = 0;
+                break;
+            case 68: // deletion
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    int a = start ;
+                    int b = start + value ;
+                    for (int p = a ; p < b; p++){
+                        v[p] = 1;
+                    }
+                    start = b;
+                }
+                l = 0;
+                break;
+            case 88: // mismatch
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    int a = start ;
+                    int b = start + value ;
+                    for (int p = a ; p < b; p++){
+                        v[p] = 1;
+                    }
+                    start = b;
+                }
+                l = 0;
+                break;
+            case 77: // M
+                cerr << "Regenerate the bam file with =/X" << endl;
+                l = 0;
+                break;
+            case 78: // N:
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    int a = start ;
+                    int b = start + value ;
+                    for (int p = a ; p < b; p++){
+                        v[a] ++;
+                    }
+                    start = a;
+                }
+                l = 0;
+                break;
+            case 83: // S:
+                l = 0;
+                break;
+            case 72: // H
+                l = 0;
+                break;
+            case 80: // P
+                if (l > 0){
+                    int value = string2Int(cigar.substr(i-l,l));
+                    int a = start ;
+                    int b = start + value ;
+                    for (int p = a ; p < b; p++){
+                        v[p] = 1;
+                    }
+                    start = b;
+                }
+                l = 0;
+                break;
+            case 66: // B
+                l = 0;
+                break;
+            case 13:
+                break;
+            default:
+                cerr << "Character " << (char)value << " not found!" << endl;
+        }
+    }
+    return v;
+}
+int smallest(int x, int y, int z) {
 
+  int smallest = x;
+
+  if (y < smallest)
+    smallest = y;
+  if (z < smallest)
+    smallest = z;
+  return smallest;
+}
+int min2value(int x, int y) {
+
+  int smallest = x;
+
+  if (y < smallest)
+    smallest = y;
+  
+  return smallest;
+}
 int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int pgap)
 {
     int i, j; // intialising variables
