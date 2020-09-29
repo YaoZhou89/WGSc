@@ -14369,22 +14369,15 @@ int cigarSimilarity(parameter *para){
     map<string,vector<int>> ar ;
     vector<string> ri ;
     while (!inf.eof()){
-        cout << "begining.." << endl;
         getline(inf,line);
-        cout << "begining 2.." << endl;
         if(line.length() < 1 ) continue;
-        cout << "begining 3.." << endl;
         ll.clear();
-        cout << line << endl;
         split(line,ll," \t");
-//        cout << ll[0]  << "\t" << contig_length[ll[1]] << "\t" << string2Int(ll[2]) << endl;
-//        cout << "testing..." << endl;
         vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
-        cout << "testing finished..." << endl;
         ar.insert(pair<string,vector<int>>(ll[0],array));
-        cout << "inserted!" << endl;
         ri.push_back(ll[0]);
-        cout << "pushed!" << endl;
+        cout << "aaaa..." << endl;
+        if(!inf.eof()) cout << "testing..." << endl;
     }
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
