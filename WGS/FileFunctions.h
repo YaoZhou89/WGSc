@@ -14368,10 +14368,12 @@ int cigarSimilarity(parameter *para){
     cout << contig_length.size() << " contigs found!" << endl;
     map<string,vector<int>> ar ;
     vector<string> ri ;
-    bool t1 = false,t2 = false;
     while (!inf.eof()){
+        cout << "begining.." << endl;
         getline(inf,line);
+        cout << "begining 2.." << endl;
         if(line.length() < 1 ) continue;
+        cout << "begining 3.." << endl;
         ll.clear();
         cout << line << endl;
         split(line,ll," \t");
