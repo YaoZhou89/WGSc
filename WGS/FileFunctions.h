@@ -14448,6 +14448,7 @@ int cigarSimilarity(parameter *para){
             ouf << *it << "\n";
             it++;
         }
+        g++;
         ouf.close();
     }
     
