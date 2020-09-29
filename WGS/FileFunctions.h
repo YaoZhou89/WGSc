@@ -14352,8 +14352,8 @@ int readAllFolder(parameter *para){
 int cigarSimilarity(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2); // bed file
-    string outfile = (para -> outFile);
-    ofstream ouf ((outfile).c_str());
+    string outfile = (para -> outFile); // prefix only
+    
     igzstream inf ((infile).c_str(),ifstream::in);
     igzstream inf2 ((infile2).c_str(),ifstream::in);
     vector<string> ll;
@@ -14439,17 +14439,19 @@ int cigarSimilarity(parameter *para){
         return 0;
     }
     cout << pa.size() << " groups found!" << endl;
+    int g = 0;
     for (int i = 0; i < pa.size(); i++){
         set<string> value = pa[i];
         set<string>::iterator it = value.begin();
+        ofstream ouf ((outfile + ".group" + Int2String(g) + ".txt").c_str());
         while (it != value.end()){
-            ouf << *it << ";";
+            ouf << *it << "\n";
             it++;
         }
-        ouf << "\n";
+        ouf.close();
     }
     
-    ouf.close();
+    
     
     return 0;
 }
