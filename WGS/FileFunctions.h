@@ -14376,8 +14376,12 @@ int cigarSimilarity(parameter *para){
         vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
         ar.insert(pair<string,vector<int>>(ll[0],array));
         ri.push_back(ll[0]);
-        cout << "aaaa..." << endl;
-        if(!inf.eof()) cout << "testing..." << endl;
+        cout << "testing ... pre ..." << endl;
+        if(!inf.eof()) {
+            ll.clear();
+            cout << "testing..." << endl;
+            
+        }
     }
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
