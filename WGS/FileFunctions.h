@@ -14363,7 +14363,7 @@ int cigarSimilarity(parameter *para){
         getline(inf2,line);
         if(line.length() < 1 ) continue;
         split(line,ll," \t");
-        contig_length.insert(pair<string,int>(ll[0],string2Int(ll[2])));
+        contig_length.insert(pair<string,int>(ll[0],string2Int(ll[2])+10000));
     }
     cout << contig_length.size() << " contigs found!" << endl;
     map<string,vector<int>> ar ;
@@ -14375,8 +14375,8 @@ int cigarSimilarity(parameter *para){
         ll.clear();
         split(line,ll," \t");
         vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
-//        ar.insert(pair<string,vector<int>>(ll[0],array));
-//        ri.push_back(ll[0]);
+        ar.insert(pair<string,vector<int>>(ll[0],array));
+        ri.push_back(ll[0]);
     }
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
