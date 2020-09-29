@@ -14373,6 +14373,7 @@ int cigarSimilarity(parameter *para){
         getline(inf,line);
         if(line.length() < 1 ) continue;
         ll.clear();
+        cout << line << endl;
         split(line,ll," \t");
 //        cout << ll[0]  << "\t" << contig_length[ll[1]] << "\t" << string2Int(ll[2]) << endl;
 //        cout << "testing..." << endl;
@@ -14383,7 +14384,6 @@ int cigarSimilarity(parameter *para){
         ri.push_back(ll[0]);
         cout << "pushed!" << endl;
     }
-    cout << "readed!" << endl;
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
     for (int i = 0; i < ri.size() - 1; i++){
