@@ -14374,7 +14374,7 @@ int cigarSimilarity(parameter *para){
         if(line.length() < 1 ) continue;
         ll.clear();
         split(line,ll," \t");
-//        vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
+        vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
 //        ar.insert(pair<string,vector<int>>(ll[0],array));
 //        ri.push_back(ll[0]);
     }
