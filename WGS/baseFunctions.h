@@ -860,7 +860,7 @@ int getMinimumPenalty(string x, string y, int pxy, int pgap)
     int n = y.length(); // length of gene2
       
     // table for storing optimal substructure answers
-    int dp[n+m+1][n+m+1] ;
+    static int dp[20000][20000] ;
 //    int dp[1000+1][1000+1] ;
 //    dp[0][0] = 0;
     // intialising the table
@@ -1002,7 +1002,7 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     int lx = x.length();
     int ly = y.length();
     // initialize
-    long long int scoreMatrix[lx+1][ly+1];
+    static int scoreMatrix[20000][20000];
 //    for (int i = 0; i < (lx + ly + 1); i++)
 //    {
 //        scoreMatrix[i][0] = 0;
