@@ -14456,4 +14456,20 @@ int cigarSimilarity(parameter *para){
     
     return 0;
 }
+int concensus(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    int misMatchPenalty = 10;
+    int gapPenalty = 2;
+    
+    string gene1 = "AAGGCTAG";
+    string gene2 = "AGGCTA";
+    
+    getMinimumPenalty(gene1, gene2,misMatchPenalty, gapPenalty);
+        
+    return 0;
+}
 #endif /* FileFunctions_h */

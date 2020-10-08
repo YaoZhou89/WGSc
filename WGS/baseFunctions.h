@@ -850,8 +850,10 @@ int min2value(int x, int y) {
   
   return smallest;
 }
-int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int pgap)
+//int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int pgap)
+int getMinimumPenalty(string x, string y, int pxy, int pgap)
 {
+    // dynamic programming
     int i, j; // intialising variables
       
     int m = x.length(); // length of gene1
@@ -859,7 +861,8 @@ int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int p
       
     // table for storing optimal substructure answers
     int dp[n+m+1][n+m+1] ;
-    
+//    int dp[1000+1][1000+1] ;
+//    dp[0][0] = 0;
     // intialising the table
     for (i = 0; i < (n+m+1); i++)
     {
@@ -954,7 +957,7 @@ int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int p
     cout << "The aligned genes are :\n";
     for (i = id; i <= l; i++)
     {
-        cout<<(char)xans[i];
+        cout << (char)xans[i];
     }
     cout << "\n";
     for (i = id; i <= l; i++)
@@ -962,5 +965,135 @@ int getMinimumPenalty(string x, string y, string &xx, string &xy, int pxy, int p
         cout << (char)yans[i];
     }
     return dp[m][n] ;
+}
+
+int similarityScore(char a, char b, int penalty)
+{
+    int result;
+    if(a == b)
+    {
+        result = 1;
+    }
+    else
+    {
+        result = penalty;
+    }
+    return result;
+}
+int findMax(int array[], int length, int &ind)
+{
+    int max = array[0];
+    ind = 0;
+
+    for(int i=1; i<length; i++)
+    {
+        if(array[i] > max)
+        {
+            max = array[i];
+            ind=i;
+        }
+    }
+    return max;
+}
+int SmithWaterman(string x, string y, int misMatch, int gap){
+//    int similarityScore(char a, char b, int misMatch);
+//    double findMax(double array[], int length, int &ind);
+    int ind;
+    int lx = x.length();
+    int ly = y.length();
+    // initialize
+    long long int scoreMatrix[lx+1][ly+1];
+//    for (int i = 0; i < (lx + ly + 1); i++)
+//    {
+//        scoreMatrix[i][0] = 0;
+//        scoreMatrix[0][i] = 0;
+//    }
+    for(int i = 0; i <= lx; i++){
+        for(int j = 0; j <= ly; j++){
+            scoreMatrix[i][j] = 0;
+        }
+    }
+    int traceback[4];
+    int I_i[lx+1][ly+1];
+    int I_j[lx+1][ly+1];
+    for (int i = 1; i <= lx; i++){
+        for(int j = 0; j <= ly; j++){
+            traceback[0] = scoreMatrix[i-1][j-1] + similarityScore(x[i-1],y[j-1],misMatch);
+            traceback[1] = scoreMatrix[i-1][j] + gap;
+            traceback[2] = scoreMatrix[i][j-1] + gap;
+            traceback[3] = 0;
+            scoreMatrix[i][j] = findMax(traceback,4,ind);
+            switch(ind){
+                case 0:
+                    I_i[i][j] = i - 1;
+                    I_j[i][j] = j - 1;
+                    break;
+                case 1:
+                    I_i[i][j] = i - 1;
+                    I_j[i][j] = j;
+                    break;
+                case 2:
+                    I_i[i][j] = i;
+                    I_j[i][j] = j - 1;
+                    break;
+                case 3:
+                    I_i[i][j] = i;
+                    I_j[i][j] = j;
+                    break;
+            }
+        }
+    }
+    
+    double matrix_max = 0;
+    int i_max=0, j_max=0;
+    for(int i = 1; i < lx; i++){
+        for(int j = 1; j < ly; j++){
+            if(scoreMatrix[i][j] > matrix_max){
+                matrix_max = scoreMatrix[i][j];
+                i_max = i;
+                j_max = j;
+            }
+        }
+    }
+//    cout << "Max score in the matrix is " << matrix_max << endl;
+    int current_i = i_max, current_j = j_max;
+    int next_i = I_i[current_i][current_j];
+    int next_j = I_j[current_i][current_j];
+    int tick = 0;
+    char consensus_a[lx + ly + 2],consensus_b[lx + ly +2];
+    while(((current_i != next_i) || (current_j != next_j)) && (next_j != 0) && (next_i != 0)){
+        if(next_i == current_i)  consensus_a[tick] = '-';                  // deletion in A
+        else                   consensus_a[tick] = x[current_i-1];   // match/mismatch in A
+        if(next_j == current_j)  consensus_b[tick] = '-';                  // deletion in B
+        else                   consensus_b[tick] = y[current_j-1];   // match/mismatch in B
+
+        current_i = next_i;
+        current_j = next_j;
+        next_i = I_i[current_i][current_j];
+        next_j = I_j[current_i][current_j];
+        tick++;
+    }
+    cout<<endl<<" "<<endl;
+    cout<<"Alignment:"<<endl<<endl;
+    for (int i = 0 ; i < sizeof(consensus_a); i++){
+        cout << (char)consensus_a[i];
+    }
+    cout << endl;
+    
+    for (int i = 0 ; i < sizeof(consensus_b); i++){
+        cout << (char)consensus_b[i];
+    }
+    cout << endl<< endl;
+    
+    
+    for(int i = tick-1; i >= 0; i--) {
+        cout << consensus_a[i];
+    }
+    cout<<endl;
+    for(int j = tick-1; j >= 0; j--){
+        cout<<consensus_b[j];
+    }
+    cout<<endl;
+    return 0;
 }
 #endif /* baseFunctions_h */
