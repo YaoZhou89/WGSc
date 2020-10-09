@@ -1016,8 +1016,11 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     int traceback[4];
     int I_i[lx+1][ly+1];
     int I_j[lx+1][ly+1];
+    for (int i = 0; i < 4; i++){
+        traceback[i] = 0;
+    }
     for (int i = 1; i <= lx; i++){
-        for(int j = 0; j <= ly; j++){
+        for(int j = 1; j <= ly; j++){
             traceback[0] = scoreMatrix[i-1][j-1] + similarityScore(x[i-1],y[j-1],misMatch);
             traceback[1] = scoreMatrix[i-1][j] + gap;
             traceback[2] = scoreMatrix[i][j-1] + gap;
@@ -1046,8 +1049,8 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     
     double matrix_max = 0;
     int i_max=0, j_max=0;
-    for(int i = 1; i < lx; i++){
-        for(int j = 1; j < ly; j++){
+    for(int i = 0; i <= lx; i++){
+        for(int j = 0; j <= ly; j++){
             if(scoreMatrix[i][j] > matrix_max){
                 matrix_max = scoreMatrix[i][j];
                 i_max = i;
@@ -1057,6 +1060,8 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     }
 //    cout << "Max score in the matrix is " << matrix_max << endl;
     int current_i = i_max, current_j = j_max;
+    cout << "i_max is:\t" << i_max << endl;
+    cout << "j_max is:\t" << j_max << endl;
     int next_i = I_i[current_i][current_j];
     int next_j = I_j[current_i][current_j];
     int tick = 0;
@@ -1075,15 +1080,6 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     }
     cout<<endl<<" "<<endl;
     cout<<"Alignment:"<<endl<<endl;
-    for (int i = 0 ; i < sizeof(consensus_a); i++){
-        cout << (char)consensus_a[i];
-    }
-    cout << endl;
-    
-    for (int i = 0 ; i < sizeof(consensus_b); i++){
-        cout << (char)consensus_b[i];
-    }
-    cout << endl<< endl;
     
     
     for(int i = tick-1; i >= 0; i--) {
