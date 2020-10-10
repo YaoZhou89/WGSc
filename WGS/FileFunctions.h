@@ -14353,7 +14353,7 @@ int cigarSimilarity(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2); // bed file
     string outfile = (para -> outFile); // prefix only
-    
+    double t = (para -> threshold);
     igzstream inf ((infile).c_str(),ifstream::in);
     igzstream inf2 ((infile2).c_str(),ifstream::in);
     vector<string> ll;
@@ -14404,7 +14404,7 @@ int cigarSimilarity(parameter *para){
                 sum++;
             }
 
-            if (((double)diff/sum*1.0) < 0.005 && sum > 1000) {
+            if (((double)diff/sum*1.0) < t && sum > 1000) {
                 if (pa.size() > 0){
                     bool inserted = false;
                     for (int p = 0; p < pa.size(); p++){
