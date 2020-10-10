@@ -14380,6 +14380,7 @@ int cigarSimilarity(parameter *para){
     }
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
+    ofstream ouf1 ((outfile + ".test.txt").c_str());
     for (int i = 0; i < ri.size() - 1; i++){
         string id1 = ri[i];
         vector<int> vi1 = ar[ri[i]];
@@ -14403,7 +14404,7 @@ int cigarSimilarity(parameter *para){
                 sum++;
             }
 
-            if (((double)diff/sum*1.0) < 0.01 && sum > 1000) {
+            if (((double)diff/sum*1.0) < 0.005 && sum > 1000) {
                 if (pa.size() > 0){
                     bool inserted = false;
                     for (int p = 0; p < pa.size(); p++){
@@ -14430,12 +14431,12 @@ int cigarSimilarity(parameter *para){
                     value.insert(id2);
                     pa.push_back(value);
                 }
-                if(id1=="m64054_191222_151922/128386659/ccs" || id2 == "m64054_191222_151922/128386659/ccs"){
-                    cout << "id1 = " << id1 << "; id2 = " << id2 << endl;
-                    cout << "diff is:\t" << diff << "; sum is:\t" << sum << endl;
-                }
+//                if(id1=="m64054_191222_151922/128386659/ccs" || id2 == "m64054_191222_151922/128386659/ccs"){
+//                    cout << "id1 = " << id1 << "; id2 = " << id2 << endl;
+//                    cout << "diff is:\t" << diff << "; sum is:\t" << sum << endl;
+//                }
             }
-//            ouf << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
+            ouf1 << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
         }
     }
     if ( pa.size() == 0){
