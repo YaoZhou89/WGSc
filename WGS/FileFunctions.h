@@ -2609,7 +2609,7 @@ int subtractFQ(parameter *para){
         }
         if(line[0] == '@') {
             write = false;
-            if(readsID.count(line)) write = true;
+            if(readsID.count(line.substr(1,line.length()-1))) write = true;
         }
         if(write){
             ouf << line << "\n";
