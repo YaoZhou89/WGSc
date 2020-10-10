@@ -14430,6 +14430,10 @@ int cigarSimilarity(parameter *para){
                     value.insert(id2);
                     pa.push_back(value);
                 }
+                if(id1=="m64054_191222_151922/128386659/ccs" || id2 == "m64054_191222_151922/128386659/ccs"){
+                    cout << "id1 = " << id1 << "; id2 = " << id2 << endl;
+                    cout << "diff is:\t" << diff << "; sum is:\t" << sum << endl;
+                }
             }
 //            ouf << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
         }
