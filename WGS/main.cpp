@@ -45,7 +45,7 @@ int main(int argc, char * argv[]) {
     if (!(para->inFile).empty())
     {
         if ((para -> model).empty()){
-            cerr << "model should be specified! Please check" << endl; ;
+            cerr << "model should be specified! Please check" << endl;
         }else if((para -> model) == "vcf"){
             if((para->type)==""){
                 Read_VCF_IN(para, inVCF);
