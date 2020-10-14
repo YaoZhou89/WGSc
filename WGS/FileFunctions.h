@@ -2604,8 +2604,8 @@ int subtractFQ(parameter *para){
         getline(inf1,line);
         if(line.length() < 1 ) continue;
         cl++;
-        if (cl % 100000 == 0){
-            cout << "Current line: " << cl/1000 << "K..." << endl;
+        if (cl % 400000 == 0){
+            cout << "Current reads: " << cl/1000/4 << "K..." << endl;
         }
         if(line[0] == '@' && ( (cl-1) % 4 == 0)) {
             write = false;
