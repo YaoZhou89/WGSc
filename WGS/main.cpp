@@ -30,12 +30,13 @@ int main(int argc, char * argv[]) {
     
 //    SmithWaterman(gene1, gene2,misMatchPenalty, gapPenalty);
 //    getMinimumPenalty(gene1, gene2,misMatchPenalty, gapPenalty);
-//    regex dv("(dv:f:)(.*)(\\s)");
-//    cmatch m;
-//    cout << regex_search("s1:i:9541\tdv:f:0.0083\trl:i:5540", m,dv) << endl;
-//////    cout << m.str() << endl;
-//    cout << m.str(1) << endl;
-//    cout << m.str(2) << endl;
+    regex dv("(dv:f:)(.*)(\\s)");
+    smatch m;
+    string l ="s1:i:9541\tdv:f:0.0083\trl:i:5540";
+    cout << regex_search(l.cbegin(),l.cend(), m,dv) << endl;
+    cout << m.str() << endl;
+    cout << m.str(1) << endl;
+    cout << m.str(2) << endl;
     
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
