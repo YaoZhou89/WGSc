@@ -4184,7 +4184,7 @@ int splitByChr(parameter *para){
     }
     string chr = "";
     ofstream ouf ;
-    bool first;
+    bool first = true;
     while(!inf.eof()){
         string  line ;
         getline(inf,line);
@@ -14475,6 +14475,29 @@ int concensus(parameter *para){
     
     getMinimumPenalty(gene1, gene2,misMatchPenalty, gapPenalty);
         
+    return 0;
+}
+
+int paf(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        regex dv("(dv:f:)(.*)(\\s)");
+        smatch m;
+        regex_search(line.cbegin(),line.cend(),m,dv);
+        
+        double div = string2Double(m.str(2));
+        if(div < 0.01){
+            ouf << line << "\n";
+        }
+    }
+    
     return 0;
 }
 #endif /* FileFunctions_h */
