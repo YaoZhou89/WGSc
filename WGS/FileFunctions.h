@@ -14501,7 +14501,7 @@ int paf(parameter *para){
         contigs.insert(pair<string,int>(ll[0],string2Int(ll[1])));
     }
     cout << "contig length readed!" << endl;
-    int veci = 0;
+    
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -14512,9 +14512,11 @@ int paf(parameter *para){
         idc.insert(pair<string,string>(key,value));
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[value];
-        vector<int> arrays(500000000);
+        vector<int>* arrays;
+        arrays = new vector<int>[300000000]
         arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
-        ar.insert(pair<string,vector<int>>(key,arrays));
+        ar.insert(pair<string,vector<int>>(key,&arrays));
+        delete arrays;
     }
     cout << "CIGAR values readed!" << endl;
     while (!inf.eof()){
@@ -14539,6 +14541,8 @@ int paf(parameter *para){
         if(d > 0.0099) continue;
         if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
+        if ((start1 > 100) && (start2 > 100) && (ll[4] == "+")) continue;
+        if (((len1 - end1) > 100) && ((len2 - end2) > 100) && (ll[4] == "+")) continue;
         if (idc[id1] != idc[id2]) continue;
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
