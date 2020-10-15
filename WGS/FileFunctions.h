@@ -14538,14 +14538,10 @@ int paf(parameter *para){
         double d = string2Double(ll[2]);
         if(d > 0.0099) continue;
         if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
-        cout << "id1 is:\t" << id1 << endl;
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
-        cout << "id2 is:\t" << id2 << endl;
         if ((start1 > 100) && (start2 > 100) && (ll[4] == "+")) continue;
-        cout << "id1 & id2 is:\t" << id1 << endl;
         if (((len1 - end1) > 100) && ((len2 - end2) > 100) && (ll[4] == "+")) continue;
-        cout << "id1 + id2 is:\t" << id1 << endl;
-        if (idc[id1] != idc[id2]) continue;
+        cout << "id1 + id2 is:\t" << id2 << endl;
         
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
