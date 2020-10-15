@@ -14380,7 +14380,7 @@ int cigarSimilarity(parameter *para){
     }
     cout <<  ri.size() << " CIGAR values readed!" << endl;
     vector<set<string>> pa;
-    ofstream ouf1 ((outfile + ".test.txt").c_str());
+//    ofstream ouf1 ((outfile + ".test.txt").c_str());
     for (int i = 0; i < ri.size() - 1; i++){
         string id1 = ri[i];
         vector<int> vi1 = ar[ri[i]];
@@ -14436,7 +14436,7 @@ int cigarSimilarity(parameter *para){
 //                    cout << "diff is:\t" << diff << "; sum is:\t" << sum << endl;
 //                }
             }
-            ouf1 << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
+//            ouf1 << id1 << "\t" << id2 << "\t" << diff << "\t" <<  sum << endl;
         }
     }
     if ( pa.size() == 0){
@@ -14481,23 +14481,77 @@ int concensus(parameter *para){
 int paf(parameter *para){
     string infile = (para -> inFile);
     string outfile = (para -> outFile);
-    
     igzstream inf ((infile).c_str(),ifstream::in);
-    ofstream ouf ((outfile).c_str());
     string line;
+    vector<string> ll;
+    vector<set<string>> pa;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
-        regex dv("(dv:f:)(.*)(\\s)");
-        smatch m;
-        if(regex_search(line.cbegin(),line.cend(),m,dv)){
-            double div = string2Double(m.str(2));
-            if(div < 0.01){
-                ouf << line << "\n";
+        split(line,ll," \t");
+       
+        // 1. div should smaller than 0.01
+        // 2. two sequences should overlapped (overlapped region should not located in the two sequences)
+        // 3. overlap length longer than 1kb
+        string id1 = ll[0];
+        string id2 = ll[5];
+        int start1 = string2Int(ll[2]);
+        int start2 = string2Int(ll[7]);
+        int end1 = string2Int(ll[3]);
+        int end2 = string2Int(ll[8]);
+        int len1 = string2Int(ll[1]);
+        int len2 = string2Int(ll[6]);
+        string div = ll[15];
+        ll.clear();
+        split(div,ll,":");
+        double d = string2Double(ll[2]);
+        if(d > 0.0099) continue;
+        if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
+        if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
+        if (pa.size() > 0){
+            bool inserted = false;
+            for (int p = 0; p < pa.size(); p++){
+                set<string> value = pa[p];
+                if(value.count(id1) == 1 ){
+                    value.insert(id2);
+                    pa[p] = value;
+                    inserted = true;
+                }else if ( value.count(id2) == 1){
+                    value.insert(id1);
+                    pa[p] = value;
+                    inserted = true;
+                }
             }
+            if (!inserted){
+                set<string> nv;
+                nv.insert(id1);
+                nv.insert(id2);
+                pa.push_back(nv);
+            }
+        }else{
+            set<string> value;
+            value.insert(id1);
+            value.insert(id2);
+            pa.push_back(value);
         }
     }
-    ouf.close();
+    if ( pa.size() == 0){
+        cout << "None group found!" << endl;
+        return 0;
+    }
+    cout << pa.size() << " groups found!" << endl;
+    int g = 0;
+    for (int i = 0; i < pa.size(); i++){
+        set<string> value = pa[i];
+        set<string>::iterator it = value.begin();
+        ofstream ouf ((outfile + ".group" + Int2String(g) + ".txt").c_str());
+        while (it != value.end()){
+            ouf << *it << "\n";
+            it++;
+        }
+        g++;
+        ouf.close();
+    }
     return 0;
 }
 #endif /* FileFunctions_h */
