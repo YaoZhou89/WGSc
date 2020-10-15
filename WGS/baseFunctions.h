@@ -696,7 +696,6 @@ std::vector<std::string> getSubFoldfiles(std::string path, std::string suffix)
 }
 vector<int> parseCIGAR(string cigar, int len, int start){
     vector<int> v(len,-1);
-    vector<int> t;
 /* CIGAR character to ASCII int
  M: 77; -> 0
  I: 73; -> 1
@@ -836,7 +835,7 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 cerr << "Character " << (char)value << " not found!" << endl;
         }
     }
-    return t;
+    return v;
 }
 int smallest(int x, int y, int z) {
 
