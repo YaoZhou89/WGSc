@@ -745,7 +745,8 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 break;
             case 61: // =/match
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     int a = start ;
                     int b = start + value ;
                     for (int p = a ; p < b; p++){
@@ -757,14 +758,16 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 break;
             case 73: // insertion
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     v[start-1] += value;
                 }
                 l = 0;
                 break;
             case 68: // deletion
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     int a = start ;
                     int b = start + value ;
                     for (int p = a ; p < b; p++){
@@ -776,7 +779,8 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 break;
             case 88: // mismatch
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     int a = start ;
                     int b = start + value ;
                     for (int p = a ; p < b; p++){
@@ -792,7 +796,8 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 break;
             case 78: // N:
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     int a = start ;
                     int b = start + value ;
                     for (int p = a ; p < b; p++){
@@ -810,7 +815,8 @@ vector<int> parseCIGAR(string cigar, int len, int start){
                 break;
             case 80: // P
                 if (l > 0){
-                    int value = string2Int(cigar.substr(i-l,l));
+                    string cig = cigar.substr(i-l,l);
+                    int value = string2Int(cig);
                     int a = start ;
                     int b = start + value ;
                     for (int p = a ; p < b; p++){

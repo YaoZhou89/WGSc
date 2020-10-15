@@ -37,7 +37,7 @@ int main(int argc, char * argv[]) {
 //    cout << m.str() << endl;
 //    cout << m.str(1) << endl;
 //    cout << m.str(2) << endl;
-    
+//    parseCIGAR("179=1D44=1D316=1I261=1D426=1D51=1D284=1D287=1D1254=1D1926=1D19=1D106=2D64=1D11=1D541=1D901=1D211=1D7=1D40=1D60=1D560=1D221=1D375=1I201=1I279=1I812=1D767=1D475=1D30=1I98=1I152=1I25=2I247=1I155=1I100=1D300=1630S", 321162, 309352);
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {

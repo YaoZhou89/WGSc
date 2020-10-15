@@ -36,7 +36,7 @@
 		C5BB05CD23F8541000BAD8E6 /* scripts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scripts.h; sourceTree = "<group>"; };
 		C5F1DFAB252244D300D52C56 /* help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = help.h; sourceTree = "<group>"; };
 		C5F1DFAD2522450200D52C56 /* checkers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = checkers.h; sourceTree = "<group>"; };
-		C5F1DFAF2522DD8300D52C56 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C5F1DFAF2522DD8300D52C56 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 0; };
 		C5F3C43421E37B9600B6A515 /* dataConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataConvert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
