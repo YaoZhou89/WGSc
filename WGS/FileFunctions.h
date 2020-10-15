@@ -14479,22 +14479,41 @@ int concensus(parameter *para){
 }
 
 int paf(parameter *para){
-    string infile = (para -> inFile);
-    string infile2 = (para -> inFile2);
+    string infile = (para -> inFile); // paf file
+    string infile2 = (para -> inFile2); //mapped file
+    string infile3 = (para -> inFile3); //fai file
     string outfile = (para -> outFile);
+    double t = (para -> threshold); // threshold
     igzstream inf ((infile).c_str(),ifstream::in);
     igzstream inf2 ((infile2).c_str(),ifstream::in);
+    igzstream inf3 ((infile3).c_str(),ifstream::in);
     string line;
     vector<string> ll;
     vector<set<string>> pa;
     map<string,string> idc;
+    map<string,string> idcigar;
+    map<string,vector<int>> ar ;
+    vector<string> ri ;
+    map<string,int> contigs;
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        contigs.insert(pair<string,int>(ll[0],string2Int(ll[1])));
+    }
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
         string key = ll[0];
         string value = ll[1];
+        string cigar = ll[3];
         idc.insert(pair<string,string>(key,value));
+        idcigar.insert(pair<string,string>(key,cigar));
+        int contig_length  = contigs[value];
+        vector<int> array = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
+        ar.insert(pair<string,vector<int>>(ll[0],array));
+        ri.push_back(ll[0]);
     }
     while (!inf.eof()){
         getline(inf,line);
@@ -14519,31 +14538,53 @@ int paf(parameter *para){
         if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
         if (idc[id1] != idc[id2]) continue;
-        if (pa.size() > 0){
-            bool inserted = false;
-            for (int p = 0; p < pa.size(); p++){
-                set<string> value = pa[p];
-                if(value.count(id1) == 1 ){
-                    value.insert(id2);
-                    pa[p] = value;
-                    inserted = true;
-                }else if ( value.count(id2) == 1){
-                    value.insert(id1);
-                    pa[p] = value;
-                    inserted = true;
+        vector<int> vi1 = ar[id1];
+        vector<int> vi2 = ar[id2];
+        
+        int sum = 0;
+        int diff = 0;
+        for (int idx = 0; idx < vi1.size(); idx++){
+            if (vi2[idx] == -1 || vi1[idx] == -1 )
+                continue;
+            int a1 = abs(vi2[idx] - vi1[idx]);
+            if (a1 > 2) {
+                int a2  , a3 ;
+                a2 = abs(vi2[idx] - vi1[idx+1]);
+                a3 = abs(vi2[idx+1] - vi1[idx]);
+                int a = smallest(a1,a2,a3);
+                diff += a;
+            }else{
+                diff += a1;
+            }
+            sum++;
+        }
+        if (((double)diff/sum*1.0) < t && sum > 1000) {
+            if (pa.size() > 0){
+                bool inserted = false;
+                for (int p = 0; p < pa.size(); p++){
+                    set<string> value = pa[p];
+                    if(value.count(id1) == 1 ){
+                        value.insert(id2);
+                        pa[p] = value;
+                        inserted = true;
+                    }else if ( value.count(id2) == 1){
+                        value.insert(id1);
+                        pa[p] = value;
+                        inserted = true;
+                    }
                 }
+                if (!inserted){
+                    set<string> nv;
+                    nv.insert(id1);
+                    nv.insert(id2);
+                    pa.push_back(nv);
+                }
+            }else{
+                set<string> value;
+                value.insert(id1);
+                value.insert(id2);
+                pa.push_back(value);
             }
-            if (!inserted){
-                set<string> nv;
-                nv.insert(id1);
-                nv.insert(id2);
-                pa.push_back(nv);
-            }
-        }else{
-            set<string> value;
-            value.insert(id1);
-            value.insert(id2);
-            pa.push_back(value);
         }
     }
     if ( pa.size() == 0){
