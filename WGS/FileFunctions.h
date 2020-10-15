@@ -14374,7 +14374,8 @@ int cigarSimilarity(parameter *para){
         if(line.length() < 1 ) continue;
         ll.clear();
         split(line,ll," \t");
-        vector<int> array = parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
+        vector<int> array;
+        parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]),array);
         ar.insert(pair<string,vector<int>>(ll[0],array));
         ri.push_back(ll[0]);
     }
@@ -14513,8 +14514,8 @@ int paf(parameter *para){
         idc.insert(pair<string,string>(key,value));
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[value];
-        vector<int> arrays(contig_length+1,-1);
-        arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
+        vector<int> arrays(contig_length,-1);
+        parseCIGAR(cigar,contig_length,string2Int(ll[2]),arrays);
         ar.insert(pair<string,vector<int>>(key,arrays));
         
     }
