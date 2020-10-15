@@ -14541,7 +14541,7 @@ int paf(parameter *para){
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
         if ((start1 > 100) && (start2 > 100) && (ll[4] == "+")) continue;
         if (((len1 - end1) > 100) && ((len2 - end2) > 100) && (ll[4] == "+")) continue;
-        cout << "id1 + id2 is:\t" << id2 << endl;
+//        cout << "id1 + id2 is:\t" << id2 << endl;
         
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
