@@ -14493,7 +14493,6 @@ int paf(parameter *para){
     map<string,string> idc;
     map<string,string> idcigar;
     map<string,vector<int>> ar ;
-    vector<string> ri ;
     map<string,int> contigs;
     while (!inf3.eof()){
         getline(inf3,line);
@@ -14501,6 +14500,7 @@ int paf(parameter *para){
         split(line,ll," \t");
         contigs.insert(pair<string,int>(ll[0],string2Int(ll[1])));
     }
+    cout << "contig length readed!" << endl;
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -14509,12 +14509,12 @@ int paf(parameter *para){
         string value = ll[1];
         string cigar = ll[3];
         idc.insert(pair<string,string>(key,value));
-        idcigar.insert(pair<string,string>(key,cigar));
+//        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[value];
         vector<int> array = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
-        ar.insert(pair<string,vector<int>>(ll[0],array));
-        ri.push_back(ll[0]);
+        ar.insert(pair<string,vector<int>>(key,array));
     }
+    cout << "CIGAR values readed!" << endl;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
