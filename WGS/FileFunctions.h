@@ -14480,16 +14480,26 @@ int concensus(parameter *para){
 
 int paf(parameter *para){
     string infile = (para -> inFile);
+    string infile2 = (para -> inFile2);
     string outfile = (para -> outFile);
     igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
     string line;
     vector<string> ll;
     vector<set<string>> pa;
+    map<string,string> idc;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        string key = ll[0];
+        string value = ll[1];
+        idc.insert(pair<string,string>(key,value));
+    }
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
         split(line,ll," \t");
-       
         // 1. div should smaller than 0.01
         // 2. two sequences should overlapped (overlapped region should not located in the two sequences)
         // 3. overlap length longer than 1kb
@@ -14508,6 +14518,7 @@ int paf(parameter *para){
         if(d > 0.0099) continue;
         if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
+        if (idc[id1] != idc[id2]) continue;
         if (pa.size() > 0){
             bool inserted = false;
             for (int p = 0; p < pa.size(); p++){
