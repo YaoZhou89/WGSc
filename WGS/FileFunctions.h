@@ -14491,7 +14491,6 @@ int paf(parameter *para){
     vector<string> ll;
     vector<set<string>> pa;
     map<string,string> idc;
-    map<string,string> idcigar;
     map<string,vector<int>> ar ;
     map<string,int> contigs;
     while (!inf3.eof()){
@@ -14508,11 +14507,11 @@ int paf(parameter *para){
         if(line.length() < 1) continue;
         split(line,ll," \t");
         string key = ll[0];
-        string value = ll[1];
+        string contigID = ll[1];
         string cigar = ll[3];
-        idc.insert(pair<string,string>(key,value));
+        idc.insert(pair<string,string>(key,contigID));
 //        idcigar.insert(pair<string,string>(key,cigar));
-        int contig_length  = contigs[value];
+        int contig_length  = contigs[contigID];
         vector<int> arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
         ar.insert(pair<string,vector<int>>(key,arrays));
     }
@@ -14542,7 +14541,7 @@ int paf(parameter *para){
         if ((start1 > 100) && (start2 > 100) && (ll[4] == "+")) continue;
         if (((len1 - end1) > 100) && ((len2 - end2) > 100) && (ll[4] == "+")) continue;
 //        cout << "id1 + id2 is:\t" << id2 << endl;
-        
+        if (idc[id1] != idc[id2]) continue;
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
         
