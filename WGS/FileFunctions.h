@@ -14503,6 +14503,7 @@ int paf(parameter *para){
     cout << "contig length readed!" << endl;
     
     while (!inf2.eof()){
+        
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
