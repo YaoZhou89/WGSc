@@ -14516,6 +14516,7 @@ int paf(parameter *para){
         
         cout << key << endl;
         ar.insert(pair<string,vector<int>>(key,array));
+        cout << "finished!" << endl;
     }
     cout << "CIGAR values readed!" << endl;
     while (!inf.eof()){
