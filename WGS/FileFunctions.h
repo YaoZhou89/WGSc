@@ -14513,7 +14513,7 @@ int paf(parameter *para){
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[value];
         vector<int> arrays;
-//        arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
+        arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
         ar.insert(pair<string,vector<int>>(key,arrays));
         
     }
