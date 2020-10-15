@@ -14490,7 +14490,7 @@ int paf(parameter *para){
         if(line.length() < 1 ) continue;
         regex dv("(dv:f:)(.*)(\\s)");
         smatch m;
-        while(regex_search(line.cbegin(),line.cend(),m,dv)){
+        if(regex_search(line.cbegin(),line.cend(),m,dv)){
             double div = string2Double(m.str(2));
             if(div < 0.01){
                 ouf << line << "\n";
