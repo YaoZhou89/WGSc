@@ -14501,6 +14501,7 @@ int paf(parameter *para){
         contigs.insert(pair<string,int>(ll[0],string2Int(ll[1])));
     }
     cout << "contig length readed!" << endl;
+    int veci = 0;
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -14511,12 +14512,8 @@ int paf(parameter *para){
         idc.insert(pair<string,string>(key,value));
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[value];
-        
         vector<int> array = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
-        
-        cout << key << endl;
-        ar.insert(pair<string,vector<int>>(key,array));
-        cout << "finished!" << endl;
+//        ar.insert(pair<string,vector<int>>(key,array));
     }
     cout << "CIGAR values readed!" << endl;
     while (!inf.eof()){
