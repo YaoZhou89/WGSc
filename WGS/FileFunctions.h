@@ -14534,8 +14534,6 @@ int paf(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
-        cout << "ID is:" << line << endl;
-        cout << "ll size is:" << ll.size() << endl;
         string readID = ll[0];
         string contigID = ll[1];
         string cigar = ll[3];
@@ -14543,7 +14541,7 @@ int paf(parameter *para){
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[contigID];
         vector<int> arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
-        cout << "parsed CIGAR:" << readID << endl;
+//        cout << "parsed CIGAR:" << readID << endl;
         ar.insert(pair<string,vector<int>>(readID,arrays));
     }
     cout << "CIGAR values readed!" << endl;
