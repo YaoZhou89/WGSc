@@ -14534,14 +14534,15 @@ int paf(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
-        string key = ll[0];
+        string readID = ll[0];
         string contigID = ll[1];
         string cigar = ll[3];
-        idc.insert(pair<string,string>(key,contigID));
+        idc.insert(pair<string,string>(readID,contigID));
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[contigID];
         vector<int> arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
-        ar.insert(pair<string,vector<int>>(key,arrays));
+        cout << "parsed CIGAR:" << readID << endl;
+        ar.insert(pair<string,vector<int>>(readID,arrays));
     }
     cout << "CIGAR values readed!" << endl;
     while (!inf.eof()){
@@ -14582,8 +14583,6 @@ int paf(parameter *para){
                 continue;
             l1 += vi1[idx];
             l2 += vi2[idx];
-            cout << "l1 is:\t" << l1 << endl;
-            cout << "l2 is:\t" << l2 << endl;
             int a1 = abs(vi2[idx] - vi1[idx]);
             if (a1 > 2) {
                 int a2  , a3 ;
