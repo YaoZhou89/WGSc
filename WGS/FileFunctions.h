@@ -4245,6 +4245,35 @@ int splitByChrNoHeader(parameter *para){
     
     return 1;
 }
+int byChrs(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((outFile.c_str()));
+    vector<string> ll;
+    string chr = "";
+    string  line ;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 )  {
+            continue  ;
+        }
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]==chr){
+            ouf << line << "\n" ;
+        }
+    }
+    
+    inf.close();
+    ouf.close();
+    
+    return 1;
+}
 int ct3(parameter *para){
     string inFile1 = (para->inFile);
     string inFile2 = (para->inFile2);
@@ -14502,7 +14531,6 @@ int paf(parameter *para){
     cout << "contig length readed!" << endl;
     
     while (!inf2.eof()){
-        
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
@@ -14536,10 +14564,10 @@ int paf(parameter *para){
         split(div,ll,":");
         double d = string2Double(ll[2]);
         if(d > 0.0099) continue;
-        if (start1 > 100 & (len1 - end1) > 100 & start2 > 100 & (len2 - end2) > 100) continue;
+        if (start1 > 50 & (len1 - end1) > 50 & start2 > 50 & (len2 - end2) > 50) continue;
         if ( (end1 - start1) < 1000 || (end2 - start2) < 1000) continue;
-        if ((start1 > 100) && (start2 > 100) && (ll[4] == "+")) continue;
-        if (((len1 - end1) > 100) && ((len2 - end2) > 100) && (ll[4] == "+")) continue;
+        if ((start1 > 50) && (start2 > 50) && (ll[4] == "+")) continue;
+        if (((len1 - end1) > 50) && ((len2 - end2) > 50) && (ll[4] == "+")) continue;
 //        cout << "id1 + id2 is:\t" << id2 << endl;
         if (idc[id1] != idc[id2]) continue;
         vector<int> vi1 = ar[id1];
@@ -14547,9 +14575,13 @@ int paf(parameter *para){
         
         int sum = 0;
         int diff = 0;
+        int l1 = 0;
+        int l2 = 0;
         for (int idx = 0; idx < vi1.size(); idx++){
             if (vi2[idx] == -1 || vi1[idx] == -1 )
                 continue;
+            l1 += vi1[idx];
+            l2 += vi2[idx];
             int a1 = abs(vi2[idx] - vi1[idx]);
             if (a1 > 2) {
                 int a2  , a3 ;
@@ -14562,7 +14594,7 @@ int paf(parameter *para){
             }
             sum++;
         }
-        if (((double)diff/sum*1.0) < t && sum > 1000) {
+        if (((double)diff/sum*1.0) < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
             if (pa.size() > 0){
                 bool inserted = false;
                 for (int p = 0; p < pa.size(); p++){
@@ -14608,6 +14640,41 @@ int paf(parameter *para){
         g++;
         ouf.close();
     }
+    return 0;
+}
+int selecteTwo(parameter *para){
+    string infile = (para -> inFile); // map file
+    string infile2 = (para -> inFile2); // fai file
+    string outfile = (para -> outFile); // prefix only
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    vector<string> ll;
+    map<string,int> contig_length;
+    string line;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        contig_length.insert(pair<string,int>(ll[0],string2Int(ll[2]) + 15000));
+    }
+    map<string,vector<int>> ar ;
+    vector<string> ri ;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        ll.clear();
+        split(line,ll," \t");
+        vector<int> array=parseCIGAR(ll[3],contig_length[ll[1]],string2Int(ll[2]));
+        ar.insert(pair<string,vector<int>>(ll[0],array));
+        ri.push_back(ll[0]);
+    }
+    cout <<  ri.size() << " CIGAR values readed!" << endl;
+    vector<set<string>> pa;
+
+    
+    
+    
     return 0;
 }
 #endif /* FileFunctions_h */

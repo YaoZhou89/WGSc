@@ -360,6 +360,8 @@ int main(int argc, char * argv[]) {
                 elai2bed(para);
             }else if ((para ->type) == "getIBSdistance_bed"){
                 getIBSdistance_bed(para);
+            }else if ((para ->type) == "byChrs"){
+//                byChrs(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
