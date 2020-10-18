@@ -14653,6 +14653,10 @@ int paf(parameter *para){
                 if(pairsValue.count(idids) == 0){
                     idids = idid[j] + "_" + idid[i];
                 }
+                if(idid[i]=="m64054_191222_151922/48956374/ccs" || idid[j] == "m64054_191222_151922/48956374/ccs"){
+                    ouf << "id1 is:\t" << idid[i] << "; id2 is:\t" << idid[j] << "; value is:\t" << pairsValue[idids];
+                }
+                
                if (pairsValue[idids] < t) kept++;
             }
             if( kept > value.size()*0.5 ){
