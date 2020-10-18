@@ -14545,6 +14545,7 @@ int paf(parameter *para){
         ar.insert(pair<string,vector<int>>(readID,arrays));
     }
     cout << "CIGAR values readed!" << endl;
+    map<string,double> pairsValue;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
@@ -14578,6 +14579,7 @@ int paf(parameter *para){
         int diff = 0;
         int l1 = 0;
         int l2 = 0;
+        string ids = id1+"_"+id2;
         for (int idx = 0; idx < vi1.size(); idx++){
             if (vi2[idx] == -1 || vi1[idx] == -1 )
                 continue;
@@ -14595,7 +14597,9 @@ int paf(parameter *para){
             }
             sum++;
         }
-        if (((double)diff/sum*1.0) < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
+        double piv = (double)diff/sum*1.0;
+        pairsValue.insert(pair<string,double>(ids,piv));
+        if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
             if (pa.size() > 0){
                 bool inserted = false;
                 for (int p = 0; p < pa.size(); p++){
@@ -14632,18 +14636,36 @@ int paf(parameter *para){
     int g = 0;
     for (int i = 0; i < pa.size(); i++){
         set<string> value = pa[i];
+        if (value.size() < 5) continue;
         set<string>::iterator it = value.begin();
         ofstream ouf ((outfile + ".group" + Int2String(g) + ".txt").c_str());
+        vector<string> idid;
         while (it != value.end()){
+            idid.push_back(*it);
             ouf << *it << "\n";
             it++;
+        }
+        for(int i = 0; i < idid.size();i++){
+            int kept = 0;
+            for (int j = 0; j < idid.size(); j++){
+                if (i == j) continue;
+                string idids = idid[i] + "_" + idid[j];
+                if(pairsValue.count(idids) == 0){
+                    idids = idid[j] + "_" + idid[i];
+                }
+               if (pairsValue[idids] < t) kept++;
+            }
+            if( kept > value.size()*0.5 ){
+                ouf << idid[i] << "\n";
+            }
+            
         }
         g++;
         ouf.close();
     }
     return 0;
 }
-int selecteTwo(parameter *para){
+int cleanCIGAR(parameter *para){
     string infile = (para -> inFile); // map file
     string infile2 = (para -> inFile2); // fai file
     string outfile = (para -> outFile); // prefix only
