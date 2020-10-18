@@ -14534,7 +14534,7 @@ int paf(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
-        cout << "ID is:" << readID << endl;
+        cout << "ID is:" << line << endl;
         cout << "ll size is:" << ll.size() << endl;
         string readID = ll[0];
         string contigID = ll[1];
