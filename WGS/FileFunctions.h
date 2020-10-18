@@ -14582,6 +14582,8 @@ int paf(parameter *para){
                 continue;
             l1 += vi1[idx];
             l2 += vi2[idx];
+            cout << "l1 is:\t" << l1 << endl;
+            cout << "l2 is:\t" << l2 << endl;
             int a1 = abs(vi2[idx] - vi1[idx]);
             if (a1 > 2) {
                 int a2  , a3 ;
