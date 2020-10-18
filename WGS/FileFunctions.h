@@ -14642,7 +14642,7 @@ int paf(parameter *para){
         vector<string> idid;
         while (it != value.end()){
             idid.push_back(*it);
-            ouf << *it << "\n";
+//            ouf << *it << "\n";
             it++;
         }
         for(int i = 0; i < idid.size();i++){
@@ -14656,7 +14656,6 @@ int paf(parameter *para){
                 if(idid[i]=="m64054_191222_151922/48956374/ccs" || idid[j] == "m64054_191222_151922/48956374/ccs"){
                     ouf << "id1 is:\t" << idid[i] << "; id2 is:\t" << idid[j] << "; value is:\t" << pairsValue[idids];
                 }
-                
                if (pairsValue[idids] < t) kept++;
             }
             if( kept > value.size()*0.5 ){
