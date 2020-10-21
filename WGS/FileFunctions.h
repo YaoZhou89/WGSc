@@ -14508,7 +14508,6 @@ int concensus(parameter *para){
 }
 
 int paf(parameter *para){
-    cout << "Running..." << endl;
     string infile = (para -> inFile); // paf file
     string infile2 = (para -> inFile2); //mapped file
     string infile3 = (para -> inFile3); //fai file
@@ -14550,7 +14549,9 @@ int paf(parameter *para){
     }
     cout << "CIGAR values readed!" << endl;
     map<string,double> pairsValue;
-    double sim[10000][10000];
+    double *ss =  new double[10000*10000];
+    double (*sim)[10000] = (double(*)[10000])ss;
+
     for (int col = 0; col < 10000; col++){
         for (int row = 0; row < 10000; row++){
             sim[row][col] = -1;
