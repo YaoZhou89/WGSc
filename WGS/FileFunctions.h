@@ -14572,8 +14572,8 @@ int paf(parameter *para){
         if (((len1 - end1) > 50) && ((len2 - end2) > 50) && (ll[4] == "+")) continue;
 //        cout << "id1 + id2 is:\t" << id2 << endl;
         double rate = (double)(end1 - start1)/(end2-start2);
-        cout << "rate is:\t" << rate << endl;
         if ( abs(1-rate) > t) continue;
+        cout << "rate is:\t" << rate << endl;
         if (idc[id1] != idc[id2]) continue;
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
@@ -14601,9 +14601,9 @@ int paf(parameter *para){
             sum++;
         }
         double piv = (double)diff/sum*1.0;
+        
         pairsValue.insert(pair<string,double>(ids,piv));
         if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
-            cout << "running.."<< endl;
             if (pa.size() > 0){
                 bool inserted = false;
                 for (int p = 0; p < pa.size(); p++){
