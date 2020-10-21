@@ -14605,57 +14605,99 @@ int paf(parameter *para){
             sum++;
         }
         double piv = (double)diff/sum*1.0;
-        
-        pairsValue.insert(pair<string,double>(ids,piv));
-        if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
-            if (pa.size() > 0){
-                bool inserted = false;
-                for (int p = 0; p < pa.size(); p++){
-                    set<string> value = pa[p];
-                    if(value.count(id1) == 1 ){
-                        value.insert(id2);
-                        pa[p] = value;
-                        inserted = true;
-                    }else if ( value.count(id2) == 1){
-                        value.insert(id1);
-                        pa[p] = value;
-                        inserted = true;
-                    }
-                }
-                if (!inserted){
-                    set<string> nv;
-                    nv.insert(id1);
-                    nv.insert(id2);
-                    pa.push_back(nv);
-                }
-            }else{
-                set<string> value;
-                value.insert(id1);
-                value.insert(id2);
-                pa.push_back(value);
+        double sim[10000][10000];
+        for (int col = 0; col < 10000; col++){
+            for (int row = 0; row < 10000; row++){
+                sim[row][col] = -1;
             }
         }
-    }
-    if ( pa.size() == 0){
-        cout << "None group found!" << endl;
-        return 0;
-    }
-    cout << pa.size() << " groups found!" << endl;
-    int g = 0;
-    for (int i = 0; i < pa.size(); i++){
-        set<string> value = pa[i];
-        if (value.size() < 5) continue;
-        set<string>::iterator it = value.begin();
-        ofstream ouf ((outfile + ".group" + Int2String(g) + ".txt").c_str());
-        vector<string> idid;
-        while (it != value.end()){
-            idid.push_back(*it);
-            ouf << *it << "\n";
-            it++;
+        vector<string> IDo;
+        map<string,int> idp;
+        
+        pairsValue.insert(pair<string,double>(ids,piv));
+        int cpos = 0;
+        if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t){
+            if (idp.count(id1) == 0){
+                idp.insert(pair<string,int>(id1,cpos));
+                cpos++;
+                IDo.push_back(id1);
+            }
+            if (idp.count(id2) == 0){
+                idp.insert(pair<string,int>(id2,cpos));
+                cpos++;
+                IDo.push_back(id2);
+            }
+            int p1 = idp[id1];
+            int p2 = idp[id2];
+            sim[p1][p2] = piv;
+            sim[p2][p1] = piv;
         }
-        g++;
-        ouf.close();
+        
+        
+//        if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
+//            if (pa.size() > 0){
+//                bool inserted = false;
+//                for (int p = 0; p < pa.size(); p++){
+//                    set<string> value = pa[p];
+//                    if(value.count(id1) == 1 ){
+//                        value.insert(id2);
+//                        pa[p] = value;
+//                        inserted = true;
+//                    }else if ( value.count(id2) == 1){
+//                        value.insert(id1);
+//                        pa[p] = value;
+//                        inserted = true;
+//                    }
+//                }
+//                if (!inserted){
+//                    set<string> nv;
+//                    nv.insert(id1);
+//                    nv.insert(id2);
+//                    pa.push_back(nv);
+//                }
+//            }else{
+//                set<string> value;
+//                value.insert(id1);
+//                value.insert(id2);
+//                pa.push_back(value);
+//            }
+//        }
     }
+    
+//    if ( pa.size() == 0){
+//        cout << "None group found!" << endl;
+//        return 0;
+//    }
+//    cout << pa.size() << " groups found!" << endl;
+//    int g = 0;
+//    for (int i = 0; i < pa.size(); i++){
+//        set<string> value = pa[i];
+//        if (value.size() < 5) continue;
+//        set<string>::iterator it = value.begin();
+//        ofstream ouf ((outfile + ".group" + Int2String(g) + ".txt").c_str());
+//        vector<string> idid;
+//        while (it != value.end()){
+//            idid.push_back(*it);
+//            ouf << *it << "\n";
+//            it++;
+//        }
+//        g++;
+//        ouf.close();
+//    }
+    ofstream ouf (outfile.c_str());
+    if  (cpos > 5){
+        for (int p = 0 ; p < IDo.size() - 1; p++){
+            ouf << IDo[i] << "\t";
+        }
+        ouf << IDo[IDo.size() - 1] << "\n";
+        for (int p = 0; p < IDo.size() ; p++){
+            for (int p2 = 0; p2 < IDo.size() -1; p2++ ){
+                ouf << sim[p][p2] << "\t";
+            }
+            ouf << sim[p][IDo.size() - 1] << "\n";
+        }
+    }
+    ouf.close();
     return 0;
 }
 int cleanCIGAR(parameter *para){
