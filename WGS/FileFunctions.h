@@ -14548,6 +14548,15 @@ int paf(parameter *para){
     }
     cout << "CIGAR values readed!" << endl;
     map<string,double> pairsValue;
+    double sim[10000][10000];
+    for (int col = 0; col < 10000; col++){
+        for (int row = 0; row < 10000; row++){
+            sim[row][col] = -1;
+        }
+    }
+    vector<string> IDo;
+    map<string,int> idp;
+    int cpos = 0;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1 ) continue;
@@ -14605,17 +14614,10 @@ int paf(parameter *para){
             sum++;
         }
         double piv = (double)diff/sum*1.0;
-        double sim[10000][10000];
-        for (int col = 0; col < 10000; col++){
-            for (int row = 0; row < 10000; row++){
-                sim[row][col] = -1;
-            }
-        }
-        vector<string> IDo;
-        map<string,int> idp;
+        
         
         pairsValue.insert(pair<string,double>(ids,piv));
-        int cpos = 0;
+        
         if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t){
             if (idp.count(id1) == 0){
                 idp.insert(pair<string,int>(id1,cpos));
@@ -14687,7 +14689,7 @@ int paf(parameter *para){
     ofstream ouf (outfile.c_str());
     if  (cpos > 5){
         for (int p = 0 ; p < IDo.size() - 1; p++){
-            ouf << IDo[i] << "\t";
+            ouf << IDo[p] << "\t";
         }
         ouf << IDo[IDo.size() - 1] << "\n";
         for (int p = 0; p < IDo.size() ; p++){
