@@ -14523,6 +14523,7 @@ int paf(parameter *para){
     map<string,string> idc;
     map<string,vector<int>> ar ;
     map<string,int> contigs;
+    cout << "contig length readed!" << endl;
     while (!inf3.eof()){
         getline(inf3,line);
         if(line.length() < 1) continue;
