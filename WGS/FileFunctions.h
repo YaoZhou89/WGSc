@@ -14571,6 +14571,9 @@ int paf(parameter *para){
         if ((start1 > 50) && (start2 > 50) && (ll[4] == "+")) continue;
         if (((len1 - end1) > 50) && ((len2 - end2) > 50) && (ll[4] == "+")) continue;
 //        cout << "id1 + id2 is:\t" << id2 << endl;
+        double rate = (double)(end1 - start1)/(end2-start2);
+        cout << "rate is:\t" << endl;
+        if ( abs(1-rate) > t) continue;
         if (idc[id1] != idc[id2]) continue;
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
@@ -14642,26 +14645,8 @@ int paf(parameter *para){
         vector<string> idid;
         while (it != value.end()){
             idid.push_back(*it);
-//            ouf << *it << "\n";
+            ouf << *it << "\n";
             it++;
-        }
-        for(int i = 0; i < idid.size();i++){
-            int kept = 0;
-            for (int j = 0; j < idid.size(); j++){
-                if (i == j) continue;
-                string idids = idid[i] + "_" + idid[j];
-                if(pairsValue.count(idids) == 0){
-                    idids = idid[j] + "_" + idid[i];
-                }
-                if(idid[i]=="m64054_191222_151922/48956374/ccs" || idid[j] == "m64054_191222_151922/48956374/ccs"){
-                    ouf << "id1 is:\t" << idid[i] << "; id2 is:\t" << idid[j] << "; value is:\t" << pairsValue[idids];
-                }
-               if (pairsValue[idids] < t) kept++;
-            }
-            if( kept > value.size()*0.5 ){
-                ouf << idid[i] << "\n";
-            }
-            
         }
         g++;
         ouf.close();
