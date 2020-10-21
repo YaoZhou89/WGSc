@@ -14603,6 +14603,7 @@ int paf(parameter *para){
         double piv = (double)diff/sum*1.0;
         pairsValue.insert(pair<string,double>(ids,piv));
         if ( piv < t && sum > 1000 && (abs(l1 - l2)/sum) < t) {
+            cout << "running.."<< endl;
             if (pa.size() > 0){
                 bool inserted = false;
                 for (int p = 0; p < pa.size(); p++){
