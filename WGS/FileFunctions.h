@@ -14541,6 +14541,7 @@ int paf(parameter *para){
         idc.insert(pair<string,string>(readID,contigID));
 //        idcigar.insert(pair<string,string>(key,cigar));
         int contig_length  = contigs[contigID];
+        if(contigID != chr) continue;
         vector<int> arrays = parseCIGAR(cigar,contig_length,string2Int(ll[2]));
 //        cout << "parsed CIGAR:" << readID << endl;
         ar.insert(pair<string,vector<int>>(readID,arrays));
