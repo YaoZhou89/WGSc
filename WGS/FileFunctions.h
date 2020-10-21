@@ -14513,6 +14513,7 @@ int paf(parameter *para){
     string infile3 = (para -> inFile3); //fai file
     string outfile = (para -> outFile);
     double t = (para -> threshold); // threshold
+    string chr = (para -> chr);
     igzstream inf ((infile).c_str(),ifstream::in);
     igzstream inf2 ((infile2).c_str(),ifstream::in);
     igzstream inf3 ((infile3).c_str(),ifstream::in);
@@ -14555,6 +14556,8 @@ int paf(parameter *para){
         // 3. overlap length longer than 1kb
         string id1 = ll[0];
         string id2 = ll[5];
+        if (idc[id1] != idc[id2]) continue;
+        if (idc[id1] != chr) continue;
         int start1 = string2Int(ll[2]);
         int start2 = string2Int(ll[7]);
         int end1 = string2Int(ll[3]);
@@ -14573,8 +14576,8 @@ int paf(parameter *para){
 //        cout << "id1 + id2 is:\t" << id2 << endl;
         double rate = (double)(end1 - start1)/(end2-start2);
         if ( abs(1-rate) > t) continue;
-        cout << "rate is:\t" << rate << endl;
-        if (idc[id1] != idc[id2]) continue;
+        
+        
         vector<int> vi1 = ar[id1];
         vector<int> vi2 = ar[id2];
         
