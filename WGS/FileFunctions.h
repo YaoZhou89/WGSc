@@ -14554,7 +14554,7 @@ int paf(parameter *para){
 
     for (int col = 0; col < 10000; col++){
         for (int row = 0; row < 10000; row++){
-            sim[row][col] = -1;
+            sim[row][col] = 0;
         }
     }
     vector<string> IDo;
