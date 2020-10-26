@@ -1,6 +1,9 @@
-# WGS: Wheat genome sequencing data analysis
+### WGS: Wheat genome sequencing data analysis
+
 This was primarily coded for our wheat genus level sequencing [manuscript](https://www.biorxiv.org/content/10.1101/2020.03.21.001362v1).
-## Installation:
+
+### Installation:
+
     git clone https://github.com/YaoZhou89/WGSc.git
     cd WGSc
     make
