@@ -2686,6 +2686,8 @@ int subtractFQgroups(parameter *para){
                 write = true;
                 C = R2C[ID];
                 vector<set<string>> G = C2G[C];
+                cout << "readsID size is:\t" << G.size();
+                
                 for (int i = 0; i < G.size(); i++){
                     set<string> gr = G[i];
                     if (gr.count(ID) == 1){
