@@ -2645,7 +2645,6 @@ int subtractFQgroups(parameter *para){
         string line3;
         vector<set<string>> readsID;
         vector<string> fq;
-
         while (!inf3.eof()){
             getline(inf3,line3);
             if(line3.length() < 1) continue;
@@ -2697,7 +2696,7 @@ int subtractFQgroups(parameter *para){
         cout << "pos is:\t" << pos << endl;
         if(write){
             vector<string> n = GQ[C];
-            cout << "n size is:\t" << endl;
+            cout << "n size is:\t" << n.size() << endl;
             string ss = n[pos];
             string sn = ss + line + "\n";
             n[pos] = sn;
