@@ -2686,7 +2686,7 @@ int subtractFQgroups(parameter *para){
             if(R2C.count(ID)) {
                 write = true;
                 C = R2C[ID];
-                vector<set<string>> G = C2G[C];
+                vector<set<string>> G = C2G[C];                
                 for (int i = 0; i < G.size(); i++){
                     set<string> gr = G[i];
                     if (gr.count(ID) == 1){
