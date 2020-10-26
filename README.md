@@ -4,7 +4,7 @@ This was primarily coded for our wheat genus level sequencing [manuscript](https
     git clone https://github.com/YaoZhou89/WGSc.git
     cd WGSc
     make
-the executable file is bin/WGS. Please add this into environmental path firslty.
+the executable file is bin/WGS. Add it into environmental path firslty.
 
 ## Functions
 ### Handling vcf file
