@@ -2681,9 +2681,12 @@ int subtractFQgroups(parameter *para){
             write = false;
             string ID = line.substr(1,line.length()-1);
             if(R2C.count(ID)) {
+                cout << ID << endl;
                 write = true;
                 C = R2C[ID];
+                cout << "debug1.." << endl;
                 vector<set<string>> G = C2G[C];
+                cout << "debug2.." << endl;
                 for (int i = 0; i < G.size(); i++){
                     set<string> gr = G[i];
                     if (gr.count(ID) == 1){
