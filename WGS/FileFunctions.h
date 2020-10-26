@@ -2661,6 +2661,8 @@ int subtractFQgroups(parameter *para){
 //        cout << line << " readed!" << endl;
         C2G.insert(pair<string,vector<set<string>>>(line,readsID));
         GQ.insert(pair<string,vector<string>>(line,fq));
+        if (fq.size() != readsID.size()) cerr << "fq size is:\t" << fq.size()
+            << "; readsID size is:\t" << readsID.size() << endl;
         inf3.close();
     }
    
@@ -2693,8 +2695,9 @@ int subtractFQgroups(parameter *para){
                 }
             }
         }
-        cout << "pos is:\t" << pos << endl;
+        
         if(write){
+            cout << "pos is:\t" << pos << endl;
             vector<string> n = GQ[C];
             cout << "n size is:\t" << n.size() << endl;
             string ss = n[pos];
