@@ -2644,6 +2644,8 @@ int subtractFQgroups(parameter *para){
         igzstream inf3 ((line + ".groupIDs.txt").c_str(),ifstream::in);
         string line3;
         vector<set<string>> readsID;
+        vector<string> fq;
+
         while (!inf3.eof()){
             getline(inf3,line3);
             if(line3.length() < 1) continue;
@@ -2655,11 +2657,10 @@ int subtractFQgroups(parameter *para){
                 R2C.insert(pair<string,string>(ll[i],line));
             }
             readsID.push_back(g);
+            fq.push_back("");
         }
 //        cout << line << " readed!" << endl;
         C2G.insert(pair<string,vector<set<string>>>(line,readsID));
-        vector<string> fq;
-        fq.push_back("");
         GQ.insert(pair<string,vector<string>>(line,fq));
         inf3.close();
     }
@@ -2693,10 +2694,8 @@ int subtractFQgroups(parameter *para){
                 }
             }
         }
-        cout << "pos is:\t" << pos << endl;
         if(write){
             vector<string> n = GQ[C];
-            cout << "n size is:\t" << n.size() << endl;
             string ss = n[pos];
             string sn = ss + line + "\n";
             n[pos] = sn;
