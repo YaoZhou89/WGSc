@@ -2651,7 +2651,6 @@ int subtractFQgroups(parameter *para){
             split(line3,ll," \t");
             for (int i = 0; i < ll.size(); i++){
                 replaceAll(ll[i],".","/");
-                cout << ll[i] << endl;
                 g.insert(ll[i]);
                 R2C.insert(pair<string,string>(ll[i],line));
             }
