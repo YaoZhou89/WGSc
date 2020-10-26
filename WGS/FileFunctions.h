@@ -2637,6 +2637,7 @@ int subtractFQgroups(parameter *para){
     map<string,string> R2C; // reads ID is key, contig ID is value;
     map<string,vector<set<string>>> C2G; // contig ID is key, group info is value;
     map<string,vector<string>> GQ;
+    
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -2655,6 +2656,7 @@ int subtractFQgroups(parameter *para){
             }
             readsID.push_back(g);
         }
+        cout << line << " readed!" << endl;
         C2G.insert(pair<string,vector<set<string>>>(line,readsID));
         vector<string> fq;
         fq.push_back("");
