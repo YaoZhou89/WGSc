@@ -2670,6 +2670,8 @@ int subtractFQgroups(parameter *para){
     cout << "ID readed!" << endl;
     bool write=false;
     int cl = 0;
+    string C;
+    int pos;
     while(!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1 ) continue;
@@ -2677,8 +2679,7 @@ int subtractFQgroups(parameter *para){
         if (cl % 400000 == 0){
             cout << "Current reads: " << cl/1000/4 << "K..." << endl;
         }
-        string C;
-        int pos;
+        
         if(line[0] == '@' && ( (cl-1) % 4 == 0)) {
             write = false;
             string ID = line.substr(1,line.length()-1);
@@ -2699,9 +2700,7 @@ int subtractFQgroups(parameter *para){
         }
         
         if(write){
-            cout << "pos is:\t" << pos << endl;
             vector<string> n = GQ[C];
-            cout << "n size is:\t" << n.size() << endl;
             string ss = n[pos];
             string sn = ss + line + "\n";
             n[pos] = sn;
