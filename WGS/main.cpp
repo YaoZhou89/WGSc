@@ -531,6 +531,8 @@ int main(int argc, char * argv[]) {
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
                 subtractFQ(para);
+            }else if ((para -> type) == "subtractFQgroups"){
+                subtractFQgroups(para);
             }
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){

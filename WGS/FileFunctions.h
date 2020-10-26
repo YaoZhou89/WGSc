@@ -2631,10 +2631,7 @@ int subtractFQgroups(parameter *para){
     }
     string outFile =(para -> outFile);
 //    ofstream  ouf ((outFile).c_str());
-    if((!ouf.good())){
-        cerr << "open OUT File error: " << outFile << endl;
-        return  0;
-    }
+  
     string line;
     vector<string> ll;
     map<string,string> R2C; // reads ID is key, contig ID is value;
@@ -2705,11 +2702,32 @@ int subtractFQgroups(parameter *para){
         }
     }
     // get summary of the groups;
-    map<string,vector<set<string>>>::iterator it;
     ofstream  oufs ((outFile + ".summary.txt").c_str());
-    for (it = )
-    ofstream  ouf ((outFile).c_str());
-    ouf.close();
+    map<string,vector<set<string>>>::iterator it;
+    for (it = C2G.begin(); it != C2G.end(); it++){
+        string cID = it->first;
+        vector<set<string>> cGroup = it->second;
+        oufs << cID << "\t" << cGroup.size();
+        int sum = 0;
+        for (int i = 0; i < cGroup.size(); i++){
+            sum += cGroup[i].size();
+        }
+        oufs << "\t" << sum << "\n";
+    }
+    oufs.close();
+    
+    map<string,vector<string>>::iterator gqit;
+    for (gqit = GQ.begin(); gqit != GQ.end(); gqit++){
+        string gID = gqit->first;
+        vector<string> gQ = gqit->second;
+        for (int i = 0; i < gQ.size(); i++){
+            ofstream  ouf ((outFile + "."+ gID + "group" + Int2String(i) + ".txt").c_str());
+            ouf << gQ[i];
+            ouf.close();
+        }
+    }
+    
+   
     return 0;
     
 }
