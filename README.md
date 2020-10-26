@@ -43,7 +43,7 @@ min-depth: minimum depth allowed for the total depth.
 max-depth: maximum depth allowed for the total depth.
 ```
 
-Tips:  Manually determine the appropriate value for these parameters based on the distribution of total depth would be a nice way.
+Tips:  Manually determine the appropriate value for these parameters based on the distribution of total depth.
 
 #### Segregation test filter
 
@@ -76,15 +76,27 @@ Tips： the input file should be compressed format and also indexed with tabix.
 
 Usage:
 
+```shell
+java -jar WGS.jar --model vcf --type IBDfilter --anchorFile anchorSNPs.vcf --minComp 200 --maxIBDDist 0.03 --windowSize 2000 --numThreads 32 --file in.vcf --out outprefix
 ```
 
+Parameters
+
+```shell
+anchorFile: file name of anchor SNPs, in vcf format
+minComp: minimum number of comparable anchor sites
+maxIBDDist: If the genetic distance within such a window was not larger than the given value, the 2 lines were considered to be in IBD. 
+windowSize: the number of SNPs in a window 
+numThreads: number of threads
 ```
+
+Tips: Manually determine the maxIBDDist value based on the the mean distance across all pairs (suggested about 10 times smaller than the mean value using in the maize [hapmap3](https://academic.oup.com/gigascience/article/7/4/gix134/4782225))
 
 #### Minor allele count filter
 
-Usage: This was 
+Usage: using [vcftools](http://vcftools.sourceforge.net/)
 
-```
-
+```shell
+vcftools --vcf in.vcf --recode --mac 3 --out outprefix
 ```
 
