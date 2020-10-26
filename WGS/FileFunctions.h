@@ -2694,8 +2694,10 @@ int subtractFQgroups(parameter *para){
                 }
             }
         }
+        cout << "pos is:\t" << pos << endl;
         if(write){
             vector<string> n = GQ[C];
+            cout << "n size is:\t" << endl;
             string ss = n[pos];
             string sn = ss + line + "\n";
             n[pos] = sn;
