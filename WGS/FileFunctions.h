@@ -2637,7 +2637,7 @@ int subtractFQgroups(parameter *para){
     map<string,string> R2C; // reads ID is key, contig ID is value;
     map<string,vector<set<string>>> C2G; // contig ID is key, group info is value;
     map<string,vector<string>> GQ;
-    
+    cout << "Reading group info..." << endl;
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
@@ -2667,7 +2667,7 @@ int subtractFQgroups(parameter *para){
     }
    
     // subtract
-    cout << "ID readed!" << endl;
+    cout << "Group info readed!" << endl;
     bool write=false;
     int cl = 0;
     string C;
@@ -2686,7 +2686,7 @@ int subtractFQgroups(parameter *para){
             if(R2C.count(ID)) {
                 write = true;
                 C = R2C[ID];
-                vector<set<string>> G = C2G[C];                
+                vector<set<string>> G = C2G[C];
                 for (int i = 0; i < G.size(); i++){
                     set<string> gr = G[i];
                     if (gr.count(ID) == 1){
