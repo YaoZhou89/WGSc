@@ -6,7 +6,35 @@ This was primarily coded for our wheat genus level sequencing [manuscript](https
     make
 the executable file is bin/WGS. Add it into environmental path firslty.
 
-### SNPs filtering pipeline
+### SNPs filtering
 
+#### Quality filter
 
+```shell
+
+```
+
+#### Depth filter
+
+```
+
+```
+
+#### IBD filter
+
+```
+
+```
+
+#### LD filter
+
+```
+
+```
+
+#### synteny filter
+
+```
+
+```
 
