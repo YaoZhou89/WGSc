@@ -2651,12 +2651,13 @@ int subtractFQgroups(parameter *para){
             split(line3,ll," \t");
             for (int i = 0; i < ll.size(); i++){
                 replaceAll(ll[i],".","/");
+                cout << ll[i] << endl;
                 g.insert(ll[i]);
                 R2C.insert(pair<string,string>(ll[i],line));
             }
             readsID.push_back(g);
         }
-        cout << line << " readed!" << endl;
+//        cout << line << " readed!" << endl;
         C2G.insert(pair<string,vector<set<string>>>(line,readsID));
         vector<string> fq;
         fq.push_back("");
@@ -2668,7 +2669,6 @@ int subtractFQgroups(parameter *para){
     cout << "ID readed!" << endl;
     bool write=false;
     int cl = 0;
-    
     while(!inf1.eof()){
         getline(inf1,line);
         if(line.length() < 1 ) continue;
