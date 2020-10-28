@@ -2731,7 +2731,6 @@ int subtractFQgroups(parameter *para){
             ouf.close();
         }
     }
-    
    
     return 0;
     
@@ -14615,7 +14614,11 @@ int concensus(parameter *para){
     ofstream ouf ((outfile).c_str());
     int misMatchPenalty = 10;
     int gapPenalty = 2;
-    
+    string line;
+    string seq = "";
+    while(!inf.eof()){
+        
+    }
     string gene1 = "AAGGCTAG";
     string gene2 = "AGGCTA";
     

@@ -101,3 +101,7 @@ Usage: using [vcftools](http://vcftools.sourceforge.net/)
 vcftools --vcf in.vcf --recode --mac 3 --out outprefix
 ```
 
+#### Contact
+
+Dr. Yao Zhou (zhouyao@caas.cn)
+
