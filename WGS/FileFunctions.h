@@ -2735,6 +2735,127 @@ int subtractFQgroups(parameter *para){
     return 0;
     
 }
+
+int subtractFQBygroups(parameter *para){
+    string input1 = (para->inFile); // fastq文件
+    string input2 = (para->inFile2); // group ID file, the first colunme is path; the second colume is ID for output
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+//    ofstream  ouf ((outFile).c_str());
+  
+    string line;
+    vector<string> ll;
+    map<string,string> R2C; // reads ID is key, contig ID is value;
+    map<string,vector<set<string>>> C2G; // contig ID is key, group info is value;
+    map<string,vector<string>> GQ;
+    cout << "Reading group info..." << endl;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        igzstream inf3 ((ll[0]).c_str(),ifstream::in);
+        string outID = ll[1];
+        string line3;
+        vector<set<string>> readsID;
+        vector<string> fq;
+        int nfq = 0;
+        while (!inf3.eof()){
+            getline(inf3,line3);
+            if(line3.length() < 1) continue;
+            nfq++;
+            set<string> g;
+            split(line3,ll," \t");
+            for (int i = 0; i < ll.size(); i++){
+                replaceAll(ll[i],".","/");
+                g.insert(ll[i]);
+                R2C.insert(pair<string,string>(ll[i],line));
+            }
+            readsID.push_back(g);
+            fq.push_back("");
+        }
+        if (nfq < 1000) continue;
+//        cout << line << " readed!" << endl;
+        C2G.insert(pair<string,vector<set<string>>>(outID,readsID));
+        GQ.insert(pair<string,vector<string>>(outID,fq));
+        if (fq.size() != readsID.size()) cerr << "fq size is:\t" << fq.size()
+            << "; readsID size is:\t" << readsID.size() << endl;
+        inf3.close();
+    }
+   
+    // subtract
+    cout << "Group info readed!" << endl;
+    bool write=false;
+    int cl = 0;
+    string C;
+    int pos;
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1 ) continue;
+        cl++;
+        if (cl % 400000 == 0){
+            cout << "Current reads: " << cl/1000/4 << "K..." << endl;
+        }
+        
+        if(line[0] == '@' && ( (cl-1) % 4 == 0)) {
+            write = false;
+            string ID = line.substr(1,line.length()-1);
+            if(R2C.count(ID)) {
+                write = true;
+                C = R2C[ID];
+                vector<set<string>> G = C2G[C];
+                for (int i = 0; i < G.size(); i++){
+                    set<string> gr = G[i];
+                    if (gr.count(ID) == 1){
+                        pos = i;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if(write){
+            vector<string> n = GQ[C];
+            string ss = n[pos];
+            string sn = ss + line + "\n";
+            n[pos] = sn;
+            GQ[C] = n;
+//            ouf << line << "\n";
+        }
+    }
+    // get summary of the groups;
+    ofstream  oufs ((outFile + ".summary.txt").c_str());
+    map<string,vector<set<string>>>::iterator it;
+    for (it = C2G.begin(); it != C2G.end(); it++){
+        string cID = it->first;
+        vector<set<string>> cGroup = it->second;
+        oufs << cID << "\t" << cGroup.size();
+        int sum = 0;
+        for (int i = 0; i < cGroup.size(); i++){
+            sum += cGroup[i].size();
+        }
+        oufs << "\t" << sum << "\n";
+    }
+    oufs.close();
+    
+    map<string,vector<string>>::iterator gqit;
+    for (gqit = GQ.begin(); gqit != GQ.end(); gqit++){
+        string gID = gqit->first;
+        vector<string> gQ = gqit->second;
+        for (int i = 0; i < gQ.size(); i++){
+            ofstream  ouf ((outFile + "."+ gID + ".group" + Int2String(i) + ".fastq").c_str());
+            ouf << gQ[i];
+            ouf.close();
+        }
+    }
+   
+    return 0;
+    
+}
 int filterDepth(parameter *para){
     string input1 = (para->inFile);
     igzstream f1 (input1.c_str(),ifstream::in);

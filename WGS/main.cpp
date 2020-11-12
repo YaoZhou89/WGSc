@@ -533,7 +533,10 @@ int main(int argc, char * argv[]) {
                 subtractFQ(para);
             }else if ((para -> type) == "subtractFQgroups"){
                 subtractFQgroups(para);
+            }else if ((para -> type) == "subtractFQBygroups"){
+                subtractFQBygroups(para);
             }
+            
         }else if ((para->model) == "scripts"){
             if ((para -> type) == "SRA1"){
                 SRA1(para);
