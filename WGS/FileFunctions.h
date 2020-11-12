@@ -2773,7 +2773,7 @@ int subtractFQBygroups(parameter *para){
             for (int i = 0; i < ll.size(); i++){
                 replaceAll(ll[i],".","/");
                 g.insert(ll[i]);
-                R2C.insert(pair<string,string>(ll[i],line));
+                R2C.insert(pair<string,string>(ll[i],outID));
             }
             readsID.push_back(g);
             fq.push_back("");
@@ -2788,7 +2788,7 @@ int subtractFQBygroups(parameter *para){
     }
    
     // subtract
-    cout << "Group info readed!" << endl;
+    cout << "Group info readed! " << GQ.size() << " groups found!" << endl;
     bool write=false;
     int cl = 0;
     string C;
