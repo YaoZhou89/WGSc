@@ -2847,7 +2847,7 @@ int subtractFQBygroups(parameter *para){
         string gID = gqit->first;
         vector<string> gQ = gqit->second;
         for (int i = 0; i < gQ.size(); i++){
-            ofstream  ouf ((outFile + "."+ gID + ".group" + Int2String(i) + ".fastq").c_str());
+            ofstream  ouf ((outFile + "."+ gID + ".fastq").c_str());
             ouf << gQ[i];
             ouf.close();
         }
