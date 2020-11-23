@@ -527,6 +527,8 @@ int main(int argc, char * argv[]) {
                 KmerReadScore(para);
             }else if ((para->type) == "changeContigID"){
                 changeID(para);
+            }else if ((para->type) == "rename"){
+                renameID(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){

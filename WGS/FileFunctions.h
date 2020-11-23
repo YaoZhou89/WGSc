@@ -14165,6 +14165,65 @@ int changeID(parameter *para){
     ouf.close();
     return 0;
 }
+int renameID(parameter *para){
+    string infile = (para -> inFile); //fasta file
+    string infile2 = (para -> inFile2); //ID file
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);// fasta file
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+
+    vector<string> ll;
+    map<string,string> genome;
+    string contigID = "";
+    string chrID;
+    string seq;
+    string gap(100,'N');
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if(contigID != ""){
+                genome.insert(pair<string,string>(contigID,seq));
+            }
+            contigID = line.substr(1,line.length()-1);
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    genome.insert(pair<string,string>(contigID,seq));
+    while(inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        chrID = ll[0];
+        string contigIDs = ll[1];
+        ll.clear();
+        split(contigIDs,ll,";");
+        string seqs = "";
+        if(ll.size()>1){
+            for (int i = 0; i < ll.size() - 1;i++){
+                seqs.append(genome[ll[i]]);
+                seqs.append(gap);
+            }
+            seqs.append(genome[ll[ll.size()-1]]);
+        }else{
+            seqs = genome[contigIDs];
+        }
+        ouf << ">" << chrID << "\n";
+        for (int i = 0; i< seqs.length();i++){
+            ouf << seqs[i] ;
+            if ( (i != seqs.length()-1) && (i+1)%80 == 0){
+                ouf << "\n";
+            }
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int countFastaKmer(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
