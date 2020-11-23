@@ -2582,12 +2582,7 @@ int subtractFQ(parameter *para){
         cerr << "open File IN error: " << input1 << endl;
         return 0;
     }
-    string outFile =(para -> outFile);
-    ofstream  ouf ((outFile).c_str());
-    if((!ouf.good())){
-        cerr << "open OUT File error: " << outFile << endl;
-        return  0;
-    }
+    
     string line;
     vector<string> ll;
     set<string> readsID;
@@ -2598,6 +2593,17 @@ int subtractFQ(parameter *para){
         readsID.insert(line);
     }
     cout << "ID readed!" << endl;
+    int threshold = (para -> threshold);
+    if(readsID.size() < threshold){
+        cout << "Reads number doesn't meet, exit!" << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
     bool write=false;
     int cl = 0;
     while(!inf1.eof()){
