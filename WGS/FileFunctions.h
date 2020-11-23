@@ -14185,14 +14185,18 @@ int renameID(parameter *para){
         if(line.length() < 1) continue;
         if(line[0] == '>'){
             if(contigID != ""){
-                genome.insert(pair<string,string>(contigID,seq));
+//                cout << contigID << "\t" << seq.length() << endl;
+                split(contigID,ll," \t");
+                genome.insert(pair<string,string>(ll[0],seq));
             }
             contigID = line.substr(1,line.length()-1);
             seq = "";
         }else{
             seq.append(line);
         }
+        
     }
+    cout << contigID << "\t" << seq.length() << endl;
     genome.insert(pair<string,string>(contigID,seq));
     cout << genome.size() << " contigs readed!" << endl;
     while(inf2.eof()){
@@ -14204,6 +14208,7 @@ int renameID(parameter *para){
         ll.clear();
         split(contigIDs,ll,";");
         string seqs = "";
+        
         if(ll.size()>1){
             for (int i = 0; i < ll.size() - 1;i++){
                 seqs.append(genome[ll[i]]);
@@ -14211,7 +14216,7 @@ int renameID(parameter *para){
             }
             seqs.append(genome[ll[ll.size()-1]]);
         }else{
-            seqs = genome[contigIDs];
+            seqs = genome[ll[0]];
         }
         ouf << ">" << chrID << "\n";
         for (int i = 0; i< seqs.length();i++){
