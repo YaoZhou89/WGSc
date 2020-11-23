@@ -14175,6 +14175,7 @@ int renameID(parameter *para){
     string line;
 
     vector<string> ll;
+    vector<string> strand;
     map<string,string> genome;
     string contigID = "";
     string chrID;
@@ -14211,11 +14212,28 @@ int renameID(parameter *para){
 //        cout << contigIDs << endl;
         if(ll.size()>1){
             for (int i = 0; i < ll.size() - 1;i++){
-                seqs.append(genome[ll[i]]);
+                split(ll[i],strand,":");
+                if (strand[1] == "-"){
+                    seqs.append(reverse_complementary(genome[strand[0]]));
+                }else{
+                    seqs.append(genome[strand[0]]);
+                }
                 seqs.append(gap);
+            }
+            split(ll[ll.size()-1],strand,":");
+            if (strand[1] == "-"){
+                seqs.append(reverse_complementary(genome[strand[0]]));
+            }else{
+                seqs.append(genome[strand[0]]);
             }
             seqs.append(genome[ll[ll.size()-1]]);
         }else{
+            split(ll[0],strand,":");
+            if (strand[1] == "-"){
+                seqs.append(reverse_complementary(genome[strand[0]]));
+            }else{
+                seqs.append(genome[strand[0]]);
+            }
             seqs = genome[ll[0]];
         }
         ouf << ">" << chrID << "\n";
