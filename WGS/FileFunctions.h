@@ -14194,6 +14194,7 @@ int renameID(parameter *para){
         }
     }
     genome.insert(pair<string,string>(contigID,seq));
+    cout << genome.size() << " contigs readed!" << endl;
     while(inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
