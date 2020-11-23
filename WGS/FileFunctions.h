@@ -14196,13 +14196,13 @@ int renameID(parameter *para){
         }
         
     }
-    cout << contigID << "\t" << seq.length() << endl;
+//    cout << contigID << "\t" << seq.length() << endl;
     genome.insert(pair<string,string>(contigID,seq));
     cout << genome.size() << " contigs readed!" << endl;
     while(inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        split(line,ll,"\t");
+        split(line,ll," \t");
         chrID = ll[0];
         string contigIDs = ll[1];
         ll.clear();
