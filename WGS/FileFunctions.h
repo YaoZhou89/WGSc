@@ -14208,7 +14208,7 @@ int renameID(parameter *para){
         ll.clear();
         split(contigIDs,ll,";");
         string seqs = "";
-        
+        cout << contigIDs << endl;
         if(ll.size()>1){
             for (int i = 0; i < ll.size() - 1;i++){
                 seqs.append(genome[ll[i]]);
