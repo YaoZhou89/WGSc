@@ -14210,7 +14210,7 @@ int renameID(parameter *para){
         split(contigIDs,ll,";");
         string seqs = "";
 //        cout << contigIDs << endl;
-        if(ll.size()>1){
+        if(ll.size() > 1){
             for (int i = 0; i < ll.size() - 1;i++){
                 split(ll[i],strand,":");
                 if (strand[1] == "-"){
@@ -14228,13 +14228,14 @@ int renameID(parameter *para){
             }
             seqs.append(genome[ll[ll.size()-1]]);
         }else{
-            split(ll[0],strand,":");
+            strand.clear();
+            split(contigIDs,strand,":");
             if (strand[1] == "-"){
                 seqs.append(reverse_complementary(genome[strand[0]]));
             }else{
                 seqs.append(genome[strand[0]]);
             }
-            seqs = genome[ll[0]];
+//            seqs = genome[ll[0]];
         }
         ouf << ">" << chrID << "\n";
         for (int i = 0; i< seqs.length();i++){
