@@ -15093,17 +15093,17 @@ int removeHS (parameter *para){
     vector<size_t> idx;
     cout << "contigs found:\t" << contigLen.size() << endl;
     idx = sort_indexes_e(len);
-    cout << c[idx[idx.size()-1]] << endl;
+//    cout << c[idx[idx.size()-1]] << endl;
     for (int i = 0; i < idx.size()-1; i++){
         bool kept = true;
         for (int j = i+1; j < idx.size(); j++){
             string k = c[idx[i]] + "_" + c[idx[j]];
             int l = len[idx[i]]; // contig length
             int sum = calculate(&sec[k]); // matched length
-            if (k == "contig2080_contig1996"){
-                cout << "l is:\t" << l << endl;
-                cout << "sum is:\t" << sum << endl;
-            }
+//            if (k == "contig2080_contig1996"){
+//                cout << "l is:\t" << l << endl;
+//                cout << "sum is:\t" << sum << endl;
+//            }
             if (sum*1.0/l > 0.5){
                 kept = false;
                 break;
