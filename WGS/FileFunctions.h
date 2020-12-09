@@ -15042,6 +15042,7 @@ int removeHS (parameter *para){
     string outfile = (para -> outFile); //
     igzstream inf ((infile).c_str(),ifstream::in);
 //    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
     vector<string> ll;
     map<string,int> contigLen;
     map<string,whole_section> sec;
@@ -15076,12 +15077,41 @@ int removeHS (parameter *para){
         }
     }
     cout << "Found " << sec.size() << " pairs!" << endl;
-    map<string,whole_section>::iterator iter;
-    iter = sec.begin();
-    while(iter != sec.end()) {
-        cout << iter->first << " : " << calculate(&(iter->second)) << endl;
-        iter++;
+    map<string,int>::iterator it;
+    it = contigLen.begin();
+    vector<string> c;
+    vector<int> len;
+    while (it != contigLen.end()){
+        c.push_back(it->first);
+        len.push_back(it->second);
+        it++;
     }
+    vector<size_t> idx;
+    idx = sort_indexes_e(len);
+    for (int i = 0; i < idx.size()-1; i++){
+        bool kept = true;
+        for (int j = i+1; j < idx.size(); j++){
+            string k = c[i] + "_" + c[j];
+            int l = len[i];
+            int sum = calculate(&sec[k]);
+            if (l*1.0/sum < 0.7){
+                kept = false;
+                break;
+            }
+        }
+        if (kept){
+            ouf << c[i] << "\n";
+        }
+    }
+    ouf.close();
+//
+//    map<string,whole_section>::iterator iter;
+//    iter = sec.begin();
+//    while(iter != sec.end()) {
+//        cout << iter->first << " : " << calculate(&(iter->second)) << endl;
+//        iter++;
+//    }
+   
     
     return 0;
 }
