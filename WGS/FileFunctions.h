@@ -15104,7 +15104,7 @@ int removeHS (parameter *para){
                 cout << "l is:\t" << l << endl;
                 cout << "sum is:\t" << sum << endl;
             }
-            if (sum*1.0/l > 0.7){
+            if (sum*1.0/l > 0.5){
                 kept = false;
                 break;
             }
@@ -15113,6 +15113,7 @@ int removeHS (parameter *para){
             ouf << c[idx[i]] << "\n";
         }
     }
+    ouf << c[idx[idx.size()-1]] << "\n";
     ouf.close();
 //
 //    map<string,whole_section>::iterator iter;
