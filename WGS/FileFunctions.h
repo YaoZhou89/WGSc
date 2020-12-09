@@ -15087,8 +15087,9 @@ int removeHS (parameter *para){
         it++;
     }
     vector<size_t> idx;
+    cout << "contigs found:\t" << contigLen.size() << endl;
     idx = sort_indexes_e(len);
-    cout << c[idx[0]] << endl;
+    cout << c[idx[idx.size()-1]] << endl;
     for (int i = 0; i < idx.size()-1; i++){
         bool kept = true;
         for (int j = i+1; j < idx.size(); j++){
