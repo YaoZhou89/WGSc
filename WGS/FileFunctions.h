@@ -15104,7 +15104,7 @@ int removeHS (parameter *para){
 //                cout << "l is:\t" << l << endl;
 //                cout << "sum is:\t" << sum << endl;
 //            }
-            if (sum*1.0/l > 0.5){
+            if (sum*1.0/l > 0.8){
                 kept = false;
                 break;
             }
