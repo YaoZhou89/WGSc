@@ -15210,8 +15210,9 @@ int removeVsRef (parameter *para){
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        if (cfound.count(line) == 0){
-            ouf << line << "\n";
+        split(line,ll," \t");
+        if (cfound.count(ll[0]) == 0){
+            ouf << ll[0] << "\n";
         }
     }
     ouf.close();
