@@ -15137,6 +15137,7 @@ int removeVsRef (parameter *para){
     map<string,int> contigLen;
     map<string,whole_section> sec;
     string line;
+    set<string> cfound;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -15150,6 +15151,7 @@ int removeVsRef (parameter *para){
         string c1 = ll[0];
         string c2 = ll[5];
 //        if (c1 == c2) continue;
+        cfound.insert(c1);
         contigLen.insert(pair<string,int>(c1,len1));
         contigLen.insert(pair<string,int>(c2,len2));
         string key = c1 + "_" + c2;
@@ -15208,7 +15210,7 @@ int removeVsRef (parameter *para){
     while (!inf2.eof()){
         getline(inf2,line);
         if(line.length() < 1) continue;
-        if (contigLen.count(line) == 0){
+        if (cfound.count(line) == 0){
             ouf << line << "\n";
         }
     }
