@@ -15091,8 +15091,8 @@ int removeHS (parameter *para){
     for (int i = 0; i < idx.size()-1; i++){
         bool kept = true;
         for (int j = i+1; j < idx.size(); j++){
-            string k = c[i] + "_" + c[j];
-            int l = len[i];
+            string k = c[idx[i]] + "_" + c[idx[j]];
+            int l = len[idx[i]];
             int sum = calculate(&sec[k]);
             if (l*1.0/sum < 0.7){
                 kept = false;
@@ -15100,7 +15100,7 @@ int removeHS (parameter *para){
             }
         }
         if (kept){
-            ouf << c[i] << "\n";
+            ouf << c[idx[i]] << "\n";
         }
     }
     ouf.close();
