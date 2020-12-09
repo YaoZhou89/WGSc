@@ -15201,7 +15201,7 @@ int removeVsRef (parameter *para){
                 break;
             }
             if (c[idx[i]] == "ptg001039l_1_awad"){
-                print(sec[k]);
+                print(&sec[k]);
             }
         }
         if (kept){
