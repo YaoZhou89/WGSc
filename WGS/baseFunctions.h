@@ -13,9 +13,6 @@
 #define BIG_ENOUGH (1024)
 #include <vector>
 #include <dirent.h>
-
-#define NULL 0
-
 using namespace std;
 typedef long int  lint ;
 
