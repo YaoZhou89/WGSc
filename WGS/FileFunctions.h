@@ -15059,8 +15059,7 @@ int removeHS (parameter *para){
         
         string c1 = ll[0];
         string c2 = ll[5];
-        if (c1 == c2) continue;
-        
+//        if (c1 == c2) continue;
         contigLen.insert(pair<string,int>(c1,len1));
         contigLen.insert(pair<string,int>(c2,len2));
         string key = c1 + "_" + c2;
@@ -15069,7 +15068,6 @@ int removeHS (parameter *para){
             start = string2Int(ll[7]);
             end = string2Int(ll[8]);
         }
-       
         whole_section* ws;
         ws=(whole_section*)malloc(sizeof(whole_section));
         init(ws);
