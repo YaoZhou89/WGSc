@@ -15053,7 +15053,7 @@ int removeHS (parameter *para){
         split(line,ll," \t"); // paf line
         int len1 = string2Int(ll[1]);
         int len2 = string2Int(ll[6]);
-        if (len1 > len2) continue;
+//        if (len1 > len2) continue;
         int start = string2Int(ll[2]);
         int end = string2Int(ll[3]);
         
@@ -15064,6 +15064,12 @@ int removeHS (parameter *para){
         contigLen.insert(pair<string,int>(c1,len1));
         contigLen.insert(pair<string,int>(c2,len2));
         string key = c1 + "_" + c2;
+        if (len1 > len2){
+            key = c2 + "_" + c1;
+            start = string2Int(ll[7]);
+            end = string2Int(ll[8]);
+        }
+       
         whole_section* ws;
         ws=(whole_section*)malloc(sizeof(whole_section));
         init(ws);
