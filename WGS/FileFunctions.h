@@ -15080,6 +15080,7 @@ int removeHS (parameter *para){
     iter = sec.begin();
     while(iter != sec.end()) {
         cout << iter->first << " : " << calculate(&(iter->second)) << endl;
+        iter++;
     }
     
     return 0;
