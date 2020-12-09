@@ -15198,10 +15198,10 @@ int removeVsRef (parameter *para){
 //            }
             if (sum*1.0/l > 0.8){
                 kept = false;
-                if (c[idx[i]] == "ptg001039l_1_awad"){
-                    print(&sec[k]);
-                    cout << "sum is:\t" << sum << endl;
-                }
+//                if (c[idx[i]] == "ptg001039l_1_awad"){
+//                    print(&sec[k]);
+//                    cout << "sum is:\t" << sum << endl;
+//                }
                 break;
             }
             
