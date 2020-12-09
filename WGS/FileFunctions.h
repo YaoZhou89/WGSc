@@ -15094,6 +15094,10 @@ int removeHS (parameter *para){
             string k = c[idx[i]] + "_" + c[idx[j]];
             int l = len[idx[i]]; // contig length
             int sum = calculate(&sec[k]); // matched length
+            if (k == "contig1000_congtig10"){
+                cout << "l is:\t" << l << endl;
+                cout << "sum is:\t" << sum << endl;
+            }
             if (sum*1.0/l > 0.7){
                 kept = false;
                 break;
