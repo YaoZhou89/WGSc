@@ -37,6 +37,17 @@ int main(int argc, char * argv[]) {
 //    cout << m.str() << endl;
 //    cout << m.str(1) << endl;
 //    cout << m.str(2) << endl;
+//    whole_section* ws;
+//    ws=(whole_section*)malloc(sizeof(whole_section));
+//    init(ws);
+//    insert(ws,0,1);
+//    print(ws);
+//    insert(ws,0,3);
+//    print(ws);
+//    insert(ws,-5,-2);
+//    print(ws);
+//    insert(ws,7,9);
+//    print(ws);
     parameter *para = new parameter;
     if ( (WGS_initialization(argc, argv, para) == 0) )
     {
@@ -584,6 +595,8 @@ int main(int argc, char * argv[]) {
                
             }else if ((para ->type) == "div"){
                 paf(para);
+            }else if ((para ->type) == "removeHS"){
+                removeHS(para);
             }
         }
     }

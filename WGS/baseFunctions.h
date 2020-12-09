@@ -14,6 +14,8 @@
 #include <vector>
 #include <dirent.h>
 
+#define NULL 0
+
 using namespace std;
 typedef long int  lint ;
 
@@ -1099,4 +1101,119 @@ int SmithWaterman(string x, string y, int misMatch, int gap){
     cout<<endl;
     return 0;
 }
+
+struct section//每个小区间
+{
+   double start;
+   double end;
+   bool isuse;
+};
+ 
+struct whole_section//区间并集
+{
+   section* sec;
+   int length;
+   int size;
+};
+
+void init(whole_section* ws)//初始化区间集
+{
+    if((ws->sec=(section*)malloc(50*sizeof(section)))==NULL)
+        return ;
+    ws->size=50;
+    ws->length=0;
+}
+void insert(whole_section* ws,double tstart,double tend)//插入
+{
+    if(tstart>=tend)
+        return ;
+    int i;
+    bool flag=false;
+    for(i=0;i<ws->length;i++)
+    {
+        if(ws->sec[i].isuse==false)//如果是已经不用的小区间则跳过
+            continue;
+        if(tstart<ws->sec[i].start)//分为六种情况
+        {
+           if(tend<ws->sec[i].start)
+           {
+              continue;
+           }
+           else if(tend<=ws->sec[i].end)
+           {
+               ws->sec[i].start=tstart;
+               flag=true;
+               break;
+           }
+           else
+           {
+               ws->sec[i].start=0;
+               ws->sec[i].end=0;
+               ws->sec[i].isuse=false;
+               continue;
+           }
+        }
+        else if(tstart<=ws->sec[i].end)
+        {
+            if(tend<=ws->sec[i].end)
+            {
+                flag=true;
+                continue;
+            }
+            else
+            {
+                ws->sec[i].end=tend;
+                flag=true;
+                break;
+            }
+        }
+        else
+            continue;
+    }
+    if(flag==false)
+    {
+        if(ws->length==ws->size)
+        {
+            ws->sec=(section*)realloc(ws->sec,(ws->size+10)*sizeof(section));
+            ws->size+=10;
+        }
+        ws->sec[ws->length].start=tstart;
+        ws->sec[ws->length].end=tend;
+        ws->sec[ws->length].isuse=true;
+        ws->length++;
+    }
+    
+}
+void print(whole_section* ws)//打印区间集情况，用于debug
+{
+   cout<<"/start///"<<endl;
+   int i;
+   for(i=0;i<ws->length;i++)
+   {
+       cout<<ws->sec[i].start<<" "<<ws->sec[i].end<<" "<<ws->sec[i].isuse<<endl;
+   }
+   cout<<"/end///"<<endl;
+}
+double calculate(whole_section* ws)//计算区间覆盖区域
+{
+   double sum=0;
+   int i;
+   for(i=0;i<ws->length;i++)
+   {
+        if(ws->sec[i].isuse==true)
+        {
+            sum+=(ws->sec[i].end-ws->sec[i].start);
+        }
+   }
+   return sum;
+}
+
+void freeAll(whole_section* ws)//释放内存
+{
+    free(ws->sec);
+    free(ws);
+    return ;
+}
+
+
 #endif /* baseFunctions_h */

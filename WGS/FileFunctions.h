@@ -15036,6 +15036,52 @@ int paf(parameter *para){
     ouf.close();
     return 0;
 }
+int removeHS (parameter *para){
+    string infile = (para -> inFile); // paf file
+//    string infile2 = (para -> inFile2); // fai file
+    string outfile = (para -> outFile); //
+    igzstream inf ((infile).c_str(),ifstream::in);
+//    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    vector<string> ll;
+    map<string,int> contigLen;
+    map<string,whole_section> sec;
+    string line;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t"); // paf line
+        int len1 = string2Int(ll[1]);
+        int len2 = string2Int(ll[6]);
+        if (len1 > len2) continue;
+        int start = string2Int(ll[2]);
+        int end = string2Int(ll[3]);
+        
+        string c1 = ll[0];
+        string c2 = ll[5];
+        contigLen.insert(pair<string,int>(c1,len1));
+        contigLen.insert(pair<string,int>(c2,len2));
+        string key = c1 + "_" + c2;
+        whole_section* ws;
+        ws=(whole_section*)malloc(sizeof(whole_section));
+        init(ws);
+        if (sec.count(key) == 0){
+            insert(ws,start,end);
+            sec.insert(pair<string,whole_section>(key,*ws));
+        }else{
+            ws = & sec[key];
+            insert(ws,start,end);
+            sec[key] = *ws;
+        }
+    }
+    cout << "Found " << sec.size() << " pairs!" << endl;
+    map<string,whole_section>::iterator iter;
+    iter = sec.begin();
+    while(iter != sec.end()) {
+        cout << iter->first << " : " << calculate(&(iter->second)) << endl;
+    }
+    
+    return 0;
+}
 int cleanCIGAR(parameter *para){
     string infile = (para -> inFile); // map file
     string infile2 = (para -> inFile2); // fai file
