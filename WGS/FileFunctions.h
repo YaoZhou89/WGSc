@@ -15092,9 +15092,9 @@ int removeHS (parameter *para){
         bool kept = true;
         for (int j = i+1; j < idx.size(); j++){
             string k = c[idx[i]] + "_" + c[idx[j]];
-            int l = len[idx[i]];
-            int sum = calculate(&sec[k]);
-            if (l*1.0/sum > 0.7){
+            int l = len[idx[i]]; // contig length
+            int sum = calculate(&sec[k]); // matched length
+            if (sum*1.0/l > 0.7){
                 kept = false;
                 break;
             }
