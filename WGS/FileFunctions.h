@@ -15094,7 +15094,7 @@ int removeHS (parameter *para){
             string k = c[idx[i]] + "_" + c[idx[j]];
             int l = len[idx[i]];
             int sum = calculate(&sec[k]);
-            if (l*1.0/sum < 0.7){
+            if (l*1.0/sum > 0.7){
                 kept = false;
                 break;
             }
