@@ -15126,6 +15126,104 @@ int removeHS (parameter *para){
     
     return 0;
 }
+int removeVsRef (parameter *para){
+    string infile = (para -> inFile); // paf file
+    string infile2 = (para -> inFile2); // orinal ID
+    string outfile = (para -> outFile); //
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    vector<string> ll;
+    map<string,int> contigLen;
+    map<string,whole_section> sec;
+    string line;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t"); // paf line
+        int len1 = string2Int(ll[1]);
+        int len2 = string2Int(ll[6]);
+//        if (len1 > len2) continue;
+        int start = string2Int(ll[2]);
+        int end = string2Int(ll[3]);
+        
+        string c1 = ll[0];
+        string c2 = ll[5];
+//        if (c1 == c2) continue;
+        contigLen.insert(pair<string,int>(c1,len1));
+        contigLen.insert(pair<string,int>(c2,len2));
+        string key = c1 + "_" + c2;
+        if (len1 > len2){
+            key = c2 + "_" + c1;
+            start = string2Int(ll[7]);
+            end = string2Int(ll[8]);
+        }
+        whole_section* ws;
+        ws=(whole_section*)malloc(sizeof(whole_section));
+        init(ws);
+        if (sec.count(key) == 0){
+            insert(ws,start,end);
+            sec.insert(pair<string,whole_section>(key,*ws));
+        }else{
+            ws = & sec[key];
+            insert(ws,start,end);
+            sec[key] = *ws;
+        }
+    }
+    cout << "Found " << sec.size() << " pairs!" << endl;
+    map<string,int>::iterator it;
+    it = contigLen.begin();
+    vector<string> c;
+    vector<int> len;
+    while (it != contigLen.end()){
+        c.push_back(it->first);
+        len.push_back(it->second);
+        it++;
+    }
+    vector<size_t> idx;
+    cout << "contigs found:\t" << contigLen.size() << endl;
+    idx = sort_indexes_e(len);
+//    cout << c[idx[idx.size()-1]] << endl;
+    for (int i = 0; i < idx.size()-1; i++){
+        bool kept = true;
+        for (int j = i+1; j < idx.size(); j++){
+            string k = c[idx[i]] + "_" + c[idx[j]];
+            int l = len[idx[i]]; // contig length
+            int sum = calculate(&sec[k]); // matched length
+//            if (k == "contig2080_contig1996"){
+//                cout << "l is:\t" << l << endl;
+//                cout << "sum is:\t" << sum << endl;
+//            }
+            if (sum*1.0/l > 0.8){
+                kept = false;
+                break;
+            }
+        }
+        if (kept){
+            ouf << c[idx[i]] << "\n";
+        }
+    }
+    ouf << c[idx[idx.size()-1]] << "\n";
+    
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if (contigLen.count(line) == 0){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+//
+//    map<string,whole_section>::iterator iter;
+//    iter = sec.begin();
+//    while(iter != sec.end()) {
+//        cout << iter->first << " : " << calculate(&(iter->second)) << endl;
+//        iter++;
+//    }
+   
+    
+    return 0;
+}
 int cleanCIGAR(parameter *para){
     string infile = (para -> inFile); // map file
     string infile2 = (para -> inFile2); // fai file

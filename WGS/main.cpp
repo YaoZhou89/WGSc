@@ -597,6 +597,8 @@ int main(int argc, char * argv[]) {
                 paf(para);
             }else if ((para ->type) == "removeHS"){
                 removeHS(para);
+            }else if ((para ->type) == "removeVsRef"){
+                removeVsRef(para);
             }
         }
     }
