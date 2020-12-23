@@ -14171,6 +14171,40 @@ int changeID(parameter *para){
     ouf.close();
     return 0;
 }
+int reformatID(parameter *para){
+    string infile = (para -> inFile); //fasta file
+    string infile2 = (para -> inFile2); //ID file
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);// fasta file
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> IDs;
+
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        IDs.insert(pair<string,string>(ll[0],ll[1]));
+    }
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            string id1 = line.substr(1,line.length()-1);
+            string id2 = IDs[id1];
+            ouf << ">" << id2 << "\n";
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
+
 int renameID(parameter *para){
     string infile = (para -> inFile); //fasta file
     string infile2 = (para -> inFile2); //ID file

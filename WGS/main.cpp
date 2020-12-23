@@ -540,6 +540,8 @@ int main(int argc, char * argv[]) {
                 changeID(para);
             }else if ((para->type) == "rename"){
                 renameID(para);
+            }else if ((para->type) == "reformatID"){
+                reformatID(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
