@@ -4951,6 +4951,46 @@ int getFastas(parameter *para){
     ouf.close();
     return 0;
 }
+int removeContigs(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string chr ;
+    map<string,string> genome;
+    string line;
+    string seq;
+    string key;
+    bool first = true;
+    vector<string> ll;
+    set<string> rID;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        rID.insert(line);
+    }
+    bool write=false;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ){
+            split(line,ll," \t");
+            key = ll[0];
+            if (rID.count(key.substr(1,key.length()-1)) == 0){
+                write = true;
+            }else{
+                write = false;
+            }
+        }
+        if (write) {
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int summaryRate(parameter *para){
     string inFile = (para->inFile);
     string inFile2 = (para->inFile2);

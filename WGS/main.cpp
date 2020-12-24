@@ -506,6 +506,8 @@ int main(int argc, char * argv[]) {
                 splitGenome(para);
             }else if ((para -> type) == "getChrs"){
                 getFastas(para);
+            }else if ((para -> type) == "removeChrs"){
+                removeContigs(para);
             }else if ((para -> type) == "concensus"){
                 concensus(para);
             }
@@ -542,6 +544,8 @@ int main(int argc, char * argv[]) {
                 renameID(para);
             }else if ((para->type) == "reformatID"){
                 reformatID(para);
+            }else if ((para->type) == "removeContigs"){
+                removeContigs(para);
             }
         }else if ((para->model) == "fastq"){
             if((para->type) == "subtract"){
