@@ -155,6 +155,11 @@ int WGS_initialization(int argc, char **argv , parameter * para)
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
             i++;
             para -> maxDepth = atof(argv[i]);
+        }else if (flag == "maxLength")
+        {
+            if(i + 1 == argc) {LogLackArg(flag);return 0;}
+            i++;
+            para -> maxLength = atof(argv[i]);
         }else if (flag == "depthSD")
         {
             if(i + 1 == argc) {LogLackArg(flag);return 0;}
