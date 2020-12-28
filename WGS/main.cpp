@@ -96,6 +96,8 @@ int main(int argc, char * argv[]) {
                 DepthFilter(para);
             }else if((para->type) == "depthFilterDP"){
                 DepthFilterDP(para);
+            }else if((para->type) == "calTotalDP"){
+                calTotalDP(para);
             }else if((para->type) == "ct3"){
                 ct3(para); // snps shared among three groups
             }else if((para->type) == "ct2"){
