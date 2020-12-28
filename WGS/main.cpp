@@ -98,6 +98,8 @@ int main(int argc, char * argv[]) {
                 DepthFilterDP(para);
             }else if((para->type) == "calTotalDP"){
                 calTotalDP(para);
+            }else if((para->type) == "inDel_len"){
+                inDel_len(para);
             }else if((para->type) == "ct3"){
                 ct3(para); // snps shared among three groups
             }else if((para->type) == "ct2"){

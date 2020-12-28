@@ -542,6 +542,17 @@ int DepthFilterDP(parameter *para){
     ouf.close();
     return 0;
 }
+int inDel_len(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    
+    return 0;
+    
+}
 int calTotalDP(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
