@@ -188,6 +188,8 @@ int main(int argc, char * argv[]) {
                 concatVCFsite(para);
             }else if ((para->type) == "keep"){
                 keep(para);
+            }else if ((para->type) == "splitByChr"){
+                splitByChrVCF(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
