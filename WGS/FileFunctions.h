@@ -558,7 +558,10 @@ int inDel_len(parameter *para){
             continue;
         }
         split(line,ll," \t");
-        if (ll[3].length() > )
+        if (ll[3].length() > len || ll[4].length() > len ){
+            continue;
+        }
+        ouf << line << "\n";
     }
     return 0;
     
