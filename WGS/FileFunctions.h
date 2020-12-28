@@ -4516,6 +4516,41 @@ int splitByChrNoHeader(parameter *para){
     
     return 1;
 }
+
+int splitByChrVCF(parameter *para){
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile.c_str()),fstream::in);
+    if(inf.fail()){
+        cerr << "Couldn't open inFile" << endl;
+        return 0 ;
+    }
+    ofstream ouf ((outFile.c_str()));
+    vector<string> ll;
+    string chr = (para->chr);
+    
+    string  line ;
+    while(!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 )  {
+            continue  ;
+        }
+        if(line[0]=='#'){
+            ouf << line << "\n";
+        }
+        ll.clear();
+        split(line,ll," \t");
+        if(ll[0]==chr){
+            ouf << line << "\n" ;
+        }
+    }
+    
+    inf.close();
+    ouf.close();
+    
+    return 1;
+}
+
 int byChrs(parameter *para){
     string inFile = (para->inFile);
     string outFile = (para->outFile);
