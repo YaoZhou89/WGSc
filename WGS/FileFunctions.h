@@ -549,7 +549,17 @@ int inDel_len(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
-    
+    int len = (para->maxLength);
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]== '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll," \t");
+        if (ll[3].length() > )
+    }
     return 0;
     
 }
