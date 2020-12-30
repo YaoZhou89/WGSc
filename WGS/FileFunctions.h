@@ -744,12 +744,11 @@ int bed2vcf(parameter *para){
         getline(inf,line);
         if(line.length() < 1) continue;
         if(line[0] == '#') continue;
+        split(line,ll,"\t");
         string qinf = ll[9];
         vector<string> tmp;
         split(qinf,tmp,":-");
         string info="IMPRECISE;SVTYPE=";
-        
-        split(line,ll,"\t");
         cout << line << endl;
         string kr = ll[0];
         string kq = tmp[0];
