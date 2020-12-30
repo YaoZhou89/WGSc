@@ -743,6 +743,64 @@ int SVfilter_long(parameter *para){
     ouf.close();
     return 0;
 }
+int mergeSVs(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<char> bases;
+    bases.insert('A');
+    bases.insert('T');
+    bases.insert('G');
+    bases.insert('C');
+    bases.insert('N');
+   
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        bool write = true;
+        if (line.substr(0,2) == "##") {
+            ouf << line << "\n";
+        }else if (line.substr(0,2) == "#C"){
+            split(line,ll,"\t");
+            ouf << ll[0];
+            for (int i = 1; i< 10; i++){
+                ouf << "\t" << ll[i];
+            }
+            ouf << "\n";
+        }else{
+            split(line,ll,"\t");
+            string ref = ll[3];
+            string alt = ll[4];
+            ref.append(alt);
+            for (int i = 0; i < ref.length(); i++){
+                if (bases.count(ref[i]) == 0) {
+                    write = false;
+                }
+            }
+            if(write){
+                split(line,ll,"\t");
+                ouf << ll[0];
+                for (int i = 1; i< 10; i++){
+                    ouf << "\t" << ll[i];
+                }
+                ouf << "\n";
+            }
+        }
+    }
+    while (!inf2.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        if(line[0] == '#') continue;
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
