@@ -717,6 +717,7 @@ int bed2vcf(parameter *para){
                 ref.insert(pair<string,string>(chr,seq));
             }
             chr = line.substr(1,line.length()-1);
+            seq="";
             continue;
         }
         seq.append(line);
@@ -733,6 +734,7 @@ int bed2vcf(parameter *para){
                 query.insert(pair<string,string>(chr,seq));
             }
             chr = line.substr(1,line.length()-1);
+            seq="";
             continue;
         }
         seq.append(line);
