@@ -192,6 +192,8 @@ int main(int argc, char * argv[]) {
                 keep(para);
             }else if ((para->type) == "splitByChr"){
                 splitByChrVCF(para);
+            }else if ((para->type) == "SVfilter_reads"){
+                SVfilter_reads(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

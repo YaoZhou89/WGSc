@@ -566,6 +566,72 @@ int inDel_len(parameter *para){
     return 0;
     
 }
+int SVfilter_reads(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    // LEN
+    //
+    set<string> cs;
+    cs.insert("DUP");
+    cs.insert("DUP:TANDEM");
+    cs.insert("DUP:INT");
+    cs.insert("INS");
+    cs.insert("CNV");
+    cs.insert("DEL");
+    int sum = 0, passed = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]== '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        sum++;
+        split(line,ll,"\t");
+        if (ll[6] != "PASS") continue;
+        string info = ll[7];
+        string gt = ll[9];
+        ll.clear();
+        split(info,ll,"SVLEN=");
+        string l = ll[1];
+        ll.clear();
+        split(l,ll,";");
+        int len = string2Int(ll[0]);
+        ll.clear();
+        split(info,ll,"SVTYPE=");
+        string typei = ll[1];
+        ll.clear();
+        split(typei,ll,";");
+        string type = ll[0];
+        ll.clear();
+        split(gt,ll,":");
+        int dp;
+        if (ll[1] == "."){
+            dp = 10;
+        }else{
+            string2Int(ll[1]);
+        }
+        if (dp < 4) continue;
+        if (cs.count(type) == 1){
+            if ( len > 50 && len < 20000){
+                ouf << line << "\n";
+                passed ++;
+            }
+        }else{
+            if ( len > 50 && len < 10000000){
+                ouf << line << "\n";
+                passed ++;
+            }
+        }
+        
+    }
+    ouf.close();
+    return 0;
+}
 int calTotalDP(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
