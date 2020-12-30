@@ -773,7 +773,7 @@ int bed2vcf(parameter *para){
             info.append(ll[2]);
             info.append(";SVLEN=");
             info.append(ll[4]);
-            ref = "<N>";
+            ref = "N";
             alt = seqq;
         }else if (ll[6] == "Deletion"){
             info.append("DEL;END=");
@@ -781,7 +781,7 @@ int bed2vcf(parameter *para){
             info.append(";SVLEN=-");
             info.append(ll[4]);
             ref = seqr;
-            alt = "<N>";
+            alt = "N";
         }else{
             continue;
         }
