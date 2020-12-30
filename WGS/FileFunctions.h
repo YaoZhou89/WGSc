@@ -755,27 +755,33 @@ int bed2vcf(parameter *para){
         string kr = ll[0];
         string kq = tmp[0];
 //        cout << qinf << endl;
-        int ks = string2Int(ll[1])-2;
-        int ke = string2Int(ll[2])-1;
-        int rs = string2Int(tmp[1])-2;
-        int re = string2Int(tmp[2])-1;
+        int ks = string2Int(ll[1])-1;
+        int ke = string2Int(ll[2]);
+        int rs = string2Int(tmp[1])-1;
+        int re = string2Int(tmp[2]);
 //        cout << "test1.." << endl;
-        string seqr = ref[kr].substr(ks,ke-ks);
+        string seqr = ref[kr].substr(ks,ke-ks) ;
         string seqq = query[kq].substr(rs,re-rs);
 //        if(tmp[2] == "-") {
 //            string seqqr = reverse_complementary(seqq);
 //            seqq = seqqr;
 //        }
+        string ref;
+        string alt;
         if(ll[6] == "Insertion"){
             info.append("INS;END=");
             info.append(ll[2]);
             info.append(";SVLEN=");
             info.append(ll[4]);
+            ref = "<N>";
+            alt = seqq;
         }else if (ll[6] == "Deletion"){
             info.append("DEL;END=");
             info.append(ll[2]);
             info.append(";SVLEN=-");
             info.append(ll[4]);
+            ref = seqr;
+            alt = "<N>";
         }else{
             continue;
         }
@@ -784,8 +790,8 @@ int bed2vcf(parameter *para){
         ouf << ll[0] << "\t";
         ouf << string2Int(ll[1]) + 1 << "\t";
         ouf << ll[3] << "\t";
-        ouf << seqr << "\t";
-        ouf << seqq << "\t";
+        ouf << ref << "\t";
+        ouf << alt << "\t";
         ouf << "." << "\t";
         ouf << "PASS" << "\t";
         ouf << info << "\t";
