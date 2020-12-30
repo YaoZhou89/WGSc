@@ -627,12 +627,12 @@ int SVfilter_reads(parameter *para){
         }
         if (dp < 4) continue;
         if (cs.count(type) == 1){
-            if ( len > 50 && len < 20000){
+            if ( len > 50 && len < maxLength){
                 ouf << line << "\n";
                 passed ++;
             }
         }else{
-            if ( len > 50 && len < maxLength){
+            if ( len > 50 && len < 10000000){
                 ouf << line << "\n";
                 passed ++;
             }
