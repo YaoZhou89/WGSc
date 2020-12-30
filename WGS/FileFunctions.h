@@ -597,7 +597,7 @@ int SVfilter_reads(parameter *para){
         string info = ll[7];
         string gt = ll[9];
         ll.clear();
-        split(info,ll,"SVLEN=");
+        split(info,ll,"'SVLEN='");
         string l = ll[1];
         ll.clear();
         cout << l << endl;
