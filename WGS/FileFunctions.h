@@ -596,27 +596,28 @@ int SVfilter_reads(parameter *para){
         if (ll[6] != "PASS") continue;
         string info = ll[7];
         string gt = ll[9];
-        ll.clear();
-        split(info,ll,"'SVLEN='");
-        string l = ll[1];
-        ll.clear();
-        cout << l << endl;
-        split(l,ll,";");
+//        ll.clear();
+//        split(info,ll,"'SVLEN='");
+//        string l = ll[1];
+//        ll.clear();
+//        cout << l << endl;
+//        split(l,ll,";");
+        smatch svlen;
+        regex svlenP("(.*)SVLEN=(\\d*)(.*)");
         int len;
-        if (ll[0] == "."){
-            len = 100;
+        regex_match(info, svlen, svlenP);
+        if (regex_match(info, svlen, svlenP)){
+            len = string2Int(svlen[1]);
         }else{
-            len = string2Int(ll[0]);
+            len = 100;
         }
-        ll.clear();
-        split(info,ll,"SVTYPE=");
-        string typei = ll[1];
-        ll.clear();
-        cout << typei << endl;
-        
-        split(typei,ll,";");
-        string type = ll[0];
-        ll.clear();
+        smatch svtype;
+        regex svtypeP("(.*)SVTYPE=(.*);(.*)");
+        string type = "";
+        if (regex_match(info, svtype, svtypeP)){
+            type = svtype[1];
+        }
+        cout << type<< endl;
         split(gt,ll,":");
         int dp;
         cout << ll[1] << endl;
