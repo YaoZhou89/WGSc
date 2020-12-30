@@ -613,7 +613,7 @@ int SVfilter_reads(parameter *para){
                     len = abs(string2Int(tmp[1]));
                 }
                 if (len>50){
-                    cout << line << endl;
+                    ouf << line << "\n";
                 }
             }
             continue;
