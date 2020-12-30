@@ -590,6 +590,7 @@ int SVfilter_reads(parameter *para){
             ouf << line << "\n";
             continue;
         }
+        cout << line << endl;
         sum++;
         split(line,ll,"\t");
         if (ll[6] != "PASS") continue;
