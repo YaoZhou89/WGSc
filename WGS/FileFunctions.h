@@ -612,7 +612,6 @@ int SVfilter_reads(parameter *para){
                 type = tmp[1];
             }
         }
-        cout << type << endl;
         split(gt,ll,":");
         int dp = 10;
         if (ll[1] == "."){
