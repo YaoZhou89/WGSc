@@ -666,6 +666,96 @@ int SVfilter_reads(parameter *para){
     ouf.close();
     return 0;
 }
+int SVfilter_long(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    // LEN
+    //
+    set<string> cs;
+    cs.insert("DUP");
+    cs.insert("DUP:TANDEM");
+    cs.insert("DUP:INT");
+    cs.insert("INS");
+    cs.insert("CNV");
+    cs.insert("DEL");
+    int maxLength = (para->maxLength);
+    int sum = 0, passed = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0]== '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        sum++;
+        
+        split(line,ll,"\t");
+        
+        if (ll[6] != "PASS") continue;
+        string info = ll[7];
+        string gt = ll[9];
+        string format = ll[8];
+        ll.clear();
+        split(info,ll,";");
+        string type;
+        int len = 100;
+        if (format == "CN"){
+            if (ll[ll.size()-1] == "SHADOWED") continue;
+            for (int i = 0; i < ll.size(); i++){
+                vector<string> tmp;
+                if (ll[i].substr(0,5)=="SVLEN"){
+                    string svlen = ll[i];
+                    split(svlen,tmp,"=");
+                    len = abs(string2Int(tmp[1]));
+                }
+                if (len>50){
+                    ouf << line << "\n";
+                }
+            }
+            continue;
+        }
+        for (int i = 0; i < ll.size(); i++){
+            vector<string> tmp;
+            if (ll[i].substr(0,5)=="SVLEN"){
+                string svlen = ll[i];
+                split(svlen,tmp,"=");
+                len = abs(string2Int(tmp[1]));
+            }else if (ll[i].substr(0,6)=="SVTYPE"){
+                string svlen = ll[i];
+                split(svlen,tmp,"=");
+                type = tmp[1];
+            }
+        }
+        split(format,ll,":");
+        int dpp =1;
+        for (int i =0; i < ll.size(); i++){
+            if (ll[i] == "DP") dpp = i;
+        }
+        split(gt,ll,":");
+        
+        int dp = 10;
+        if (ll[1] == "."){
+            dp = 10;
+        }else{
+            dp = string2Int(ll[dpp]);
+        }
+        if (dp < 4) continue;
+        
+        if (type == "INS"){
+            if ( len > 20000 && len < 100000){
+                ouf << line << "\n";
+                passed ++;
+            }
+        }
+        
+    }
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
