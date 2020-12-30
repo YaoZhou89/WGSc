@@ -612,30 +612,7 @@ int SVfilter_reads(parameter *para){
                 type = tmp[1];
             }
         }
-////        ll.clear();
-////        split(info,ll,"'SVLEN='");
-////        string l = ll[1];
-////        ll.clear();
-////        cout << l << endl;
-////        split(l,ll,";");
-//        cout << line << endl;
-//        smatch svlen;
-//        regex svlenP("(.*)SVLEN=(\\d*)(.*)");
-//        int len;
-//        regex_match(info, svlen, svlenP);
-//        cout << svlen[2] << endl;
-//        if (regex_match(info, svlen, svlenP)){
-//            len = string2Int(svlen[2]);
-//        }else{
-//            len = 100;
-//        }
-//        smatch svtype;
-//        regex svtypeP("(.*)SVTYPE=([A-Z]*)(.*)");
-//        string type = "";
-//        if (regex_match(info, svtype, svtypeP)){
-//            type = svtype[2];
-//        }
-//        cout << type<< endl;
+        cout << type << endl;
         split(gt,ll,":");
         int dp;
         if (ll[1] == "."){
