@@ -673,11 +673,11 @@ int svmu(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
-    cout << "runing.." <<endl;
+//    cout << "runing.." <<endl;
     while (!inf.eof()){
         getline(inf,line);
-        if (line.length() < 1) continue;
-        if (line[0] = 'R') continue;
+        if(line.length() < 1) continue;
+        if (line[0] == 'R') continue;
         split(line,ll,"\t");
         if (ll.size() != 11) continue;
         if(string2Int(ll[1]) > string2Int(ll[2])) {
