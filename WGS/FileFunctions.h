@@ -753,10 +753,10 @@ int bed2vcf(parameter *para){
         string kr = ll[0];
         string kq = tmp[0];
 //        cout << qinf << endl;
-        int ks = string2Int(ll[1]);
-        int ke = string2Int(ll[2])+1;
-        int rs = string2Int(tmp[1]);
-        int re = string2Int(tmp[2])+1;
+        int ks = string2Int(ll[1])-1;
+        int ke = string2Int(ll[2]);
+        int rs = string2Int(tmp[1])-1;
+        int re = string2Int(tmp[2]);
 //        cout << "test1.." << endl;
         string seqr = ref[kr].substr(ks,ke-ks);
         string seqq = query[kq].substr(rs,re-rs);
