@@ -600,6 +600,7 @@ int SVfilter_reads(parameter *para){
         split(info,ll,"SVLEN=");
         string l = ll[1];
         ll.clear();
+        cout << l << endl;
         split(l,ll,";");
         int len;
         if (ll[0] == "."){
@@ -611,11 +612,14 @@ int SVfilter_reads(parameter *para){
         split(info,ll,"SVTYPE=");
         string typei = ll[1];
         ll.clear();
+        cout << typei << endl;
+        
         split(typei,ll,";");
         string type = ll[0];
         ll.clear();
         split(gt,ll,":");
         int dp;
+        cout << ll[1] << endl;
         if (ll[1] == "."){
             dp = 10;
         }else{
