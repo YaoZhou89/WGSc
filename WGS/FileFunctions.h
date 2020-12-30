@@ -592,6 +592,7 @@ int SVfilter_reads(parameter *para){
             continue;
         }
         sum++;
+        cout << line << endl;
         split(line,ll,"\t");
         if (ll[6] != "PASS") continue;
         string info = ll[7];
