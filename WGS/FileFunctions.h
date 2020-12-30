@@ -679,12 +679,12 @@ int svmu(parameter *para){
         if (line[0] = 'R') continue;
         split(line,ll,"\t");
         if(string2Int(ll[1]) > string2Int(ll[2])) {
-            int tmp = ll[2];
+            string tmp = ll[2];
             ll[2] = ll[1];
             ll[1] = tmp;
         }
         ouf << ll[0];
-        fo(int i = 1; i< ll.size(); i++){
+        for(int i = 1; i< ll.size(); i++){
             ouf << "\t" << ll[i];
         }
         ouf << "\n";
