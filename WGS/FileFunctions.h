@@ -592,8 +592,9 @@ int SVfilter_reads(parameter *para){
             continue;
         }
         sum++;
-        cout << line << endl;
+        
         split(line,ll,"\t");
+        
         if (ll[6] != "PASS") continue;
         string info = ll[7];
         string gt = ll[9];
@@ -602,6 +603,20 @@ int SVfilter_reads(parameter *para){
         split(info,ll,";");
         string type;
         int len = 100;
+        if (format == "CN"){
+            if (ll[ll.size()-1] == "SHADOWED") continue;
+            for (int i = 0; i < ll.size(); i++){
+                if (ll[i].substr(0,5)=="SVLEN"){
+                    string svlen = ll[i];
+                    split(svlen,tmp,"=");
+                    len = abs(string2Int(tmp[1]));
+                }
+                if (len>50){
+                    cout << line << endl;
+                }
+            }
+            continue;
+        }
         for (int i = 0; i < ll.size(); i++){
             vector<string> tmp;
             if (ll[i].substr(0,5)=="SVLEN"){
@@ -628,7 +643,13 @@ int SVfilter_reads(parameter *para){
             dp = string2Int(ll[dpp]);
         }
         if (dp < 4) continue;
-        if (cs.count(type) == 1){
+        
+        if (type == "DEL"){
+            if ( len > 50 && len < 100000){
+                ouf << line << "\n";
+                passed ++;
+            }
+        }else if (cs.count(type) == 1){
             if ( len > 50 && len < maxLength){
                 ouf << line << "\n";
                 passed ++;
