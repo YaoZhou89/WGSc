@@ -694,6 +694,104 @@ int svmu(parameter *para){
     ouf.close();
     return 0;
 }
+int bed2vcf(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2); // reference fasta
+    string input3 = (para->inFile3); // query fasta
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> ref;
+    map<string,string> query;
+    string chr = "";
+    string seq = "";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if (seq != "") {
+                ref.insert(pair<string,string>(chr,seq));
+            }
+            chr = line.substr(1,line.length()-1);
+            continue;
+        }
+        seq.append(line);
+    }
+    ref.insert(pair<string,string>(chr,seq));
+    cout << "Reference genome readed!, chromosome number is:\t" << ref.size() << endl;
+    chr = "";
+    seq = "";
+    while(!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if (seq != "") {
+                query.insert(pair<string,string>(chr,seq));
+            }
+            chr = line.substr(1,line.length()-1);
+            continue;
+        }
+        seq.append(line);
+    }
+    query.insert(pair<string,string>(chr,seq));
+    cout << "Query genome readed!, chromosome number is:\t" << ref.size() << endl;
+    ouf << "\#\#fileformat=VCFv4.2\n\#\#source=WGS\n\#\#ALT=<ID=DEL,Description=\"Deletion\">\n\#\#ALT=<ID=DUP,Description=\"Duplication\">\n\#\#ALT=<ID=INV,Description=\"Inversion\">\n\#\#ALT=<ID=BND,Description=\"Translocation\">\n\#\#ALT=<ID=INS,Description=\"Insertion\">\n\#\#INFO=<ID=CHR2,Number=1,Type=String,Description=\"Chromosome for END coordinate in case of a translocation\">\n\#\#INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the structural variant\">\n\#\#INFO=<ID=IMPRECISE,Number=0,Type=Flag,Description=\"Imprecise structural variation\">\n\#\#INFO=<ID=PRECISE,Number=0,Type=Flag,Description=\"Precise structural variation\">\n\#\#INFO=<ID=SVLEN,Number=1,Type=Float,Description=\"Length of the SV\">\n\#\#INFO=<ID=SVMETHOD,Number=1,Type=String,Description=\"Vector of samples supporting the SV.\">\n\#\#INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of the SV.\">\n\#\#INFO=<ID=STRANDS,Number=1,Type=String,Description=\"Indicating the direction of the reads with respect to the type and breakpoint.\">\#\#FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n\#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tSample\n" ;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        string qinf = ll[9];
+        vector<string> tmp;
+        split(qinf,tmp,":-");
+        string info="IMPRECISE;SVTYPE=";
+        
+        split(line,ll,"\t");
+        
+        string kr = ll[0];
+        string kq = tmp[0];
+        int ks = string2Int(ll[1])-1;
+        int ke = string2Int(ll[2]);
+        int rs = string2Int(tmp[1])-1;
+        int re = string2Int(tmp[2]);
+        string seqr = ref[kr].substr(ks,ke-ks);
+        string seqq = ref[kq].substr(rs,re-rs);
+        if(tmp[2] == "-") {
+            string seqqr = reverse_complementary(seqq);
+            seqq = seqqr;
+        }
+        if(ll[6] == "Insertion"){
+            info.append("INS;END=");
+            info.append(ll[2]);
+            info.append(";SVLEN=");
+            info.append(ll[4]);
+        }else if (ll[6] == "Deletion"){
+            info.append("DEL;END=");
+            info.append(ll[2]);
+            info.append(";SVLEN=-");
+            info.append(ll[4]);
+        }else{
+            continue;
+        }
+        int len = string2Int(ll[4]);
+        if (len < 50 || len > 100000) continue;
+        ouf << ll[0] << "\t";
+        ouf << ll[2] << "\t";
+        ouf << ll[3] << "\t";
+        ouf << seqr << "\t";
+        ouf << seqq << "\t";
+        ouf << "." << "\t";
+        ouf << "PASS" << "\t";
+        ouf << info << "\t";
+        ouf << "GT\t";
+        ouf << "./.\n";
+    }
+    ouf.close();
+    return 0;
+}
 int calTotalDP(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
