@@ -793,7 +793,7 @@ int mergeSVs(parameter *para){
         }
     }
     while (!inf2.eof()){
-        getline(inf,line);
+        getline(inf2,line);
         if (line.length() < 1 ) continue;
         if(line[0] == '#') continue;
         ouf << line << "\n";
