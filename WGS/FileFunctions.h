@@ -596,6 +596,7 @@ int SVfilter_reads(parameter *para){
         if (ll[6] != "PASS") continue;
         string info = ll[7];
         string gt = ll[9];
+        string format = ll[8];
         ll.clear();
         split(info,ll,";");
         string type;
@@ -612,12 +613,18 @@ int SVfilter_reads(parameter *para){
                 type = tmp[1];
             }
         }
+        split(format,ll,":");
+        int dpp =1;
+        for (int i =0; i < ll.size(); i++){
+            if (ll[i] == "DP") dpp = i;
+        }
         split(gt,ll,":");
+        
         int dp = 10;
         if (ll[1] == "."){
             dp = 10;
         }else{
-            dp = string2Int(ll[1]);
+            dp = string2Int(ll[dpp]);
         }
         if (dp < 4) continue;
         if (cs.count(type) == 1){
