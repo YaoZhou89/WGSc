@@ -739,7 +739,7 @@ int bed2vcf(parameter *para){
     }
     query.insert(pair<string,string>(chr,seq));
     cout << "Query genome readed!, chromosome number is:\t" << query.size() << endl;
-    ouf << "\#\#fileformat=VCFv4.2\n\#\#source=WGS\n\#\#ALT=<ID=DEL,Description=\"Deletion\">\n\#\#ALT=<ID=DUP,Description=\"Duplication\">\n\#\#ALT=<ID=INV,Description=\"Inversion\">\n\#\#ALT=<ID=BND,Description=\"Translocation\">\n\#\#ALT=<ID=INS,Description=\"Insertion\">\n\#\#INFO=<ID=CHR2,Number=1,Type=String,Description=\"Chromosome for END coordinate in case of a translocation\">\n\#\#INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the structural variant\">\n\#\#INFO=<ID=IMPRECISE,Number=0,Type=Flag,Description=\"Imprecise structural variation\">\n\#\#INFO=<ID=PRECISE,Number=0,Type=Flag,Description=\"Precise structural variation\">\n\#\#INFO=<ID=SVLEN,Number=1,Type=Float,Description=\"Length of the SV\">\n\#\#INFO=<ID=SVMETHOD,Number=1,Type=String,Description=\"Vector of samples supporting the SV.\">\n\#\#INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of the SV.\">\n\#\#INFO=<ID=STRANDS,Number=1,Type=String,Description=\"Indicating the direction of the reads with respect to the type and breakpoint.\">\#\#FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n\#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tSample\n" ;
+//    ouf << "\#\#fileformat=VCFv4.2\n\#\#source=WGS\n\#\#ALT=<ID=DEL,Description=\"Deletion\">\n\#\#ALT=<ID=DUP,Description=\"Duplication\">\n\#\#ALT=<ID=INV,Description=\"Inversion\">\n\#\#ALT=<ID=BND,Description=\"Translocation\">\n\#\#ALT=<ID=INS,Description=\"Insertion\">\n\#\#INFO=<ID=CHR2,Number=1,Type=String,Description=\"Chromosome for END coordinate in case of a translocation\">\n\#\#INFO=<ID=END,Number=1,Type=Integer,Description=\"End position of the structural variant\">\n\#\#INFO=<ID=IMPRECISE,Number=0,Type=Flag,Description=\"Imprecise structural variation\">\n\#\#INFO=<ID=PRECISE,Number=0,Type=Flag,Description=\"Precise structural variation\">\n\#\#INFO=<ID=SVLEN,Number=1,Type=Float,Description=\"Length of the SV\">\n\#\#INFO=<ID=SVMETHOD,Number=1,Type=String,Description=\"Vector of samples supporting the SV.\">\n\#\#INFO=<ID=SVTYPE,Number=1,Type=String,Description=\"Type of the SV.\">\n\#\#INFO=<ID=STRANDS,Number=1,Type=String,Description=\"Indicating the direction of the reads with respect to the type and breakpoint.\">\#\#FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n\#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tSample\n" ;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -750,13 +750,15 @@ int bed2vcf(parameter *para){
         string info="IMPRECISE;SVTYPE=";
         
         split(line,ll,"\t");
-        
+        cout << line << endl;
         string kr = ll[0];
         string kq = tmp[0];
+        cout << qinf << endl;
         int ks = string2Int(ll[1])-1;
         int ke = string2Int(ll[2]);
         int rs = string2Int(tmp[1])-1;
         int re = string2Int(tmp[2]);
+        cout << "test1.." << endl;
         string seqr = ref[kr].substr(ks,ke-ks);
         string seqq = query[kq].substr(rs,re-rs);
         if(tmp[2] == "-") {
