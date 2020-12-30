@@ -198,6 +198,8 @@ int main(int argc, char * argv[]) {
                 SVfilter_long(para);
             }else if ((para->type) == "bed2vcf"){
                 bed2vcf(para);
+            }else if ((para->type) == "mergeSVs"){
+                mergeSVs(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
