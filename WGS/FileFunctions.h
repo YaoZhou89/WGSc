@@ -614,11 +614,11 @@ int SVfilter_reads(parameter *para){
         }
         cout << type << endl;
         split(gt,ll,":");
-        int dp;
+        int dp = 10;
         if (ll[1] == "."){
             dp = 10;
         }else{
-            string2Int(ll[1]);
+            dp = string2Int(ll[1]);
         }
         if (dp < 4) continue;
         if (cs.count(type) == 1){
