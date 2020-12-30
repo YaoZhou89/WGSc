@@ -666,6 +666,32 @@ int SVfilter_reads(parameter *para){
     ouf.close();
     return 0;
 }
+int svmu(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] = 'R') continue;
+        split(line,ll,"\t");
+        if(string2Int(ll[1]) > string2Int(ll[2])) {
+            int tmp = ll[2];
+            ll[2] = ll[1];
+            ll[1] = tmp;
+        }
+        ouf << ll[0];
+        fo(int i = 1; i< ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int calTotalDP(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
