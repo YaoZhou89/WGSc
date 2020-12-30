@@ -600,7 +600,12 @@ int SVfilter_reads(parameter *para){
         string l = ll[1];
         ll.clear();
         split(l,ll,";");
-        int len = string2Int(ll[0]);
+        int len;
+        if (ll[0] == "."){
+            len = 100;
+        }else{
+            len = string2Int(ll[0]);
+        }
         ll.clear();
         split(info,ll,"SVTYPE=");
         string typei = ll[1];
