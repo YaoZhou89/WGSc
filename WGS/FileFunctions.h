@@ -713,7 +713,7 @@ int SVfilter_long(parameter *para){
                     len = abs(string2Int(tmp[1]));
                 }
                 if (len>50){
-                    ouf << line << "\n";
+//                    ouf << line << "\n";
                 }
             }
             continue;
@@ -730,20 +730,7 @@ int SVfilter_long(parameter *para){
                 type = tmp[1];
             }
         }
-        split(format,ll,":");
-        int dpp =1;
-        for (int i =0; i < ll.size(); i++){
-            if (ll[i] == "DP") dpp = i;
-        }
-        split(gt,ll,":");
         
-        int dp = 10;
-        if (ll[1] == "."){
-            dp = 10;
-        }else{
-            dp = string2Int(ll[dpp]);
-        }
-        if (dp < 4) continue;
         
         if (type == "INS"){
             if ( len > 20000 && len < 100000){
