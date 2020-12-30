@@ -582,6 +582,7 @@ int SVfilter_reads(parameter *para){
     cs.insert("INS");
     cs.insert("CNV");
     cs.insert("DEL");
+    int maxLength = (para->maxLength);
     int sum = 0, passed = 0;
     while (!inf.eof()){
         getline(inf,line);
@@ -590,7 +591,6 @@ int SVfilter_reads(parameter *para){
             ouf << line << "\n";
             continue;
         }
-        cout << line << endl;
         sum++;
         split(line,ll,"\t");
         if (ll[6] != "PASS") continue;
@@ -607,20 +607,19 @@ int SVfilter_reads(parameter *para){
         int len;
         regex_match(info, svlen, svlenP);
         if (regex_match(info, svlen, svlenP)){
-            len = string2Int(svlen[1]);
+            len = string2Int(svlen[2]);
         }else{
             len = 100;
         }
         smatch svtype;
-        regex svtypeP("(.*)SVTYPE=(.*);(.*)");
+        regex svtypeP("(.*)SVTYPE=([A-Z]*)(.*)");
         string type = "";
         if (regex_match(info, svtype, svtypeP)){
-            type = svtype[1];
+            type = svtype[2];
         }
         cout << type<< endl;
         split(gt,ll,":");
         int dp;
-        cout << ll[1] << endl;
         if (ll[1] == "."){
             dp = 10;
         }else{
@@ -633,7 +632,7 @@ int SVfilter_reads(parameter *para){
                 passed ++;
             }
         }else{
-            if ( len > 50 && len < 10000000){
+            if ( len > 50 && len < maxLength){
                 ouf << line << "\n";
                 passed ++;
             }
