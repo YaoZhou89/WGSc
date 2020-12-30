@@ -194,6 +194,8 @@ int main(int argc, char * argv[]) {
                 splitByChrVCF(para);
             }else if ((para->type) == "SVfilter_reads"){
                 SVfilter_reads(para);
+            }else if ((para->type) == "bed2vcf"){
+                bed2vcf(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
