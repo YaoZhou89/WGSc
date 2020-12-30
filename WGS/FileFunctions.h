@@ -605,7 +605,7 @@ int SVfilter_reads(parameter *para){
             if (ll[i].substr(0,5)=="SVLEN"){
                 string svlen = ll[i];
                 split(svlen,tmp,"=");
-                len = string2Int(tmp[1]);
+                len = abs(string2Int(tmp[1]));
             }else if (ll[i].substr(0,6)=="SVTYPE"){
                 string svlen = ll[i];
                 split(svlen,tmp,"=");
