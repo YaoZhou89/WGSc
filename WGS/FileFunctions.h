@@ -780,7 +780,7 @@ int bed2vcf(parameter *para){
         int len = string2Int(ll[4]);
         if (len < 51 || len > 100000) continue;
         ouf << ll[0] << "\t";
-        ouf << string2Int(ll[1]) + 1 << "\t";
+        ouf << string2Int(ll[1]) << "\t";
         ouf << ll[3] << "\t";
         ouf << seqr << "\t";
         ouf << seqq << "\t";
