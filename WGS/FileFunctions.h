@@ -602,6 +602,7 @@ int SVfilter_reads(parameter *para){
 //        ll.clear();
 //        cout << l << endl;
 //        split(l,ll,";");
+        cout << line << endl;
         smatch svlen;
         regex svlenP("(.*)SVLEN=(\\d*)(.*)");
         int len;
