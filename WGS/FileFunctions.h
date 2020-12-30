@@ -606,6 +606,7 @@ int SVfilter_reads(parameter *para){
         if (format == "CN"){
             if (ll[ll.size()-1] == "SHADOWED") continue;
             for (int i = 0; i < ll.size(); i++){
+                vector<string> tmp;
                 if (ll[i].substr(0,5)=="SVLEN"){
                     string svlen = ll[i];
                     split(svlen,tmp,"=");
