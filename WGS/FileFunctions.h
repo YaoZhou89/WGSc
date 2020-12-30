@@ -596,29 +596,46 @@ int SVfilter_reads(parameter *para){
         if (ll[6] != "PASS") continue;
         string info = ll[7];
         string gt = ll[9];
-//        ll.clear();
-//        split(info,ll,"'SVLEN='");
-//        string l = ll[1];
-//        ll.clear();
-//        cout << l << endl;
-//        split(l,ll,";");
-        cout << line << endl;
-        smatch svlen;
-        regex svlenP("(.*)SVLEN=(\\d*)(.*)");
-        int len;
-        regex_match(info, svlen, svlenP);
-        if (regex_match(info, svlen, svlenP)){
-            len = string2Int(svlen[2]);
-        }else{
-            len = 100;
+        ll.clear();
+        split(info,ll,";");
+        string type;
+        int len = 100;
+        for (int i = 0; i < ll.size(); i++){
+            vector<string> tmp;
+            if (ll[i].substr(0,5)=="SVLEN"){
+                string svlen = ll[i];
+                split(svlen,tmp,"=");
+                len = string2Int(tmp[1]);
+            }else if (ll[i].substr(0,6)=="SVTYPE"){
+                string svlen = ll[i];
+                split(svlen,tmp,"=");
+                type = tmp[1];
+            }
         }
-        smatch svtype;
-        regex svtypeP("(.*)SVTYPE=([A-Z]*)(.*)");
-        string type = "";
-        if (regex_match(info, svtype, svtypeP)){
-            type = svtype[2];
-        }
-        cout << type<< endl;
+////        ll.clear();
+////        split(info,ll,"'SVLEN='");
+////        string l = ll[1];
+////        ll.clear();
+////        cout << l << endl;
+////        split(l,ll,";");
+//        cout << line << endl;
+//        smatch svlen;
+//        regex svlenP("(.*)SVLEN=(\\d*)(.*)");
+//        int len;
+//        regex_match(info, svlen, svlenP);
+//        cout << svlen[2] << endl;
+//        if (regex_match(info, svlen, svlenP)){
+//            len = string2Int(svlen[2]);
+//        }else{
+//            len = 100;
+//        }
+//        smatch svtype;
+//        regex svtypeP("(.*)SVTYPE=([A-Z]*)(.*)");
+//        string type = "";
+//        if (regex_match(info, svtype, svtypeP)){
+//            type = svtype[2];
+//        }
+//        cout << type<< endl;
         split(gt,ll,":");
         int dp;
         if (ll[1] == "."){
