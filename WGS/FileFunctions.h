@@ -749,15 +749,15 @@ int bed2vcf(parameter *para){
         vector<string> tmp;
         split(qinf,tmp,":-");
         string info="IMPRECISE;SVTYPE=";
-        cout << line << endl;
+//        cout << line << endl;
         string kr = ll[0];
         string kq = tmp[0];
-        cout << qinf << endl;
+//        cout << qinf << endl;
         int ks = string2Int(ll[1])-1;
         int ke = string2Int(ll[2]);
         int rs = string2Int(tmp[1])-1;
         int re = string2Int(tmp[2]);
-        cout << "test1.." << endl;
+//        cout << "test1.." << endl;
         string seqr = ref[kr].substr(ks,ke-ks);
         string seqq = query[kq].substr(rs,re-rs);
         if(tmp[2] == "-") {
@@ -778,9 +778,9 @@ int bed2vcf(parameter *para){
             continue;
         }
         int len = string2Int(ll[4]);
-        if (len < 50 || len > 100000) continue;
+        if (len < 51 || len > 100000) continue;
         ouf << ll[0] << "\t";
-        ouf << ll[2] << "\t";
+        ouf << string2Int(ll[1]) + 1 << "\t";
         ouf << ll[3] << "\t";
         ouf << seqr << "\t";
         ouf << seqq << "\t";
