@@ -757,7 +757,6 @@ int mergeSVs(parameter *para){
     bases.insert('T');
     bases.insert('G');
     bases.insert('C');
-    bases.insert('N');
    
     while (!inf.eof()){
         getline(inf,line);
