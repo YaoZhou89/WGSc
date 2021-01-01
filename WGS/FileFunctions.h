@@ -757,7 +757,7 @@ int mergeSVs(parameter *para){
     bases.insert('T');
     bases.insert('G');
     bases.insert('C');
-    bases.insert('N');
+//    bases.insert('N');
    
     while (!inf.eof()){
         getline(inf,line);
@@ -820,6 +820,7 @@ int cleanSVs(parameter *para){
         split(line,ll,"\t");
 //        string seq = ll[3];
 //        seq.append(ll[4]);
+        if (line[0] == '#') continue;
         if (ll[3] == ll[4]){
             cout << line << endl;
         }
