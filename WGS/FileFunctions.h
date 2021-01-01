@@ -801,6 +801,31 @@ int mergeSVs(parameter *para){
     ouf.close();
     return 0;
 }
+int cleanSVs(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<char> bases;
+    bases.insert('A');
+    bases.insert('T');
+    bases.insert('G');
+    bases.insert('C');
+    bases.insert('N');
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        split(line,ll,"\t");
+        string seq = ll[3];
+        seq.append(ll[4]);
+        if (ll[3] == ll[4]){
+            cout << line << endl;
+        
+    }
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
