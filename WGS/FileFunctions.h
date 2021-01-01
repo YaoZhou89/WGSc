@@ -822,7 +822,7 @@ int cleanSVs(parameter *para){
         seq.append(ll[4]);
         if (ll[3] == ll[4]){
             cout << line << endl;
-        
+        }
     }
     return 0;
 }
