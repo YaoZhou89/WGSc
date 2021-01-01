@@ -818,8 +818,8 @@ int cleanSVs(parameter *para){
         getline(inf,line);
         if (line.length() < 1) continue;
         split(line,ll,"\t");
-        string seq = ll[3];
-        seq.append(ll[4]);
+//        string seq = ll[3];
+//        seq.append(ll[4]);
         if (ll[3] == ll[4]){
             cout << line << endl;
         }
