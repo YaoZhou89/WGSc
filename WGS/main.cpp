@@ -200,6 +200,8 @@ int main(int argc, char * argv[]) {
                 bed2vcf(para);
             }else if ((para->type) == "mergeSVs"){
                 mergeSVs(para);
+            }else if ((para->type) == "cleanSVs"){
+                cleanSVs(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
