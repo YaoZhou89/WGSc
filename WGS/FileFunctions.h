@@ -801,6 +801,22 @@ int mergeSVs(parameter *para){
     ouf.close();
     return 0;
 }
+int subtractSVs(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> genome;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        
+    }
+    return 0;
+}
 int cleanSVs(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
