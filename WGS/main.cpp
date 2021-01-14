@@ -206,6 +206,8 @@ int main(int argc, char * argv[]) {
                 remove_Dup(para);
             }else if ((para->type) == "dupPos"){
                 dupPos(para);
+            }else if ((para->type) == "dupPosSNPs"){
+                dupPosSNPs(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
