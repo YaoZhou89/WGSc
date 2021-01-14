@@ -836,11 +836,15 @@ int cleanSVs(parameter *para){
         split(line,ll,"\t");
 //        string seq = ll[3];
 //        seq.append(ll[4]);
-        if (line[0] == '#') continue;
-        if (ll[3] == ll[4]){
-            cout << line << endl;
-        }
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        };
+        if(ll[3].size() < 51 && ll[4].size() < 51) continue;
+        ouf << line << "\n";
     }
+    ouf.close();
+    
     return 0;
 }
 int remove_Dup(parameter *para){
