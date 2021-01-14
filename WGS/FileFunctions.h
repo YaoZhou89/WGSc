@@ -843,6 +843,44 @@ int cleanSVs(parameter *para){
     }
     return 0;
 }
+int remove_Dup(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> rID;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        if (line[0] == 'c') continue;
+        split(line,ll,"\t");
+        line = ll[4];
+        ll.clear();
+        split(line,ll,",");
+        for (int i = 1; i < ll.size();i++){
+            rID.insert(ll[i]);
+        }
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if (rID.countll[2]) == 1) continue;
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

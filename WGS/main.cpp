@@ -202,6 +202,8 @@ int main(int argc, char * argv[]) {
                 mergeSVs(para);
             }else if ((para->type) == "cleanSVs"){
                 cleanSVs(para);
+            }else if ((para->type) == "remove_Dup"){
+                remove_Dup(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
