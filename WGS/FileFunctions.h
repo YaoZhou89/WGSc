@@ -874,7 +874,7 @@ int remove_Dup(parameter *para){
         }
         ll.clear();
         split(line,ll,"\t");
-        if (rID.countll[2]) == 1) continue;
+        if (rID.count(ll[2]) == 1) continue;
         ouf << line << "\n";
     }
     ouf.close();
