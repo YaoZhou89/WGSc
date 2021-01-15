@@ -963,7 +963,7 @@ int checkSAM(parameter *para){
             ouf << line << "\n";
         }
         if (ll[9].length() != ll[10].length()){
-            string q(ll[9].length,'G');
+            string q(ll[9].length(),'G');
             ll[10] = q;
             ouf << ll[0];
             for (int i = 1; i < ll.size();i++ ){
