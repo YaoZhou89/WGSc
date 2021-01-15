@@ -945,6 +945,39 @@ int dupPosSNPs(parameter *para){
     return 0;
 }
 
+int checkSAM(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> rID;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        
+        ll.clear();
+        split(line,ll,"\t");
+        if (ll.size() < 10) {
+            ouf << line << "\n";
+        }
+        if (ll[9].length() != ll[10].length()){
+            string q(ll[9].length,'G');
+            ll[10] = q;
+            ouf << ll[0];
+            for (int i = 1; i < ll.size();i++ ){
+                ouf << "\t" << ll[i] ;
+            }
+            ouf << "\n";
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
+
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

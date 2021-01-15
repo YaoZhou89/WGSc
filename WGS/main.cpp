@@ -395,6 +395,8 @@ int main(int argc, char * argv[]) {
                 getIBSdistance_bed(para);
             }else if ((para ->type) == "svmu"){
                 svmu(para);
+            }else if ((para ->type) == "checkSAM"){
+                checkSAM(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
