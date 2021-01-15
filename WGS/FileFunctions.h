@@ -961,6 +961,7 @@ int checkSAM(parameter *para){
         if (ll.size() < 11) {
             ouf << line << "\n";
         }
+        cout << line << endl;
         if (ll[9].length() != ll[10].length()){
             string q(ll[9].length(),'G');
             ll[10] = q;
