@@ -1001,6 +1001,7 @@ int comVCFs(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
+    string chr = (para->chr);
     map<string,string> pos;
     int RN = 0;
     string ID = (para->chr);
@@ -1027,7 +1028,7 @@ int comVCFs(parameter *para){
         split(line,ll,"\t");
         if (ll[6] != "PASS") continue;
         string key = ll[1];
-        if(ll[0] != "2") continue;
+        if(ll[0] != chr) continue;
         if (pos.count(key) == 1){
             NT++;
             string value = ll[9];
