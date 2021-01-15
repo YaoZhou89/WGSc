@@ -982,7 +982,7 @@ int comVCFs(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2);
     igzstream inf (input.c_str(),ifstream::in);
-    igzstream inf2 (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
     string outFile =(para -> outFile);
     ofstream  ouf((outFile).c_str());
     string line;
