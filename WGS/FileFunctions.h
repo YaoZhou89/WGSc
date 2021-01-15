@@ -961,12 +961,23 @@ int checkSAM(parameter *para){
             ouf << line << "\n";
             continue;
         }
+        string parser = line.substr(0,3);
 //        cout << line << endl;
         if (ll[9].length() != ll[10].length()){
+        
             string q(ll[9].length(),'G');
+            vector<string> l1 ;
+            split(ll[10],l1,parser);
+            string h = parser + l1[1];
             ll[10] = q;
             ouf << ll[0];
-            for (int i = 1; i < ll.size();i++ ){
+            
+            for (int i = 1; i < 11;i++ ){
+                ouf << "\t" << ll[i] ;
+            }
+            ouf << "\n";
+            ouf << h;
+            for (int i = 11; i < ll.size();i++){
                 ouf << "\t" << ll[i] ;
             }
             ouf << "\n";
