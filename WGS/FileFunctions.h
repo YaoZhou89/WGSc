@@ -952,6 +952,7 @@ int checkSAM(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
+    int f = 0;
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -981,12 +982,14 @@ int checkSAM(parameter *para){
                 ouf << "\t" << ll[i] ;
             }
             ouf << "\n";
+            f++;
             continue;
         }
         ouf << line << "\n";
         
     }
     ouf.close();
+    cout << f << " failed reads!" << endl;
     return 0;
 }
 int comVCFs(parameter *para){
