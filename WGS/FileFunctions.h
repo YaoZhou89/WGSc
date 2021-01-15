@@ -952,7 +952,6 @@ int checkSAM(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
-    set<string> rID;
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -960,8 +959,9 @@ int checkSAM(parameter *para){
         split(line,ll,"\t");
         if (ll.size() < 11) {
             ouf << line << "\n";
+            continue;
         }
-        cout << line << endl;
+//        cout << line << endl;
         if (ll[9].length() != ll[10].length()){
             string q(ll[9].length(),'G');
             ll[10] = q;
