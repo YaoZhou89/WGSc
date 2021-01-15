@@ -956,10 +956,9 @@ int checkSAM(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
-        
         ll.clear();
         split(line,ll,"\t");
-        if (ll.size() < 10) {
+        if (ll.size() < 11) {
             ouf << line << "\n";
         }
         if (ll[9].length() != ll[10].length()){
@@ -970,9 +969,10 @@ int checkSAM(parameter *para){
                 ouf << "\t" << ll[i] ;
             }
             ouf << "\n";
-        }else{
-            ouf << line << "\n";
+            continue;
         }
+        ouf << line << "\n";
+        
     }
     ouf.close();
     return 0;
