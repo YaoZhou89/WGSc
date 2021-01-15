@@ -1010,6 +1010,7 @@ int comVCFs(parameter *para){
         if (line[0] == '#') continue;
         split(line,ll,"\t");
         string key = ll[1];
+        if (ll[6] != "PASS") continue;
         if (ll[3].length() != ll[4].length()) continue;
         string ge = ll[9];
         ll.clear();
@@ -1024,11 +1025,13 @@ int comVCFs(parameter *para){
         if(line.length() < 1) continue;
         if (line[0] == '#') continue;
         split(line,ll,"\t");
+        if (ll[6] != "PASS") continue;
         string key = ll[1];
         if(ll[0] != "2") continue;
         if (pos.count(key) == 1){
             NT++;
             string value = ll[9];
+            
             string v =value.substr(0,3);
             if( v == "1/0"){
                 v= "0/1";
