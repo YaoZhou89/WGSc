@@ -978,7 +978,54 @@ int checkSAM(parameter *para){
     ouf.close();
     return 0;
 }
-
+int comVCFs(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> pos;
+    int RN = 0;
+    string ID = (para->chr);
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll,"\t");
+        string key = ll[1];
+        if (ll[3].length() != ll[4].length()) continue;
+        string ge = ll[9];
+        ll.clear();
+        split(ge,ll,":");
+        pos.insert(pair<string,string>(key,ll[0]));
+        RN++;
+    }
+    int NM = 0;
+    int NT = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll,"\t");
+        string key = ll[1];
+        if(ll[0] != "2") continue;
+        if (pos.count(key) == 1){
+            NT++;
+            string value = ll[9];
+            string v =value.substr(0,3);
+            if( v == "1/0"){
+                v= "0/1";
+            }
+            if(v==pos[key]) NM++;
+        }
+    }
+    ouf << ID << "\t" << RN << "\t" << NT << "\t" << NM << "\n";
+    
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
