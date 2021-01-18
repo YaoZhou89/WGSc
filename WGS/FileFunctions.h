@@ -1009,6 +1009,7 @@ int checkSAM2(parameter *para){
     for(int i = 0; i < b.length();i++){
         a.insert(b[i]);
     }
+   
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -1019,16 +1020,21 @@ int checkSAM2(parameter *para){
             continue;
         }
         if (ll.size() != 11) {
-            cout << line << endl;
+//            cout << line << endl;
             continue;
         }
+        bool write = true;
         for (int i = 0; i < ll[0].length();i++){
             if (a.count(ll[0][i]) != 1){
+                write = false;
                 cout << line << endl;
                 break;
             }
         }
-        ouf << line << "\n";
+        if(write){
+            ouf << line << "\n";
+        }
+        
         
     }
     ouf.close();
