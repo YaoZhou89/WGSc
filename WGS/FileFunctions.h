@@ -1027,7 +1027,7 @@ int checkSAM2(parameter *para){
         for (int i = 0; i < ll[0].length();i++){
             if (a.count(ll[0][i]) != 1){
                 write = false;
-                cout << line << endl;
+//                cout << line << endl;
                 break;
             }
         }
