@@ -1009,10 +1009,15 @@ int checkSAM2(parameter *para){
             ouf << line << "\n";
             continue;
         }
+        if (ll.size() != 11) {
+            cout << line << endl;
+            continue;
+        }
         if (line.substr(0,3) !="ERR" && line.substr(0,3) !="SRR") {
             cout << line << endl;
             continue;
         }
+        
         ouf << line << "\n";
         
     }
