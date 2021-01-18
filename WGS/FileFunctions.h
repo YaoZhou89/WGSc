@@ -992,6 +992,34 @@ int checkSAM(parameter *para){
     cout << f << " failed reads!" << endl;
     return 0;
 }
+int checkSAM2(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int f = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if (ll.size() < 11) {
+            ouf << line << "\n";
+            continue;
+        }
+        if (line.substr(0,3) !="ERR" && line.substr(0,3) !="SRR") {
+            cout << line << endl;
+            continue;
+        }
+        ouf << line << "\n";
+        
+    }
+    ouf.close();
+    cout << f << " failed reads!" << endl;
+    return 0;
+}
 int comVCFs(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2);

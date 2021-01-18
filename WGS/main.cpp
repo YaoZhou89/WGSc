@@ -399,6 +399,8 @@ int main(int argc, char * argv[]) {
                 svmu(para);
             }else if ((para ->type) == "checkSAM"){
                 checkSAM(para);
+            }else if ((para ->type) == "checkSAM2"){
+                checkSAM2(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
