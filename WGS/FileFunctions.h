@@ -1022,11 +1022,6 @@ int checkSAM2(parameter *para){
             cout << line << endl;
             continue;
         }
-        
-        if (line.substr(0,3) !="ERR" && line.substr(0,3) !="SRR") {
-            cout << line << endl;
-            continue;
-        }
         for (int i = 0; i < ll[0].length();i++){
             if (a.count(ll[0][i]) != 1){
                 cout << line << endl;
