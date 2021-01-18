@@ -1000,6 +1000,15 @@ int checkSAM2(parameter *para){
     string line;
     vector < string >  ll;
     int f = 0;
+    set<char> a;
+    a.insert('E');
+    a.insert('R');
+    a.insert('S');
+    a.insert('.');
+    string b = "0123456789";
+    for(int i = 0; i < b.length();i++){
+        a.insert(b[i]);
+    }
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1) continue;
@@ -1013,11 +1022,17 @@ int checkSAM2(parameter *para){
             cout << line << endl;
             continue;
         }
+        
         if (line.substr(0,3) !="ERR" && line.substr(0,3) !="SRR") {
             cout << line << endl;
             continue;
         }
-        
+        for (int i = 0; i < ll[0].length();i++){
+            if (a.count(ll[0][i]) != 1){
+                cout << line << endl;
+                break;
+            }
+        }
         ouf << line << "\n";
         
     }
