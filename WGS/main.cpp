@@ -212,6 +212,8 @@ int main(int argc, char * argv[]) {
                 dupPosSNPs(para);
             }else if ((para->type) == "comVCFs"){
                 comVCFs(para);
+            }else if ((para->type) == "vgVCFmodify"){
+                vgVCFmodify(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

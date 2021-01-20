@@ -1093,6 +1093,41 @@ int comVCFs(parameter *para){
     
     return 0;
 }
+int vgVCFmodify(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> chrs;
+    set<string> contigs;
+    for (int i = 0; i < 13 ; i++){
+        chrs.insert(Int2String(i));
+        contigs.insert("contig=<ID="+Int2String(i)+",");
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            if (contigs.count(line.substr(2,13)) == 1 ||contigs.count(line.substr(2,14)) == 1) continue;
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        if (chrs.count(ll[0]) == 1) continue;
+        if (ll[9][0] == ':'){
+            ll[9] = "./." + ll[9];
+        }
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
