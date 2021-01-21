@@ -15046,7 +15046,7 @@ int changeBIM(parameter *para){
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        split(line,ll,"N");
+        split(line,ll,"\t");
         string alt = ll[4];
         if (ll[4].length() > ll[5].length()){
             alt = ll[4];
