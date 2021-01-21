@@ -15036,6 +15036,31 @@ int changeID(parameter *para){
     ouf.close();
     return 0;
 }
+int changeBIM(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);// fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"N");
+        string alt = ll[4];
+        if (ll[4].length() > ll[5].length()){
+            alt = ll[4];
+        }
+        ll[1] = ll[0] + "_" + ll[3] + "_" + ll[4].substr(0,1) + "_" +ll[5].substr(0,1) ;
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int reformatID(parameter *para){
     string infile = (para -> inFile); //fasta file
     string infile2 = (para -> inFile2); //ID file

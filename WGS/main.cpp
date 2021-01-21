@@ -251,6 +251,8 @@ int main(int argc, char * argv[]) {
                 chr2num(para);
             }else if ((para->type) == "toEigenStrat"){
                 changeEigenStratPos(para);
+            }else if ((para->type) == "changeBIM"){
+                changeBIM(para);
             }
         }else if((para->model) == "wc"){
             count(para);
