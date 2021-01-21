@@ -15053,6 +15053,8 @@ int changeBIM(parameter *para){
         }
         ll[1] = ll[0] + "_" + ll[3] + "_" + ll[4].substr(0,1) + "_" +ll[5].substr(0,1) ;
         ouf << ll[0];
+        ll[4] = "A";
+        ll[5] = "T";
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
         }
