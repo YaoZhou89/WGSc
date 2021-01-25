@@ -180,6 +180,8 @@ int main(int argc, char * argv[]) {
                 substract(para);
             }else if ((para->type) == "subtract"){
                 subtract(para);
+            }else if ((para->type) == "subtract-rm"){
+                subtractrm(para);
             }else if ((para->type) == "vcf2Major"){
                 vcf2Major(para);
             }else if ((para->type) == "vcfAddID"){

@@ -3362,6 +3362,46 @@ int subtract(parameter *para){
     return 0;
     
 }
+int subtractrm(parameter *para){
+    string input1 = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    vector<string> ll;
+    set<string> pos;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        pos.insert(line);
+    }
+    while(!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if(pos.count(ll[2]) == 0) {
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+    
+}
 
 int subtractFQ(parameter *para){
     string input1 = (para->inFile);
@@ -15059,6 +15099,25 @@ int changeBIM(parameter *para){
             ouf << "\t" << ll[i];
         }
         ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int rmINS(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);// fasta file
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
     }
     ouf.close();
     return 0;
