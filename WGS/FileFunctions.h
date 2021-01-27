@@ -1153,6 +1153,27 @@ int nameSNPs(parameter *para){
     ouf.close();
     return 0;
 }
+int qualityFilter(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        if (string2Int(ll[5]) < 20 ) continue;
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

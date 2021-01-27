@@ -218,6 +218,8 @@ int main(int argc, char * argv[]) {
                 vgVCFmodify(para);
             }else if ((para->type) == "nameSNPs"){
                 nameSNPs(para);
+            }else if ((para->type) == "qualityFilter"){
+                qualityFilter(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
