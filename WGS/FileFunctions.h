@@ -1189,7 +1189,10 @@ int normSVs_ldak(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
     string outFile =(para -> outFile);
+    string outFile2 =(para -> outFile) + ".cor";
+    
     ofstream  ouf((outFile).c_str());
+    ofstream  ouf2((outFile2).c_str());
     string line;
     vector < string >  ll;
     map<string,string> c;
@@ -1212,12 +1215,14 @@ int normSVs_ldak(parameter *para){
         ll[4] = c[ll[3]];
        
         string ids =  ll[0] + "_" + ll[1];
+        ouf2 << ids << "\t";
         while(pos.count(ids) ==1){
             int p = string2Int(ll[1]);
             p++;
             ids = ll[0] + "_" + Int2String(p);
             ll[1] = Int2String(p);
         }
+        ouf2 << ids << "\n";
         pos.insert(ids);
         
         ouf << ll[0];
@@ -1227,6 +1232,7 @@ int normSVs_ldak(parameter *para){
         ouf << "\n";
     }
     ouf.close();
+    ouf2.close();
     return 0;
 }
 int qualityFilter(parameter *para){
