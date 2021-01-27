@@ -221,7 +221,7 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "qualityFilter"){
                 qualityFilter(para);
             }else if ((para->type) == "normVariant"){
-                normVariant(para);
+                normSVs_ldak(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
