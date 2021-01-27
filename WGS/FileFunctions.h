@@ -1128,6 +1128,31 @@ int vgVCFmodify(parameter *para){
     ouf.close();
     return 0;
 }
+int nameSNPs(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        ll[2] = ll[0] + "_" + ll[1] + "_" + ll[4].substr(0,1) + "_" + ll[5].substr(0,1);
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

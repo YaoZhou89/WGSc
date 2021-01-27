@@ -216,6 +216,8 @@ int main(int argc, char * argv[]) {
                 comVCFs(para);
             }else if ((para->type) == "vgVCFmodify"){
                 vgVCFmodify(para);
+            }else if ((para->type) == "nameSNPs"){
+                nameSNPs(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
