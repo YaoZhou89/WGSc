@@ -1153,6 +1153,37 @@ int nameSNPs(parameter *para){
     ouf.close();
     return 0;
 }
+int normVariant(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> c;
+    c.insert(pair<string,string>("A","T"));
+    c.insert(pair<string,string>("T","A"));
+    c.insert(pair<string,string>("G","C"));
+    c.insert(pair<string,string>("C","G"));
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        ll[3] = ll[3].substr(0,1) ;
+        ll[4] = c[ll[3]];
+        ouf << ll[0];
+        for (int i = 1; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int qualityFilter(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

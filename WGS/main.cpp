@@ -220,6 +220,8 @@ int main(int argc, char * argv[]) {
                 nameSNPs(para);
             }else if ((para->type) == "qualityFilter"){
                 qualityFilter(para);
+            }else if ((para->type) == "normVariant"){
+                normVariant(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
