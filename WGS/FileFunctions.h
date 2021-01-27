@@ -1210,10 +1210,6 @@ int normSVs_ldak(parameter *para){
             continue;
         }
         split(line,ll,"\t");
-        
-        ll[3] = ll[3].substr(0,1) ;
-        ll[4] = c[ll[3]];
-       
         string ids =  ll[0] + "_" + ll[1];
         ouf2 << ids << "\t";
         while(pos.count(ids) ==1){
@@ -1224,7 +1220,8 @@ int normSVs_ldak(parameter *para){
         }
         ouf2 << ids << "\n";
         pos.insert(ids);
-        
+        ll[3] = ll[3].substr(0,1) ;
+        ll[4] = c[ll[3]];
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
