@@ -1165,6 +1165,7 @@ int normVariant(parameter *para){
     c.insert(pair<string,string>("T","A"));
     c.insert(pair<string,string>("G","C"));
     c.insert(pair<string,string>("C","G"));
+    c.insert(pair<string,string>("N","G"));
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
