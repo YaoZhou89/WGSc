@@ -1143,7 +1143,7 @@ int nameSNPs(parameter *para){
             continue;
         }
         split(line,ll,"\t");
-        ll[2] = ll[0] + "_" + ll[1] + "_" + ll[4].substr(0,1) + "_" + ll[5].substr(0,1);
+        ll[2] = ll[0] + "_" + ll[1] + "_" + ll[3].substr(0,1) + "_" + ll[4].substr(0,1);
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
