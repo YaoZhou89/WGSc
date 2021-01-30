@@ -1252,9 +1252,12 @@ int vg2paragraph(parameter *para){
         split(line,ll,"\t");
         int BEG = string2Int(ll[1]);
         if (BEG < 200) continue;
+       
         if(ll[3].length() > ll[4].length() && ll[4].length() == 1){
             int END = BEG + ll[3].length() -1;
             ll[7] = ll[7] + ";END=" + Int2String(END);
+            ll[4]= ll[3].substr(0,1)
+            
         }else if(ll[3].length() < ll[4].length() && ll[3].length() ==1 ){
             ll[7] = ll[7] + ";SEQ=" + ll[4];
         }else{
