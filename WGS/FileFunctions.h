@@ -1263,6 +1263,7 @@ int vg2paragraph(parameter *para){
         }else{
             int END = BEG + ll[3].length() -1;
             ll[7] = "SVTYPE=INV;AC=-1;SVLEN="+ Int2String(ll[3].length()) + ";END=" + Int2String(END);
+            ll[4] = "<INV>";
         }
         if(ll[4].substr(0,1) != ll[3].substr(0,1)) {
             cout << line << endl;
