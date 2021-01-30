@@ -1258,7 +1258,7 @@ int vg2paragraph(parameter *para){
             ll[7] = ll[7] + ";SEQ=" + ll[4];
         }else{
             int END = BEG + ll[3].length() -1;
-            ll[7] = "SVTYPE=INV;AC=-1;SVLEN="+ Int2String(ll[3].length()) + ";END" + Int2String(END);
+            ll[7] = "SVTYPE=INV;AC=-1;SVLEN="+ Int2String(ll[3].length()) + ";END=" + Int2String(END);
         }
         ouf << ll[0] ;
         for (int i = 1; i < ll.size(); i++){
