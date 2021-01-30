@@ -1266,7 +1266,7 @@ int vg2paragraph(parameter *para){
             ll[4] = "<INV>";
         }
         if(ll[4].substr(0,1) != ll[3].substr(0,1)) {
-            cout << line << endl;
+//            cout << line << endl;
         }
         ouf << ll[0] ;
         for (int i = 1; i < ll.size(); i++){
