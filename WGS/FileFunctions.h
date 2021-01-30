@@ -1264,6 +1264,9 @@ int vg2paragraph(parameter *para){
             int END = BEG + ll[3].length() -1;
             ll[7] = "SVTYPE=INV;AC=-1;SVLEN="+ Int2String(ll[3].length()) + ";END=" + Int2String(END);
         }
+        if(ll[4].substr(0,1) != ll[3].substr(0,1)) {
+            cout << line << endl;
+        }
         ouf << ll[0] ;
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
