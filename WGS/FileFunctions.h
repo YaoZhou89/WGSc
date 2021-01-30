@@ -1232,6 +1232,41 @@ int normSVs_ldak(parameter *para){
     ouf2.close();
     return 0;
 }
+int vg2paragraph(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> c;
+    set<string> pos;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        if(ll[3].length() > ll[4].length() && ll[4].length() == 1){
+            int END = END + ll[3].length() -1;
+            ll[7] = ll[7] + ";END=" + Int2String(END);
+        }else if(ll[3].length() < ll[4].length() && ll[3].length() ==1 ){
+            ll[7] = ll[7] + ";SEQ=" + ll[4];
+        }else{
+            int END = END + ll[3].length() -1;
+            ll[7] = ll[7] + ";END=" + Int2String(END);
+        }
+        ouf << ll[0] ;
+        for (int i = 1; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int qualityFilter(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

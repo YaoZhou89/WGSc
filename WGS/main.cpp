@@ -222,6 +222,8 @@ int main(int argc, char * argv[]) {
                 qualityFilter(para);
             }else if ((para->type) == "normVariant"){
                 normSVs_ldak(para);
+            }else if ((para->type) == "vg2paragraph"){
+                vg2paragraph(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
