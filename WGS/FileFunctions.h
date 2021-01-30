@@ -1241,6 +1241,7 @@ int vg2paragraph(parameter *para){
     vector < string >  ll;
     map<string,string> c;
     set<string> pos;
+    vector<string> info;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -1249,14 +1250,15 @@ int vg2paragraph(parameter *para){
             continue;
         }
         split(line,ll,"\t");
+        int BEG = string2Int(ll[1]);
         if(ll[3].length() > ll[4].length() && ll[4].length() == 1){
-            int END = END + ll[3].length() -1;
+            int END = BEG + ll[3].length() -1;
             ll[7] = ll[7] + ";END=" + Int2String(END);
         }else if(ll[3].length() < ll[4].length() && ll[3].length() ==1 ){
             ll[7] = ll[7] + ";SEQ=" + ll[4];
         }else{
-            int END = END + ll[3].length() -1;
-            ll[7] = ll[7] + ";END=" + Int2String(END);
+            int END = BEG + ll[3].length() -1;
+            ll[7] = "SVTYPE=INV;AC=-1;SVLEN="+ Int2String(ll[3]) + ";END" + Int2String(END);
         }
         ouf << ll[0] ;
         for (int i = 1; i < ll.size(); i++){
