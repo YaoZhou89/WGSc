@@ -1307,6 +1307,7 @@ int BIMtype(parameter *para){
         split(line,ll,"\t");
         pos.insert(pair<string,string>(ll[1], ll[4]));
     }
+    cout << "pos2 readed!" <<endl;
     
     while (!inf.eof()){
         getline(inf,line);
