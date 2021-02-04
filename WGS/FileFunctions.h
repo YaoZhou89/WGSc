@@ -1277,7 +1277,7 @@ int vg2paragraph(parameter *para){
     ouf.close();
     return 0;
 }
-int siteOverlap(parameter *para){
+int BIMtype(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2);
     string input3 = (para->inFile3);
