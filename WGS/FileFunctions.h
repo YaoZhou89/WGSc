@@ -1316,7 +1316,7 @@ int BIMtype(parameter *para){
         if (pos.count(ll[0] + "_" + ll[3]) == 0) {
             cout << line << endl;
         }else{
-            ouf << key << "\t" << type[pos[key]] << "\n";
+            ouf << ll[1] << "\t" << type[pos[key]] << "\n";
         }
     }
     ouf.close();
