@@ -264,7 +264,7 @@ int main(int argc, char * argv[]) {
             }else if ((para->type) == "changeBIM"){
                 changeBIM(para);
             }else if ((para->type) == "BIMtype"){
-                siteOverlap(para);
+                BIMtype(para);
             }
         }else if((para->model) == "wc"){
             count(para);
