@@ -263,6 +263,8 @@ int main(int argc, char * argv[]) {
                 changeEigenStratPos(para);
             }else if ((para->type) == "changeBIM"){
                 changeBIM(para);
+            }else if ((para->type) == "BIMtype"){
+                changeBIM(para);
             }
         }else if((para->model) == "wc"){
             count(para);

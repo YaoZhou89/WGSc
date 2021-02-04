@@ -1277,6 +1277,49 @@ int vg2paragraph(parameter *para){
     ouf.close();
     return 0;
 }
+int siteOverlap(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    string input3 = (para->inFile3);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> type;
+    map<string,string> pos;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1 ) continue;
+        if (line[0] == 's') continue;
+        if (type.count(ll[0]+"_"+ll[1]) == 1) continue;
+        type.insert(pair<string,string>(ll[0]+"_"+ll[1], line));
+        if (type.count(ll[0]+"_"+ll[2]) == 1) continue;
+        type.insert(pair<string,string>(ll[0]+"_"+ll[2], line));
+    }
+    
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if (line.length() < 1 ) continue;
+        pos.insert(pair<string,string>(ll[1], ll[0]));
+    }
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        string key = ll[0] + "_" + ll[3];
+        if (pos.count(ll[0] + "_" + ll[3]) == 0) {
+            cout << line << endl;
+        }else{
+            ouf << type[pos[key]] << "\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
 int qualityFilter(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
