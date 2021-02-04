@@ -1295,17 +1295,17 @@ int BIMtype(parameter *para){
         if (line.length() < 1 ) continue;
         if (line[0] == 's') continue;
         split(line,ll,"\t");
-        if (type.count(ll[0]+"_"+ll[1]) == 1) continue;
-        type.insert(pair<string,string>(ll[0]+"_"+ll[1], line));
-        if (type.count(ll[0]+"_"+ll[2]) == 1) continue;
-        type.insert(pair<string,string>(ll[0]+"_"+ll[2], line));
+//        if (type.count(ll[0] + "_" + ll[1]) == 1) continue;
+        type.insert(pair<string,string>(ll[5], line));
+//        if (type.count(ll[0]+"_"+ll[2]) == 1) continue;
+//        type.insert(pair<string,string>(ll[0]+"_"+ll[2], line));
     }
     cout << "pos readed!" <<endl;
     while (!inf3.eof()){
         getline(inf3,line);
         if (line.length() < 1 ) continue;
         split(line,ll,"\t");
-        pos.insert(pair<string,string>(ll[1], ll[0]));
+        pos.insert(pair<string,string>(ll[1], ll[4]));
     }
     
     while (!inf.eof()){
