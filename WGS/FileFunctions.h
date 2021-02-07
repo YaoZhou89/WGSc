@@ -1041,6 +1041,25 @@ int checkSAM2(parameter *para){
     cout << f << " failed reads!" << endl;
     return 0;
 }
+int modifyEdge_use(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    vector<vector<string>> res;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," ,\t");
+    
+        
+    }
+    ouf.close();
+    return 0;
+}
 int comVCFs(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2);
@@ -1293,10 +1312,10 @@ int BIMtype(parameter *para){
     while (!inf2.eof()){
         getline(inf2,line);
         if (line.length() < 1 ) continue;
-        if (line[0] == 's') continue;
+        if (line[0] == 's' || line[0] == 'C') continue;
         split(line,ll,"\t");
 //        if (type.count(ll[0] + "_" + ll[1]) == 1) continue;
-        type.insert(pair<string,string>(ll[5], line));
+        type.insert(pair<string,string>(ll[3], line));
 //        if (type.count(ll[0]+"_"+ll[2]) == 1) continue;
 //        type.insert(pair<string,string>(ll[0]+"_"+ll[2], line));
     }

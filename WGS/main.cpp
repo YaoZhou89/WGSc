@@ -419,6 +419,8 @@ int main(int argc, char * argv[]) {
                 checkSAM(para);
             }else if ((para ->type) == "checkSAM2"){
                 checkSAM2(para);
+            }else if ((para ->type) == "modifyEdge_use"){
+                modifyEdge_use(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
