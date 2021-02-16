@@ -1367,6 +1367,28 @@ int qualityFilter(parameter *para){
     ouf.close();
     return 0;
 }
+int mafGroup(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll," \t");
+        cout << ll[4] << endl;
+        
+    }
+//    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

@@ -224,6 +224,8 @@ int main(int argc, char * argv[]) {
                 normSVs_ldak(para);
             }else if ((para->type) == "vg2paragraph"){
                 vg2paragraph(para);
+            }else if ((para -> type) == "mafGroup"){
+                mafGroup(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
