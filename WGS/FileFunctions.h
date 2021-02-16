@@ -1378,12 +1378,13 @@ int mafGroup(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if (line[0] == '#') {
-            ouf << line << "\n";
+        split(line,ll," \t");
+        if (ll[0] == "CHR") {
             continue;
         }
-        split(line,ll," \t");
-        cout << ll[4] << endl;
+        double maf = string2Double(ll[4]);
+        int m = maf*10;
+        cout << m << endl;
         
     }
 //    ouf.close();
