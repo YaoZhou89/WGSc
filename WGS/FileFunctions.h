@@ -1383,11 +1383,15 @@ int mafGroup(parameter *para){
             continue;
         }
         double maf = string2Double(ll[4]);
-        int m = maf*10;
-        cout << m << endl;
         
+        if ( maf < 0.05 ) {
+            ouf << ll[1] << "\t" << 0 << "\n";
+        }else{
+            int m = maf*10;
+            ouf << ll[1] << "\t" << m + 1 << "\n";
+        }
     }
-//    ouf.close();
+    ouf.close();
     return 0;
 }
 int svmu(parameter *para){
