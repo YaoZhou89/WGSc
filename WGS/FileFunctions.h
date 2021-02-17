@@ -1353,6 +1353,7 @@ int qualityFilter(parameter *para){
     ofstream  ouf((outFile).c_str());
     string line;
     vector < string >  ll;
+    double t = (para->threshold);
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -1361,7 +1362,7 @@ int qualityFilter(parameter *para){
             continue;
         }
         split(line,ll,"\t");
-        if (string2Int(ll[5]) < 20 ) continue;
+        if (string2Int(ll[5]) < t ) continue;
         ouf << line << "\n";
     }
     ouf.close();
