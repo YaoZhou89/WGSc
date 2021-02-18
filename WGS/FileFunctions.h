@@ -1485,19 +1485,19 @@ int corGroup(parameter *para){
         split(line,ll," \t");
         if (ll[0] != chr) continue;
         string sv = ll[1];
-        cout << sv << endl;
+//        cout << sv << endl;
         int idx = pos[sv];
-        cout << idx << endl;
+//        cout << idx << endl;
         int psv = chrpos[idx];
-        cout << psv << endl;
+//        cout << psv << endl;
         int psnps = psv;
         double maxR2 = 0;
         int maxPos = idx;
         int Pos = idx;
         vector<double> X = genotype[sv];
         string snpsID = "NULL";
-        cout << line << endl;
-        cout << idx << endl;
+//        cout << line << endl;
+//        cout << idx << endl;
         
         while ( abs(psnps - psv) < 100000 ){
 //            cout << "snps position is:\t" << psnps << endl;
