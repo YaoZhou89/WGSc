@@ -1449,9 +1449,10 @@ int corGroup(parameter *para){
         getline(inf2,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
+        if (ll[0] != chr) continue;
         snps.insert(ll[1]);
     }
-    cout << "snps size is:\t" << snps.size() << endl;
+    cout << chr << " snps size is:\t" << snps.size() << endl;
     
     while (!inf.eof()){
         getline(inf,line);
