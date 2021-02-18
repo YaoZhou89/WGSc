@@ -982,7 +982,7 @@ float correlationCoefficient(vector<double> X, vector<double> Y)
     for (int i = 0; i < X.size(); i++)
     {
         // sum of elements of array X.
-        if (isnan(X[i]) || isnan(Y[i])) continue;
+        if (std::isnan(X[i]) || std::isnan(Y[i])) continue;
         n++;
         sum_X = sum_X + X[i];
   
