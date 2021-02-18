@@ -1384,6 +1384,7 @@ int changeBIMchr(parameter *para){
         string chr_post = ll[0];
         if (chr_post != pre){
             chr++;
+            pre = chr_post;
         }
         ll[0] = Int2String(chr);
         ouf << ll[0];
