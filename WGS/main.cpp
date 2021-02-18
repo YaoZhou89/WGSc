@@ -22,7 +22,14 @@ int main(int argc, char * argv[]) {
     start = clock();
     
     //Testing
-
+//    vector<double> X,Y;
+//    for (int i = 0 ; i < 10; i++){
+//        X.push_back(i);
+//        Y.push_back(i+1);
+//    }
+//    X[8] = NAN;
+//    Y[9] = NAN;
+//    cout << correlationCoefficient(X,Y) << endl;
 //     gene1 = "GGGGGGGGGGGGGGGGGGGGGAAAGAAAAAAA";
 //     gene2 = "AAGAAAAAAATTTTTTTTTTTTTTTTTTTT";
 //    int misMatchPenalty = -1;
@@ -226,6 +233,8 @@ int main(int argc, char * argv[]) {
                 vg2paragraph(para);
             }else if ((para -> type) == "mafGroup"){
                 mafGroup(para);
+            }else if ((para -> type) == "corGroup"){
+                corGroup(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

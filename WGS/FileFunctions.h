@@ -1423,6 +1423,117 @@ int mafGroup(parameter *para){
     ouf.close();
     return 0;
 }
+int corGroup(parameter *para){
+    string input = (para->inFile); // vcf file;
+    string input2 = (para->inFile2); // snps ID file in bim;
+    string input3 = (para->inFile3); // SVs ID file in bim
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
+    map<string, vector<double>> genotype;
+    vector<string> ID; // store the ID of variants
+    map<string, int> pos; // store the index of each variant;
+    vector<int> chrpos; // store the physical position of this variant;
+    //
+    // read SVs ID, found the index of this variants; and then calcuate the R2 around this;
+    int size = 0;
+    int p = 0;
+    string chr = (para->chr);
+    set<string> snps;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        snps.insert(ll[1]);
+    }
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line.substr(0,2) == "##") continue;
+        split(line,ll," \t");
+        if (line.substr(0,2) == "#C") {
+            size = ll.size() - 9;
+            continue;
+        }
+        if(ll[1] != chr) continue;
+        vector<double> genos;
+        double geno = NAN;
+        for (int i = 9; i < ll.size(); i++){
+            if (ll[i][0] == '.' || ll[i][2] == '.'){
+                geno = NAN;
+            }else{
+                int a = string2Int(ll[i].substr(0,1));
+                int b = string2Int(ll[i].substr(2,1));
+                geno = a + b;
+            }
+            genos.push_back(geno);
+        }
+        genotype.insert(pair<string,vector<double>>(ll[2],genos));
+        chrpos.push_back(string2Int(ll[1]));
+        ID.push_back(ll[2]);
+        pos.insert(pair<string,int>(ll[2],p));
+        p++;
+    }
+    while (!inf3.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        string sv = ll[1];
+        int idx = pos[sv];
+        int psv = chrpos[idx];
+        int psnps = psv;
+        double maxR2 = 0;
+        int maxPos = idx;
+        int Pos = idx;
+        vector<double> X = genotype[sv];
+        string snpsID = "NULL";
+        while ( (psnps - psv) < 100000 ){
+            Pos = idx + 1;
+            if (Pos > pos.size()-1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > maxR2){
+                    maxR2 = r2;
+                    maxPos = Pos;
+                }
+                snpsID = idy;
+            }
+            
+        }
+        
+        while ( (psv - psnps) < 100000){
+            Pos = idx - 1;
+            if (Pos == -1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > maxR2){
+                    maxR2 = r2;
+                    maxPos = Pos;
+                }
+                snpsID = idy;
+            }
+        }
+        //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
+        ouf << sv << "\t" << snpsID  << "\t" << abs(psv - psnps) << "\t" << maxR2 << "\n";
+    }
+    
+    ouf.close();
+    return 0;
+}
 int svmu(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

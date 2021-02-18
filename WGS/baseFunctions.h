@@ -972,7 +972,38 @@ int getMinimumPenalty(string x, string y, int pxy, int pgap)
     }
     return dp[m][n] ;
 }
-
+float correlationCoefficient(vector<double> X, vector<double> Y)
+{
+  
+    double sum_X = 0, sum_Y = 0, sum_XY = 0;
+    double squareSum_X = 0, squareSum_Y = 0;
+    int n = 0;
+    
+    for (int i = 0; i < X.size(); i++)
+    {
+        // sum of elements of array X.
+        if (isnan(X[i]) || isnan(Y[i])) continue;
+        n++;
+        sum_X = sum_X + X[i];
+  
+        // sum of elements of array Y.
+        sum_Y = sum_Y + Y[i];
+  
+        // sum of X[i] * Y[i].
+        sum_XY = sum_XY + X[i] * Y[i];
+  
+        // sum of square of array elements.
+        squareSum_X = squareSum_X + X[i] * X[i];
+        squareSum_Y = squareSum_Y + Y[i] * Y[i];
+    }
+  
+    // use formula for calculating correlation coefficient.
+    float corr = (float)(n * sum_XY - sum_X * sum_Y)
+                  / sqrt((n * squareSum_X - sum_X * sum_X)
+                      * (n * squareSum_Y - sum_Y * sum_Y));
+  
+    return corr;
+}
 int similarityScore(char a, char b, int penalty)
 {
     int result;
