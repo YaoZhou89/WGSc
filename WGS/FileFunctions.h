@@ -1451,12 +1451,13 @@ int corGroup(parameter *para){
         split(line,ll," \t");
         snps.insert(ll[1]);
     }
-    cout << "snps ID readed!" << endl;
+    cout << "snps size is:\t" << snps.size() << endl;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
         if (line.substr(0,2) == "##") continue;
         split(line,ll," \t");
+        if (ll[0] != chr) continue;
         if (line.substr(0,2) == "#C") {
             size = ll.size() - 9;
             continue;
@@ -1480,14 +1481,19 @@ int corGroup(parameter *para){
         pos.insert(pair<string,int>(ll[2],p));
         p++;
     }
-    cout << "vcf file readed! " << endl;
+    cout << "vcf variant number is:\t" << genotype.size() << endl;
+    
     while (!inf3.eof()){
         getline(inf3,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
+        if (ll[0] != chr) continue;
         string sv = ll[1];
+        cout << sv << endl;
         int idx = pos[sv];
+        cout << idx << endl;
         int psv = chrpos[idx];
+        cout << psv << endl;
         int psnps = psv;
         double maxR2 = 0;
         int maxPos = idx;
