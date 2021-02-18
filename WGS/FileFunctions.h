@@ -1520,7 +1520,7 @@ int corGroup(parameter *para){
             }
             
         }
-        
+        Pos = idx;
         while ( abs(psv - psnps) < 100000){
 //            cout << "snps position is:\t" << psnps << endl;
 //            cout << "sv position is:\t" << psv << endl;
