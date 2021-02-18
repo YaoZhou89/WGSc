@@ -1368,6 +1368,33 @@ int qualityFilter(parameter *para){
     ouf.close();
     return 0;
 }
+int changeBIMchr(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int chr = 100;
+    string pre = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        string chr_post = ll[0];
+        if (chr_post != pre){
+            chr++;
+        }
+        ll[0] = chr;
+        ouf << ll[0];
+        for (int i = 1 ; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int mafGroup(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

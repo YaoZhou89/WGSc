@@ -267,6 +267,8 @@ int main(int argc, char * argv[]) {
                 changeBIM(para);
             }else if ((para->type) == "BIMtype"){
                 BIMtype(para);
+            }else if ((para->type) == "changeBIMchr"){
+                changeBIMchr(para);
             }
         }else if((para->model) == "wc"){
             count(para);
