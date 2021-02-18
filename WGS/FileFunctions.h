@@ -1385,7 +1385,7 @@ int changeBIMchr(parameter *para){
         if (chr_post != pre){
             chr++;
         }
-        ll[0] = chr;
+        ll[0] = Int2String(chr);
         ouf << ll[0];
         for (int i = 1 ; i < ll.size(); i++){
             ouf << "\t" << ll[i];
