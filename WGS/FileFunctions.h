@@ -1451,7 +1451,7 @@ int corGroup(parameter *para){
         split(line,ll," \t");
         snps.insert(ll[1]);
     }
-    
+    cout << "snps ID readed!" << endl;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -1480,8 +1480,9 @@ int corGroup(parameter *para){
         pos.insert(pair<string,int>(ll[2],p));
         p++;
     }
+    cout << "vcf file readed! " << endl;
     while (!inf3.eof()){
-        getline(inf,line);
+        getline(inf3,line);
         if(line.length() < 1) continue;
         split(line,ll," \t");
         string sv = ll[1];
