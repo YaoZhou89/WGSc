@@ -1452,17 +1452,13 @@ int corGroup(parameter *para){
         snps.insert(ll[1]);
     }
     cout << "snps size is:\t" << snps.size() << endl;
+    
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        if (line.substr(0,2) == "##") continue;
+        if (line[0] == '#') continue;
         split(line,ll," \t");
         if (ll[0] != chr) continue;
-        if (line.substr(0,2) == "#C") {
-            size = ll.size() - 9;
-            continue;
-        }
-        if(ll[1] != chr) continue;
         vector<double> genos;
         double geno = NAN;
         for (int i = 9; i < ll.size(); i++){
