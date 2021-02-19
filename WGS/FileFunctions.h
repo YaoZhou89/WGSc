@@ -1535,7 +1535,7 @@ int corGroup(parameter *para){
             }
         }
         //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
-        ouf << sv << "\t" << snpsID  << "\t" << abs(chrpos[maxPos] - psnps) << "\t" << maxR2 << "\n";
+        ouf << sv << "\t" << snpsID  << "\t" << abs(chrpos[maxPos] - psv) << "\t" << maxR2 << "\n";
     }
     
     ouf.close();
