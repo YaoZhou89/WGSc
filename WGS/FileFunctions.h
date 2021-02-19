@@ -1497,13 +1497,8 @@ int corGroup(parameter *para){
         int Pos = idx;
         vector<double> X = genotype[sv];
         string snpsID = "NULL";
-//        cout << line << endl;
-//        cout << idx << endl;
-        
+
         while ( abs(psnps - psv) < 100000 ){
-//            cout << "snps position is:\t" << psnps << endl;
-//            cout << "sv position is:\t" << psv << endl;
-           
             Pos = Pos + 1;
             if (Pos > pos.size()-1) break;
             psnps = chrpos[Pos];
@@ -1516,15 +1511,13 @@ int corGroup(parameter *para){
                 if (r2 > maxR2){
                     maxR2 = r2;
                     maxPos = Pos;
+                    snpsID = idy;
                 }
-                snpsID = idy;
             }
             
         }
         Pos = idx;
         while ( abs(psv - psnps) < 100000){
-//            cout << "snps position is:\t" << psnps << endl;
-//            cout << "sv position is:\t" << psv << endl;
             Pos = Pos - 1;
             if (Pos == -1) break;
             psnps = chrpos[Pos];
@@ -1536,12 +1529,12 @@ int corGroup(parameter *para){
                 if (r2 > maxR2){
                     maxR2 = r2;
                     maxPos = Pos;
+                    snpsID = idy;
                 }
-                snpsID = idy;
             }
         }
         //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
-        ouf << sv << "\t" << snpsID  << "\t" << abs(psv - psnps) << "\t" << maxR2 << "\n";
+        ouf << sv << "\t" << snpsID  << "\t" << abs(maxPos - psnps) << "\t" << maxR2 << "\n";
     }
     
     ouf.close();
