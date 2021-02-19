@@ -1497,7 +1497,7 @@ int corGroup(parameter *para){
         int Pos = idx;
         vector<double> X = genotype[sv];
         string snpsID = "NULL";
-
+        int maxSNPS= 0;
         while ( abs(psnps - psv) < 100000 ){
             Pos = Pos + 1;
             if (Pos > pos.size()-1) break;
@@ -1512,6 +1512,7 @@ int corGroup(parameter *para){
                     maxR2 = r2;
                     maxPos = Pos;
                     snpsID = idy;
+                    maxSNPS = psnps;
                 }
             }
             
@@ -1534,7 +1535,7 @@ int corGroup(parameter *para){
             }
         }
         //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
-        ouf << sv << "\t" << snpsID  << "\t" << abs(maxPos - psnps) << "\t" << maxR2 << "\n";
+        ouf << sv << "\t" << snpsID  << "\t" << abs(chrpos[maxPos] - psnps) << "\t" << maxR2 << "\n";
     }
     
     ouf.close();
