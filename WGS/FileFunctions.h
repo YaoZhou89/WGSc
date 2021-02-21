@@ -1504,6 +1504,13 @@ int corGroup(parameter *para){
             psnps = chrpos[Pos];
             string idy = ID[Pos];
 //            cout << idy <<endl;
+            if (idy == "1_73659716_A_C" ){
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                cout << r2 << endl;
+                cout <<maxR2 << endl;
+            }
             if (snps.count(idy) == 1) {
                 vector<double> Y = genotype[idy];
                 double r = correlationCoefficient(X,Y);
@@ -1523,6 +1530,13 @@ int corGroup(parameter *para){
             if (Pos == -1) break;
             psnps = chrpos[Pos];
             string idy = ID[Pos];
+            if (idy == "1_73659716_A_C" ){
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                cout << r2 << endl;
+                cout <<maxR2 << endl;
+            }
             if (snps.count(idy) == 1) {
                 vector<double> Y = genotype[idy];
                 double r = correlationCoefficient(X,Y);
