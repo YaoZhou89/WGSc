@@ -1498,6 +1498,7 @@ int corGroup(parameter *para){
         vector<double> X = genotype[sv];
         string snpsID = "NULL";
         int maxSNPS= 0;
+        cout << psv << endl;
         while ( abs(psnps - psv) < 100000 ){
             Pos = Pos + 1;
             if (Pos > pos.size()-1) break;
