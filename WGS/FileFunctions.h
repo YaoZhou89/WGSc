@@ -1498,7 +1498,7 @@ int corGroup(parameter *para){
         vector<double> X = genotype[sv];
         string snpsID = "NULL";
         int maxSNPS= 0;
-        cout << psv << endl;
+//        cout << psv << endl;
         while ( abs(psnps - psv) < 100000 ){
             Pos = Pos + 1;
             if (Pos > pos.size()-1) break;
@@ -1527,12 +1527,13 @@ int corGroup(parameter *para){
             
         }
         Pos = idx;
+        psnps = psv;
         while ( abs(psv - psnps) < 100000){
             Pos = Pos - 1;
             if (Pos == -1) break;
             psnps = chrpos[Pos];
             string idy = ID[Pos];
-            cout << idy << endl;
+//            cout << idy << endl;
             if (idy == "1_73659716_A_C" ){
                 vector<double> Y = genotype[idy];
                 double r = correlationCoefficient(X,Y);
