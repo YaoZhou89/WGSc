@@ -1759,6 +1759,14 @@ int vcfcheck(parameter *para){
             string base = ref[c].substr(pos-1,1);
             ll[3] = base;
             ll[4] = base+ll[4];
+        }else{
+            if(ll[3].length() == 1){
+                string gb = ref[c].substr(pos-1,1);
+                if (gb != ll[3]){
+                    ll[3] = gb;
+                    ll[4] = gb+ll[4];
+                }
+            }
         }
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
