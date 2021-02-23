@@ -1757,15 +1757,11 @@ int vcfcheck(parameter *para){
         string c = ll[0];
         if (ll[3][0] == 'N'){
             string base = ref[c].substr(pos+1,1);
-            if ( base == ll[4].substr(0,1)){
-                ll[3] = base;
-            }else{
-                cout << base << " in genome; " << ll[4].substr(0,1) <<
-                "\n";
-            }
+            ll[3] = base;
+            ll[4] = base+ll[4];
         }
         ouf << ll[0];
-        for (int i = 0; i < ll.size(); i++){
+        for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
         }
         ouf << "\n";
