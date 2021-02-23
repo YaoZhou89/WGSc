@@ -1756,9 +1756,9 @@ int vcfcheck(parameter *para){
         int pos = string2Int(ll[1]);
         string c = ll[0];
         if (ll[3][0] == 'N'){
-            string base = ref[c].substr(pos+1,1);
+            string base = ref[c].substr(pos,1);
             ll[3] = base;
-            ll[4] = base+ll[4];
+//            ll[4] = base+ll[4];
         }
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
