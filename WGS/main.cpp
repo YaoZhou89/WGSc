@@ -237,6 +237,8 @@ int main(int argc, char * argv[]) {
                 corGroup(para);
             }else if ((para -> type) == "insertion"){
                 getinsertion(para);
+            }else if ((para -> type) == "vcfcheck"){
+                vcfcheck(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){

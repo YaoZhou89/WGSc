@@ -1716,6 +1716,63 @@ int bed2vcf(parameter *para){
     ouf.close();
     return 0;
 }
+int vcfcheck(parameter *para){
+    string input = (para->inFile); // vcf
+    string input2 = (para->inFile2); // reference fasta
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> ref;
+    map<string,string> query;
+    string chr = "";
+    string seq = "";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            if (seq != "") {
+                ref.insert(pair<string,string>(chr,seq));
+            }
+            chr = line.substr(1,line.length()-1);
+            seq="";
+            continue;
+        }
+        seq.append(line);
+    }
+    ref.insert(pair<string,string>(chr,seq));
+    cout << "Reference genome readed!, chromosome number is:\t" << ref.size() << endl;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        int pos = string2Int(ll[1]);
+        string c = ll[0];
+        if (ll[3][0] == 'N'){
+            string base = ref[c].substr(pos+1,1);
+            if ( base == ll[4].substr(0,1)){
+                ll[3] = base;
+            }else{
+                cout << base << " in genome; " << ll[4].substr(0,1) <<
+                "\n";
+            }
+        }
+        ouf << ll[0];
+        for (int i = 0; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int calTotalDP(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
