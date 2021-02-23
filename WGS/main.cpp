@@ -235,6 +235,8 @@ int main(int argc, char * argv[]) {
                 mafGroup(para);
             }else if ((para -> type) == "corGroup"){
                 corGroup(para);
+            }else if ((para -> type) == "insertion"){
+                getinsertion(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
