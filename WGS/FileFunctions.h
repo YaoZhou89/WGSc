@@ -1574,7 +1574,7 @@ int getinsertion(parameter *para){
             continue;
         }
         split(line,ll,"\t");
-        if (ll[3].length() == 1 && ll[3].length() > 500){
+        if (ll[3].length() == 1 && ll[4].length() > 500){
             ouf << line << "\n";
         }
     }
