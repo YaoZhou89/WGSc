@@ -1152,6 +1152,8 @@ int nameSNPs(parameter *para){
     igzstream inf (input.c_str(),ifstream::in);
     string outFile =(para -> outFile);
     ofstream  ouf((outFile).c_str());
+    string outFile2 = outFile+".variants.ID";
+    ofstream  ouf2((outFile2).c_str());
     string line;
     vector < string >  ll;
     while (!inf.eof()){
@@ -1162,7 +1164,9 @@ int nameSNPs(parameter *para){
             continue;
         }
         split(line,ll,"\t");
+        ouf2 << ll[2] << "\t";
         ll[2] = ll[0] + "_" + ll[1] + "_" + ll[3].substr(0,1) + "_" + ll[4].substr(0,1);
+        ouf2 << ll[2] << "\n";
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
