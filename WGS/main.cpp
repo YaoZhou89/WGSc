@@ -27,6 +27,8 @@ int main(int argc, char * argv[]) {
 //        X.push_back(i);
 //        Y.push_back(i+1);
 //    }
+//    string a = "-1";
+//    cout << sci2db(a) << endl;
 //    X[8] = NAN;
 //    Y[9] = NAN;
 //    cout << correlationCoefficient(X,Y) << endl;

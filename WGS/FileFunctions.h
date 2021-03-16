@@ -1400,6 +1400,32 @@ int changeBIMchr(parameter *para){
     ouf.close();
     return 0;
 }
+int graphPos(parameter *para){
+    string input = (para->inFile); //graph from minigraph
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> ref;
+    map<string,vector<string>> up;
+    map<string,vector<string>> down;
+    map<string,int> pos; // position of reference nodes
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\ti");
+        if(ll[0] == "S"){
+            string s = ll[1];
+            
+        }
+       
+       
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
 int mafGroup(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
@@ -15755,6 +15781,168 @@ int renameID(parameter *para){
         }
         ouf << "\n";
     }
+    ouf.close();
+    return 0;
+}
+int h2cor(parameter *para){
+    string infile = (para -> inFile); // GWAS for SNPs;
+    string infile2 = (para -> inFile2); // GWAS for SVs;
+    string infile3 = (para->inFile3); // SNPs freq; for sample size
+    string infile4 = (para->bedFile); // SVs freq; for sample size
+    
+    igzstream inf (infile.c_str(),ifstream::in);
+    igzstream inf2 (infile2.c_str(),ifstream::in);
+    igzstream inf3 (infile3.c_str(),ifstream::in);
+    igzstream inf4 (infile4.c_str(),ifstream::in);
+    string chr = (para->chr);
+    double threshold = (para->threshold);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map <string,int> ind_num_sv;
+    map <string,int> ind_num_snp;
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        int value = string2Int(ll[5]);
+        ind_num_snp.insert(pair<string,int>(ll[1], value));
+    }
+    
+    while (!inf4.eof()){
+        getline(inf4,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        int value = string2Int(ll[5]);
+        ind_num_sv.insert(pair<string,int>(ll[1], value));
+    }
+    
+    ouf << "snps\tsvs\tdistance\tpvalue_snps\tpvaule_svs" <<"\n";
+    
+    map<string, vector<double>> genotype;
+    vector<string> ID; // store the ID of variants
+    map<string, int> pos; // store the index of each variant;
+    vector<int> chrpos; // store the physical position of this variant;
+    //
+    // read SVs ID, found the index of this variants; and then calcuate the R2 around this;
+    int size = 0;
+    int p = 0;
+    
+    set<string> snps;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        snps.insert(ll[1]);
+    }
+    cout << chr << " snps size is:\t" << snps.size() << endl;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        vector<double> genos;
+        double geno = NAN;
+        for (int i = 9; i < ll.size(); i++){
+            if (ll[i][0] == '.' || ll[i][2] == '.'){
+                geno = NAN;
+            }else{
+                int a = string2Int(ll[i].substr(0,1));
+                int b = string2Int(ll[i].substr(2,1));
+                geno = a + b;
+            }
+            genos.push_back(geno);
+        }
+        genotype.insert(pair<string,vector<double>>(ll[2],genos));
+        chrpos.push_back(string2Int(ll[1]));
+        ID.push_back(ll[2]);
+        pos.insert(pair<string,int>(ll[2],p));
+        p++;
+    }
+    cout << "vcf variant number is:\t" << genotype.size() << endl;
+    
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        string sv = ll[1];
+//        cout << sv << endl;
+        int idx = pos[sv];
+//        cout << idx << endl;
+        int psv = chrpos[idx];
+//        cout << psv << endl;
+        int psnps = psv;
+        double maxR2 = 0;
+        int maxPos = idx;
+        int Pos = idx;
+        vector<double> X = genotype[sv];
+        string snpsID = "NULL";
+        int maxSNPS= 0;
+//        cout << psv << endl;
+        while ( abs(psnps - psv) < 50000 ){
+            Pos = Pos + 1;
+            if (Pos > pos.size()-1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+//            cout << idy <<endl;
+//            cout << idy << endl;
+//            if (idy == "1_73659716_A_C" ){
+//                vector<double> Y = genotype[idy];
+//                double r = correlationCoefficient(X,Y);
+//                double r2 = r*r;
+//                cout << r2 << endl;
+//                cout <<maxR2 << endl;
+//            }
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > maxR2){
+                    maxR2 = r2;
+                    maxPos = Pos;
+                    snpsID = idy;
+                    maxSNPS = psnps;
+                }
+            }
+            
+        }
+        Pos = idx;
+        psnps = psv;
+        while ( abs(psv - psnps) < 50000){
+            Pos = Pos - 1;
+            if (Pos == -1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+//            cout << idy << endl;
+//            if (idy == "1_73659716_A_C" ){
+//                vector<double> Y = genotype[idy];
+//                double r = correlationCoefficient(X,Y);
+//                double r2 = r*r;
+//                cout << r2 << endl;
+//                cout <<maxR2 << endl;
+//            }
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > maxR2){
+                    maxR2 = r2;
+                    maxPos = Pos;
+                    snpsID = idy;
+                }
+            }
+        }
+        //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
+        ouf << sv << "\t" << snpsID  << "\t" << abs(chrpos[maxPos] - psv) << "\t" << maxR2 << "\n";
+    }
+    
     ouf.close();
     return 0;
 }
