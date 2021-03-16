@@ -1411,7 +1411,7 @@ int graphPos(parameter *para){
     map<string,vector<string>> up;
     map<string,vector<string>> down;
     map<string,int> pos; // position of reference nodes
-    ouf << "nodeID\t" << "ref_seq1\t"
+    ouf << "nodeID\t" << "ref_seq1\t" << "ref_seq2\t" << "distance1\t" << "distance2\t" << "num_node1\t" << "num_node2";
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
