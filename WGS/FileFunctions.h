@@ -1408,6 +1408,7 @@ int graphPos(parameter *para){
     string line;
     vector < string >  ll;
     set<string> ref;
+    vector<string> graphseq;
     map<string,vector<string>> up;
     map<string,vector<string>> down;
     map<string,int> pos; // position of reference nodes
@@ -1415,10 +1416,18 @@ int graphPos(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
-        split(line,ll,"\ti");
+        split(line,ll,"\t:");
         if(ll[0] == "S"){
             string s = ll[1];
+            if (ll[ll.size()-1] == "0"){
+                ref.insert(s);
+            }else{
+                graphseq.push_back(s);
+            }
+        }else if (ll[0] == "L"){
             
+        }else{
+            cerr << "not recognized " << ll[0] << endl;
         }
        
        
