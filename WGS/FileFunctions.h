@@ -1409,10 +1409,13 @@ int graphPos(parameter *para){
     vector < string >  ll;
     set<string> ref;
     vector<string> graphseq;
-    map<string,vector<string>> up;
-    map<string,vector<string>> down;
+    map<string,vector<string>> pc;
+    map<string,vector<string>> cp;
     map<string,int> pos; // position of reference nodes
+    map<string,int> len;
     ouf << "nodeID\t" << "ref_seq1\t" << "ref_seq2\t" << "distance1\t" << "distance2\t" << "num_node1\t" << "num_node2";
+    vector<string> refo;
+    map <string,vector<map<string,int>>> relation;
     while (!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -1421,18 +1424,65 @@ int graphPos(parameter *para){
             string s = ll[1];
             if (ll[ll.size()-1] == "0"){
                 ref.insert(s);
+                refo.push_back(s);
             }else{
                 graphseq.push_back(s);
             }
+            int le = string2Int(ll[5]);
+            len.insert(pair<string,int>(ll[1],le));
         }else if (ll[0] == "L"){
-            
+            string key = ll[1];
+            vector<string> value;
+            vector<map<string,int>> v;
+            if (pc.count(key) == 1){
+                value = pc[key];
+                value.push_back(ll[3]);
+                pc[key] = value;
+            }else{
+                value.push_back(ll[3]);
+                
+                pc.insert(pair<string,vector<string>>(key,value));
+            }
+            if (relation.count(key) == 1){
+                v = relation[key];
+                map<string,int> vvv;
+                vvv.insert(pair<string,int>(ll[3],1));
+                v.push_back(vvv);
+                relation.insert(pair<string,vector<map<string,int>>>(key,v));
+            }else{
+                map<string,int> vv;
+                vv.insert(pair<string,int>("index",1));
+                v.push_back(vv);
+                map<string,int> vvv;
+                vvv.insert(pair<string,int>(ll[3],1));
+                v.push_back(vvv);
+                relation.insert(pair<string,vector<map<string,int>>>(key,v));
+            }
+//            key = ll[3];
+//            value.clear();
+//            if (cp.count(key) == 1){
+//                value = cp[key];
+//                value.push_back(ll[1]);
+//                cp[key] = value;
+//            }else{
+//                value.push_back(ll[1]);
+//                cp.insert(pair<string,vector<string>>(key,value));
+//            }
         }else{
             cerr << "not recognized " << ll[0] << endl;
         }
-       
-       
+        
+    }
+    
+    for (int i = 0; i < refo.size(); i++){
+        string s1 = refo[i];
+        bool find = false;
+        while (!find){
+           
+        }
         ouf << "\n";
     }
+    
     ouf.close();
     return 0;
 }
