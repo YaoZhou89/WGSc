@@ -1350,6 +1350,35 @@ int BIMtype(parameter *para){
     
     return 0;
 }
+int phasedeigstrat(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        string newl = "";
+        for (int i =0; i < line.length(); i++){
+            if (line[i]=='9'){
+                newl.append("99");
+            }else if (line[i]=='0'){
+                newl.append("00");
+            }else if (line[i]=='1'){
+                newl.append("01");
+            }else if (line[i]=='2'){
+                newl.append("11");
+            }
+        }
+        ouf << newl << "\n";
+        
+    }
+    ouf.close();
+    
+    return 0;
+}
 int qualityFilter(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);

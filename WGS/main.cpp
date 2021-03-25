@@ -440,6 +440,8 @@ int main(int argc, char * argv[]) {
                 checkSAM2(para);
             }else if ((para ->type) == "modifyEdge_use"){
                 modifyEdge_use(para);
+            }else if ((para ->type) == "phasedeigstrat"){
+                phasedeigstrat(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
