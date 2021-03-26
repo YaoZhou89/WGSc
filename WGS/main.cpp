@@ -442,6 +442,8 @@ int main(int argc, char * argv[]) {
                 modifyEdge_use(para);
             }else if ((para ->type) == "phasedeigstrat"){
                 phasedeigstrat(para);
+            }else if ((para ->type) == "phasedeigstrat1"){
+                phasedeigstrat1(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

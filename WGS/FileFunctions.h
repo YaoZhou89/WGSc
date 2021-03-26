@@ -1360,20 +1360,53 @@ int phasedeigstrat(parameter *para){
     while (!inf.eof()){
         getline(inf,line);
         if (line.length() < 1 ) continue;
-        string newl = "";
+        string newl1 = "";
+        string newl2 = "";
         for (int i =0; i < line.length(); i++){
             if (line[i]=='9'){
-                newl.append("99");
+                newl1.append("9");
+                newl2.append("9");
             }else if (line[i]=='0'){
-                newl.append("00");
+                newl1.append("0");
+                newl2.append("0");
             }else if (line[i]=='1'){
-                newl.append("01");
+                newl1.append("0");
+                newl2.append("1");
             }else if (line[i]=='2'){
-                newl.append("11");
+                newl1.append("1");
+                newl2.append("1");
             }
         }
-        ouf << newl << "\n";
-        
+        ouf << newl1 << "\n";
+        ouf << newl2 << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
+int phasedeigstrat1(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        string newl1 = "";
+        for (int i =0; i < line.length(); i++){
+            if (line[i]=='9'){
+                newl1.append("99");
+            }else if (line[i]=='0'){
+                newl1.append("00");
+            }else if (line[i]=='1'){
+                newl1.append("01");
+            }else if (line[i]=='2'){
+                newl1.append("11");
+            }
+        }
+        ouf << newl1 << "\n";
     }
     ouf.close();
     
@@ -1563,6 +1596,7 @@ int corGroup(parameter *para){
     int size = 0;
     int p = 0;
     string chr = (para->chr);
+    double t = (para->threshold);
     set<string> snps;
     while (!inf2.eof()){
         getline(inf2,line);
@@ -1618,7 +1652,7 @@ int corGroup(parameter *para){
         string snpsID = "NULL";
         int maxSNPS= 0;
 //        cout << psv << endl;
-        while ( abs(psnps - psv) < 100000 ){
+        while ( abs(psnps - psv) < t ){
             Pos = Pos + 1;
             if (Pos > pos.size()-1) break;
             psnps = chrpos[Pos];
@@ -1647,7 +1681,7 @@ int corGroup(parameter *para){
         }
         Pos = idx;
         psnps = psv;
-        while ( abs(psv - psnps) < 100000){
+        while ( abs(psv - psnps) < t){
             Pos = Pos - 1;
             if (Pos == -1) break;
             psnps = chrpos[Pos];
