@@ -1645,7 +1645,7 @@ int corGroup(parameter *para){
         int psv = chrpos[idx];
 //        cout << psv << endl;
         int psnps = psv;
-        double maxR2 = 0;
+        double maxR2 = -0.1;
         int maxPos = idx;
         int Pos = idx;
         vector<double> X = genotype[sv];
