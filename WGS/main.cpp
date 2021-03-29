@@ -444,6 +444,8 @@ int main(int argc, char * argv[]) {
                 phasedeigstrat(para);
             }else if ((para ->type) == "phasedeigstrat1"){
                 phasedeigstrat1(para);
+            }else if ((para->type) == "matrix2vcf"){
+                matrix2vcf(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){

@@ -1384,6 +1384,36 @@ int phasedeigstrat(parameter *para){
     
     return 0;
 }
+int matrix2vcf(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector<string> ll;
+    string chr = (para->chr);
+    int pos = 100;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1 ) continue;
+        split(line,ll,"\t");
+        ouf << chr << "\t" << pos << "\t" << chr<<"_"<<pos << "\tA\T\t.\t.\tPR\tGT" ;
+        for ( int i = 0; i < ll.size(); i++){
+            ouf << "\t";
+            if (ll[i] == "0"){
+                ouf << "0/0";
+            }else if (ll[i] == "1"){
+                ouf << "1/1";
+            }else {
+                ouf << "./.";
+            }
+        }
+        ouf << "\n";
+        pos+=100;
+    }
+    ouf.close();
+    return 0;
+}
 int phasedeigstrat1(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
