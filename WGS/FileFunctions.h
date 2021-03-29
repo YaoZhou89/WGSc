@@ -1397,7 +1397,7 @@ int matrix2vcf(parameter *para){
         getline(inf,line);
         if (line.length() < 1 ) continue;
         split(line,ll,"\t");
-        ouf << chr << "\t" << pos << "\t" << chr<<"_"<<pos << "\tA\T\t.\t.\tPR\tGT" ;
+        ouf << chr << "\t" << pos << "\t" << chr<<"_"<<pos << "\tA\tT\t.\t.\tPR\tGT" ;
         for ( int i = 0; i < ll.size(); i++){
             ouf << "\t";
             if (ll[i] == "0"){
