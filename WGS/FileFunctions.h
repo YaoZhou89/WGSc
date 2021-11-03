@@ -847,6 +847,203 @@ int cleanSVs(parameter *para){
     
     return 0;
 }
+int cleanSV(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<char> bases;
+    bases.insert('A');
+    bases.insert('T');
+    bases.insert('G');
+    bases.insert('C');
+    bases.insert('N');
+    int s = 0;
+    int e = 0;
+    string chrp = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        split(line,ll,"\t");
+//        string seq = ll[3];
+//        seq.append(ll[4]);
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        };
+        if(ll[3].size() < 51 && ll[4].size() < 51) continue;
+        string chr = ll[0];
+        if (chrp == chr){
+            int p = string2Int(ll[1]);
+            int a = ll[3].length();
+            int b = ll[4].length();
+            int l = a;
+            if (b > a){
+                l = b;
+            }
+            int cp = e + l;
+            if (p < cp ) continue;
+            e = p;
+            chrp = chr;
+        }else{
+            s = 0;
+            e = 0;
+            chrp = chr;
+        }
+        ouf << line << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
+int SVarray(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> pos;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        pos.insert(line);
+    }
+    cout << pos.size() << " position readed!" << endl;
+    int a = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        
+        if (line.substr(0,1) == "#"){
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        string key = ll[0] + "_" + ll[1];
+        if (pos.count(key) == 1){
+            ouf << line << "\n";
+            a++;
+        }
+    }
+    ouf.close();
+    cout << a << " outputed!" << endl;
+    return 0;
+}
+int getSVseq(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> genome;
+    string chr = "";
+    string seq = "";
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '>'){
+            if (chr != ""){
+                genome.insert(pair<string,string>(chr,seq));
+            }
+            chr = line.substr(1,line.length());
+            seq = "";
+        }else{
+            seq.append(line);
+        }
+    }
+    genome.insert(pair<string,string>(chr,seq));
+    cout << genome.size() << " genome sequences readed!" << endl;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll,"\t");
+        int pos = string2Int(ll[1]);
+        string ch = ll[0];
+        if (ll[3].length() == 1 & ll[4].length() > 1){
+            // insertion
+            int l = ll[4].length();
+            string seq1 = genome[ch].substr(pos-150,300);
+            string seq2_1 = genome[ch].substr(pos-151,150);
+            int s = l;
+            if (l > 150) s= 150;
+            string seq2_2 = ll[4].substr(0,s);
+            string seq2 = seq2_1 + seq2_2;
+            string seq3_2 = genome[ch].substr(pos,150);
+            string seq3_1 = ll[4].substr();
+        }else if (ll[3].length() > 1 & ll[4].length() == 1){
+            // deletion
+            int l = ll[3].length();
+            
+        }else{
+            continue;
+        }
+    }
+    return 0;
+}
+int vcf2one(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> pos;
+    string chr = (para->chr);
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        
+        if (line.substr(0,2) == "##"){
+            ouf << line << "\n";
+            continue;
+        }else if (line.substr(0,2) == "#C"){
+            ouf <<line;
+            ouf << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        if (ll[0] != chr) continue;
+        pos.insert(ll[1]);
+        ouf << line << "\n";
+    }
+    vector<string> tmp;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll,"\t");
+        if (ll[0] != chr) continue;
+        if (pos.count(ll[1]) == 1) continue;
+        if (ll[3].length()>1 && ll[4].length()>1) continue;
+        split(ll[3],tmp,",");
+        if (tmp.size()>1) continue;
+        split(ll[4],tmp,",");
+        if (tmp.size()>1) continue;
+        ouf << ll[0];
+        if(ll[3].size()>50) continue;
+        if(ll[4].size()>50) continue;
+
+        for (int i =1 ;i < 8; i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    
+    return 0;
+}
 int remove_Dup(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2);
@@ -945,6 +1142,67 @@ int dupPosSNPs(parameter *para){
     return 0;
 }
 
+int removeDupSVs(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string input2 = (para->inFile2);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> pos;
+    set<string> svs;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if (line.length() < 1) continue;
+        svs.insert(line);
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if (svs.count(ll[2]) == 1) continue;
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+int checkDupSVs(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    set<string> pos;
+    int p =0;
+    int cp = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        if (line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if (pos.count(ll[0]+"_" + ll[1]) == 1) continue;
+        pos.insert(ll[0]+"_" + ll[1]);
+        ouf << line << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+
 int checkSAM(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
@@ -1041,6 +1299,51 @@ int checkSAM2(parameter *para){
     cout << f << " failed reads!" << endl;
     return 0;
 }
+
+int checkSAM3(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int f = 0;
+    string read1 = "";
+    string rh= "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if (line.length() < 1) continue;
+        ll.clear();
+        split(line,ll," \t");
+        if (ll.size() == 3) {
+            ouf << line << "\n";
+        }
+        if (ll.size() == 11) {
+            if (ll[9].length() != ll[10].length()){
+                f++;
+                continue;
+            }
+            if (rh == ""){
+                rh = ll[0];
+                read1 = line ;
+            }else{
+                if (rh== ll[0]){
+                    ouf << read1 << "\n";
+                    ouf << line << "\n";
+                }
+                rh = "";
+                read1 = "";
+            }
+        }else{
+            f++;
+        }
+        
+    }
+    ouf.close();
+    cout << f << " failed reads!" << endl;
+    return 0;
+}
+
 int modifyEdge_use(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
@@ -1165,13 +1468,111 @@ int nameSNPs(parameter *para){
         }
         split(line,ll,"\t");
         ouf2 << ll[2] << "\t";
-        ll[2] = ll[0] + "_" + ll[1] + "_" + ll[3].substr(0,1) + "_" + ll[4].substr(0,1);
+        if (ll[3].length() == ll[4].length()){
+            ll[2] = "snp"+ll[0] + "_" + ll[1];
+        }else{
+            ll[2] = "indel"+ll[0] + "_" + ll[1];
+        }
+        
         ouf2 << ll[2] << "\n";
         ouf << ll[0];
         for (int i = 1; i < ll.size(); i++){
             ouf << "\t" << ll[i];
         }
         ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int nameVariants(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        if (ll[3].length() == ll[4].length()){
+            ll[2] = "snp"+ll[0] + "_" + ll[1];
+        }else if (ll[3].length() < 51 && ll[3].length() < 51) {
+            ll[2] = "indel"+ll[0] + "_" + ll[1];
+        }else{
+            ll[2] = "sv"+ll[0] + "_" + ll[1];
+        }
+        ouf << ll[0];
+        for (int i = 1; i < ll.size()-1; i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\t" << "ID=" << ll[2];
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int renameSamples(parameter *para){
+    string input = (para->inFile);
+    string input2 = (para->inFile2);
+    string input3 = (para->inFile3);
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    map<string,string> IDP;
+    set<string> variants;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        string key = ll[2];
+        string value = ll[1];
+        IDP.insert(pair<string,string>(key,value));
+    }
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        string value = ll[1];
+        variants.insert(value);
+    }
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') {
+            if (line[1] == 'C'){
+                split(line,ll,"\t");
+                ouf << ll[0];
+                for (int i = 1; i< 9; i++){
+                    ouf << "\t" << ll[i];
+                }
+                for (int i = 9; i < ll.size(); i++){
+                    ouf << "\t" << IDP[ll[i]];
+                }
+                ouf << "\n";
+            }else{
+                ouf << line << "\n";
+            }
+        }else{
+            split(line,ll,"\t");
+            vector<string> bi;
+            split(ll[3],bi,",");
+            if (bi.size()>1) continue;
+            split(ll[4],bi,",");
+            if (bi.size()>1) continue;
+            if (variants.count(ll[2]) ==1){
+                ouf << line << "\n";
+            }
+           
+        }
     }
     ouf.close();
     return 0;
@@ -1492,6 +1893,137 @@ int changeBIMchr(parameter *para){
     ouf.close();
     return 0;
 }
+int changeBIM2one(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int chr = 1;
+    int pos = 1;
+    string pre = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        
+        ouf << chr;
+        pos++;
+        ll[3] = Int2String(pos);
+        for (int i = 1 ; i < ll.size(); i++){
+            ouf << "\t" << ll[i];
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+int changeBIM2one2(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int chr = 1;
+    int pos = 1;
+    string pre = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+//        split(line,ll,"\t");
+        ouf << chr << "\t" << line << "\t" << "0\t" << Int2String(pos) << "\tA\tT\n" ;
+        pos++;
+    }
+    ouf.close();
+    return 0;
+}
+int bim2bed(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int size = (para -> size);
+    int start = 0;
+    int end = 0;
+    int c = 0;
+    string chr = "";
+    ouf << "chr\tstart\tstop\n";
+    getline(inf,line);
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,"\t");
+        if (line[0] == 'S') {
+            continue;
+        }
+        chr = "chr" + ll[1];
+        if (c == size){
+//            cout << ll[2] << endl;
+            end = string2Int(ll[2]);
+//            cout << "testing..." << endl;
+            ouf << chr << "\t" << Int2String(start) << "\t" << Int2String(end) << "\n";
+            start = end;
+            c = 0;
+        }
+        c++;
+    }
+    if ( (c % 1000 != 1) & c > 3){
+        end = string2Int(ll[2]);
+        ouf << chr << "\t" << Int2String(start) << "\t" << Int2String(end) << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+
+int chooseLarger(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+    int max = 0;
+    int c = 0;
+    string chr = "";
+    string tmp = "";
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == 'S') {
+            ouf <<line << "\n";
+            continue;
+        }
+        split(line,ll,"\t");
+        double v ;
+        vector<string> tmps;
+        split(ll[5],tmps,"e");
+        if (tmps.size() == 2){
+            v = abs(sci2dbs(ll[5]));
+        }else{
+            v = abs(string2Double(ll[5]));
+        }
+        
+        if ( v > max ){
+            max = v;
+            tmp = line;
+        }
+        c++;
+        if (c % 5 == 0){
+            ouf << tmp << "\n";
+            c = 0;
+            max = 0;
+        }
+    }
+    
+    ouf.close();
+    return 0;
+}
+
 int graphPos(parameter *para){
     string input = (para->inFile); //graph from minigraph
     igzstream inf (input.c_str(),ifstream::in);
@@ -1605,6 +2137,48 @@ int mafGroup(parameter *para){
     ouf.close();
     return 0;
 }
+int removeHet(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string f="filtered.id.txt";
+    ofstream  ouf1((f).c_str());
+    string line;
+    vector < string >  ll;
+    double t = (para->threshold);
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#'){
+            ouf << line << "\n";
+            continue;
+        }
+        split(line,ll," \t");
+        int sum = 0;
+        int het = 0;
+        for (int i = 9; i < ll.size(); i++){
+            if (ll[i][0] == '.') continue;
+            if (ll[i][0] == '0' & ll[i][2] == '1'){
+                het++;
+//                ouf1 << ll[2] << "\n";
+            }else if (ll[i][0] == '1' & ll[i][2] == '0'){
+                het++;
+//                ouf1 << ll[2] << "\n";
+            }
+            sum++;
+        }
+        double h = (double) het/sum;
+        if (h > t) {
+            ouf1 << ll[2] << "\n";
+            continue;
+        }
+        ouf << line << "\n";
+    }
+    ouf.close();
+    ouf1.close();
+    return 0;
+}
 int corGroup(parameter *para){
     string input = (para->inFile); // vcf file;
     string input2 = (para->inFile2); // snps ID file in bim;
@@ -1621,6 +2195,7 @@ int corGroup(parameter *para){
     vector<string> ID; // store the ID of variants
     map<string, int> pos; // store the index of each variant;
     vector<int> chrpos; // store the physical position of this variant;
+    set<string> variant;
     //
     // read SVs ID, found the index of this variants; and then calcuate the R2 around this;
     int size = 0;
@@ -1742,6 +2317,146 @@ int corGroup(parameter *para){
     ouf.close();
     return 0;
 }
+int checkKins(parameter *para){
+    string input = (para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    string f =(para->inFile2);
+    string outFile =(para -> outFile);
+    
+    string line;
+    vector < string >  ll;
+    string ID = "";
+    int s = 0;
+    ofstream  ouf;
+//    FILE *ouf;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        split(line,ll,".");
+        ouf.open (outFile + "." + ll[0], ios::app);
+        ouf << f <<"/" << line << "\n";
+        ouf.close();
+    }
+    
+    return 0;
+}
+int corFilter(parameter *para){
+    string input = (para->inFile); // vcf file;
+    string input2 = (para->inFile2); // snps ID file in bim;
+    string input3 = (para->inFile3); // SVs ID file in bim
+    igzstream inf (input.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    igzstream inf3 (input3.c_str(),ifstream::in);
+    string outFile =(para -> outFile);
+    ofstream  ouf((outFile).c_str());
+    string line;
+    vector < string >  ll;
+//    ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
+    map<string, vector<double>> genotype;
+    vector<string> ID; // store the ID of variants
+    map<string, int> pos; // store the index of each variant;
+    vector<int> chrpos; // store the physical position of this variant;
+    //
+    // read SVs ID, found the index of this variants; and then calcuate the R2 around this;
+    int size = 0;
+    int p = 0;
+    string chr = (para->chr);
+    double t = (para->threshold);
+    double rt = (para->r);
+    set<string> snps;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        snps.insert(ll[1]);
+    }
+    cout << chr << " snps size is:\t" << snps.size() << endl;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if (line[0] == '#') continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        vector<double> genos;
+        double geno = NAN;
+        for (int i = 9; i < ll.size(); i++){
+            if (ll[i][0] == '.' || ll[i][2] == '.'){
+                geno = NAN;
+            }else{
+                int a = string2Int(ll[i].substr(0,1));
+                int b = string2Int(ll[i].substr(2,1));
+                geno = a + b;
+            }
+            genos.push_back(geno);
+        }
+        genotype.insert(pair<string,vector<double>>(ll[2],genos));
+        chrpos.push_back(string2Int(ll[1]));
+        ID.push_back(ll[2]);
+        pos.insert(pair<string,int>(ll[2],p));
+        p++;
+    }
+    cout << "vcf variant number is:\t" << genotype.size() << endl;
+    
+    while (!inf3.eof()){
+        getline(inf3,line);
+        if(line.length() < 1) continue;
+        split(line,ll," \t");
+        if (ll[0] != chr) continue;
+        string sv = ll[1];
+//        cout << sv << endl;
+        int idx = pos[sv];
+//        cout << idx << endl;
+        int psv = chrpos[idx];
+//        cout << psv << endl;
+        int psnps = psv;
+        double maxR2 = -0.1;
+        int maxPos = idx;
+        int Pos = idx;
+        vector<double> X = genotype[sv];
+        string snpsID = "NULL";
+        int maxSNPS= 0;
+//        cout << psv << endl;
+        while ( abs(psnps - psv) < t ){
+            Pos = Pos + 1;
+            if (Pos > pos.size()-1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > rt){
+                    ouf << idy << "\n";
+                }
+            }
+            
+        }
+        Pos = idx;
+        psnps = psv;
+        while ( abs(psv - psnps) < t){
+            Pos = Pos - 1;
+            if (Pos == -1) break;
+            psnps = chrpos[Pos];
+            string idy = ID[Pos];
+
+            if (snps.count(idy) == 1) {
+                vector<double> Y = genotype[idy];
+                double r = correlationCoefficient(X,Y);
+                double r2 = r*r;
+                if (r2 > rt){
+                    ouf << idy << "\n";
+                }
+            }
+        }
+        //ouf << "SVs\tSNPs\tDistance\tR2" << "\n";
+//        ouf << sv << "\t" << snpsID  << "\t" << abs(chrpos[maxPos] - psv) << "\t" << maxR2 << "\n";
+    }
+    
+    ouf.close();
+    return 0;
+}
 int getinsertion(parameter *para){
     string input = (para->inFile);
     igzstream inf (input.c_str(),ifstream::in);
@@ -1792,6 +2507,7 @@ int svmu(parameter *para){
     ouf.close();
     return 0;
 }
+
 int bed2vcf(parameter *para){
     string input = (para->inFile);
     string input2 = (para->inFile2); // reference fasta
@@ -3465,6 +4181,44 @@ int vcf2Major (parameter *para){
         ouf << "\n";
         ouf2 << "\n";
     }
+    return 0;
+}
+int vcf2dat (parameter *para){
+    string input =(para->inFile);
+    igzstream inf (input.c_str(),ifstream::in);
+    if (inf.fail()){
+        cerr << "open File IN error: " << (para->inFile) << endl;
+        return  0;
+    }
+    
+    string outFile =(para -> outFile);
+
+    string line;
+    vector <string> ll;
+    ofstream ouf ((outFile).c_str());
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#'){
+            continue;
+        }
+        split(line,ll,"\t");
+        
+        for (int i = 9; i < ll.size()-1; ++i){
+//            cout << ords[i-9] << endl;
+            if (ll[i] == "0|0"){
+                ouf << "0\t";
+            }else {
+                ouf << "1\t";
+            }
+        }
+        if (ll[ll.size()-1] == "0|0"){
+            ouf << "0\n";
+        }else {
+            ouf << "1\n";
+        }
+    }
+    ouf.close();
     return 0;
 }
 
@@ -6900,6 +7654,93 @@ int changeAncestralAllele(parameter *para){
         ouf << "\n";
     }
     inf1.close();
+    ouf.close();
+    return 0;
+}
+int subtract_Weighted_LDAK(parameter *para)
+{
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> f2;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        f2.insert(line);
+    }
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        if (f2.count(ll[0]) == 1) {
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
+int subtract_Weighted_LDAK_bed(parameter *para)
+{
+    string inFile = (para->inFile);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    string f1= (outFile +".short");
+    string f2= (outFile +".thin");
+    ofstream ouf2 ((f2).c_str());
+    ofstream ouf1 ((f1).c_str());
+    string line;
+    double min = (para->a);
+    double max = (para->b);
+    string chr = (para->chr);
+    vector<string> ll;
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll,"_");
+        if (ll[0] != chr) continue;
+        double a = string2Double(ll[1]);
+        ll.clear();
+        split(line,ll," \t");
+        if ( a> min & a< max) {
+            ouf1 << line << "\n";
+            
+            ouf2 << ll[0] << "\n";
+        }
+    }
+    ouf1.close();
+    ouf2.close();
+    return 0;
+}
+int exclude_Weighted_LDAK(parameter *para)
+{
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    set<string> f2;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        f2.insert(line);
+    }
+    vector<string> ll;
+   
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll," \t");
+        if (f2.count(ll[0]) == 0) {
+            ouf << line << "\n";
+        }
+    }
     ouf.close();
     return 0;
 }
@@ -13125,6 +13966,91 @@ int generateAltGenome(parameter *para){
     ouf.close();
     return 0;
 }
+int generateAltGenomeAll(parameter *para){
+    string infile = (para -> inFile); // genome
+    string infile2 = (para -> inFile2); // vcf file
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    map<string,string> genome;
+    string seq = "";
+    string chrkey = "";
+    string line;
+    string chr = "";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '>'){
+            int len = line.length() -1;
+            if (len >2) len = 2;
+            chrkey = line.substr(1,len);
+            if (chr != ""){
+                genome.insert(pair<string,string>(chr,seq));
+                cout << chr <<" length is:\t" << seq.length() << endl;
+            }
+            chr = chrkey;
+            seq = "";
+            continue;
+        }
+        seq.append(line);
+    }
+    genome.insert(pair<string,string>(chr,seq));
+    cout << chr <<" length is:\t" << seq.length() << endl;
+    cout << genome.size() << " chromosomes added!" << endl;
+    
+    set<int> pos;
+    vector<string> ll;
+    map<int,string> alt;
+    map<string,map<int,string>> ag;
+    chr == "";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        split(line,ll,"\t");
+        chrkey = ll[0];
+        alt.insert(pair<int,string>(string2Int(ll[1])-1,ll[4]));
+        if (chrkey != chr){
+            if (chr != ""){
+                ag.insert(pair<string,map<int,string>>(chr,alt));
+                alt.clear();
+            }
+        }
+        chr = chrkey;
+    }
+    ag.insert(pair<string,map<int,string>>(chr,alt));
+    cout << "vcf file readed!" << endl;
+    map<string, string>::iterator iter;
+    iter = genome.begin();
+    while(iter != genome.end()){
+        string c = iter->first;
+        seq = iter->second;
+        alt = ag[c];
+        ouf << ">" << c << "\n";
+        cout << c << endl;
+        for(int i = 0; i < seq.length(); i++ ){
+            if(alt.count(i) ==1){
+                if(alt[i] == "N") {
+                    cerr << "N counted" << endl;
+                }
+                ouf << alt[i] ;
+            }else{
+                ouf << seq[i];
+            }
+            if((i+1)%60 ==0){
+                ouf << "\n";
+            }
+        }
+        if(seq.length()%60 !=0){
+            ouf << "\n";
+        }
+        iter++;
+    }
+    
+    ouf.close();
+    return 0;
+}
 int splitGenome(parameter *para){
     string infile = (para -> inFile);
     string infile2 = (para -> inFile2);
@@ -14008,6 +14934,70 @@ int riceHapToVCF(parameter *para){
                 }
             }
             ouf << "\n";
+        }
+    }
+    inf.close();
+    ouf.close();
+    return 0;
+}
+int geno2VCF(parameter *para){
+    string infile = (para -> inFile); //genotype
+    string infile2 = (para -> inFile2); // pos info
+    string outFile = (para -> outFile);
+    igzstream inf ((infile).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,string> posMap;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        string v = ll[1] + "\t" + ll[2] + "\t" + ll[1]+"_"+ll[2];
+        posMap.insert(pair<string,string>(ll[0],v));
+    }
+    ouf <<"##fileformat=VCFv4.0\n";
+    ouf << "##Tassel=<ID=GenotypeTable,Version=5,Description=\"Reference allele is not known. The major allele was used as reference allele\">\n";
+    ouf << "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n";
+    ouf << "##FORMAT=<ID=AD,Number=.,Type=Integer,Description=\"Allelic depths for the reference and alternate alleles in the order listed\">\n";
+    ouf << "##FORMAT=<ID=DP,Number=1,Type=Integer,Description=\"Read Depth (only filtered reads used for calling)\">\n";
+    ouf << "##FORMAT=<ID=GQ,Number=1,Type=Float,Description=\"Genotype Quality\">\n";
+    ouf << "##FORMAT=<ID=PL,Number=.,Type=Float,Description=\"Normalized, Phred-scaled likelihoods for AA,AB,BB genotypes where A=ref and B=alt; not applicable if site is not bialleli\">\n";
+    ouf << "##INFO=<ID=NS,Number=1,Type=Integer,Description=\"Number of Samples With Data\">\n";
+    
+    ouf << "##INFO=<ID=DP,Number=1,Type=Integer,Description=\"Total Depth\">\n";
+    ouf << "##INFO=<ID=AF,Number=.,Type=Float,Description=\"Allele Frequence\">\n";
+    string info = "\tA\tC\t.\tPASS\t.\tGT\t0/0\t1/1";
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        if(ll[0] == "rs#"){
+            ouf << "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tP1\tP2";
+            for (int i = 1; i < ll.size(); i++){
+                ouf << "\t" << ll[i];
+            }
+            ouf << "\n";
+        }else{
+            if (posMap.count(ll[0]) == 1){
+                ouf << posMap[ll[0]] << info;
+                for(int i = 1; i < ll.size() ;i++){
+                    ouf << "\t";
+                    if (ll[i] == "0"){
+                        ouf << "0/0";
+                    }else if (ll[i] == "1"){
+                        ouf << "0/1";
+                    }else if (ll[i] == "2"){
+                        ouf <<"1/1";
+                    }else{
+                        ouf <<"./.";
+                    }
+                }
+                ouf << "\n";
+                
+            }
         }
     }
     inf.close();
@@ -16681,7 +17671,141 @@ int concensus(parameter *para){
         
     return 0;
 }
+int chip2fa(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
 
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        if(line.substr(0,4)== "Name") continue;
+        ouf <<">" << ll[0] << "\n";
+        string seq = ll[6];
+        for (int i = 0; i < seq.length(); i++){
+            if(seq[i] =='[') continue;
+            if(seq[i] == '/') {
+                i++;
+                continue;
+            };
+            if(seq[i] == ']') continue;
+            ouf << seq.substr(i,1);
+        }
+        ouf << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int chip2genome(parameter *para){
+    string infile1 = (para -> inFile); // chip snp info
+    string infile2 = (para -> inFile2); // blast result
+    string outfile = (para -> outFile); // snp pos in genome
+
+    igzstream inf1 ((infile1).c_str(),ifstream::in);
+    igzstream inf2 ((infile2).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    map<string,int> seqLen;
+    map<string,int> snpsPos;
+    while (!inf1.eof()){
+        getline(inf1,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        if(line.substr(0,4)== "Name") continue;
+        string key = ll[0];
+        int length = ll[6].length()-4;
+        int pos ;
+        for( int i = 0; i< ll[6].length();i++){
+            if(ll[6][i] == '['){
+                pos = i+1;
+                break;
+            }
+        }
+        seqLen.insert(pair<string,int>(key,length));
+        snpsPos.insert(pair<string,int>(key,pos));
+    }
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        string key = ll[0];
+        double p = string2Double(ll[2]);
+        int len =seqLen[key];
+        int v = string2Int(ll[3]);
+        if (v < len-2) continue;
+        int mismatch = string2Int(ll[4]);
+        if (mismatch > 9) continue;
+        if(p < ((v-2)*1.0/v*100)) continue;
+        int start = string2Int(ll[8]);
+        int pos =snpsPos[key];
+        int sp = start+pos;
+        ouf <<ll[0] <<"\t" << ll[1] << "\t" << sp << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int blastfilter(parameter *para){
+    string infile1 = (para -> inFile); // blast result
+    string outfile = (para -> outFile); // snp pos in genome
+    double t = (para->threshold);
+    igzstream inf ((infile1).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    
+    while(!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        double p = string2Double(ll[2]);
+        int v = string2Int(ll[3]);
+        if (v < t)  continue;
+        if (p < 100) continue;
+        ouf <<ll[0] <<"\t" << ll[1] << "\t" << ll[8] << "\n";
+    }
+    ouf.close();
+    return 0;
+}
+int rmdup(parameter *para){
+    string infile = (para -> inFile);
+    string outfile = (para -> outFile);
+
+    igzstream inf ((infile).c_str(),ifstream::in);
+    ofstream ouf ((outfile).c_str());
+    string line;
+    vector<string> ll;
+    set<string> ids;
+    set<string> dups;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        if(ids.count(ll[0]) == 1){
+            dups.insert(ll[0]);
+        }else{
+            ids.insert(ll[0]);
+        }
+    }
+    inf.close();
+    igzstream inf2 ((infile).c_str(),ifstream::in);
+    cout << dups.size() << " dup IDs found!" << endl;
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        split(line,ll,"\t");
+        if(dups.count(ll[0]) == 0){
+            ouf << line << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+}
 int paf(parameter *para){
     string infile = (para -> inFile); // paf file
     string infile2 = (para -> inFile2); //mapped file
@@ -16891,6 +18015,8 @@ int removeHS (parameter *para){
     map<string,int> contigLen;
     map<string,whole_section> sec;
     string line;
+    double t = (para->threshold);
+    
     while(!inf.eof()){
         getline(inf,line);
         if(line.length() < 1) continue;
@@ -16948,7 +18074,7 @@ int removeHS (parameter *para){
 //                cout << "l is:\t" << l << endl;
 //                cout << "sum is:\t" << sum << endl;
 //            }
-            if (sum*1.0/l > 0.8){
+            if (sum*1.0/l > t){
                 kept = false;
                 break;
             }

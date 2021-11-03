@@ -97,6 +97,8 @@ int main(int argc, char * argv[]) {
                 pi(para);
             }else if((para->type) == "vcf2sNMF"){
                 vcf2sNMF(para);
+            }else if((para->type) == "vcf2GD"){
+                vcf2GD(para);
             }else if ((para->type) == "getHeader"){
                 getHeader(para);
             }else if ((para->type) == "get2vcf"){
@@ -193,6 +195,8 @@ int main(int argc, char * argv[]) {
                 subtractrm(para);
             }else if ((para->type) == "vcf2Major"){
                 vcf2Major(para);
+            }else if ((para->type) == "vcf2dat"){
+                vcf2dat(para);
             }else if ((para->type) == "vcfAddID"){
                 vcfAddID(para);
             }else if ((para->type) == "SNPs100window"){
@@ -217,6 +221,10 @@ int main(int argc, char * argv[]) {
                 cleanSVs(para);
             }else if ((para->type) == "remove_Dup"){
                 remove_Dup(para);
+            }else if ((para->type) == "checkDupSVs"){
+                checkDupSVs(para);
+            }else if ((para->type) == "removeDupSVs"){
+                removeDupSVs(para);
             }else if ((para->type) == "dupPos"){
                 dupPos(para);
             }else if ((para->type) == "dupPosSNPs"){
@@ -227,6 +235,10 @@ int main(int argc, char * argv[]) {
                 vgVCFmodify(para);
             }else if ((para->type) == "nameSNPs"){
                 nameSNPs(para);
+            }else if ((para->type) == "nameVariants"){
+                nameVariants(para);
+            }else if ((para->type) == "renameSamples"){
+                renameSamples(para);
             }else if ((para->type) == "qualityFilter"){
                 qualityFilter(para);
             }else if ((para->type) == "normVariant"){
@@ -237,10 +249,20 @@ int main(int argc, char * argv[]) {
                 mafGroup(para);
             }else if ((para -> type) == "corGroup"){
                 corGroup(para);
+            }else if ((para -> type) == "corFilter"){
+                corFilter(para);
             }else if ((para -> type) == "insertion"){
                 getinsertion(para);
             }else if ((para -> type) == "vcfcheck"){
                 vcfcheck(para);
+            }else if ((para -> type) == "removeHet"){
+                removeHet(para);
+            }else if ((para -> type) == "cleanSV"){
+                cleanSV(para);
+            }else if ((para -> type) == "vcf2one"){
+                vcf2one(para);
+            }else if ((para -> type) == "SVarray"){
+                SVarray(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -284,6 +306,14 @@ int main(int argc, char * argv[]) {
                 BIMtype(para);
             }else if ((para->type) == "changeBIMchr"){
                 changeBIMchr(para);
+            }else if ((para->type) == "changeBIM2one"){
+                changeBIM2one(para);
+            }else if ((para->type) == "changeBIM2one2"){
+                changeBIM2one2(para);
+            }else if ((para->type) == "bim2bed"){
+                bim2bed(para);
+            }else if ((para->type) == "chooseLarger"){
+                chooseLarger(para);
             }
         }else if((para->model) == "wc"){
             count(para);
@@ -438,6 +468,8 @@ int main(int argc, char * argv[]) {
                 checkSAM(para);
             }else if ((para ->type) == "checkSAM2"){
                 checkSAM2(para);
+            }else if ((para ->type) == "checkSAM3"){
+                checkSAM3(para);
             }else if ((para ->type) == "modifyEdge_use"){
                 modifyEdge_use(para);
             }else if ((para ->type) == "phasedeigstrat"){
@@ -446,6 +478,12 @@ int main(int argc, char * argv[]) {
                 phasedeigstrat1(para);
             }else if ((para->type) == "matrix2vcf"){
                 matrix2vcf(para);
+            }else if ((para->type) == "checkKins"){
+                checkKins(para);
+            }else if ((para->type) == "rmdup"){
+                rmdup(para);
+            }else if ((para->type) == "geno2vcf"){
+                geno2VCF(para);
             }
         }else if((para->model) == "gff3"){
             if ((para->type) == "density"){
@@ -472,6 +510,12 @@ int main(int argc, char * argv[]) {
                 getGeneBed(para);
             }else if ((para->type) == "filterMakerGff"){
                 filterMakerGff(para);
+            }else if ((para->type) == "subtract_Weighted_LDAK"){
+                subtract_Weighted_LDAK(para);
+            }else if ((para->type) == "subtract_Weighted_LDAK_bed"){
+                subtract_Weighted_LDAK_bed(para);
+            }else if ((para->type) == "exclude_Weighted_LDAK"){
+                exclude_Weighted_LDAK(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){
@@ -575,6 +619,8 @@ int main(int argc, char * argv[]) {
                 generateSyntenyGenome(para);
             }else if ((para->type) == "generateAltGenome"){
                 generateAltGenome(para);
+            }else if ((para->type) == "generateAltGenomeAll"){
+                generateAltGenomeAll(para);
             }else if ((para ->type) =="splitGenome"){
                 splitGenome(para);
             }else if ((para -> type) == "getChrs"){
@@ -583,6 +629,12 @@ int main(int argc, char * argv[]) {
                 removeContigs(para);
             }else if ((para -> type) == "concensus"){
                 concensus(para);
+            }else if ((para -> type) == "chip2fa"){
+                chip2fa(para);
+            }else if ((para -> type) == "chip2genome"){
+                chip2genome(para);
+            }else if ((para -> type) == "blastfilter"){
+                blastfilter(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
@@ -662,6 +714,8 @@ int main(int argc, char * argv[]) {
                 getFastp(para);
             }else if ((para -> type) == "cp"){
                 cpFolder(para);
+            }else if ((para -> type) == "merge_fq"){
+                merge_fq(para);
             }
         }else if((para->model) == "bam"){
             if ((para -> type) == "test"){

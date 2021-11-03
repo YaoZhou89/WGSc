@@ -31,6 +31,7 @@
 #include <assert.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <stdio.h>
 #if defined __GNUC__ || defined __APPLE__
 #include <ext/hash_map>
 #include <sys/uio.h>
