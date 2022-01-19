@@ -4773,6 +4773,51 @@ int substract(parameter *para){
     return 0;
     
 }
+int toGao(parameter *para){
+    string input1 = (para->inFile);//vcf
+    string input2 = (para->inFile2);//pos
+    igzstream inf1 (input1.c_str(),ifstream::in);
+    igzstream inf2 (input2.c_str(),ifstream::in);
+    if(inf1.fail()){
+        cerr << "open File IN error: " << input1 << endl;
+        return 0;
+    }
+    string outFile =(para -> outFile);
+    ofstream  ouf ((outFile).c_str());
+    if((!ouf.good())){
+        cerr << "open OUT File error: " << outFile << endl;
+        return  0;
+    }
+    string line;
+    vector<string> ll;
+    set<string> pos;
+    while (!inf1.eof()){
+        getline(inf1,line);
+        if(line.length() < 1) continue;
+        if(line[0] == '#') continue;
+        if(line[0] == 'C' | line[0] == 'c') continue;
+        split(line,ll,"\t");
+        pos.insert(ll[0]+"_"+ll[1]);
+    }
+    ouf << outFile.substr(0,4) << "\n";
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '#') {
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        if(pos.count(ll[0]+"_"+ll[1]) == 1) {
+            ouf << 1 << "\n";
+        }else{
+            ouf << 0 << "\n";
+        }
+    }
+    ouf.close();
+    return 0;
+    
+}
 int subtract(parameter *para){
     string input1 = (para->inFile);
     string input2 = (para->inFile2);
@@ -7225,6 +7270,87 @@ int getFasta(parameter *para){
     ouf.close();
     return 0;
 }
+int catFastas(parameter *para){
+    string inFile = (para->inFile);
+    string inFile2 = (para->inFile2);
+    string outFile = (para->outFile);
+    igzstream inf ((inFile).c_str(),ifstream::in);
+    igzstream inf2 ((inFile2).c_str(),ifstream::in);
+    ofstream ouf ((outFile).c_str());
+    map<string,string> fas;
+    string key ="",fasta="";
+    string line;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length() < 1 ) continue;
+        if(line[0] == '>' ){
+            if (key != ""){
+                fas.insert(pair<string,string>(key,fasta));
+            }
+            key = line.substr(1,line.length()-1);
+            fasta = "";
+        }else{
+            fasta.append(line);
+        }
+    }
+    fas.insert(pair<string,string>(key,fasta));
+    cout << "genome readed! Chr number is: " << fas.size() << endl;
+    vector<string> ll;
+    string chr = "";
+    fasta = "";
+    map<string,string> genome;
+    string gap(100,'N');
+    while (!inf2.eof()){
+        getline(inf2,line);
+        if(line.length() < 1 ) continue;
+        split(line,ll,"\t");
+        string seq = fas[ll[1]];
+        cout << ll[1] << "\t" << seq.length() << "\n";
+        string rcseq;
+        if (ll[2] == "-"){
+            rcseq = reverse_complementary(seq);
+        }else{
+            rcseq = seq;
+        }
+        if ( chr != ll[0]){
+            if (chr != ""){
+                genome.insert(pair<string,string>(chr,fasta));
+                chr = ll[0];
+                fasta = rcseq;
+            }else{
+                chr = ll[0];
+                fasta = rcseq;
+            }
+        }else{
+            if (fasta != ""){
+                fasta.append(gap);
+            }
+            fasta.append(rcseq);
+        }
+        chr = ll[0];
+    }
+    genome.insert(pair<string,string>(chr,fasta));
+    cout << "Order readed! Chr number is: " << genome.size() << endl;
+    map<string,string>::iterator itm;
+    itm = genome.begin();
+    while (itm != genome.end()){
+        chr = itm->first;
+        string seq = itm->second;
+        ouf << ">" << chr << "\n";
+        for (int i = 0; i < seq.length(); i++){
+            ouf << seq[i];
+            if((i+1) % 60 == 0){
+                ouf << "\n";
+            }
+        }
+        if ((seq.length()) % 60 != 0){
+            ouf << "\n";
+        }
+        itm++;
+    }
+    ouf.close();
+    return 0;
+}
 int getFastas(parameter *para){
     string inFile = (para->inFile);
     string inFile2 = (para->inFile2);
@@ -9211,6 +9337,83 @@ int toXPCLRsnp(parameter *para){
     inrec.close();
     snpf.close();
     return 1;
+}
+int normGff3(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    set<string> changed;
+    string pre = "";
+    int nc = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#'){
+            ouf << line << "\n";
+        }else{
+            ll.clear();
+            split(line,ll,"\t");
+            vector<string> l;
+            split(ll[8],l,"=");
+            if (l.size()==2){
+                if (pre == ll[2]){
+                    nc++;
+                }else{
+                    nc = 1;
+                }
+                pre = ll[2];
+                string ns = "ID=" + l[1] + "." + ll[2] + Int2String(nc)+";" + ll[8];
+                ll[8] = ns;
+            }
+            
+            if(ll[0].length() > 2){
+                if(ll[0][ll[0].length()-2] =='0'){
+                    ouf << ll[0].substr(ll[0].length()-1,1);
+                }else{
+                    ouf << ll[0].substr(ll[0].length()-2,2);
+                }
+            }else{
+                ouf << ll[0];
+            }
+          
+            for (int i = 1 ; i< ll.size(); i++){
+                ouf << "\t" << ll[i];
+            }
+            ouf << "\n";
+        }
+    }
+    ouf.close();
+    
+    return 0;
+}
+int topggb(parameter *para){
+    string infile = (para->inFile);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    vector<string> ll;
+    split(infile,ll,".");
+    string pre = ll[0];
+    int nc = 0;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0] == '>'){
+            if (line.length()>2){
+                ouf << ">"<< pre << "#" << "ch" << line.substr(1,2);
+            }else{
+                ouf << ">" << pre << "#" << "ch0" << line.substr(1,1);
+            }
+            ouf << "\n";
+        }else{
+            ouf << line << "\n";
+        }
+    }
+    return 0;
 }
 int toV11(parameter *para){
     string infile = (para->inFile);
@@ -12279,6 +12482,74 @@ int changeVcfPos(parameter *para){
     ouf.close();
     return 0;
 }
+int changePos_CS(parameter *para){
+    string infile = (para->inFile);
+    string infile2 = (para->inFile2);
+    string outfile = (para->outFile);
+    igzstream inf ((infile.c_str()),ifstream::in);
+    igzstream inf2 ((infile2.c_str()),ifstream::in);
+    ofstream ouf (outfile.c_str());
+    string line;
+    int Len;
+    vector<string> ll;
+    map<string,int> pos;
+    map<string,int> posA;
+    while(!inf2.eof()){
+        getline(inf2,line);
+        if(line.length()<1) continue;
+        ll.clear();
+        split(line,ll,"\t");
+        Len = string2Int(ll[2]);
+        string chr = ll[0];
+        split(chr,ll,"_");
+        if(ll[1]=="part1") posA.insert(pair<string,int>(ll[0],Len));
+        if(ll[1]=="part2") pos.insert(pair<string,int>(ll[0],Len)); // the length of part2
+    }
+    cout << "position parsed!" << endl;
+    while (!inf.eof()){
+        getline(inf,line);
+        if(line.length()<1) continue;
+        if(line[0]=='#') {
+            if(line[2] != 'c'){
+                ouf << line << "\n";
+            }else{
+                split(line,ll,"=_,>");
+                string chr = ll[2];
+                if (chr== "chrUn") {
+                    ouf << line << "\n";
+                    continue;
+                };
+                if(ll[3] == "part2") continue;
+                int p = string2Int(ll[5]);
+                int len = pos[chr] + p;
+                ouf << "##contig=<ID=" << chr<<",length=" << Int2String(len) << ">\n";
+            }
+            continue;
+        }
+        ll.clear();
+        split(line,ll,"\t");
+        vector<string> ll1;
+        split(ll[0],ll1,"_");
+        ll[0] = ll1[0];
+        if (ll[0] == "chrUn"){
+            ouf << line << "\n";
+            continue;
+        }
+        if (ll1[1] == "part2"){
+            int p = string2Int(ll[1]);
+            int p2 = p + posA[ll1[0]];
+            ll[1] = Int2String(p2);
+        }
+        for (int i =0; i < ll.size()-1;i++){
+            ouf << ll[i] << "\t";
+        }
+        ouf << ll[ll.size()-1] << "\n";
+    }
+    inf.close();
+    inf2.close();
+    ouf.close();
+    return 0;
+}
 int kmerStat(parameter *para){
     string infile = (para->inFile);
     string infile2 = (para->inFile2);
@@ -13998,11 +14269,10 @@ int generateAltGenomeAll(parameter *para){
     genome.insert(pair<string,string>(chr,seq));
     cout << chr <<" length is:\t" << seq.length() << endl;
     cout << genome.size() << " chromosomes added!" << endl;
-    
-    set<int> pos;
+
     vector<string> ll;
-    map<int,string> alt;
-    map<string,map<int,string>> ag;
+    map<string,string> alt;
+    map<string,set<int>> ag;
     chr == "";
     while(!inf2.eof()){
         getline(inf2,line);
@@ -14010,31 +14280,23 @@ int generateAltGenomeAll(parameter *para){
         if(line[0] == '#') continue;
         split(line,ll,"\t");
         chrkey = ll[0];
-        alt.insert(pair<int,string>(string2Int(ll[1])-1,ll[4]));
-        if (chrkey != chr){
-            if (chr != ""){
-                ag.insert(pair<string,map<int,string>>(chr,alt));
-                alt.clear();
-            }
-        }
-        chr = chrkey;
+        int p = string2Int(ll[1])-1;
+        string key  = chrkey+"_"+Int2String(p);
+        alt.insert(pair<string,string>(key,ll[4]));
     }
-    ag.insert(pair<string,map<int,string>>(chr,alt));
+// ag.insert(pair<string,map<int,string>>(chr,alt));
     cout << "vcf file readed!" << endl;
     map<string, string>::iterator iter;
     iter = genome.begin();
     while(iter != genome.end()){
         string c = iter->first;
         seq = iter->second;
-        alt = ag[c];
         ouf << ">" << c << "\n";
         cout << c << endl;
         for(int i = 0; i < seq.length(); i++ ){
-            if(alt.count(i) ==1){
-                if(alt[i] == "N") {
-                    cerr << "N counted" << endl;
-                }
-                ouf << alt[i] ;
+            string k = c+"_"+Int2String(i);
+            if(alt.count(k) ==1){
+                ouf << alt[k] ;
             }else{
                 ouf << seq[i];
             }
@@ -17753,21 +18015,56 @@ int chip2genome(parameter *para){
 int blastfilter(parameter *para){
     string infile1 = (para -> inFile); // blast result
     string outfile = (para -> outFile); // snp pos in genome
-    double t = (para->threshold);
     igzstream inf ((infile1).c_str(),ifstream::in);
     ofstream ouf ((outfile).c_str());
     string line;
     vector<string> ll;
-    
+    map<string,vector<string>> blast;
+    map<string,string> blastres;
+    set<string> dup;
     while(!inf.eof()){
         getline(inf,line);
         if(line.length()<1) continue;
         split(line,ll,"\t");
-        double p = string2Double(ll[2]);
-        int v = string2Int(ll[3]);
-        if (v < t)  continue;
-        if (p < 100) continue;
-        ouf <<ll[0] <<"\t" << ll[1] << "\t" << ll[8] << "\n";
+        string key = ll[0];
+        vector<string> value ;
+        value.push_back(ll[1]);
+        value.push_back(ll[2]);
+        value.push_back(ll[3]);
+        value.push_back(ll[4]);
+        if (blastres.count(key) == 1){
+            vector<string> a = blast[key];
+            double identity = string2Double(a[1]);
+            if (identity > string2Double(value[1])) continue;
+           
+            int size = string2Int(a[2]);
+            if ( size > string2Int(value[2])) continue;
+            
+            int mismatch = string2Int(a[3]);
+            if(mismatch < string2Int(value[3])) continue;
+            
+            if (identity == string2Double(value[1]) && size == string2Int(value[2])
+                && mismatch == string2Int(value[3])){
+                string l = blastres[key];
+                string l2 = l +"\n" + line;
+                blastres[key] = l2;
+            }else{
+                blast[key] = value;
+                blastres[key] = line;
+            }
+            
+        }else{
+            blast.insert(pair<string,vector<string>>(key,value));
+            blastres.insert(pair<string,string>(key,line));
+        }
+    }
+    map<string,string>::iterator it;
+    it = blastres.begin();
+    while(it != blastres.end()){
+        string key = it->first;
+        if(dup.count(key)==1) continue;
+        ouf << it->second << "\n";
+        it++;
     }
     ouf.close();
     return 0;

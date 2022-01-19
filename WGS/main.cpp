@@ -189,8 +189,8 @@ int main(int argc, char * argv[]) {
                 V11_barley(para);
             }else if ((para->type) == "substract"){
                 substract(para);
-            }else if ((para->type) == "subtract"){
-                subtract(para);
+            }else if ((para->type) == "toGao"){
+                toGao(para);
             }else if ((para->type) == "subtract-rm"){
                 subtractrm(para);
             }else if ((para->type) == "vcf2Major"){
@@ -263,6 +263,8 @@ int main(int argc, char * argv[]) {
                 vcf2one(para);
             }else if ((para -> type) == "SVarray"){
                 SVarray(para);
+            }else if ((para->type) == "changePos_CS"){
+                changePos_CS(para);
             }
         }else if((para -> model) == "depth"){
             if((para->type)=="site"){
@@ -516,6 +518,8 @@ int main(int argc, char * argv[]) {
                 subtract_Weighted_LDAK_bed(para);
             }else if ((para->type) == "exclude_Weighted_LDAK"){
                 exclude_Weighted_LDAK(para);
+            }else if ((para->type) =="normGff3"){
+                normGff3(para);
             }
         }else if((para->model) == "bed"){
             if ((para->type) == "changePos"){
@@ -625,7 +629,9 @@ int main(int argc, char * argv[]) {
                 splitGenome(para);
             }else if ((para -> type) == "getChrs"){
                 getFastas(para);
-            }else if ((para -> type) == "removeChrs"){
+            }else if ((para -> type) == "catFastas"){
+                catFastas(para);
+            } else if ((para -> type) == "removeChrs"){
                 removeContigs(para);
             }else if ((para -> type) == "concensus"){
                 concensus(para);
@@ -635,6 +641,8 @@ int main(int argc, char * argv[]) {
                 chip2genome(para);
             }else if ((para -> type) == "blastfilter"){
                 blastfilter(para);
+            }else if ((para -> type) == "topggb"){
+                topggb(para);
             }
         }else if ((para->model) == "assembly"){
             if((para->type) == "fastq"){
